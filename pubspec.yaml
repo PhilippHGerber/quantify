@@ -1,0 +1,15 @@
+name: quantify
+description: A type-safe units of measurement library for Dart, providing elegant syntax for unit conversions with good precision and optimal performance.
+version: 0.1.0-dev
+# repository: https://github.com/ todo /quantify
+# homepage: todo
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+# Add regular dependencies here.
+# dependencies:
+
+dev_dependencies:
+  test: ^1.26.0
+  very_good_analysis: ^7.0.0

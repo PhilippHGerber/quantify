@@ -1,0 +1,38 @@
+# Files and directories created by pub
+.dart_tool/
+.packages
+build/
+pubspec.lock
+
+# Files created by common IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# Dart analysis server artifacts
+.analyzer-diagnostics
+
+# Operating system specific files
+.DS_Store
+Thumbs.db
+
+# Test reports and coverage data
+coverage/
+lcov.info
+*.html # Often used for coverage reports
+
+# Compiled Dart files (less common for packages, but good to have)
+*.aot
+*.app.dill
+*.dill
+*.snapshot
+*.kernel
+
+# Log files
+*.log
+
+# Temporary files
+*.swp
+*~
