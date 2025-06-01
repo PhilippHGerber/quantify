@@ -13,3 +13,8 @@ export 'src/units/length/length_unit.dart';
 export 'src/units/pressure/pressure.dart';
 export 'src/units/pressure/pressure_extensions.dart';
 export 'src/units/pressure/pressure_unit.dart';
+
+// Exporting units and their extensions for temperature
+export 'src/units/temperature/temperature.dart';
+export 'src/units/temperature/temperature_extensions.dart'; 
+export 'src/units/temperature/temperature_unit.dart';
