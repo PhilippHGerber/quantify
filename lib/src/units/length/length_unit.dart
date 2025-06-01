@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 import '../../core/unit.dart';
 import 'length_factors.dart';
 
@@ -86,6 +88,7 @@ enum LengthUnit implements Unit<LengthUnit> {
   /// Returns the direct conversion factor to convert a value from this [LengthUnit]
   /// to the [targetUnit].
   @override
+  @protected
   double factorTo(LengthUnit targetUnit) {
     switch (targetUnit) {
       case LengthUnit.meter:

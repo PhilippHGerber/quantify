@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 /// A contract for all unit enums.
 ///
 /// Each unit enum (e.g., `PressureUnit`, `LengthUnit`) must implement this
@@ -11,6 +13,7 @@ abstract class Unit<T extends Unit<T>> {
   ///
   /// The conversion is performed by multiplying the original value by this factor:
   /// `convertedValue = originalValue * this.factorTo(targetUnit);`
+  @protected
   double factorTo(T targetUnit);
 
   /// A human-readable symbol or abbreviation for the unit.

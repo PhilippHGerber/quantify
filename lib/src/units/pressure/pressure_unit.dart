@@ -1,3 +1,5 @@
+import 'package:meta/meta.dart';
+
 import '../../core/unit.dart';
 import 'pressure_factors.dart';
 
@@ -96,6 +98,7 @@ enum PressureUnit implements Unit<PressureUnit> {
   /// Returns the direct conversion factor to convert a value from this [PressureUnit]
   /// to the [targetUnit].
   @override
+  @protected
   double factorTo(PressureUnit targetUnit) {
     switch (targetUnit) {
       case PressureUnit.pascal:
