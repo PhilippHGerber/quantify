@@ -36,6 +36,8 @@ linter:
     flutter_style_todos: false
     #
     require_trailing_commas: true
+    # 
+    use_enums: true
 
     # Prototyping and Development:
     # Allow public classes and members without documentation comments

@@ -36,3 +36,5 @@ lcov.info
 # Temporary files
 *.swp
 *~
+llms.txt
+llmifierrc.yaml
