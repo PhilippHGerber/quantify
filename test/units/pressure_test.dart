@@ -1,4 +1,4 @@
-import 'package:quantify/quantify.dart'; // Main export
+import 'package:quantify/quantify.dart';
 import 'package:test/test.dart';
 
 void main() {

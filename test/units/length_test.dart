@@ -1,9 +1,6 @@
-// ignore_for_file: prefer_int_literals : // All constants are doubles for precision.
+// ignore_for_file: prefer_int_literals : all constants are doubles.
 
-import 'package:quantify/quantify.dart'; // Main export
-// If you have LengthFactors, import it for direct factor verification if needed,
-// but tests should primarily use the public API.
-// import 'package:quantify/src/units/length/length_factors.dart';
+import 'package:quantify/quantify.dart';
 import 'package:test/test.dart';
 
 void main() {

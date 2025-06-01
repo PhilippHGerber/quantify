@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_int_literals // All constants are doubles for precision.
+// ignore_for_file: prefer_int_literals : all constants are doubles.
 
 import '../../../quantify.dart' show Unit;
 import '../../core/unit.dart' show Unit;

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_int_literals : all constants are doubles
+// ignore_for_file: prefer_int_literals : all constants are doubles.
 
 /// Defines base conversion factors for various length units relative to Meter.
 ///
