@@ -7,7 +7,7 @@ import '../../core/unit.dart' show Unit;
 ///
 /// These constants are based on international standards (e.g., NIST) where available.
 /// The base unit for internal calculations is Pascal.
-/// Factors represent: 1 [Unit] = X [Pascals]
+/// Factors represent: 1 [Unit] = X Pascals
 class PressureFactors {
   /// Pascals per Atmosphere (standard atmosphere): 1 atm = 101325 Pa (exact definition).
   static const double pascalsPerAtmosphere = 101325.0;
