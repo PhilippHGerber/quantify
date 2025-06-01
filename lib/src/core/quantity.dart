@@ -11,12 +11,14 @@ import 'unit.dart';
 /// [T] is the specific [Unit] enum type associated with this quantity
 /// (e.g., `PressureUnit` for a `Pressure` quantity).
 @immutable
-abstract class Quantity<T extends Unit<T>> {
+abstract class Quantity<T extends Unit<T>> implements Comparable<Quantity<T>> {
   /// Creates a new quantity with a given [value] and [unit].
-  ///
-  /// Example: `Pressure(1013.25, PressureUnit.mbar)`
   const Quantity(this._value, this._unit);
+
+  /// The numerical value of this quantity, represented as a double.
   final double _value;
+
+  /// The unit of measurement for this quantity, represented as an instance of [T].
   final T _unit;
 
   /// The numerical value of this quantity in its original [unit].
@@ -31,20 +33,25 @@ abstract class Quantity<T extends Unit<T>> {
   /// For most quantities, this involves a direct multiplication by a
   /// conversion factor obtained from `this.unit.factorTo(targetUnit)`.
   ///
-  /// For `Temperature` quantities, this method implements specific, optimized
+  /// TODO: For `Temperature` quantities, this method implements specific, optimized
   /// formulas to handle affine conversions (which include offsets).
   double getValue(T targetUnit);
 
+  /// Creates a new Quantity of the same type with the value converted to [targetUnit].
+  Quantity<T> convertTo(T targetUnit);
+
+  /// Compares this quantity to another, after converting them to a common unit.
+  @override
+  int compareTo(Quantity<T> other);
+
   /// Returns a string representation of this quantity,
-  /// typically in the format: "[value] [unit_symbol]".
+  /// typically in the format: "[value] `unit_symbol`".
   ///
   /// Example: "10.5 psi" or "25.0 °C"
   @override
   String toString() {
     // Use the symbol from the unit for a concise representation.
-    // Format the double value to a reasonable number of decimal places,
-    // or use a more sophisticated formatting if needed later.
-    return '${_value.toStringAsFixed(4)} ${unit.symbol}'; // Using unit.symbol
+    return '$_value ${unit.symbol}'; // Using unit.symbol
   }
 
   /// Indicates whether some other object is "equal to" this one.
