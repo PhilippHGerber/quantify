@@ -1,7 +1,5 @@
-// lib/src/units/length_unit.dart
-
-import '../constants/length_factors.dart'; // Internal constants
-import '../core/unit.dart';
+import '../../core/unit.dart';
+import 'length_factors.dart';
 
 /// Represents units of length.
 ///
@@ -13,31 +11,59 @@ enum LengthUnit implements Unit<LengthUnit> {
   meter(1, 'm'),
 
   /// Kilometer (km), equal to 1000 meters.
-  kilometer(LengthNist.metersPerKilometer, 'km'),
+  kilometer(LengthFactors.metersPerKilometer, 'km'),
 
   /// Centimeter (cm), equal to 0.01 meters.
-  centimeter(LengthNist.metersPerCentimeter, 'cm'),
+  centimeter(LengthFactors.metersPerCentimeter, 'cm'),
 
   /// Millimeter (mm), equal to 0.001 meters.
-  millimeter(LengthNist.metersPerMillimeter, 'mm'),
+  millimeter(LengthFactors.metersPerMillimeter, 'mm'),
 
   /// Inch (in), defined as exactly 0.0254 meters.
-  inch(LengthNist.metersPerInch, 'in'),
+  inch(LengthFactors.metersPerInch, 'in'),
 
   /// Foot (ft), defined as exactly 0.3048 meters (12 inches).
-  foot(LengthNist.metersPerFoot, 'ft'),
+  foot(LengthFactors.metersPerFoot, 'ft'),
 
   /// Yard (yd), defined as exactly 0.9144 meters (3 feet).
-  yard(LengthNist.metersPerYard, 'yd'),
+  yard(LengthFactors.metersPerYard, 'yd'),
 
   /// Mile (mi), defined as exactly 1609.344 meters (1760 yards).
-  mile(LengthNist.metersPerMile, 'mi'),
+  mile(LengthFactors.metersPerMile, 'mi'),
 
   /// Nautical Mile (nmi), internationally defined as 1852 meters.
-  nauticalMile(LengthNist.metersPerNauticalMile, 'nmi');
+  nauticalMile(LengthFactors.metersPerNauticalMile, 'nmi');
+
+  /// Constant constructor for enum members.
+  ///
+  /// [toBaseFactor] is the factor to convert from this unit to the base unit (Meter).
+  /// For Meter itself, this is 1.0.
+  /// [symbol] is the display symbol for the unit.
+  ///
+  /// The constructor pre-calculates all direct conversion factors
+  /// from this unit to every other `LengthUnit`.
+  /// The formula `factor_A_to_B = _toBaseFactor_A / _toBaseFactor_B` is used.
+  const LengthUnit(double toBaseFactor, this.symbol)
+      : _toMeterFactor = toBaseFactor,
+        // Initialize direct factors from THIS unit to OTHERS.
+        // factor_A_to_B = factor_A_to_Base / factor_B_to_Base
+        // Here, Base is Meter. So, factor_A_to_Meter = _toMeterFactor_A / 1.0
+        _factorToMeter = toBaseFactor / 1.0,
+        _factorToKilometer = toBaseFactor / LengthFactors.metersPerKilometer,
+        _factorToCentimeter = toBaseFactor / LengthFactors.metersPerCentimeter,
+        _factorToMillimeter = toBaseFactor / LengthFactors.metersPerMillimeter,
+        _factorToInch = toBaseFactor / LengthFactors.metersPerInch,
+        _factorToFoot = toBaseFactor / LengthFactors.metersPerFoot,
+        _factorToYard = toBaseFactor / LengthFactors.metersPerYard,
+        _factorToMile = toBaseFactor / LengthFactors.metersPerMile,
+        _factorToNauticalMile = toBaseFactor / LengthFactors.metersPerNauticalMile;
 
   /// The factor to convert a value from this unit to the base unit (Meter).
-  /// For example, for Kilometer, this is 1000.0 (1 km = 1000 m).
+  /// Example: For Kilometer, this is 1000.0 (meaning 1 km = 1000.0 m).
+  /// This field itself isn't directly used after constructor initialization
+  /// as its value is baked into the specific _factorToXxx fields.
+  /// It's kept for clarity of how the _factorToXxx fields are derived.
+  // ignore: unused_field
   final double _toMeterFactor;
 
   /// The human-readable symbol for this length unit (e.g., "m", "km").
@@ -56,29 +82,6 @@ enum LengthUnit implements Unit<LengthUnit> {
   final double _factorToYard;
   final double _factorToMile;
   final double _factorToNauticalMile;
-
-  /// Constant constructor for enum members.
-  ///
-  /// [_toBaseFactor] is the factor to convert from this unit to the base unit (Meter).
-  /// For Meter itself, this is 1.0.
-  /// [sym] is the display symbol for the unit.
-  ///
-  /// The constructor pre-calculates all direct conversion factors
-  /// from this unit to every other `LengthUnit`.
-  /// The formula `factor_A_to_B = _toBaseFactor_A / _toBaseFactor_B` is used.
-  const LengthUnit(this._toMeterFactor, this.symbol)
-      // Initialize direct factors from THIS unit to OTHERS.
-      // Example: factor from 'this' (e.g. Kilometer) to Meter:
-      // this._toMeterFactor (1000.0 for km) / _LengthNist.metersPerMeter (which is 1.0)
-      : _factorToMeter = _toMeterFactor / 1.0, // Meter's _toMeterFactor is 1.0
-        _factorToKilometer = _toMeterFactor / LengthNist.metersPerKilometer,
-        _factorToCentimeter = _toMeterFactor / LengthNist.metersPerCentimeter,
-        _factorToMillimeter = _toMeterFactor / LengthNist.metersPerMillimeter,
-        _factorToInch = _toMeterFactor / LengthNist.metersPerInch,
-        _factorToFoot = _toMeterFactor / LengthNist.metersPerFoot,
-        _factorToYard = _toMeterFactor / LengthNist.metersPerYard,
-        _factorToMile = _toMeterFactor / LengthNist.metersPerMile,
-        _factorToNauticalMile = _toMeterFactor / LengthNist.metersPerNauticalMile;
 
   /// Returns the direct conversion factor to convert a value from this [LengthUnit]
   /// to the [targetUnit].

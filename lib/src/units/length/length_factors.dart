@@ -1,11 +1,9 @@
-// ignore_for_file: prefer_int_literals :
+// ignore_for_file: prefer_int_literals : all constants are doubles
 
 /// Defines base conversion factors for various length units relative to Meter.
 ///
 /// These constants are based on international standards (e.g., NIST).
-/// The `_` prefix indicates that this class is intended for internal use
-/// within the `quantify` package, primarily by the `LengthUnit` enum.
-class LengthNist {
+class LengthFactors {
   // The base unit for internal calculations is Meter.
   // Factors represent: 1 [Unit] = X [Meters]
 
