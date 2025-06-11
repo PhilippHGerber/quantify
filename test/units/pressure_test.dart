@@ -2,6 +2,8 @@ import 'package:quantify/quantify.dart';
 import 'package:test/test.dart';
 
 void main() {
+  const tolerance = 1e-9; // Tolerance for double comparisons
+
   group('Pressure', () {
     // Helper for round trip tests
     void testRoundTrip(
@@ -245,6 +247,56 @@ void main() {
         // Pressure is typically positive, but the math should still work.
         final pNegative = (-100.0).pa;
         expect(pNegative.inBar, closeTo(-0.001, 1e-9));
+      });
+    });
+
+    group('Arithmetic Operators for Pressure', () {
+      final p1Bar = 1.0.bar;
+      final p2Bar = 2.0.bar;
+      final p10Psi = 10.psi; // approx 0.689 bar
+
+      // Operator +
+      test('operator + combines pressures', () {
+        final sum1 = p2Bar + p1Bar;
+        expect(sum1.value, closeTo(3.0, tolerance));
+        expect(sum1.unit, PressureUnit.bar);
+
+        final sum2 = p1Bar + p10Psi; // 1 bar + ~0.689 bar
+        final expectedSum2Value = 1.0 + p10Psi.getValue(PressureUnit.bar);
+        expect(sum2.value, closeTo(expectedSum2Value, tolerance));
+        expect(sum2.unit, PressureUnit.bar);
+
+        final sum3 = p10Psi + p1Bar; // 10 psi + (1 bar in psi)
+        final expectedSum3Value = 10.0 + p1Bar.getValue(PressureUnit.psi);
+        expect(sum3.value, closeTo(expectedSum3Value, tolerance));
+        expect(sum3.unit, PressureUnit.psi);
+      });
+
+      // Operator -
+      test('operator - subtracts pressures', () {
+        final diff1 = p2Bar - p1Bar;
+        expect(diff1.value, closeTo(1.0, tolerance));
+        expect(diff1.unit, PressureUnit.bar);
+
+        final diff2 = p1Bar - p10Psi; // 1 bar - ~0.689 bar
+        final expectedDiff2Value = 1.0 - p10Psi.getValue(PressureUnit.bar);
+        expect(diff2.value, closeTo(expectedDiff2Value, tolerance));
+        expect(diff2.unit, PressureUnit.bar);
+      });
+
+      // Operator * (scalar)
+      test('operator * scales pressure by a scalar', () {
+        final scaled = p2Bar * 1.5;
+        expect(scaled.value, closeTo(3.0, tolerance));
+        expect(scaled.unit, PressureUnit.bar);
+      });
+
+      // Operator / (scalar)
+      test('operator / scales pressure by a scalar', () {
+        final scaled = p2Bar / 4.0;
+        expect(scaled.value, closeTo(0.5, tolerance));
+        expect(scaled.unit, PressureUnit.bar);
+        expect(() => p1Bar / 0.0, throwsArgumentError);
       });
     });
   });

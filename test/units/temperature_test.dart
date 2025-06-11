@@ -195,5 +195,100 @@ void main() {
         );
       });
     });
+    group('Arithmetic Operators for Temperature', () {
+      final t20C = 20.0.celsius;
+      final t10C = 10.0.celsius;
+      final t50F = 50.0.fahrenheit; // 10 °C
+      final t283K = 283.15.kelvin; // 10 °C
+
+      // Operator - (Temperature) -> double (difference)
+      test('operator - calculates temperature difference as double', () {
+        final diffC = t20C - t10C; // 20°C - 10°C = 10 C°
+        expect(diffC, closeTo(10.0, tolerance));
+
+        final diffCFromF = t20C - t50F; // 20°C - 10°C = 10 C°
+        expect(diffCFromF, closeTo(10.0, tolerance));
+
+        final diffF = t50F - t20C.convertTo(TemperatureUnit.fahrenheit); // 50°F - 68°F = -18 F°
+        expect(diffF, closeTo(-18.0, tolerance));
+
+        final diffK = t283K - t20C; // 283.15K (10°C) - 20°C (converted to K) = -10 K diff
+        // 283.15K - (20 + 273.15)K = 283.15K - 293.15K = -10.0
+        expect(t283K - t20C, closeTo(-10.0, tolerance));
+
+        final zeroDiff = t10C - t50F; // 10C - 10C (50F)
+        expect(zeroDiff, closeTo(0.0, tolerance));
+      });
+
+      // Operator / (Temperature) -> double (ratio)
+      test('operator / divides temperature by another, returning double ratio', () {
+        // Note: Ratios of Celsius or Fahrenheit are generally not physically meaningful.
+        // Kelvin should be used for meaningful ratios. Test calculates as per implementation.
+
+        final t200K = 200.0.kelvin;
+        final t100K = 100.0.kelvin;
+        final ratioK = t200K / t100K;
+        expect(ratioK, closeTo(2.0, tolerance));
+
+        final t10CVal = 10.0.celsius; // Not 283.15K
+        final t20CVal = 20.0.celsius; // Not 293.15K
+        // Ratio based on C values: 20/10 = 2.0. If converted to K first, result would be different.
+        // The implementation converts the 'other' to 'this.unit'
+        final ratioC = t20CVal / t10CVal;
+        expect(ratioC, closeTo(2.0, tolerance));
+
+        // 20 C / 50 F => 20 C / 10 C (as 50F is 10C)
+        final ratioCF = t20CVal / 50.0.fahrenheit;
+        expect(ratioCF, closeTo(2.0, tolerance));
+
+        expect(
+          () => t20C / 0.0.celsius,
+          throwsArgumentError,
+          reason: 'Should throw on division by zero magnitude if dividend is non-zero',
+        );
+        expect(0.0.celsius / 0.0.celsius, isNaN, reason: '0.0/0.0 should be NaN');
+        expect(0.0.kelvin / 0.0.kelvin, isNaN);
+
+        final tZeroKelvin = 0.0.kelvin;
+        final tNonZeroKelvin = 10.0.kelvin;
+        expect(() => tNonZeroKelvin / tZeroKelvin, throwsArgumentError);
+      });
+
+      test('operator + is not defined for Temperature + Temperature', () {
+        // This is a check that the operator isn't inadvertently available.
+        // Since Dart doesn't allow removing operators via inheritance easily
+        // without an abstract method in the base or a linter rule,
+        // we just ensure it's not implemented directly in Temperature.
+        // If it were inherited from a base that defined it, this test would need adjustment.
+        // For now, it's just a conceptual check.
+        final dynamic tempA = 10.celsius;
+        final dynamic tempB = 20.celsius;
+        // Check if calling the '+' operator results in an error,
+        // typically NoSuchMethodError if not defined, or TypeError in some dynamic contexts.
+        expect(
+          // ignore: avoid_dynamic_calls : Using dynamic to simulate a missing operator
+          () => tempA + tempB,
+          throwsA(
+            anyOf(
+              isA<NoSuchMethodError>(),
+              isA<TypeError>(),
+              // Falls eine Basisklasse es doch implementieren würde und Temperature es blockiert:
+              // isA<UnsupportedError>()
+            ),
+          ),
+        );
+      });
+
+      test('operator * (scalar) is not defined for Temperature', () {
+        final dynamic tempA = 10.celsius;
+        // ignore: avoid_dynamic_calls : Using dynamic to simulate a missing operator
+        expect(() => tempA * 2.0, throwsA(anyOf(isA<NoSuchMethodError>(), isA<TypeError>())));
+      });
+      test('operator / (scalar) is not defined for Temperature', () {
+        final dynamic tempA = 10.celsius;
+        // ignore: avoid_dynamic_calls : Using dynamic to simulate a missing operator
+        expect(() => tempA / 2.0, throwsA(anyOf(isA<NoSuchMethodError>(), isA<TypeError>())));
+      });
+    });
   });
 }

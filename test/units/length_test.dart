@@ -4,6 +4,8 @@ import 'package:quantify/quantify.dart';
 import 'package:test/test.dart';
 
 void main() {
+  const tolerance = 1e-9; // Tolerance for double comparisons
+
   group('Length', () {
     // Helper for round trip tests
     void testRoundTrip(
@@ -28,15 +30,15 @@ void main() {
         final l1 = 100.0.m;
         expect(l1.value, 100.0);
         expect(l1.unit, LengthUnit.meter);
-        expect(l1.inKm, closeTo(0.1, 1e-9));
+        expect(l1.inKm, closeTo(0.1, tolerance));
 
         final l2 = 5.0.ft;
         expect(l2.value, 5.0);
         expect(l2.unit, LengthUnit.foot);
-        expect(l2.inInch, closeTo(60.0, 1e-9));
+        expect(l2.inInch, closeTo(60.0, tolerance));
 
         final l3 = 12.inch;
-        expect(l3.inFt, closeTo(1.0, 1e-9));
+        expect(l3.inFt, closeTo(1.0, tolerance));
       });
 
       test('getValue should return correct value for same unit', () {
@@ -47,9 +49,9 @@ void main() {
       test('getValue for all units from Meter base', () {
         final l = 1000.0.m; // 1 km
         expect(l.inM, 1000.0);
-        expect(l.inKm, closeTo(1.0, 1e-9));
-        expect(l.inCm, closeTo(100000.0, 1e-9));
-        expect(l.inMm, closeTo(1000000.0, 1e-9));
+        expect(l.inKm, closeTo(1.0, tolerance));
+        expect(l.inCm, closeTo(100000.0, tolerance));
+        expect(l.inMm, closeTo(1000000.0, tolerance));
         expect(l.inInch, closeTo(1000.0 / 0.0254, 1e-7));
         expect(l.inFt, closeTo(1000.0 / 0.3048, 1e-7));
         expect(l.inYd, closeTo(1000.0 / 0.9144, 1e-7));
@@ -62,9 +64,9 @@ void main() {
       final oneMeter = 1.0.m;
 
       test('1 meter to various units', () {
-        expect(oneMeter.inKm, closeTo(0.001, 1e-9));
-        expect(oneMeter.inCm, closeTo(100.0, 1e-9));
-        expect(oneMeter.inMm, closeTo(1000.0, 1e-9));
+        expect(oneMeter.inKm, closeTo(0.001, tolerance));
+        expect(oneMeter.inCm, closeTo(100.0, tolerance));
+        expect(oneMeter.inMm, closeTo(1000.0, tolerance));
         expect(oneMeter.inInch, closeTo(1 / 0.0254, 1e-7)); // 39.3700787...
         expect(oneMeter.inFt, closeTo(1 / 0.3048, 1e-7)); // 3.2808398...
         expect(oneMeter.inYd, closeTo(1 / 0.9144, 1e-7)); // 1.0936132...
@@ -72,17 +74,17 @@ void main() {
 
       final oneFoot = 1.0.ft;
       test('1 foot to various units', () {
-        expect(oneFoot.inM, closeTo(0.3048, 1e-9));
-        expect(oneFoot.inInch, closeTo(12.0, 1e-9));
-        expect(oneFoot.inYd, closeTo(1.0 / 3.0, 1e-9));
+        expect(oneFoot.inM, closeTo(0.3048, tolerance));
+        expect(oneFoot.inInch, closeTo(12.0, tolerance));
+        expect(oneFoot.inYd, closeTo(1.0 / 3.0, tolerance));
       });
 
       final oneMile = 1.0.mi;
       test('1 mile to various units', () {
-        expect(oneMile.inM, closeTo(1609.344, 1e-9));
-        expect(oneMile.inFt, closeTo(5280.0, 1e-9));
-        expect(oneMile.inYd, closeTo(1760.0, 1e-9));
-        expect(oneMile.inKm, closeTo(1.609344, 1e-9));
+        expect(oneMile.inM, closeTo(1609.344, tolerance));
+        expect(oneMile.inFt, closeTo(5280.0, tolerance));
+        expect(oneMile.inYd, closeTo(1760.0, tolerance));
+        expect(oneMile.inKm, closeTo(1.609344, tolerance));
       });
     });
 
@@ -91,7 +93,7 @@ void main() {
         final lMeters = 10.0.m;
         final lFeet = lMeters.convertTo(LengthUnit.foot);
         expect(lFeet.unit, LengthUnit.foot);
-        expect(lFeet.value, closeTo(lMeters.inFt, 1e-9));
+        expect(lFeet.value, closeTo(lMeters.inFt, tolerance));
         expect(lMeters.unit, LengthUnit.meter); // Original should be unchanged
       });
 
@@ -120,10 +122,7 @@ void main() {
         final lInches = (1.0 / 0.0254).inch; // 1 meter in inches
         expect(lMeter.compareTo(lCm), 0);
         expect(lCm.compareTo(lMeter), 0);
-        expect(
-          lMeter.compareTo(lInches),
-          closeTo(0, 1e-9),
-        ); // Allow tolerance for double comparison
+        expect(lMeter.compareTo(lInches), 0);
       });
     });
 
@@ -164,7 +163,7 @@ void main() {
             unit,
             LengthUnit.meter,
             testValue,
-            tolerance: (unit == LengthUnit.meter) ? 1e-9 : highTolerance,
+            tolerance: (unit == LengthUnit.meter) ? tolerance : highTolerance,
           );
         });
       }
@@ -191,6 +190,75 @@ void main() {
         for (final unit in LengthUnit.values) {
           expect(lZero.getValue(unit), 0.0, reason: '0 m to ${unit.symbol} should be 0');
         }
+      });
+    });
+
+    group('Arithmetic Operators for Length', () {
+      final l1Meter = 1.0.m;
+      final l2Meters = 2.0.m;
+      final l50Cm = 50.cm; // 0.5 meters
+
+      // Operator +
+      test('operator + combines lengths', () {
+        final sum1 = l2Meters + l1Meter;
+        expect(sum1.value, closeTo(3.0, tolerance));
+        expect(sum1.unit, LengthUnit.meter);
+
+        final sum2 = l1Meter + l50Cm; // 1m + 0.5m = 1.5m
+        expect(sum2.value, closeTo(1.5, tolerance));
+        expect(sum2.unit, LengthUnit.meter);
+
+        final sum3 = l50Cm + l1Meter; // 50cm + 100cm = 150cm
+        expect(sum3.value, closeTo(150.0, tolerance));
+        expect(sum3.unit, LengthUnit.centimeter);
+      });
+
+      // Operator -
+      test('operator - subtracts lengths', () {
+        final diff1 = l2Meters - l1Meter;
+        expect(diff1.value, closeTo(1.0, tolerance));
+        expect(diff1.unit, LengthUnit.meter);
+
+        final diff2 = l1Meter - l50Cm; // 1m - 0.5m = 0.5m
+        expect(diff2.value, closeTo(0.5, tolerance));
+        expect(diff2.unit, LengthUnit.meter);
+
+        final diff3 = l2Meters - l50Cm.convertTo(LengthUnit.meter); // 2m - 0.5m = 1.5m
+        expect(diff3.value, closeTo(1.5, tolerance));
+        expect(diff3.unit, LengthUnit.meter);
+      });
+
+      // Operator * (scalar)
+      test('operator * scales length by a scalar', () {
+        final scaled = l2Meters * 3.0;
+        expect(scaled.value, closeTo(6.0, tolerance));
+        expect(scaled.unit, LengthUnit.meter);
+
+        final scaledCm = l50Cm * 2.5;
+        expect(scaledCm.value, closeTo(125.0, tolerance));
+        expect(scaledCm.unit, LengthUnit.centimeter);
+      });
+
+      // Operator / (scalar)
+      test('operator / scales length by a scalar', () {
+        final scaled = l2Meters / 2.0;
+        expect(scaled.value, closeTo(1.0, tolerance));
+        expect(scaled.unit, LengthUnit.meter);
+
+        expect(() => l1Meter / 0.0, throwsArgumentError);
+      });
+
+      test('operator chaining preserves immutability', () {
+        final initialLength = 10.m;
+        final l1 = initialLength + 5.m; // 15m
+        final l2 = l1 * 2.0; // 30m
+        final l3 = l2 - 100.cm; // 30m - 1m = 29m
+
+        expect(initialLength.value, 10.0); // Original unchanged
+        expect(l1.value, closeTo(15.0, tolerance));
+        expect(l2.value, closeTo(30.0, tolerance));
+        expect(l3.value, closeTo(29.0, tolerance));
+        expect(l3.unit, LengthUnit.meter);
       });
     });
   });

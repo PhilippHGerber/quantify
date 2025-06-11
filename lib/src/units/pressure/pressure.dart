@@ -79,4 +79,38 @@ class Pressure extends Quantity<PressureUnit> {
     final thisValueInOtherUnit = getValue(other.unit);
     return thisValueInOtherUnit.compareTo(other.value);
   }
+
+  // --- Arithmetic Operators ---
+
+  /// Adds this pressure to another pressure.
+  /// The [other] pressure is converted to the unit of this pressure before addition.
+  /// Returns a new [Pressure] instance with the result in the unit of this pressure.
+  Pressure operator +(Pressure other) {
+    final otherValueInThisUnit = other.getValue(unit);
+    return Pressure(value + otherValueInThisUnit, unit);
+  }
+
+  /// Subtracts another pressure from this pressure.
+  /// The [other] pressure is converted to the unit of this pressure before subtraction.
+  /// Returns a new [Pressure] instance with the result in the unit of this pressure.
+  Pressure operator -(Pressure other) {
+    final otherValueInThisUnit = other.getValue(unit);
+    return Pressure(value - otherValueInThisUnit, unit);
+  }
+
+  /// Multiplies this pressure by a scalar value.
+  /// Returns a new [Pressure] instance with the scaled value in the original unit.
+  Pressure operator *(double scalar) {
+    return Pressure(value * scalar, unit);
+  }
+
+  /// Divides this pressure by a scalar value.
+  /// Returns a new [Pressure] instance with the scaled value in the original unit.
+  /// Throws [ArgumentError] if scalar is zero.
+  Pressure operator /(double scalar) {
+    if (scalar == 0) {
+      throw ArgumentError('Cannot divide by zero.');
+    }
+    return Pressure(value / scalar, unit);
+  }
 }

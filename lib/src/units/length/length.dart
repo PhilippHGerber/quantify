@@ -28,7 +28,7 @@ class Length extends Quantity<LengthUnit> {
   /// print(inInches.value); // 12.0
   /// ```
   @override
-  Quantity<LengthUnit> convertTo(LengthUnit targetUnit) {
+  Length convertTo(LengthUnit targetUnit) {
     if (targetUnit == unit) return this;
     final newValue = getValue(targetUnit);
     return Length(newValue, targetUnit);
@@ -49,5 +49,39 @@ class Length extends Quantity<LengthUnit> {
     // for a direct numerical comparison.
     final thisValueInOtherUnit = getValue(other.unit);
     return thisValueInOtherUnit.compareTo(other.value);
+  }
+
+  // --- Arithmetic Operators ---
+
+  /// Adds this length to another length.
+  /// The [other] length is converted to the unit of this length before addition.
+  /// Returns a new [Length] instance with the result in the unit of this length.
+  Length operator +(Length other) {
+    final otherValueInThisUnit = other.getValue(unit);
+    return Length(value + otherValueInThisUnit, unit);
+  }
+
+  /// Subtracts another length from this length.
+  /// The [other] length is converted to the unit of this length before subtraction.
+  /// Returns a new [Length] instance with the result in the unit of this length.
+  Length operator -(Length other) {
+    final otherValueInThisUnit = other.getValue(unit);
+    return Length(value - otherValueInThisUnit, unit);
+  }
+
+  /// Multiplies this length by a scalar value.
+  /// Returns a new [Length] instance with the scaled value in the original unit.
+  Length operator *(double scalar) {
+    return Length(value * scalar, unit);
+  }
+
+  /// Divides this length by a scalar value.
+  /// Returns a new [Length] instance with the scaled value in the original unit.
+  /// Throws [ArgumentError] if scalar is zero.
+  Length operator /(double scalar) {
+    if (scalar == 0) {
+      throw ArgumentError('Cannot divide by zero.');
+    }
+    return Length(value / scalar, unit);
   }
 }

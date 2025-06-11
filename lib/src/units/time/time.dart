@@ -45,4 +45,38 @@ class Time extends Quantity<TimeUnit> {
     final thisValueInOtherUnit = getValue(other.unit);
     return thisValueInOtherUnit.compareTo(other.value);
   }
+
+  // --- Arithmetic Operators ---
+
+  /// Adds this time duration to another time duration.
+  /// The [other] time is converted to the unit of this time before addition.
+  /// Returns a new [Time] instance with the result in the unit of this time.
+  Time operator +(Time other) {
+    final otherValueInThisUnit = other.getValue(unit);
+    return Time(value + otherValueInThisUnit, unit);
+  }
+
+  /// Subtracts another time duration from this time duration.
+  /// The [other] time is converted to the unit of this time before subtraction.
+  /// Returns a new [Time] instance with the result in the unit of this time.
+  Time operator -(Time other) {
+    final otherValueInThisUnit = other.getValue(unit);
+    return Time(value - otherValueInThisUnit, unit);
+  }
+
+  /// Multiplies this time duration by a scalar value.
+  /// Returns a new [Time] instance with the scaled value in the original unit.
+  Time operator *(double scalar) {
+    return Time(value * scalar, unit);
+  }
+
+  /// Divides this time duration by a scalar value.
+  /// Returns a new [Time] instance with the scaled value in the original unit.
+  /// Throws [ArgumentError] if scalar is zero.
+  Time operator /(double scalar) {
+    if (scalar == 0) {
+      throw ArgumentError('Cannot divide by zero.');
+    }
+    return Time(value / scalar, unit);
+  }
 }

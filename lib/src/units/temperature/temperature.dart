@@ -53,7 +53,7 @@ class Temperature extends Quantity<TemperatureUnit> {
             return value + kelvinOffsetFromCelsius;
           case TemperatureUnit.fahrenheit:
             return (value * fahrenheitScaleFactor) + fahrenheitOffset;
-          case TemperatureUnit.celsius: // Should be caught by the initial check
+          case TemperatureUnit.celsius:
             return value;
         }
       case TemperatureUnit.kelvin:
@@ -104,5 +104,50 @@ class Temperature extends Quantity<TemperatureUnit> {
     // for a direct numerical comparison.
     final thisValueInOtherUnit = getValue(other.unit);
     return thisValueInOtherUnit.compareTo(other.value);
+  }
+
+  // --- Arithmetic Operators (Specific for Temperature) ---
+
+  /// Subtracts another temperature from this temperature, yielding a temperature difference.
+  /// The [other] temperature is converted to the unit of this temperature before subtraction.
+  /// Returns a [double] representing the difference in the unit of this temperature.
+  /// For example, `20.celsius - 10.celsius` yields `10.0` (a difference of 10 Celsius degrees).
+  double operator -(Temperature other) {
+    final otherValueInThisUnit = other.getValue(unit);
+    return value - otherValueInThisUnit;
+  }
+
+  // Operator + (Temperature other) is intentionally not implemented as it's
+  // generally not physically meaningful for absolute temperatures.
+
+  // Operator * (double scalar) is intentionally not implemented as it's
+  // generally not physically meaningful for absolute temperatures.
+
+  // Operator / (double scalar) is intentionally not implemented as it's
+  // generally not physically meaningful for absolute temperatures.
+
+  /// Divides this temperature by another temperature.
+  /// The [other] temperature is converted to the unit of this temperature before division.
+  /// Returns a scalar [double] representing the ratio.
+  /// Note: This operation is only meaningful in specific thermodynamic contexts (e.g., Carnot efficiency)
+  /// and should be used with caution. Both temperatures should ideally be on an absolute scale (Kelvin)
+  /// for physical meaning, though the calculation will be performed based on converted values.
+  /// Throws [ArgumentError] if the effective value of [other] in this unit is zero.
+  double operator /(Temperature other) {
+    // For ratio calculations, it's often more meaningful if both are converted to Kelvin first,
+    // but to keep consistent with other quantity divisions, we convert to `this.unit`.
+    final otherValueInThisUnit = other.getValue(unit);
+    if (otherValueInThisUnit == 0 && value != 0) {
+      // Avoid 0/0 resulting in NaN without error
+      // A zero temperature on a non-Kelvin scale might not be absolute zero.
+      // However, division by zero magnitude is the primary concern.
+      throw ArgumentError('Cannot divide by a zero temperature if the dividend is non-zero.');
+    }
+    // Handle 0.0 / 0.0 case, which results in NaN. Could throw or return as is.
+    // Standard double division handles 0.0/0.0 as NaN.
+    if (value == 0 && otherValueInThisUnit == 0) {
+      return double.nan; // Or throw, depending on desired strictness for 0/0
+    }
+    return value / otherValueInThisUnit;
   }
 }

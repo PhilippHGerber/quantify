@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('Time', () {
-    const double tolerance = 1e-9;
+    const tolerance = 1e-9;
 
     // Helper for round trip tests
     void testRoundTrip(
@@ -175,6 +175,53 @@ void main() {
         for (final unit in TimeUnit.values) {
           expect(tZero.getValue(unit), 0.0, reason: '0 s to ${unit.symbol} should be 0');
         }
+      });
+    });
+
+    group('Arithmetic Operators for Time', () {
+      final t1Hour = 1.0.hours;
+      final t2Hours = 2.0.hours;
+      final t30Minutes = 30.minutes; // 0.5 hours
+
+      // Operator +
+      test('operator + combines time durations', () {
+        final sum1 = t2Hours + t1Hour;
+        expect(sum1.value, closeTo(3.0, tolerance));
+        expect(sum1.unit, TimeUnit.hour);
+
+        final sum2 = t1Hour + t30Minutes; // 1h + 0.5h = 1.5h
+        expect(sum2.value, closeTo(1.5, tolerance));
+        expect(sum2.unit, TimeUnit.hour);
+
+        final sum3 = t30Minutes + t1Hour; // 30min + 60min = 90min
+        expect(sum3.value, closeTo(90.0, tolerance));
+        expect(sum3.unit, TimeUnit.minute);
+      });
+
+      // Operator -
+      test('operator - subtracts time durations', () {
+        final diff1 = t2Hours - t1Hour;
+        expect(diff1.value, closeTo(1.0, tolerance));
+        expect(diff1.unit, TimeUnit.hour);
+
+        final diff2 = t1Hour - t30Minutes; // 1h - 0.5h = 0.5h
+        expect(diff2.value, closeTo(0.5, tolerance));
+        expect(diff2.unit, TimeUnit.hour);
+      });
+
+      // Operator * (scalar)
+      test('operator * scales time duration by a scalar', () {
+        final scaled = t2Hours * 0.5;
+        expect(scaled.value, closeTo(1.0, tolerance));
+        expect(scaled.unit, TimeUnit.hour);
+      });
+
+      // Operator / (scalar)
+      test('operator / scales time duration by a scalar', () {
+        final scaled = t2Hours / 2.0;
+        expect(scaled.value, closeTo(1.0, tolerance));
+        expect(scaled.unit, TimeUnit.hour);
+        expect(() => t1Hour / 0.0, throwsArgumentError);
       });
     });
   });
