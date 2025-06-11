@@ -36,11 +36,11 @@ linter:
     flutter_style_todos: false
     #
     require_trailing_commas: true
-    # 
+    #
     use_enums: true
 
     # Prototyping and Development:
     # Allow public classes and members without documentation comments
-    public_member_api_docs: false
+    public_member_api_docs: true
     # Allow using print() for debugging purposes
     avoid_print: false
