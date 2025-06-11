@@ -13,7 +13,7 @@ abstract class Unit<T extends Unit<T>> {
   ///
   /// The conversion is performed by multiplying the original value by this factor:
   /// `convertedValue = originalValue * this.factorTo(targetUnit);`
-  @protected
+  @internal
   double factorTo(T targetUnit);
 
   /// A human-readable symbol or abbreviation for the unit.
