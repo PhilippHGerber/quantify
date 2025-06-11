@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_int_literals : all constants are doubles.
 
-import '../../../quantify.dart' show Unit;
 import '../../core/unit.dart' show Unit;
 
 /// Defines base conversion factors for various pressure units relative to Pascal (Pa).

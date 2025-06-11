@@ -1,5 +1,3 @@
-import 'package:meta/meta.dart';
-
 import '../../core/unit.dart';
 import 'temperature.dart';
 
@@ -34,7 +32,6 @@ enum TemperatureUnit implements Unit<TemperatureUnit> {
   /// Use [Temperature.getValue] or [Temperature.convertTo] for proper
   /// temperature conversions.
   @override
-  @protected
   double factorTo(TemperatureUnit targetUnit) {
     throw UnsupportedError(
       'Direct multiplicative factor conversion is not supported for temperature units '

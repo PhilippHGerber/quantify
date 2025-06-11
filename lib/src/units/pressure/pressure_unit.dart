@@ -72,6 +72,10 @@ enum PressureUnit implements Unit<PressureUnit> {
 
   /// The factor to convert a value from this unit to the base unit (Pascal).
   /// Example: For Bar, this is 100000.0 (meaning 1 bar = 100000.0 Pa).
+  /// After constructor initialization, its value is primarily baked into
+  /// the specific _factorToXxx fields for direct inter-unit conversions.
+  /// It's generally not accessed directly by methods outside this enum's constructor
+  /// but is crucial for deriving the pre-calculated factors.
   // ignore: unused_field
   final double _toPascalFactor;
 
@@ -98,7 +102,7 @@ enum PressureUnit implements Unit<PressureUnit> {
   /// Returns the direct conversion factor to convert a value from this [PressureUnit]
   /// to the [targetUnit].
   @override
-  @protected
+  @internal
   double factorTo(PressureUnit targetUnit) {
     switch (targetUnit) {
       case PressureUnit.pascal:

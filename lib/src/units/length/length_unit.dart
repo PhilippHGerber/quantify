@@ -62,9 +62,10 @@ enum LengthUnit implements Unit<LengthUnit> {
 
   /// The factor to convert a value from this unit to the base unit (Meter).
   /// Example: For Kilometer, this is 1000.0 (meaning 1 km = 1000.0 m).
-  /// This field itself isn't directly used after constructor initialization
-  /// as its value is baked into the specific _factorToXxx fields.
-  /// It's kept for clarity of how the _factorToXxx fields are derived.
+  /// After constructor initialization, its value is primarily baked into
+  /// the specific _factorToXxx fields for direct inter-unit conversions.
+  /// It's generally not accessed directly by methods outside this enum's constructor
+  /// but is crucial for deriving the pre-calculated factors.
   // ignore: unused_field
   final double _toMeterFactor;
 
@@ -88,7 +89,7 @@ enum LengthUnit implements Unit<LengthUnit> {
   /// Returns the direct conversion factor to convert a value from this [LengthUnit]
   /// to the [targetUnit].
   @override
-  @protected
+  @internal
   double factorTo(LengthUnit targetUnit) {
     switch (targetUnit) {
       case LengthUnit.meter:

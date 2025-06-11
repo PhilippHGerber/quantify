@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_int_literals : all constants are doubles.
 
+import 'package:meta/meta.dart';
+
 import '../../core/unit.dart';
 import 'time_factors.dart';
 
@@ -39,6 +41,10 @@ enum TimeUnit implements Unit<TimeUnit> {
         _factorToDay = _toSecondFactor / TimeFactors.secondsPerDay;
 
   /// The factor to convert a value from this unit to the base unit (Second).
+  /// After constructor initialization, its value is primarily baked into
+  /// the specific _factorToXxx fields for direct inter-unit conversions.
+  /// It's generally not accessed directly by methods outside this enum's constructor
+  /// but is crucial for deriving the pre-calculated factors.
   // ignore: unused_field
   final double _toSecondFactor;
 
@@ -55,6 +61,7 @@ enum TimeUnit implements Unit<TimeUnit> {
   /// Returns the direct conversion factor to convert a value from this [TimeUnit]
   /// to the [targetUnit].
   @override
+  @internal
   double factorTo(TimeUnit targetUnit) {
     switch (targetUnit) {
       case TimeUnit.second:
