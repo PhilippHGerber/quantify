@@ -31,16 +31,32 @@ extension LengthValueGetters on Length {
   /// Returns the length value in Nautical Miles (nmi).
   double get inNmi => getValue(LengthUnit.nauticalMile);
 
-  // Longer aliases for clarity if preferred by some users (can be added or chosen over short forms)
-  // double get inM => getValue(LengthUnit.meter);
-  // double get inKm => getValue(LengthUnit.kilometer);
-  // double get inCentimeters => getValue(LengthUnit.centimeter);
-  // double get inMillimeters => getValue(LengthUnit.millimeter);
-  // double get inInches => getValue(LengthUnit.inch);
-  // double get inFt => getValue(LengthUnit.foot);
-  // double get inYd => getValue(LengthUnit.yard);
-  // double get inMiles => getValue(LengthUnit.mile);
-  // double get inNauticalMiles => getValue(LengthUnit.nauticalMile);
+  /// Returns a [FormattedQuantityValue] representing this length in Meters (m).
+  Length get asM => convertTo(LengthUnit.meter);
+
+  /// Returns a [FormattedQuantityValue] representing this length in Kilometers (km).
+  Length get asKm => convertTo(LengthUnit.kilometer);
+
+  /// Returns a [FormattedQuantityValue] representing this length in Centimeters (cm).
+  Length get asCm => convertTo(LengthUnit.centimeter);
+
+  /// Returns a [FormattedQuantityValue] representing this length in Millimeters (mm).
+  Length get asMm => convertTo(LengthUnit.millimeter);
+
+  /// Returns a [FormattedQuantityValue] representing this length in Inches (in).
+  Length get asInch => convertTo(LengthUnit.inch);
+
+  /// Returns a [FormattedQuantityValue] representing this length in Feet (ft).
+  Length get asFt => convertTo(LengthUnit.foot);
+
+  /// Returns a [FormattedQuantityValue] representing this length in Yards (yd).
+  Length get asYd => convertTo(LengthUnit.yard);
+
+  /// Returns a [FormattedQuantityValue] representing this length in Miles (mi).
+  Length get asMi => convertTo(LengthUnit.mile);
+
+  /// Returns a [FormattedQuantityValue] representing this length in Nautical Miles (nmi).
+  Length get asNmi => convertTo(LengthUnit.nauticalMile);
 }
 
 /// Provides convenient factory methods for creating [Length] instances from [num]

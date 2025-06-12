@@ -148,9 +148,9 @@ void main() {
 
     group('toString()', () {
       test('should return formatted string', () {
-        expect(25.0.celsius.toString(), '25.0 °C');
-        expect(0.0.kelvin.toString(), '0.0 K');
-        expect(77.fahrenheit.toString(), '77.0 °F');
+        expect(25.0.celsius.toString(), '25.0 °C');
+        expect(0.0.kelvin.toString(), '0.0 K');
+        expect(77.fahrenheit.toString(), '77.0 °F');
       });
     });
 
@@ -209,12 +209,29 @@ void main() {
         final diffCFromF = t20C - t50F; // 20°C - 10°C = 10 C°
         expect(diffCFromF, closeTo(10.0, tolerance));
 
-        final diffF = t50F - t20C.convertTo(TemperatureUnit.fahrenheit); // 50°F - 68°F = -18 F°
-        expect(diffF, closeTo(-18.0, tolerance));
+        // Corrected from previous state where 'diffF_direct' was not used:
+        // Original operation: t50F - t20C.convertTo(TemperatureUnit.fahrenheit)
+        // This is 50°F - (20°C as °F which is 68°F) = -18 F°
+        final temp20CAsFahrenheit = t20C.convertTo(TemperatureUnit.fahrenheit);
+        final diffF = t50F - temp20CAsFahrenheit;
+        expect(
+          diffF,
+          closeTo(-18.0, tolerance),
+          reason: '50F - 20C (as F) should be -18 F difference',
+        );
 
-        final diffK = t283K - t20C; // 283.15K (10°C) - 20°C (converted to K) = -10 K diff
+        final diffkOperation = t283K - t20C; // 283.15K (10°C) - 20°C (converted to K)
         // 283.15K - (20 + 273.15)K = 283.15K - 293.15K = -10.0
-        expect(t283K - t20C, closeTo(-10.0, tolerance));
+        expect(diffkOperation, closeTo(-10.0, tolerance));
+
+        // This was the variable causing the warning. Let's ensure it's used.
+        // It will hold the same value as diffK_operation in this case.
+        final diffkVariable = t283K - t20C;
+        expect(
+          diffkVariable,
+          closeTo(-10.0, tolerance),
+          reason: 'Variable diffK should hold -10.0',
+        );
 
         final zeroDiff = t10C - t50F; // 10C - 10C (50F)
         expect(zeroDiff, closeTo(0.0, tolerance));

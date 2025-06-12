@@ -182,10 +182,10 @@ void main() {
 
     group('toString()', () {
       test('should return formatted string', () {
-        expect(14.7.psi.toString(), '14.7 psi');
-        expect(1013.25.mbar.toString(), '1013.25 mbar');
-        expect(1.0.atm.toString(), '1.0 atm');
-        expect(25.0.cmH2O.toString(), '25.0 cmH₂O');
+        expect(14.7.psi.toString(), '14.7 psi');
+        expect(1013.25.mbar.toString(), '1013.25 mbar');
+        expect(1.0.atm.toString(), '1.0 atm');
+        expect(25.0.cmH2O.toString(), '25.0 cmH₂O');
       });
     });
 

@@ -1,33 +1,45 @@
-// ignore_for_file: prefer_int_literals : all constants are doubles.
+// ignore_for_file: prefer_int_literals // All constants are doubles for precision.
 
+import '../../../quantify.dart' show Unit;
 import '../../core/unit.dart' show Unit;
 
 /// Defines base conversion factors for various pressure units relative to Pascal (Pa).
 ///
 /// These constants are based on international standards (e.g., NIST) where available.
 /// The base unit for internal calculations is Pascal.
-/// Factors represent: 1 [Unit] = X Pascals
+/// Factors represent: 1 [Unit] = X Pascals.
+/// All water column units (cmH₂O, inH₂O) refer to a water temperature of 4°C (39.2°F)
+/// unless otherwise specified, aligning with common scientific reference points for water density
+/// and conventional values (e.g., NIST SP 811).
 class PressureFactors {
-  /// Pascals per Atmosphere (standard atmosphere): 1 atm = 101325 Pa (exact definition).
+  /// Pascals per Standard Atmosphere (atm): 1 atm = 101325 Pa (exact definition).
   static const double pascalsPerAtmosphere = 101325.0;
 
-  /// Pascals per Bar: 1 bar = 100000 Pa (exact definition).
+  /// Pascals per Bar (bar): 1 bar = 100000 Pa (exact definition).
   static const double pascalsPerBar = 100000.0;
 
-  /// Pascals per Pound per Square Inch (PSI): 1 psi ≈ 6894.757293168361 Pa.
-  /// Derived from 1 lbf = 4.4482216152605 N and 1 inch = 0.0254 m.
+  /// Pascals per Pound per Square Inch (psi): 1 psi ≈ 6894.757293168361 Pa.
+  /// Derived from the international yard and pound agreement:
+  /// 1 pound-force (lbf) ≈ 4.4482216152605 N and 1 inch = 0.0254 m.
   static const double pascalsPerPsi = 6894.757293168361;
 
-  /// Pascals per Torr (millimeter of mercury at 0°C): 1 Torr ≈ 133.322368421 Pa.
-  /// Defined as 1/760 of a standard atmosphere.
+  /// Pascals per Torr (Torr): 1 Torr ≈ 133.322368421 Pa.
+  /// Defined as 1/760 of a standard atmosphere. Mercury at 0°C.
   static const double pascalsPerTorr = pascalsPerAtmosphere / 760.0;
 
-  /// Pascals per Millimeter of Mercury (mmHg at 0°C): Same as Torr.
+  /// Pascals per Millimeter of Mercury (mmHg) at 0°C: Same as Torr.
+  /// 1 mmHg (at 0°C) ≈ 133.322368421 Pa.
   static const double pascalsPerMillimeterOfMercury = pascalsPerTorr;
 
-  /// Pascals per Inch of Mercury (inHg at 0°C): 1 inHg ≈ 3386.389 Pa.
-  /// 1 inHg = 25.4 mmHg
+  /// Pascals per Inch of Mercury (inHg) at 0°C: 1 inHg ≈ 3386.388687636 Pa.
+  /// Defined as `pascalsPerMillimeterOfMercury * 25.4` (since 1 inch = 25.4 mm).
+  /// Conventional value often cited from NIST SP 811 is 3386.389 Pa.
+  /// The calculated value is (101325.0 / 760.0) * 25.4 = 3386.3886876315788
   static const double pascalsPerInchOfMercury = pascalsPerMillimeterOfMercury * 25.4;
+  // For reference, NIST SP 811 Appendix B.8 lists:
+  // Inch of mercury (0 °C)  = 3.386 389 E+03 Pa
+  // The calculated value is extremely close and based on fundamental definitions.
+  // Using the calculated one for consistency, the difference is negligible for doubles.
 
   /// Pascals per Kilopascal (kPa): 1 kPa = 1000 Pa.
   static const double pascalsPerKilopascal = 1000.0;
@@ -38,40 +50,15 @@ class PressureFactors {
   /// Pascals per Millibar (mbar): 1 mbar = 100 Pa (same as hPa).
   static const double pascalsPerMillibar = 100.0;
 
-  /// Pascals per Centimeter of Water (cmH2O at 4°C): 1 cmH2O ≈ 98.0665 Pa.
-  /// Based on g = 9.80665 m/s² and water density at 4°C ≈ 999.9720 kg/m³.
-  /// 1 cmH2O = 0.01 m * 999.9720 kg/m³ * 9.80665 m/s²
-  static const double pascalsPerCentimeterOfWater =
-      98.0638; // More common value for 4°C, check NIST SP 811 (2008) appendix B.8 for convention.
-  // NIST SP 811 uses density of water at 4 °C as 1000 kg/m³ which gives 98.0665 Pa for 1 cmH2O
-  // Let's use the one based on 1000 kg/m³ for conventional cmH2O
-  // static const double pascalsPerCentimeterOfWater = 98.0665; // Using conventional g_n and rho_H2O_4C
-
-  /// Pascals per Inch of Water (inH2O at 4°C): 1 inH2O ≈ 249.0889 Pa.
-  /// 1 inH2O = 2.54 cmH2O
-  // static const double pascalsPerInchOfWater = pascalsPerCentimeterOfWater * 2.54;
-
-  // Let's use common conventional values for water column units, often defined with specific conditions
-  // or by direct relation to other units.
-  // According to NIST Guide for the Use of the International System of Units (SI), Appendix B.8:
-  // conventional value for cmH2O (at 4 °C) is 98.0665 Pa
-  // conventional value for inH2O (at 4 °C) is 249.088 91 Pa
-  // conventional value for inHg (at 0 °C) is 3386.389 Pa
-
-  // Re-evaluating water column based on common engineering tables and NIST SP 811.
-  // Often, "conventional" values are used.
-  // For cmH2O (at 4°C), often 98.0665 Pa is cited.
-  // For inH2O (at 4°C), often 249.08891 Pa is cited.
-  // Let's align with these conventional values for clarity.
-
+  /// Conventional value for Pascals per Centimeter of Water (cmH₂O) at 4°C.
+  /// 1 cmH₂O (at 4°C) = 98.0665 Pa.
+  /// This value is commonly cited, e.g., in NIST SP 811, based on a conventional
+  /// standard gravity (gₙ = 9.80665 m/s²) and water density of 1000 kg/m³ at 4°C.
   static const double conventionalPascalsPerCentimeterOfWater4C = 98.0665;
-  // (249.08891: which is 98.0665 Pa/cmH2O * 2.54 cm/in)
-  static const double conventionalPascalsPerInchOfWater4C = 249.08891;
 
-  // Note: Some sources might specify inH2O at 60°F (15.56°C).
-  // For V1.0, we'll stick to one clearly defined standard, 4°C,
-  // and document it as such.
-  // 1 inch of water (60 °F) = 248.84 pascals
-  // We will use 4°C (39.2°F) as the reference for cmH2O and inH2O
-  // as it's a common scientific reference point for water density.
+  /// Conventional value for Pascals per Inch of Water (inH₂O) at 4°C.
+  /// 1 inH₂O (at 4°C) = 249.08891 Pa.
+  /// This value is commonly cited, e.g., in NIST SP 811, and is derived from
+  /// `conventionalPascalsPerCentimeterOfWater4C * 2.54` (since 1 inch = 2.54 cm).
+  static const double conventionalPascalsPerInchOfWater4C = 249.08891;
 }

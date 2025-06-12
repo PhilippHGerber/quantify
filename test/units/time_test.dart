@@ -139,10 +139,10 @@ void main() {
 
     group('toString()', () {
       test('should return formatted string', () {
-        expect(10.5.seconds.toString(), '10.5 s');
-        expect(120.0.minutes.toString(), '120.0 min');
-        expect(2.5.hours.toString(), '2.5 h');
-        expect(1.days.toString(), '1.0 d');
+        expect(10.5.seconds.toString(), '10.5 s');
+        expect(120.0.minutes.toString(), '120.0 min');
+        expect(2.5.hours.toString(), '2.5 h');
+        expect(1.days.toString(), '1.0 d');
       });
     });
 

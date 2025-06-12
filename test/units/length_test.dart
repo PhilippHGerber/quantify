@@ -147,9 +147,9 @@ void main() {
 
     group('toString()', () {
       test('should return formatted string', () {
-        expect(10.5.m.toString(), '10.5 m');
-        expect(12.0.inch.toString(), '12.0 in');
-        expect(1.6.km.toString(), '1.6 km');
+        expect(10.5.m.toString(), '10.5 m');
+        expect(12.0.inch.toString(), '12.0 in');
+        expect(1.6.km.toString(), '1.6 km');
       });
     });
 

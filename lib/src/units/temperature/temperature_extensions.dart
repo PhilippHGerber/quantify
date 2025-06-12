@@ -11,6 +11,15 @@ extension TemperatureValueGetters on Temperature {
 
   /// Returns the temperature value in Fahrenheit (°F).
   double get inFahrenheit => getValue(TemperatureUnit.fahrenheit);
+
+  /// Returns a [FormattedQuantityValue] representing this temperature in Celsius (°C).
+  Temperature get asCelsius => convertTo(TemperatureUnit.celsius);
+
+  /// Returns a [FormattedQuantityValue] representing this temperature in Kelvin (K).
+  Temperature get asKelvin => convertTo(TemperatureUnit.kelvin);
+
+  /// Returns a [FormattedQuantityValue] representing this temperature in Fahrenheit (°F).
+  Temperature get asFahrenheit => convertTo(TemperatureUnit.fahrenheit);
 }
 
 /// Provides convenient factory methods for creating [Temperature] instances from [num].

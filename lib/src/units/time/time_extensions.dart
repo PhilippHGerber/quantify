@@ -18,12 +18,20 @@ extension TimeValueGetters on Time {
   /// Returns the time value in Days (d).
   double get inDays => getValue(TimeUnit.day);
 
-  // Aliases for consistency with potential full names (optional)
-  // double get inS => getValue(TimeUnit.second);
-  // double get inMs => getValue(TimeUnit.millisecond);
-  // double get inMin => getValue(TimeUnit.minute);
-  // double get inH => getValue(TimeUnit.hour);
-  // double get inD => getValue(TimeUnit.day);
+  /// Returns a [FormattedQuantityValue] representing this time in Seconds (s).
+  Time get asSeconds => convertTo(TimeUnit.second);
+
+  /// Returns a [FormattedQuantityValue] representing this time in Milliseconds (ms).
+  Time get asMilliseconds => convertTo(TimeUnit.millisecond);
+
+  /// Returns a [FormattedQuantityValue] representing this time in Minutes (min).
+  Time get asMinutes => convertTo(TimeUnit.minute);
+
+  /// Returns a [FormattedQuantityValue] representing this time in Hours (h).
+  Time get asHours => convertTo(TimeUnit.hour);
+
+  /// Returns a [FormattedQuantityValue] representing this time in Days (d).
+  Time get asDays => convertTo(TimeUnit.day);
 }
 
 /// Provides convenient factory methods for creating [Time] instances from [num].
