@@ -2,7 +2,7 @@ include: package:very_good_analysis/analysis_options.yaml
 
 formatter:
   page_width: 100
-  trailing_commas: preserve
+#  trailing_commas: preserve
 
 analyzer:
   exclude:
@@ -34,13 +34,11 @@ linter:
     avoid_types_on_closure_parameters: false
     # Allow TODOs without the Flutter-style format (e.g., missing author tags)
     flutter_style_todos: false
-    #
+    # Use trailing commas for all parameter lists and argument lists.
     require_trailing_commas: true
-    #
+    # Use enums rather than classes that behave like enums.
     use_enums: true
 
     # Prototyping and Development:
     # Allow public classes and members without documentation comments
     public_member_api_docs: true
-    # Allow using print() for debugging purposes
-    avoid_print: false
