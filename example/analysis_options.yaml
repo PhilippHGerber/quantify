@@ -1,0 +1,33 @@
+include: package:very_good_analysis/analysis_options.yaml
+
+formatter:
+  page_width: 100
+#  trailing_commas: preserve
+
+analyzer:
+  errors:
+    unused_import: warning
+    todo: ignore
+
+linter:
+  rules:
+    # Allow relative imports for files within the same package
+    always_use_package_imports: false
+    # Prefer using relative imports within the same package
+    prefer_relative_imports: true
+    # Allow lines to exceed 80 characters
+    lines_longer_than_80_chars: false
+    # Prefer using const constructors where possible
+    prefer_const_constructors: true
+    # Prefer declaring local variables as final if they are not reassigned
+    prefer_final_locals: true
+    # Allow mutable literal lists/maps/sets even if they could be const
+    prefer_const_literals_to_create_immutables: false
+    # Allow explicitly typing closure parameters
+    avoid_types_on_closure_parameters: false
+    # Use trailing commas for all parameter lists and argument lists.
+    require_trailing_commas: true
+    # Use enums rather than classes that behave like enums.
+    use_enums: true
+    # Allow using print() for debugging purposes
+    avoid_print: false
