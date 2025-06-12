@@ -40,40 +40,40 @@ extension PressureValueGetters on Pressure {
   /// Returns the pressure value in Inches of Water (inH₂O) at 4°C.
   double get inInH2O => getValue(PressureUnit.inchOfWater);
 
-  /// Returns a [FormattedQuantityValue] representing this pressure in Pascals (Pa).
+  /// Returns a Pressure representing this pressure in Pascals (Pa).
   Pressure get asPa => convertTo(PressureUnit.pascal);
 
-  /// Returns a [FormattedQuantityValue] representing this pressure in Atmospheres (atm).
+  /// Returns a Pressure representing this pressure in Atmospheres (atm).
   Pressure get asAtm => convertTo(PressureUnit.atmosphere);
 
-  /// Returns a [FormattedQuantityValue] representing this pressure in Bars (bar).
+  /// Returns a Pressure representing this pressure in Bars (bar).
   Pressure get asBar => convertTo(PressureUnit.bar);
 
-  /// Returns a [FormattedQuantityValue] representing this pressure in Pounds per Square Inch (psi).
+  /// Returns a Pressure representing this pressure in Pounds per Square Inch (psi).
   Pressure get asPsi => convertTo(PressureUnit.psi);
 
-  /// Returns a [FormattedQuantityValue] representing this pressure in Torrs (Torr).
+  /// Returns a Pressure representing this pressure in Torrs (Torr).
   Pressure get asTorr => convertTo(PressureUnit.torr);
 
-  /// Returns a [FormattedQuantityValue] representing this pressure in Millimeters of Mercury (mmHg).
+  /// Returns a Pressure representing this pressure in Millimeters of Mercury (mmHg).
   Pressure get asMmHg => convertTo(PressureUnit.millimeterOfMercury);
 
-  /// Returns a [FormattedQuantityValue] representing this pressure in Inches of Mercury (inHg).
+  /// Returns a Pressure representing this pressure in Inches of Mercury (inHg).
   Pressure get asInHg => convertTo(PressureUnit.inchOfMercury);
 
-  /// Returns a [FormattedQuantityValue] representing this pressure in Kilopascals (kPa).
+  /// Returns a Pressure representing this pressure in Kilopascals (kPa).
   Pressure get asKPa => convertTo(PressureUnit.kilopascal);
 
-  /// Returns a [FormattedQuantityValue] representing this pressure in Hectopascals (hPa).
+  /// Returns a Pressure representing this pressure in Hectopascals (hPa).
   Pressure get asHPa => convertTo(PressureUnit.hectopascal);
 
-  /// Returns a [FormattedQuantityValue] representing this pressure in Millibars (mbar).
+  /// Returns a Pressure representing this pressure in Millibars (mbar).
   Pressure get asMbar => convertTo(PressureUnit.millibar);
 
-  /// Returns a [FormattedQuantityValue] representing this pressure in Centimeters of Water (cmH₂O).
+  /// Returns a Pressure representing this pressure in Centimeters of Water (cmH₂O).
   Pressure get asCmH2O => convertTo(PressureUnit.centimeterOfWater);
 
-  /// Returns a [FormattedQuantityValue] representing this pressure in Inches of Water (inH₂O).
+  /// Returns a Pressure representing this pressure in Inches of Water (inH₂O).
   Pressure get asInH2O => convertTo(PressureUnit.inchOfWater);
 }
 

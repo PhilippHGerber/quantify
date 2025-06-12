@@ -1,4 +1,4 @@
-/// A library for quantifying data in various formats.
+/// A type-safe library for units of measurement, providing elegant syntax for unit conversions.
 library;
 
 export 'src/core/quantity.dart';

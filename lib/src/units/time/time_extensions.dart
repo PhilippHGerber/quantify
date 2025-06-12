@@ -18,19 +18,19 @@ extension TimeValueGetters on Time {
   /// Returns the time value in Days (d).
   double get inDays => getValue(TimeUnit.day);
 
-  /// Returns a [FormattedQuantityValue] representing this time in Seconds (s).
+  /// Returns a Time representing this time in Seconds (s).
   Time get asSeconds => convertTo(TimeUnit.second);
 
-  /// Returns a [FormattedQuantityValue] representing this time in Milliseconds (ms).
+  /// Returns a Time representing this time in Milliseconds (ms).
   Time get asMilliseconds => convertTo(TimeUnit.millisecond);
 
-  /// Returns a [FormattedQuantityValue] representing this time in Minutes (min).
+  /// Returns a Time representing this time in Minutes (min).
   Time get asMinutes => convertTo(TimeUnit.minute);
 
-  /// Returns a [FormattedQuantityValue] representing this time in Hours (h).
+  /// Returns a Time representing this time in Hours (h).
   Time get asHours => convertTo(TimeUnit.hour);
 
-  /// Returns a [FormattedQuantityValue] representing this time in Days (d).
+  /// Returns a Time representing this time in Days (d).
   Time get asDays => convertTo(TimeUnit.day);
 }
 

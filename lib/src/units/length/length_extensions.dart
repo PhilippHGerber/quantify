@@ -31,31 +31,31 @@ extension LengthValueGetters on Length {
   /// Returns the length value in Nautical Miles (nmi).
   double get inNmi => getValue(LengthUnit.nauticalMile);
 
-  /// Returns a [FormattedQuantityValue] representing this length in Meters (m).
+  /// Returns a Length representing this length in Meters (m).
   Length get asM => convertTo(LengthUnit.meter);
 
-  /// Returns a [FormattedQuantityValue] representing this length in Kilometers (km).
+  /// Returns a Length representing this length in Kilometers (km).
   Length get asKm => convertTo(LengthUnit.kilometer);
 
-  /// Returns a [FormattedQuantityValue] representing this length in Centimeters (cm).
+  /// Returns a Length representing this length in Centimeters (cm).
   Length get asCm => convertTo(LengthUnit.centimeter);
 
-  /// Returns a [FormattedQuantityValue] representing this length in Millimeters (mm).
+  /// Returns a Length representing this length in Millimeters (mm).
   Length get asMm => convertTo(LengthUnit.millimeter);
 
-  /// Returns a [FormattedQuantityValue] representing this length in Inches (in).
+  /// Returns a Length representing this length in Inches (in).
   Length get asInch => convertTo(LengthUnit.inch);
 
-  /// Returns a [FormattedQuantityValue] representing this length in Feet (ft).
+  /// Returns a Length representing this length in Feet (ft).
   Length get asFt => convertTo(LengthUnit.foot);
 
-  /// Returns a [FormattedQuantityValue] representing this length in Yards (yd).
+  /// Returns a Length representing this length in Yards (yd).
   Length get asYd => convertTo(LengthUnit.yard);
 
-  /// Returns a [FormattedQuantityValue] representing this length in Miles (mi).
+  /// Returns a Length representing this length in Miles (mi).
   Length get asMi => convertTo(LengthUnit.mile);
 
-  /// Returns a [FormattedQuantityValue] representing this length in Nautical Miles (nmi).
+  /// Returns a Length representing this length in Nautical Miles (nmi).
   Length get asNmi => convertTo(LengthUnit.nauticalMile);
 }
 
