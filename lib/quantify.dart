@@ -12,6 +12,11 @@ export 'src/units/mass/mass.dart';
 export 'src/units/mass/mass_extensions.dart';
 export 'src/units/mass/mass_factors.dart';
 export 'src/units/mass/mass_unit.dart';
+// Exporting units and their extensions for molar amount
+export 'src/units/molar/molar_amount.dart';
+export 'src/units/molar/molar_extensions.dart';
+export 'src/units/molar/molar_factors.dart';
+export 'src/units/molar/molar_unit.dart';
 // Exporting units and their extensions for pressure
 export 'src/units/pressure/pressure.dart';
 export 'src/units/pressure/pressure_extensions.dart';
