@@ -7,6 +7,11 @@ export 'src/core/unit.dart';
 export 'src/units/length/length.dart';
 export 'src/units/length/length_extensions.dart';
 export 'src/units/length/length_unit.dart';
+// Exporting units and their extensions for mass
+export 'src/units/mass/mass.dart';
+export 'src/units/mass/mass_extensions.dart';
+export 'src/units/mass/mass_factors.dart';
+export 'src/units/mass/mass_unit.dart';
 // Exporting units and their extensions for pressure
 export 'src/units/pressure/pressure.dart';
 export 'src/units/pressure/pressure_extensions.dart';
