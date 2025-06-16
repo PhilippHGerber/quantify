@@ -11,6 +11,10 @@ export 'src/units/current/current_unit.dart';
 export 'src/units/length/length.dart';
 export 'src/units/length/length_extensions.dart';
 export 'src/units/length/length_unit.dart';
+// Exporting units and their extensions for luminous intensity
+export 'src/units/luminous/luminous_intensity.dart';
+export 'src/units/luminous/luminous_intensity_extensions.dart';
+export 'src/units/luminous/luminous_intensity_unit.dart';
 // Exporting units and their extensions for mass
 export 'src/units/mass/mass.dart';
 export 'src/units/mass/mass_extensions.dart';
