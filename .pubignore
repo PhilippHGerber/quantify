@@ -1,0 +1,7 @@
+build/
+pubspec.lock
+Thumbs.db
+coverage/
+lcov.info
+llmifierrc.yaml
+llms.txt
