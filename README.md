@@ -28,33 +28,29 @@ void main() {
   final pathA = 1500.m;
   final pathB = 2.5.km;
 
-  // Convert and print using enhanced toString()
-  print(pathA.toString(targetUnit: LengthUnit.kilometer, fractionDigits: 1));
-  // Output: "1.5 km"
+  // Convert to value / a new Quantity object
+  double pathInKm = pathA.inKm;
+  final pathAsKm = pathA.asKm;
 
-  print(pathB.toString(targetUnit: LengthUnit.mile, fractionDigits: 2));
-  // Output: "1.55 mi" (approx.)
+  // Convert and print
+  print(pathA.toString(targetUnit: LengthUnit.kilometer, fractionDigits: 1));  // Output: "1.5 km"
+  print(pathB.toString(targetUnit: LengthUnit.mile, fractionDigits: 2));  // Output: "1.55 mi" (approx.)
 
   // Arithmetic
-  final totalDistance = pathA + pathB; // pathB is converted to meters
-  print(totalDistance.toString(fractionDigits: 0));
-  // Output: "4000 m"
-
-  print(totalDistance.toString(
+  final distance = pathA + pathB; // pathB is converted to meters
+  print(distance.toString(fractionDigits: 0));  // Output: "4000 m"
+  print(distance.toString(
     targetUnit: LengthUnit.yard,
     fractionDigits: 0,
-    unitSymbolSeparator: '\u00A0', // Non-breaking space
-  ));
-  // Output: "4374 yd" (approx., with non-breaking space)
+  ));  // Output: "4374 yd" (approx., with non-breaking space)
 
   // Locale-specific example (if 'intl' is used)
   // final distanceDE = 1234.567.m;
-  // print(distanceDE.toString(
-  //   targetUnit: LengthUnit.kilometer,
-  //   fractionDigits: 2,
-  //   locale: 'de_DE',
-  // ));
-  // Output: "1,23 km"
+  print(distanceDE.toString(
+    targetUnit: LengthUnit.kilometer,
+    fractionDigits: 2,
+    locale: 'de_DE',
+  ));  // Output: "1,23 km"
 }
 ```
 
@@ -64,7 +60,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  quantify: ^0.1.0 # Or latest version
+  quantify: ^0.2.0 # Or latest version
   # Optional, for locale-specific number formatting:
   # intl: ^0.19.0
 ```
@@ -75,31 +71,35 @@ Then run `dart pub get` or `flutter pub get`.
 
 The library aims to support a wide range of physical quantities, including fundamental SI units and common derived units. Below is an overview:
 
-| Quantity Type        | Status | Example Units Available / Planned (SI units emphasized)                                             | Notes / SI Base Unit Ref. |
-| :------------------- | :-: | :----------------------------------------------------------------------------------------------------- | :------------------------ |
-| **Length**           | ✅  | **`m`** (meter), `km`, `cm`, `mm`, `in`, `ft`, `yd`, `mi`, `nmi`                                       | SI Base: Meter (m)        |
-| **Time**             | ✅  | **`s`** (second), `ms`, `min`, `h`, `d`                                                                | SI Base: Second (s)       |
-| **Temperature**      | ✅  | **`K`** (kelvin), `°C` (celsius), `°F` (fahrenheit)                                                    | SI Base: Kelvin (K)       |
-| **Mass**             | 🗓️  | **`kg`** (kilogram), `g`, `lb`, `oz` ...                                                               | SI Base: Kilogram (kg)    |
-| **Pressure**         | ✅  | **`Pa`** (Pascal), `atm`, `bar`, `psi`, `Torr`, `mmHg`, `inHg`, `kPa`, `hPa`, `mbar`, `cmH₂O`, `inH₂O` | Derived SI: N/m²          |
-| Area                 | 🗓️  | **`m²`** (square meter), `km²`, `acre`, `ha` ...                                                       | Derived SI                |
-| Volume               | 🗓️  | **`m³`** (cubic meter), `L`, `mL`, `gal`, `fl oz` ...                                                  | Derived SI                |
-| Speed / Velocity     | 🗓️  | **`m/s`** (meter per second), `km/h`, `mph` ...                                                        | Derived SI                |
-| Force                | 🗓️  | **`N`** (Newton), `lbf` ...                                                                            | Derived SI: kg·m/s²       |
-| Energy / Work        | 🗓️  | **`J`** (Joule), `kWh`, `cal` ...                                                                      | Derived SI: N·m           |
-| Power                | 💡  | **`W`** (Watt) ...                                                                                     | Derived SI: J/s           |
-| Frequency            | 💡  | **`Hz`** (Hertz) ...                                                                                   | Derived SI: 1/s           |
-| Amount of Substance  | 💡  | **`mol`** (mole) ...                                                                                   | SI Base: Mole (mol)       |
-| --- Electrical ---   |     |                                                                                                        |                           |
-| Electric Current     | 💡  | **`A`** (Ampere) ...                                                                                   | SI Base: Ampere (A)       |
-| Electric Charge      | 💡  | **`C`** (Coulomb) ...                                                                                  | Derived SI: A·s           |
-| Electric Potential   | 💡  | **`V`** (Volt) ...                                                                                     | Derived SI: W/A           |
-| Electric Resistance  | 💡  | **`Ω`** (Ohm) ...                                                                                      | Derived SI: V/A           |
-| Electric Capacitance | 💡  | **`F`** (Farad) ...                                                                                    | Derived SI: C/V           |
-| --- Photometric ---  |     |                                                                                                        |                           |
-| Luminous Intensity   | 💡  | **`cd`** (Candela) ...                                                                                 | SI Base: Candela (cd)     |
-| --- Other ---        |     |                                                                                                        |                           |
-| *...more*            | 💡  | Other common physical quantities based on demand.                                                      |                           |
+| Quantity Type                 | Status | Example Units Available / Planned (SI units emphasized)                                              | Notes / SI Base Unit Ref. |
+| :---------------------------- | :--: | :----------------------------------------------------------------------------------------------------- | :------------------------ |
+| **Length**                    |  ✅  | **`m`** (meter), `km`, `cm`, `mm`, `in`, `ft`, `yd`, `mi`, `nmi`                                       | SI Base: Meter (m)        |
+| **Mass**                      |  ✅  | **`kg`** (kilogram), `g`, `mg`, `t` (tonne), `lb`, `oz`, `st` (stone), `slug`                          | SI Base: Kilogram (kg)    |
+| **Time**                      |  ✅  | **`s`** (second), `ms`, `min`, `h`, `d`                                                                | SI Base: Second (s)       |
+| **Electric Current**          |  ✅  | **`A`** (ampere), `mA`, `µA`, `nA`, `kA`                                                               | SI Base: Ampere (A)       |
+| **Temperature**               |  ✅  | **`K`** (kelvin), `°C` (celsius), `°F` (fahrenheit)                                                    | SI Base: Kelvin (K)       |
+| **Amount of Substance**       |  ✅  | **`mol`** (mole), `mmol`, `µmol`, `nmol`, `pmol`, `kmol`                                               | SI Base: Mole (mol)       |
+| **Luminous Intensity**        |  ✅  | **`cd`** (candela), `mcd`, `kcd`                                                                       | SI Base: Candela (cd)     |
+| --- Derived ---               |      |                                                                                                        |                           |
+| **Pressure**                  |  ✅  | **`Pa`** (Pascal), `atm`, `bar`, `psi`, `Torr`, `mmHg`, `inHg`, `kPa`, `hPa`, `mbar`, `cmH₂O`, `inH₂O` | Derived SI: N/m²          |
+| Area                          |  🗓️  | **`m²`** (square meter), `km²`, `cm²`, `ha` (hectare), `acre` ...                                      | Derived SI                |
+| Volume                        |  🗓️  | **`m³`** (cubic meter), `L` (liter), `mL`, `cm³`, `gal` (gallon), `fl oz` ...                          | Derived SI                |
+| Speed / Velocity              |  🗓️  | **`m/s`** (meter per second), `km/h`, `mph`, `knot` ...                                                | Derived SI                |
+| Acceleration                  |  🗓️  | **`m/s²`** (meter per second squared), `g` (standard gravity) ...                                      | Derived SI                |
+| Force                         |  🗓️  | **`N`** (Newton), `lbf` (pound-force), `dyn` (dyne) ...                                                | Derived SI: kg·m/s²       |
+| Energy / Work                 |  🗓️  | **`J`** (Joule), `kWh` (kilowatt-hour), `cal` (calorie), `eV` (electronvolt) ...                       | Derived SI: N·m           |
+| Power                         |  💡  | **`W`** (Watt), `hp` (horsepower) ...                                                                  | Derived SI: J/s           |
+| Frequency                     |  💡  | **`Hz`** (Hertz), `kHz`, `MHz` ...                                                                     | Derived SI: 1/s           |
+| --- Electrical (Derived) ---  |      |                                                                                                        |                           |
+| Electric Charge               |  💡  | **`C`** (Coulomb) ...                                                                                  | Derived SI: A·s           |
+| Electric Potential            |  💡  | **`V`** (Volt) ...                                                                                     | Derived SI: W/A           |
+| Electric Resistance           |  💡  | **`Ω`** (Ohm) ...                                                                                      | Derived SI: V/A           |
+| Electric Capacitance          |  💡  | **`F`** (Farad) ...                                                                                    | Derived SI: C/V           |
+| --- Photometric (Derived) --- |      |                                                                                                        |                           |
+| Luminous Flux                 |  💡  | **`lm`** (Lumen) ...                                                                                   | Derived SI: cd·sr         |
+| Illuminance                   |  💡  | **`lx`** (Lux) ...                                                                                     | Derived SI: lm/m²         |
+| --- Other ---                 |      |                                                                                                        |                           |
+| *...more*                     |  💡  | Other common physical quantities based on demand.                                                      |                           |
 
 ## Detailed Usage
 
