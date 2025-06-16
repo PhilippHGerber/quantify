@@ -3,6 +3,10 @@ library;
 
 export 'src/core/quantity.dart';
 export 'src/core/unit.dart';
+// Exporting units and their extensions for electric current
+export 'src/units/current/current.dart';
+export 'src/units/current/current_extensions.dart';
+export 'src/units/current/current_unit.dart';
 // Exporting units and their extensions for length
 export 'src/units/length/length.dart';
 export 'src/units/length/length_extensions.dart';
@@ -10,12 +14,10 @@ export 'src/units/length/length_unit.dart';
 // Exporting units and their extensions for mass
 export 'src/units/mass/mass.dart';
 export 'src/units/mass/mass_extensions.dart';
-export 'src/units/mass/mass_factors.dart';
 export 'src/units/mass/mass_unit.dart';
 // Exporting units and their extensions for molar amount
 export 'src/units/molar/molar_amount.dart';
 export 'src/units/molar/molar_extensions.dart';
-export 'src/units/molar/molar_factors.dart';
 export 'src/units/molar/molar_unit.dart';
 // Exporting units and their extensions for pressure
 export 'src/units/pressure/pressure.dart';
