@@ -1,6 +1,6 @@
 name: quantify
 description: A type-safe units of measurement library for Dart, providing elegant syntax for unit conversions with good precision, optimal performance, and configurable output formatting.
-version: 0.1.0
+version: 0.1.1-dev
 
 homepage: https://github.com/PhilippHGerber/quantify
 repository: https://github.com/PhilippHGerber/quantify
