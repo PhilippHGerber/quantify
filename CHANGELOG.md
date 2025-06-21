@@ -5,6 +5,27 @@ All notable changes to the `quantify` package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0]
+
+2025-06-21
+
+### Added
+
+- **Expanded Unit Coverage:** 
+  - **Length:**
+    - SI Prefixes: `hm` (hectometer), `dam` (decameter), `dm` (decimeter), `μm` (micrometer), `nm` (nanometer), `pm` (picometer), `fm` (femtometer).
+    - Astronomical: `AU` (astronomical unit), `ly` (light year), `pc` (parsec).
+    - Special: `Å` (ångström).
+  - **Mass:**
+    - SI Prefixes: `hg` (hectogram), `dag` (decagram), `dg` (decigram), `cg` (centigram), `μg` (microgram), `ng` (nanogram).
+    - Imperial/US: `short ton`, `long ton`.
+    - Special: `u` (atomic mass unit), `ct` (carat).
+  - **Time:**
+    - SI Prefixes: `μs` (microsecond), `ns` (nanosecond), `ps` (picosecond).
+    - Calendar: `wk` (week), `mo` (month), `yr` (year).
+  - **Temperature:**
+    - Absolute Scale: `°R` (rankine).
+
 ## [0.2.0]
 
 2025-06-16
