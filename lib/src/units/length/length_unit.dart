@@ -15,11 +15,32 @@ enum LengthUnit implements Unit<LengthUnit> {
   /// Kilometer (km), equal to 1000 meters.
   kilometer(LengthFactors.metersPerKilometer, 'km'),
 
+  /// Hectometer (hm), equal to 100 meters.
+  hectometer(LengthFactors.metersPerHectometer, 'hm'),
+
+  /// Decameter (dam), equal to 10 meters.
+  decameter(LengthFactors.metersPerDecameter, 'dam'),
+
+  /// Decimeter (dm), equal to 0.1 meters.
+  decimeter(LengthFactors.metersPerDecimeter, 'dm'),
+
   /// Centimeter (cm), equal to 0.01 meters.
   centimeter(LengthFactors.metersPerCentimeter, 'cm'),
 
   /// Millimeter (mm), equal to 0.001 meters.
   millimeter(LengthFactors.metersPerMillimeter, 'mm'),
+
+  /// Micrometer (μm), equal to 1e-6 meters.
+  micrometer(LengthFactors.metersPerMicrometer, 'μm'),
+
+  /// Nanometer (nm), equal to 1e-9 meters.
+  nanometer(LengthFactors.metersPerNanometer, 'nm'),
+
+  /// Picometer (pm), equal to 1e-12 meters.
+  picometer(LengthFactors.metersPerPicometer, 'pm'),
+
+  /// Femtometer (fm), equal to 1e-15 meters.
+  femtometer(LengthFactors.metersPerFemtometer, 'fm'),
 
   /// Inch (in), defined as exactly 0.0254 meters.
   inch(LengthFactors.metersPerInch, 'in'),
@@ -34,7 +55,19 @@ enum LengthUnit implements Unit<LengthUnit> {
   mile(LengthFactors.metersPerMile, 'mi'),
 
   /// Nautical Mile (nmi), internationally defined as 1852 meters.
-  nauticalMile(LengthFactors.metersPerNauticalMile, 'nmi');
+  nauticalMile(LengthFactors.metersPerNauticalMile, 'nmi'),
+
+  /// Astronomical Unit (AU), defined as exactly 149597870700 meters.
+  astronomicalUnit(LengthFactors.metersPerAstronomicalUnit, 'AU'),
+
+  /// Light Year (ly), the distance light travels in one Julian year.
+  lightYear(LengthFactors.metersPerLightYear, 'ly'),
+
+  /// Parsec (pc), approximately 3.26 light years.
+  parsec(LengthFactors.metersPerParsec, 'pc'),
+
+  /// Ångström (Å), equal to 1e-10 meters.
+  angstrom(LengthFactors.metersPerAngstrom, 'Å');
 
   /// Constant constructor for enum members.
   ///
@@ -48,24 +81,29 @@ enum LengthUnit implements Unit<LengthUnit> {
   const LengthUnit(double toBaseFactor, this.symbol)
       : _toMeterFactor = toBaseFactor,
         // Initialize direct factors from THIS unit to OTHERS.
-        // factor_A_to_B = factor_A_to_Base / factor_B_to_Base
-        // Here, Base is Meter. So, factor_A_to_Meter = _toMeterFactor_A / 1.0
         _factorToMeter = toBaseFactor / 1.0,
         _factorToKilometer = toBaseFactor / LengthFactors.metersPerKilometer,
+        _factorToHectometer = toBaseFactor / LengthFactors.metersPerHectometer,
+        _factorToDecameter = toBaseFactor / LengthFactors.metersPerDecameter,
+        _factorToDecimeter = toBaseFactor / LengthFactors.metersPerDecimeter,
         _factorToCentimeter = toBaseFactor / LengthFactors.metersPerCentimeter,
         _factorToMillimeter = toBaseFactor / LengthFactors.metersPerMillimeter,
+        _factorToMicrometer = toBaseFactor / LengthFactors.metersPerMicrometer,
+        _factorToNanometer = toBaseFactor / LengthFactors.metersPerNanometer,
+        _factorToPicometer = toBaseFactor / LengthFactors.metersPerPicometer,
+        _factorToFemtometer = toBaseFactor / LengthFactors.metersPerFemtometer,
         _factorToInch = toBaseFactor / LengthFactors.metersPerInch,
         _factorToFoot = toBaseFactor / LengthFactors.metersPerFoot,
         _factorToYard = toBaseFactor / LengthFactors.metersPerYard,
         _factorToMile = toBaseFactor / LengthFactors.metersPerMile,
-        _factorToNauticalMile = toBaseFactor / LengthFactors.metersPerNauticalMile;
+        _factorToNauticalMile = toBaseFactor / LengthFactors.metersPerNauticalMile,
+        _factorToAstronomicalUnit = toBaseFactor / LengthFactors.metersPerAstronomicalUnit,
+        _factorToLightYear = toBaseFactor / LengthFactors.metersPerLightYear,
+        _factorToParsec = toBaseFactor / LengthFactors.metersPerParsec,
+        _factorToAngstrom = toBaseFactor / LengthFactors.metersPerAngstrom;
 
   /// The factor to convert a value from this unit to the base unit (Meter).
   /// Example: For Kilometer, this is 1000.0 (meaning 1 km = 1000.0 m).
-  /// After constructor initialization, its value is primarily baked into
-  /// the specific _factorToXxx fields for direct inter-unit conversions.
-  /// It's generally not accessed directly by methods outside this enum's constructor
-  /// but is crucial for deriving the pre-calculated factors.
   // ignore: unused_field
   final double _toMeterFactor;
 
@@ -74,17 +112,26 @@ enum LengthUnit implements Unit<LengthUnit> {
   final String symbol;
 
   // --- Pre-calculated direct conversion factors from this unit to all others ---
-  // These are calculated once in the const constructor.
-
   final double _factorToMeter;
   final double _factorToKilometer;
+  final double _factorToHectometer;
+  final double _factorToDecameter;
+  final double _factorToDecimeter;
   final double _factorToCentimeter;
   final double _factorToMillimeter;
+  final double _factorToMicrometer;
+  final double _factorToNanometer;
+  final double _factorToPicometer;
+  final double _factorToFemtometer;
   final double _factorToInch;
   final double _factorToFoot;
   final double _factorToYard;
   final double _factorToMile;
   final double _factorToNauticalMile;
+  final double _factorToAstronomicalUnit;
+  final double _factorToLightYear;
+  final double _factorToParsec;
+  final double _factorToAngstrom;
 
   /// Returns the direct conversion factor to convert a value from this [LengthUnit]
   /// to the [targetUnit].
@@ -96,10 +143,24 @@ enum LengthUnit implements Unit<LengthUnit> {
         return _factorToMeter;
       case LengthUnit.kilometer:
         return _factorToKilometer;
+      case LengthUnit.hectometer:
+        return _factorToHectometer;
+      case LengthUnit.decameter:
+        return _factorToDecameter;
+      case LengthUnit.decimeter:
+        return _factorToDecimeter;
       case LengthUnit.centimeter:
         return _factorToCentimeter;
       case LengthUnit.millimeter:
         return _factorToMillimeter;
+      case LengthUnit.micrometer:
+        return _factorToMicrometer;
+      case LengthUnit.nanometer:
+        return _factorToNanometer;
+      case LengthUnit.picometer:
+        return _factorToPicometer;
+      case LengthUnit.femtometer:
+        return _factorToFemtometer;
       case LengthUnit.inch:
         return _factorToInch;
       case LengthUnit.foot:
@@ -110,6 +171,14 @@ enum LengthUnit implements Unit<LengthUnit> {
         return _factorToMile;
       case LengthUnit.nauticalMile:
         return _factorToNauticalMile;
+      case LengthUnit.astronomicalUnit:
+        return _factorToAstronomicalUnit;
+      case LengthUnit.lightYear:
+        return _factorToLightYear;
+      case LengthUnit.parsec:
+        return _factorToParsec;
+      case LengthUnit.angstrom:
+        return _factorToAngstrom;
     }
   }
 }

@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_int_literals : all constants are doubles.
 
 import 'package:quantify/quantify.dart';
+import 'package:quantify/src/units/length/length_factors.dart';
 import 'package:test/test.dart';
 
 void main() {
   const tolerance = 1e-9; // Tolerance for double comparisons
+  const highTolerance = 1e-6; // For very large/small conversions
+  const astronomicalTolerance = 1e-4; // For astronomical distances
 
   group('Length', () {
     // Helper for round trip tests
@@ -259,6 +262,238 @@ void main() {
         expect(l2.value, closeTo(30.0, tolerance));
         expect(l3.value, closeTo(29.0, tolerance));
         expect(l3.unit, LengthUnit.meter);
+      });
+    });
+  });
+
+  group('Extended Length Units', () {
+    group('SI Prefix Units', () {
+      test('hectometer conversions', () {
+        final oneHectometer = 1.0.hm;
+        expect(oneHectometer.inM, closeTo(100.0, tolerance));
+        expect(oneHectometer.inKm, closeTo(0.1, tolerance));
+        expect(oneHectometer.inCm, closeTo(10000.0, tolerance));
+      });
+
+      test('decameter conversions', () {
+        final oneDecameter = 1.0.dam;
+        expect(oneDecameter.inM, closeTo(10.0, tolerance));
+        expect(oneDecameter.inHm, closeTo(0.1, tolerance));
+        expect(oneDecameter.inDm, closeTo(100.0, tolerance));
+      });
+
+      test('decimeter conversions', () {
+        final oneDecimeter = 1.0.dm;
+        expect(oneDecimeter.inM, closeTo(0.1, tolerance));
+        expect(oneDecimeter.inCm, closeTo(10.0, tolerance));
+        expect(oneDecimeter.inMm, closeTo(100.0, tolerance));
+      });
+
+      test('micrometer conversions', () {
+        final oneMicrometer = 1.0.um;
+        expect(oneMicrometer.inM, closeTo(1e-6, tolerance));
+        expect(oneMicrometer.inMm, closeTo(0.001, tolerance));
+        expect(oneMicrometer.inNm, closeTo(1000.0, tolerance));
+      });
+
+      test('nanometer conversions', () {
+        final oneNanometer = 1.0.nm;
+        expect(oneNanometer.inM, closeTo(1e-9, tolerance));
+        expect(oneNanometer.inUm, closeTo(0.001, tolerance));
+        expect(oneNanometer.inPm, closeTo(1000.0, tolerance));
+      });
+
+      test('picometer conversions', () {
+        final onePicometer = 1.0.pm;
+        expect(onePicometer.inM, closeTo(1e-12, tolerance));
+        expect(onePicometer.inNm, closeTo(0.001, tolerance));
+        expect(onePicometer.inFm, closeTo(1000.0, tolerance));
+      });
+
+      test('femtometer conversions', () {
+        final oneFemtometer = 1.0.fm;
+        expect(oneFemtometer.inM, closeTo(1e-15, tolerance));
+        expect(oneFemtometer.inPm, closeTo(0.001, tolerance));
+      });
+    });
+
+    group('Astronomical Units', () {
+      test('astronomical unit conversions', () {
+        final oneAU = 1.0.AU;
+        expect(oneAU.inM, closeTo(149597870700.0, tolerance));
+        expect(oneAU.inKm, closeTo(149597870.7, highTolerance));
+
+        // Test practical astronomy example
+        final marsDistance = 1.5.AU; // Mars at average distance
+        expect(marsDistance.inKm, closeTo(224396806.05, highTolerance));
+      });
+
+      test('light year conversions', () {
+        final oneLightYear = 1.0.ly;
+        // Expected value calculated using the library's own factors
+        const expectedAUperLY =
+            LengthFactors.metersPerLightYear / LengthFactors.metersPerAstronomicalUnit;
+
+        expect(oneLightYear.inAU, closeTo(expectedAUperLY, astronomicalTolerance));
+
+        // Test nearby star distance
+        final proximaCentauri = 4.24.ly;
+        const expectedProximaInAU = 4.24 * expectedAUperLY; // Calculate expected value
+        expect(proximaCentauri.inAU, closeTo(expectedProximaInAU, astronomicalTolerance));
+      });
+
+      test('parsec conversions', () {
+        final oneParsec = 1.0.pc;
+        const expectedAUperPC =
+            LengthFactors.metersPerParsec / LengthFactors.metersPerAstronomicalUnit;
+
+        expect(oneParsec.inLy, closeTo(3.26156, astronomicalTolerance));
+        expect(oneParsec.inAU, closeTo(expectedAUperPC, astronomicalTolerance));
+        expect(oneParsec.inM, closeTo(3.0856775814913673e16, astronomicalTolerance));
+      });
+
+      test('astronomical distance relationships', () {
+        // Test the relationship: 1 pc ≈ 3.26 ly
+        final oneParsec = 1.0.pc;
+        final equivalentLy = oneParsec.inLy;
+        expect(equivalentLy, closeTo(3.26156, astronomicalTolerance));
+
+        // Test parallax relationship: distance in parsecs = 1 / parallax in arcseconds
+        // For a star with 0.1 arcsecond parallax, distance should be 10 parsecs
+        final starDistance = 10.0.pc;
+        expect(starDistance.inLy, closeTo(32.6156, astronomicalTolerance));
+      });
+    });
+
+    group('Ångström conversions', () {
+      test('ångström basic conversions', () {
+        final oneAngstrom = 1.0.angstrom;
+        expect(oneAngstrom.inM, closeTo(1e-10, tolerance));
+        expect(oneAngstrom.inNm, closeTo(0.1, tolerance));
+        expect(oneAngstrom.inPm, closeTo(100.0, tolerance));
+      });
+
+      test('atomic scale measurements', () {
+        // Hydrogen atom radius ≈ 0.529 Å (Bohr radius)
+        final hydrogenRadius = 0.529.angstrom;
+        expect(hydrogenRadius.inPm, closeTo(52.9, tolerance));
+        expect(hydrogenRadius.inNm, closeTo(0.0529, tolerance));
+
+        // X-ray wavelength ≈ 1-10 Å
+        final xrayWavelength = 1.54.angstrom; // Cu Kα radiation
+        expect(xrayWavelength.inNm, closeTo(0.154, tolerance));
+      });
+    });
+
+    group('Mixed unit arithmetic and comparisons', () {
+      test('very different scales addition', () {
+        final bigDistance = 1.0.ly;
+        final smallDistance = 1.0.m;
+        final combined = bigDistance + smallDistance;
+
+        // The meter should be insignificant compared to light year
+        expect(combined.inLy, closeTo(1.0, astronomicalTolerance));
+        expect(combined.unit, LengthUnit.lightYear);
+      });
+
+      test('practical scientific measurements', () {
+        // DNA double helix diameter ≈ 20 Å
+        final dnaDiameter = 20.0.angstrom;
+        expect(dnaDiameter.inNm, closeTo(2.0, tolerance));
+
+        // Wavelength of visible light: 400-700 nm
+        final blueLight = 450.0.nm;
+        final redLight = 650.0.nm;
+        expect(blueLight.inAngstrom, closeTo(4500.0, tolerance));
+        expect(redLight.inAngstrom, closeTo(6500.0, tolerance));
+
+        // Compare with X-ray
+        final xray = 1.0.angstrom;
+        expect(blueLight.compareTo(xray), greaterThan(0)); // Visible light has longer wavelength
+      });
+
+      test('sorting astronomical distances', () {
+        final distances = [
+          1.pc, // ~3.26 ly
+          10.ly, // 10 ly
+          1000.AU, // ~0.016 ly
+          1.ly, // 1 ly
+          100000.AU, // ~1.58 ly
+        ];
+
+        distances.sort();
+
+        // Should be sorted by magnitude: 1000 AU < 100000 AU < 1 ly < 1 pc < 10 ly
+        expect(distances[0].unit, LengthUnit.astronomicalUnit);
+        expect(distances[0].value, 1000.0);
+        expect(distances[4].value, 10.0);
+        expect(distances[4].unit, LengthUnit.lightYear);
+      });
+    });
+
+    group('Round trip conversions for new units', () {
+      const testValue = 123.456;
+
+      test('SI prefix round trips', () {
+        final units = [
+          LengthUnit.hectometer,
+          LengthUnit.decameter,
+          LengthUnit.decimeter,
+          LengthUnit.micrometer,
+          LengthUnit.nanometer,
+          LengthUnit.picometer,
+          LengthUnit.femtometer,
+        ];
+
+        for (final unit in units) {
+          final original = Length(testValue, unit);
+          final converted = original.convertTo(LengthUnit.meter).convertTo(unit);
+          expect(
+            converted.value,
+            closeTo(testValue, highTolerance),
+            reason: 'Round trip failed for ${unit.symbol}',
+          );
+        }
+      });
+
+      test('astronomical unit round trips', () {
+        final astronomicalUnits = [
+          LengthUnit.astronomicalUnit,
+          LengthUnit.lightYear,
+          LengthUnit.parsec,
+        ];
+
+        for (final unit in astronomicalUnits) {
+          final original = Length(testValue, unit);
+          final converted = original.convertTo(LengthUnit.meter).convertTo(unit);
+          expect(
+            converted.value,
+            closeTo(testValue, astronomicalTolerance),
+            reason: 'Round trip failed for ${unit.symbol}',
+          );
+        }
+      });
+
+      test('ångström round trip', () {
+        const original = Length(testValue, LengthUnit.angstrom);
+        final converted = original.convertTo(LengthUnit.meter).convertTo(LengthUnit.angstrom);
+        expect(converted.value, closeTo(testValue, tolerance));
+      });
+    });
+
+    group('toString formatting for new units', () {
+      test('should display correct symbols', () {
+        expect(1.0.hm.toString(), '1.0\u00A0hm');
+        expect(1.0.dam.toString(), '1.0\u00A0dam');
+        expect(1.0.dm.toString(), '1.0\u00A0dm');
+        expect(1.0.um.toString(), '1.0\u00A0μm');
+        expect(1.0.nm.toString(), '1.0\u00A0nm');
+        expect(1.0.pm.toString(), '1.0\u00A0pm');
+        expect(1.0.fm.toString(), '1.0\u00A0fm');
+        expect(1.0.AU.toString(), '1.0\u00A0AU');
+        expect(1.0.ly.toString(), '1.0\u00A0ly');
+        expect(1.0.pc.toString(), '1.0\u00A0pc');
+        expect(1.0.angstrom.toString(), '1.0\u00A0Å');
       });
     });
   });
