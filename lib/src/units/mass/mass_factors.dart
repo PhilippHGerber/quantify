@@ -16,12 +16,30 @@ import '../../core/unit.dart' show Unit;
 class MassFactors {
   // --- SI Units (relative to Kilogram) ---
 
+  /// Kilograms per Hectogram: 1 hectogram = 0.1 kilograms.
+  static const double kilogramsPerHectogram = 0.1;
+
+  /// Kilograms per Decagram: 1 decagram = 0.01 kilograms.
+  static const double kilogramsPerDecagram = 0.01;
+
   /// Kilograms per Gram: 1 gram = 0.001 kilograms.
   static const double kilogramsPerGram = 0.001;
+
+  /// Kilograms per Decigram: 1 decigram = 0.0001 kilograms.
+  static const double kilogramsPerDecigram = 0.0001;
+
+  /// Kilograms per Centigram: 1 centigram = 0.00001 kilograms.
+  static const double kilogramsPerCentigram = 0.00001;
 
   /// Kilograms per Milligram: 1 milligram = 0.000001 kilograms.
   /// (1 mg = 0.001 g, and 1 g = 0.001 kg)
   static const double kilogramsPerMilligram = kilogramsPerGram * 0.001;
+
+  /// Kilograms per Microgram: 1 microgram = 1e-9 kilograms.
+  static const double kilogramsPerMicrogram = 1e-9;
+
+  /// Kilograms per Nanogram: 1 nanogram = 1e-12 kilograms.
+  static const double kilogramsPerNanogram = 1e-12;
 
   /// Kilograms per Tonne (Metric Ton): 1 tonne = 1000 kilograms.
   static const double kilogramsPerTonne = 1000.0;
@@ -53,8 +71,26 @@ class MassFactors {
   /// slug -> 1.459 390 E+01 kg
   static const double kilogramsPerSlug = 14.5939029372;
 
-  // --- Other common units (can be added if needed) ---
-  // Example: Carat (for gemstones)
-  // /// Kilograms per Carat (metric): 1 carat = 0.0002 kilograms (0.2 grams).
-  // static const double kilogramsPerCarat = 0.0002;
+  /// Kilograms per Short Ton (US): 1 short ton = 2000 pounds.
+  /// 1 short ton = (2000 * 0.45359237) kilograms = 907.18474 kg.
+  static const double kilogramsPerShortTon = kilogramsPerPound * 2000.0;
+
+  /// Kilograms per Long Ton (UK): 1 long ton = 2240 pounds.
+  /// 1 long ton = (2240 * 0.45359237) kilograms = 1016.0469088 kg.
+  static const double kilogramsPerLongTon = kilogramsPerPound * 2240.0;
+
+  // --- Special Units ---
+
+  /// Kilograms per Atomic Mass Unit: 1 u ≈ 1.66053906660e-27 kilograms.
+  /// Based on 2018 CODATA recommended value.
+  static const double kilogramsPerAtomicMassUnit = 1.66053906660e-27;
+
+  /// Kilograms per Carat: 1 carat = 0.0002 kilograms (exact).
+  /// The metric carat is defined as exactly 200 milligrams.
+  static const double kilogramsPerCarat = 0.0002;
+
+  // --- Other potential units (can be added if needed) ---
+  // Example: Troy ounce (for precious metals)
+  // /// Kilograms per Troy Ounce: 1 troy ounce ≈ 0.0311034768 kilograms.
+  // static const double kilogramsPerTroyOunce = 0.0311034768;
 }

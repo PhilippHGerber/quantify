@@ -1,14 +1,16 @@
-// BEGIN FILE: test/units/mass_test.dart
 // ignore_for_file: prefer_int_literals // All constants are doubles for precision.
 
 import 'package:quantify/quantify.dart'; // Assuming Mass and MassUnit are exported via quantify.dart
+import 'package:quantify/src/units/mass/mass_factors.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('Mass', () {
-    const tolerance = 1e-9; // Tolerance for double comparisons
-    const highTolerance = 1e-7; // Higher tolerance for chained conversions or inexact factors
+  const highPrecisiontolerance = 1e-12; // High precision for mass
+  const highTolerance = 1e-7; // Higher tolerance for chained conversions or inexact factors
+  const tolerance = 1e-9; // Tolerance for double comparisons
+  const atomicTolerance = 1e-30; // For atomic mass units
 
+  group('Mass', () {
     // Helper for round trip tests
     void testRoundTrip(
       MassUnit initialUnit,
@@ -320,5 +322,265 @@ void main() {
       });
     });
   });
+
+  group('Extended Mass Units', () {
+    group('SI Prefix Units', () {
+      test('hectogram conversions', () {
+        final oneHectogram = 1.0.hg;
+        expect(oneHectogram.inKilograms, closeTo(0.1, highPrecisiontolerance));
+        expect(oneHectogram.inGrams, closeTo(100.0, highPrecisiontolerance));
+        expect(oneHectogram.inDecagrams, closeTo(10.0, highPrecisiontolerance));
+      });
+
+      test('decagram conversions', () {
+        final oneDecagram = 1.0.dag;
+        expect(oneDecagram.inKilograms, closeTo(0.01, highPrecisiontolerance));
+        expect(oneDecagram.inGrams, closeTo(10.0, highPrecisiontolerance));
+        expect(oneDecagram.inHectograms, closeTo(0.1, highPrecisiontolerance));
+      });
+
+      test('decigram conversions', () {
+        final oneDecigram = 1.0.dg;
+        expect(oneDecigram.inGrams, closeTo(0.1, highPrecisiontolerance));
+        expect(oneDecigram.inCentigrams, closeTo(10.0, highPrecisiontolerance));
+        expect(oneDecigram.inMilligrams, closeTo(100.0, highPrecisiontolerance));
+      });
+
+      test('centigram conversions', () {
+        final oneCentigram = 1.0.cg;
+        expect(oneCentigram.inGrams, closeTo(0.01, highPrecisiontolerance));
+        expect(oneCentigram.inDecigrams, closeTo(0.1, highPrecisiontolerance));
+        expect(oneCentigram.inMilligrams, closeTo(10.0, highPrecisiontolerance));
+      });
+
+      test('microgram conversions', () {
+        final oneMicrogram = 1.0.ug;
+        expect(oneMicrogram.inGrams, closeTo(1e-6, highPrecisiontolerance));
+        expect(oneMicrogram.inMilligrams, closeTo(0.001, highPrecisiontolerance));
+        expect(oneMicrogram.inNanograms, closeTo(1000.0, highPrecisiontolerance));
+      });
+
+      test('nanogram conversions', () {
+        final oneNanogram = 1.0.ng;
+        expect(oneNanogram.inGrams, closeTo(1e-9, highPrecisiontolerance));
+        expect(oneNanogram.inMicrograms, closeTo(0.001, highPrecisiontolerance));
+        expect(oneNanogram.inKilograms, closeTo(1e-12, highPrecisiontolerance));
+      });
+    });
+
+    group('Imperial Ton Units', () {
+      test('short ton (US) conversions', () {
+        final oneShortTon = 1.0.shortTons;
+        expect(oneShortTon.inPounds, closeTo(2000.0, highPrecisiontolerance));
+        expect(oneShortTon.inKilograms, closeTo(907.18474, tolerance));
+        expect(oneShortTon.inTonnes, closeTo(0.90718474, tolerance));
+      });
+
+      test('long ton (UK) conversions', () {
+        final oneLongTon = 1.0.longTons;
+        expect(oneLongTon.inPounds, closeTo(2240.0, highPrecisiontolerance));
+        expect(oneLongTon.inKilograms, closeTo(1016.0469088, tolerance));
+        expect(oneLongTon.inTonnes, closeTo(1.0160469088, tolerance));
+      });
+
+      test('ton comparisons', () {
+        final shortTon = 1.0.shortTons;
+        final longTon = 1.0.longTons;
+        final metricTon = 1.0.tonnes;
+
+        // Long ton > Metric ton > Short ton
+        expect(longTon.compareTo(metricTon), greaterThan(0));
+        expect(metricTon.compareTo(shortTon), greaterThan(0));
+        expect(longTon.compareTo(shortTon), greaterThan(0));
+      });
+    });
+
+    group('Special Units', () {
+      test('atomic mass unit conversions', () {
+        final oneAMU = 1.0.u;
+        expect(oneAMU.inKilograms, closeTo(1.66053906660e-27, atomicTolerance));
+        expect(oneAMU.inGrams, closeTo(1.66053906660e-24, atomicTolerance));
+
+        // Carbon-12 has exactly 12 u
+        final carbon12 = 12.0.u;
+        expect(carbon12.inKilograms, closeTo(12.0 * 1.66053906660e-27, atomicTolerance));
+
+        // Test Avogadro's number relationship
+        // 1 mole of carbon-12 = 12 g = 12 u × N_A
+        const avogadroNumber = 6.02214076e23;
+        const oneMoleCarbon12InKg = 0.012; // 12 g
+        final oneAtomCarbon12InKg = carbon12.inKilograms;
+        final calculatedAvogadro = oneMoleCarbon12InKg / oneAtomCarbon12InKg;
+        expect(calculatedAvogadro, closeTo(avogadroNumber, avogadroNumber * 1e-6));
+      });
+
+      test('carat conversions', () {
+        final oneCarat = 1.0.ct;
+        expect(oneCarat.inGrams, closeTo(0.2, highPrecisiontolerance));
+        expect(oneCarat.inKilograms, closeTo(0.0002, highPrecisiontolerance));
+        expect(oneCarat.inMilligrams, closeTo(200.0, highPrecisiontolerance));
+
+        // Typical diamond weights
+        final halfCarat = 0.5.ct;
+        final twoCarats = 2.0.ct;
+        expect(halfCarat.inGrams, closeTo(0.1, highPrecisiontolerance));
+        expect(twoCarats.inGrams, closeTo(0.4, highPrecisiontolerance));
+      });
+
+      test('atomic scale examples', () {
+        // Hydrogen atom mass ≈ 1.008 u
+        final hydrogenMass = 1.008.u;
+        const expectedHydrogenInKg = 1.008 * MassFactors.kilogramsPerAtomicMassUnit;
+        expect(hydrogenMass.inKilograms, closeTo(expectedHydrogenInKg, 1e-30));
+
+        // Electron mass ≈ 0.000549 u
+        final electronMassInU = 0.000549.u;
+        const expectedElectronInKg = 0.000549 * MassFactors.kilogramsPerAtomicMassUnit;
+        // Test the conversion, not the standard value of electron mass in kg
+        expect(electronMassInU.inKilograms, closeTo(expectedElectronInKg, 1e-34));
+
+        // Compare electron to proton (≈ 1.007 u)
+        final protonMass = 1.007.u;
+        expect(protonMass.compareTo(electronMassInU), greaterThan(0));
+      });
+
+      group('Practical measurement examples', () {
+        test('pharmaceutical dosages', () {
+          // Common drug dosages are in milligrams
+          final aspirinTablet = 325.mg;
+          final vitaminC = 1000.mg;
+
+          expect(aspirinTablet.inGrams, closeTo(0.325, highPrecisiontolerance));
+          expect(vitaminC.inGrams, closeTo(1.0, highPrecisiontolerance));
+
+          // Microgram dosages for potent drugs
+          final folicAcid = 400.ug;
+          expect(folicAcid.inMilligrams, closeTo(0.4, highPrecisiontolerance));
+        });
+
+        test('jewelry and precious materials', () {
+          // Gold jewelry - typical weights
+          final goldRing = 3.5.g;
+          final goldNecklace = 15.2.g;
+
+          expect(goldRing.inOunces, closeTo(0.1235, 1e-4));
+          expect(goldNecklace.inOunces, closeTo(0.53616, 1e-4));
+
+          // Diamond weights in carats
+          final engagementRing = 1.5.ct;
+          final earrings = 0.75.ct; // Total for both
+
+          expect(engagementRing.inGrams, closeTo(0.3, highPrecisiontolerance));
+          expect(earrings.inGrams, closeTo(0.15, highPrecisiontolerance));
+        });
+
+        test('shipping and cargo', () {
+          // Freight shipping weights
+          final containerLimit = 30.tonnes;
+          final truckLoad = 40000.pounds;
+
+          expect(containerLimit.inKilograms, closeTo(30000.0, highPrecisiontolerance));
+          expect(truckLoad.inTonnes, closeTo(18.1436948, tolerance));
+
+          // Compare different ton types for cargo
+          final usShipping = 20.shortTons;
+          final ukShipping = 20.longTons;
+          final metricShipping = 20.tonnes;
+
+          expect(ukShipping.compareTo(metricShipping), greaterThan(0));
+          expect(metricShipping.compareTo(usShipping), greaterThan(0));
+        });
+      });
+
+      group('Round trip conversions for new units', () {
+        const testValue = 567.89;
+
+        test('SI prefix round trips', () {
+          final units = [
+            MassUnit.hectogram,
+            MassUnit.decagram,
+            MassUnit.decigram,
+            MassUnit.centigram,
+            MassUnit.microgram,
+            MassUnit.nanogram,
+          ];
+
+          for (final unit in units) {
+            final original = Mass(testValue, unit);
+            final converted = original.convertTo(MassUnit.kilogram).convertTo(unit);
+            expect(
+              converted.value,
+              closeTo(testValue, tolerance),
+              reason: 'Round trip failed for ${unit.symbol}',
+            );
+          }
+        });
+
+        test('special unit round trips', () {
+          // Test atomic mass unit with smaller value due to extreme scale
+          const amuOriginal = Mass(12.011, MassUnit.atomicMassUnit); // Carbon average
+          final amuConverted =
+              amuOriginal.convertTo(MassUnit.kilogram).convertTo(MassUnit.atomicMassUnit);
+          expect(amuConverted.value, closeTo(12.011, tolerance));
+
+          // Test carat
+          const caratOriginal = Mass(testValue, MassUnit.carat);
+          final caratConverted =
+              caratOriginal.convertTo(MassUnit.kilogram).convertTo(MassUnit.carat);
+          expect(caratConverted.value, closeTo(testValue, highPrecisiontolerance));
+
+          // Test tons
+          const shortTonOriginal = Mass(testValue, MassUnit.shortTon);
+          final shortTonConverted =
+              shortTonOriginal.convertTo(MassUnit.kilogram).convertTo(MassUnit.shortTon);
+          expect(shortTonConverted.value, closeTo(testValue, tolerance));
+        });
+      });
+
+      group('toString formatting for new units', () {
+        test('should display correct symbols', () {
+          expect(1.0.hg.toString(), '1.0\u00A0hg');
+          expect(1.0.dag.toString(), '1.0\u00A0dag');
+          expect(1.0.dg.toString(), '1.0\u00A0dg');
+          expect(1.0.cg.toString(), '1.0\u00A0cg');
+          expect(1.0.ug.toString(), '1.0\u00A0μg');
+          expect(1.0.ng.toString(), '1.0\u00A0ng');
+          expect(1.0.shortTons.toString(), '1.0\u00A0short ton');
+          expect(1.0.longTons.toString(), '1.0\u00A0long ton');
+          expect(1.0.u.toString(), '1.0\u00A0u');
+          expect(1.0.ct.toString(), '1.0\u00A0ct');
+        });
+      });
+
+      group('Mixed unit arithmetic', () {
+        test('adding very different scales', () {
+          final bigMass = 1.0.tonnes;
+          final smallMass = 1.0.mg;
+          final combined = bigMass + smallMass;
+
+          // Milligram should be negligible compared to tonne
+          expect(combined.inTonnes, closeTo(1.0, highTolerance));
+          expect(combined.unit, MassUnit.tonne);
+        });
+
+        test('precision in small scale arithmetic', () {
+          final drug1 = 250.ug; // micrograms
+          final drug2 = 750.ug;
+          final totalDose = drug1 + drug2;
+
+          expect(totalDose.inMicrograms, closeTo(1000.0, highPrecisiontolerance));
+          expect(totalDose.inMilligrams, closeTo(1.0, highPrecisiontolerance));
+        });
+
+        test('atomic mass arithmetic', () {
+          // Water molecule: 2 H + 1 O
+          final hydrogen = 1.008.u;
+          final oxygen = 15.999.u;
+          final waterMass = (hydrogen * 2) + oxygen;
+
+          expect(waterMass.inAtomicMassUnits, closeTo(18.015, highPrecisiontolerance));
+        });
+      });
+    });
+  });
 }
-// END FILE: test/units/mass_test.dart
