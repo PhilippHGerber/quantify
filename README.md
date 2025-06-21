@@ -69,37 +69,29 @@ Then run `dart pub get` or `flutter pub get`.
 
 ## Supported Units
 
-The library aims to support a wide range of physical quantities, including fundamental SI units and common derived units. Below is an overview:
+The library supports a comprehensive range of physical quantities, including all 7 SI base units and many derived units:
 
-| Quantity Type                 | Status | Example Units Available / Planned (SI units emphasized)                                              | Notes / SI Base Unit Ref. |
-| :---------------------------- | :--: | :----------------------------------------------------------------------------------------------------- | :------------------------ |
-| **Length**                    |  ✅  | **`m`** (meter), `km`, `cm`, `mm`, `in`, `ft`, `yd`, `mi`, `nmi`                                       | SI Base: Meter (m)        |
-| **Mass**                      |  ✅  | **`kg`** (kilogram), `g`, `mg`, `t` (tonne), `lb`, `oz`, `st` (stone), `slug`                          | SI Base: Kilogram (kg)    |
-| **Time**                      |  ✅  | **`s`** (second), `ms`, `min`, `h`, `d`                                                                | SI Base: Second (s)       |
-| **Electric Current**          |  ✅  | **`A`** (ampere), `mA`, `µA`, `nA`, `kA`                                                               | SI Base: Ampere (A)       |
-| **Temperature**               |  ✅  | **`K`** (kelvin), `°C` (celsius), `°F` (fahrenheit)                                                    | SI Base: Kelvin (K)       |
-| **Amount of Substance**       |  ✅  | **`mol`** (mole), `mmol`, `µmol`, `nmol`, `pmol`, `kmol`                                               | SI Base: Mole (mol)       |
-| **Luminous Intensity**        |  ✅  | **`cd`** (candela), `mcd`, `kcd`                                                                       | SI Base: Candela (cd)     |
-| --- Derived ---               |      |                                                                                                        |                           |
-| **Pressure**                  |  ✅  | **`Pa`** (Pascal), `atm`, `bar`, `psi`, `Torr`, `mmHg`, `inHg`, `kPa`, `hPa`, `mbar`, `cmH₂O`, `inH₂O` | Derived SI: N/m²          |
-| Area                          |  🗓️  | **`m²`** (square meter), `km²`, `cm²`, `ha` (hectare), `acre` ...                                      | Derived SI                |
-| Volume                        |  🗓️  | **`m³`** (cubic meter), `L` (liter), `mL`, `cm³`, `gal` (gallon), `fl oz` ...                          | Derived SI                |
-| Speed / Velocity              |  🗓️  | **`m/s`** (meter per second), `km/h`, `mph`, `knot` ...                                                | Derived SI                |
-| Acceleration                  |  🗓️  | **`m/s²`** (meter per second squared), `g` (standard gravity) ...                                      | Derived SI                |
-| Force                         |  🗓️  | **`N`** (Newton), `lbf` (pound-force), `dyn` (dyne) ...                                                | Derived SI: kg·m/s²       |
-| Energy / Work                 |  🗓️  | **`J`** (Joule), `kWh` (kilowatt-hour), `cal` (calorie), `eV` (electronvolt) ...                       | Derived SI: N·m           |
-| Power                         |  💡  | **`W`** (Watt), `hp` (horsepower) ...                                                                  | Derived SI: J/s           |
-| Frequency                     |  💡  | **`Hz`** (Hertz), `kHz`, `MHz` ...                                                                     | Derived SI: 1/s           |
-| --- Electrical (Derived) ---  |      |                                                                                                        |                           |
-| Electric Charge               |  💡  | **`C`** (Coulomb) ...                                                                                  | Derived SI: A·s           |
-| Electric Potential            |  💡  | **`V`** (Volt) ...                                                                                     | Derived SI: W/A           |
-| Electric Resistance           |  💡  | **`Ω`** (Ohm) ...                                                                                      | Derived SI: V/A           |
-| Electric Capacitance          |  💡  | **`F`** (Farad) ...                                                                                    | Derived SI: C/V           |
-| --- Photometric (Derived) --- |      |                                                                                                        |                           |
-| Luminous Flux                 |  💡  | **`lm`** (Lumen) ...                                                                                   | Derived SI: cd·sr         |
-| Illuminance                   |  💡  | **`lx`** (Lux) ...                                                                                     | Derived SI: lm/m²         |
-| --- Other ---                 |      |                                                                                                        |                           |
-| *...more*                     |  💡  | Other common physical quantities based on demand.                                                      |                           |
+| Quantity Type           | Status | Units Available                                                                                                                        | Notes / SI Base Unit Ref. |
+| :---------------------- | :----: | :------------------------------------------------------------------------------------------------------------------------------------- | :------------------------ |
+| **Length**              |   ✅    | **`m`** (meter), `km`, `hm`, `dam`, `dm`, `cm`, `mm`, `μm`, `nm`, `pm`, `fm`, `in`, `ft`, `yd`, `mi`, `nmi`, `AU`, `ly`, `pc`, `Å`     | SI Base: Meter (m)        |
+| **Mass**                |   ✅    | **`kg`** (kilogram), `hg`, `dag`, `g`, `dg`, `cg`, `mg`, `μg`, `ng`, `t`, `lb`, `oz`, `st`, `slug`, `short ton`, `long ton`, `u`, `ct` | SI Base: Kilogram (kg)    |
+| **Time**                |   ✅    | **`s`** (second), `μs`, `ns`, `ps`, `ms`, `min`, `h`, `d`, `wk`, `mo`, `yr`                                                            | SI Base: Second (s)       |
+| **Electric Current**    |   ✅    | **`A`** (ampere), `mA`, `μA`, `nA`, `kA`                                                                                               | SI Base: Ampere (A)       |
+| **Temperature**         |   ✅    | **`K`** (kelvin), `°C` (celsius), `°F` (fahrenheit), `°R` (rankine)                                                                    | SI Base: Kelvin (K)       |
+| **Amount of Substance** |   ✅    | **`mol`** (mole), `mmol`, `μmol`, `nmol`, `pmol`, `kmol`                                                                               | SI Base: Mole (mol)       |
+| **Luminous Intensity**  |   ✅    | **`cd`** (candela), `mcd`, `kcd`                                                                                                       | SI Base: Candela (cd)     |
+| --- Derived ---         |        |                                                                                                                                        |                           |
+| **Pressure**            |   ✅    | **`Pa`** (Pascal), `atm`, `bar`, `psi`, `Torr`, `mmHg`, `inHg`, `kPa`, `hPa`, `mbar`, `cmH₂O`, `inH₂O`                                 | Derived SI: N/m²          |
+| Area                    |   🗓️    | **`m²`** (square meter), `km²`, `cm²`, `ha` (hectare), `acre` ...                                                                      | Derived SI                |
+| Volume                  |   🗓️    | **`m³`** (cubic meter), `L` (liter), `mL`, `cm³`, `gal` (gallon), `fl oz` ...                                                          | Derived SI                |
+| Speed / Velocity        |   🗓️    | **`m/s`** (meter per second), `km/h`, `mph`, `knot` ...                                                                                | Derived SI                |
+| Acceleration            |   🗓️    | **`m/s²`** (meter per second squared), `g` (standard gravity) ...                                                                      | Derived SI                |
+| Force                   |   🗓️    | **`N`** (Newton), `lbf` (pound-force), `dyn` (dyne) ...                                                                                | Derived SI: kg·m/s²       |
+| Energy / Work           |   🗓️    | **`J`** (Joule), `kWh` (kilowatt-hour), `cal` (calorie), `eV` (electronvolt) ...                                                       | Derived SI: N·m           |
+| Power                   |   💡    | **`W`** (Watt), `hp` (horsepower) ...                                                                                                  | Derived SI: J/s           |
+| Frequency               |   💡    | **`Hz`** (Hertz), `kHz`, `MHz` ...                                                                                                     | Derived SI: 1/s           |
+
+
 
 ## Detailed Usage
 
@@ -109,7 +101,9 @@ Use extension methods on `num` for readability:
 
 ```dart
 final myLength = 25.5.m;
-final anotherLength = 10.ft;
+final anotherLength = 10.ft; // feet
+final verySmall = 500.nm; // nanometers
+final astronomical = 4.2.ly; // light years
 ```
 
 Or use the constructor of the specific `Quantity` class:
@@ -126,6 +120,9 @@ final specificLength = Length(5.0, LengthUnit.yard);
     final oneMile = 1.0.mi;
     double milesInKm = oneMile.inKm; // approx 1.609344
     double milesInMeters = oneMile.getValue(LengthUnit.meter); // approx 1609.344
+
+    final smallDistance = 1.um; // micrometer
+    double inNanometers = smallDistance.inNm; // 1000.0
     ```
 
 2. **Get New `Quantity` Object:** Use `convertTo(TargetUnit)` or `as[UnitName]` getters.
@@ -152,21 +149,10 @@ print(myDistance.toString()); // "1578.345 m"
 print(myDistance.toString(targetUnit: LengthUnit.kilometer, fractionDigits: 2));
 // Output: "1.58 km"
 
-// Convert to feet, 1 fraction digit, hide unit symbol
-print(myDistance.toString(
-    targetUnit: LengthUnit.foot,
-    fractionDigits: 1,
-    showUnitSymbol: false,
-));
-// Output: "5178.3"
-
-// Parameters:
-// - targetUnit: Converts to this unit before formatting.
-// - fractionDigits: Sets fixed number of decimal places.
-// - showUnitSymbol: (Default: true) Hides unit symbol if false.
-// - unitSymbolSeparator: (Default: " ") String between value and symbol. Use '\u00A0' for non-breaking space.
-// - locale: (Requires 'intl' package) BCP 47 language tag (e.g., 'en_US', 'de_DE') for locale-aware number formatting.
-// - numberFormat: (Requires 'intl' package) An intl.NumberFormat instance for full control.
+// Scientific notation with micrometers
+final smallLength = 0.000523.m;
+print(smallLength.toString(targetUnit: LengthUnit.micrometer, fractionDigits: 0));
+// Output: "523 μm"
 ```
 
 ### Arithmetic Operations
@@ -181,6 +167,11 @@ print(total.toString()); // "750.0 m"
 
 final scaled = segment1 * 3;
 print(scaled.toString()); // "1500.0 m"
+
+// Work with different scales
+final bigMass = 5.t; // tonnes
+final smallMass = 250.g; // grams
+final combined = bigMass + smallMass; // Result: 5.00025 t
 ```
 
 ### Comparisons & Sorting
@@ -190,47 +181,23 @@ Quantities are `Comparable`, allowing them to be sorted even if their units diff
 ```dart
 final oneMeter = 1.m;
 final hundredCm = 100.cm;
-final twoFeet = 2.ft; // approx 0.6096 meters
-final oneYard = 1.yd; // approx 0.9144 meters
+final oneYard = 1.yd;
 
 print(oneMeter.compareTo(hundredCm) == 0); // true (magnitudes are equal)
 print(oneMeter == hundredCm);          // false (units are different)
 
-// Sorting a list of various lengths
-final lengths = [
-  oneMeter,    // 1.0 m
-  twoFeet,     // ~0.61 m
-  oneYard,     // ~0.91 m
-  50.cm,       // 0.5 m
-  0.2.km       // 200.0 m
-];
-
-print('Original list:');
-lengths.forEach((l) => print(l.toString(fractionDigits: 2)));
-
-lengths.sort(); // Sorts in ascending order by magnitude
-
-print('\nSorted list (ascending):');
-lengths.forEach((l) => print(l.toString(fractionDigits: 2)));
-// Output (approximate, order will be based on precise double values):
-// Sorted list (ascending):
-// 50.00 cm
-// 2.00 ft
-// 1.00 yd
-// 1.00 m
-// 200.00 km
-
-// To sort descending:
-// lengths.sort((a, b) => b.compareTo(a));
+// Sort mixed units
+final lengths = [1.mi, 2000.m, 1.km, 5000.ft];
+lengths.sort(); // Sorts by physical magnitude
 ```
 
 ## Goals & Roadmap
 
-* **V1.0 (Current):** Solid foundation for common units (`double` precision), type safety, elegant API, configurable `toString()`.
+* **V1.0 (Current):** All 7 SI base units with comprehensive unit coverage
 * **V2.0 and Beyond:**
   * **High Precision:** Support for `Decimal`.
   * **Enhanced Quantity Arithmetic:** e.g., `Distance / Time = Speed`.
-  * **More Unit Types:** See table above.
+  * **More Derived Units:** Area, Volume, Speed, Force, Energy, Power, etc.
   * **Serialization support.**
 
 ## Contributing
