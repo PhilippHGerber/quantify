@@ -2,9 +2,9 @@ import 'package:quantify/quantify.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('Temperature', () {
-    const tolerance = 1e-9; // Tolerance for double comparisons
+  const tolerance = 1e-9; // Tolerance for double comparisons
 
+  group('Temperature', () {
     group('Constructors and Getters', () {
       test('should create Temperature from num extensions and retrieve values', () {
         final t1 = 25.0.celsius;
@@ -306,6 +306,275 @@ void main() {
         // ignore: avoid_dynamic_calls : Using dynamic to simulate a missing operator
         expect(() => tempA / 2.0, throwsA(anyOf(isA<NoSuchMethodError>(), isA<TypeError>())));
       });
+    });
+  });
+
+  group('Rankine Conversions', () {
+    test('absolute zero conversions', () {
+      final absoluteZeroK = 0.0.kelvin;
+      final absoluteZeroR = 0.0.rankine;
+      final absoluteZeroC = (-273.15).celsius;
+      final absoluteZeroF = (-459.67).fahrenheit;
+
+      // All should represent absolute zero
+      expect(absoluteZeroK.inRankine, closeTo(0.0, tolerance));
+      expect(absoluteZeroR.inKelvin, closeTo(0.0, tolerance));
+      expect(absoluteZeroC.inRankine, closeTo(0.0, tolerance));
+      expect(absoluteZeroF.inRankine, closeTo(0.0, tolerance));
+    });
+
+    test('freezing point of water conversions', () {
+      final freezingC = 0.0.celsius;
+      final freezingF = 32.0.fahrenheit;
+      final freezingK = 273.15.kelvin;
+      final freezingR = 491.67.rankine; // 32°F + 459.67
+
+      expect(freezingC.inRankine, closeTo(491.67, tolerance));
+      expect(freezingF.inRankine, closeTo(491.67, tolerance));
+      expect(freezingK.inRankine, closeTo(491.67, tolerance));
+      expect(freezingR.inCelsius, closeTo(0.0, tolerance));
+      expect(freezingR.inFahrenheit, closeTo(32.0, tolerance));
+      expect(freezingR.inKelvin, closeTo(273.15, tolerance));
+    });
+
+    test('boiling point of water conversions', () {
+      final boilingC = 100.0.celsius;
+      final boilingF = 212.0.fahrenheit;
+      final boilingK = 373.15.kelvin;
+      final boilingR = 671.67.rankine; // 212°F + 459.67
+
+      expect(boilingC.inRankine, closeTo(671.67, tolerance));
+      expect(boilingF.inRankine, closeTo(671.67, tolerance));
+      expect(boilingK.inRankine, closeTo(671.67, tolerance));
+      expect(boilingR.inCelsius, closeTo(100.0, tolerance));
+      expect(boilingR.inFahrenheit, closeTo(212.0, tolerance));
+      expect(boilingR.inKelvin, closeTo(373.15, tolerance));
+    });
+
+    test('rankine to other units', () {
+      final temp500R = 500.0.rankine;
+      const tolerance = 1e-9;
+
+      const expectedF = 500.0 - Temperature.rankineOffsetFromFahrenheit;
+      const expectedC =
+          (expectedF - Temperature.fahrenheitOffset) / Temperature.fahrenheitScaleFactor;
+      const expectedK = 500.0 / Temperature.fahrenheitScaleFactor;
+
+      expect(temp500R.inFahrenheit, closeTo(expectedF, tolerance));
+      expect(temp500R.inCelsius, closeTo(expectedC, tolerance));
+      expect(temp500R.inKelvin, closeTo(expectedK, tolerance));
+    });
+
+    test('engineering temperature examples', () {
+      // Gas turbine inlet temperature ≈ 2500°R
+      final turbineTemp = 2500.0.rankine;
+      const tolerance = 1e-9;
+
+      const expectedF = 2500.0 - Temperature.rankineOffsetFromFahrenheit;
+      const expectedC =
+          (expectedF - Temperature.fahrenheitOffset) / Temperature.fahrenheitScaleFactor;
+      const expectedK = 2500.0 / Temperature.fahrenheitScaleFactor;
+
+      expect(turbineTemp.inFahrenheit, closeTo(expectedF, tolerance));
+      expect(turbineTemp.inCelsius, closeTo(expectedC, tolerance));
+      expect(turbineTemp.inKelvin, closeTo(expectedK, tolerance));
+
+      // Cryogenic nitrogen ≈ 140°R
+      final liquidNitrogen = 140.0.rankine;
+
+      const expectedFahrenheit = 140.0 - Temperature.rankineOffsetFromFahrenheit;
+      const expectedCelsius =
+          (expectedFahrenheit - Temperature.fahrenheitOffset) / Temperature.fahrenheitScaleFactor;
+      const expectedKelvin =
+          140.0 / Temperature.fahrenheitScaleFactor; // Direct conversion from Rankine to Kelvin
+
+      expect(liquidNitrogen.inFahrenheit, closeTo(expectedFahrenheit, tolerance));
+      expect(liquidNitrogen.inCelsius, closeTo(expectedCelsius, tolerance));
+      expect(liquidNitrogen.inKelvin, closeTo(expectedKelvin, tolerance));
+    });
+  });
+
+  group('Rankine Scale Properties', () {
+    test('rankine is absolute scale like kelvin', () {
+      // Both Rankine and Kelvin start at absolute zero
+      final absoluteZeroR = 0.0.rankine;
+      final absoluteZeroK = 0.0.kelvin;
+
+      expect(absoluteZeroR.inKelvin, closeTo(0.0, tolerance));
+      expect(absoluteZeroK.inRankine, closeTo(0.0, tolerance));
+    });
+
+    test('rankine degree size equals fahrenheit degree size', () {
+      // Temperature difference should be the same in °R and °F
+      final temp1R = 100.0.rankine;
+      final temp2R = 200.0.rankine;
+      final diffR = temp2R - temp1R; // 100 degree difference
+
+      final temp1F = temp1R.inFahrenheit;
+      final temp2F = temp2R.inFahrenheit;
+      final diffF = temp2F - temp1F;
+
+      expect(diffR, closeTo(diffF, tolerance));
+      expect(diffR, closeTo(100.0, tolerance));
+    });
+
+    test('kelvin to rankine conversion factor', () {
+      // 1 K = 9/5 °R (same ratio as C to F degree size)
+      final oneKelvin = 1.0.kelvin;
+      final zeroKelvin = 0.0.kelvin;
+
+      final oneKelvinInRankine = oneKelvin.inRankine;
+      final zeroKelvinInRankine = zeroKelvin.inRankine;
+
+      final conversionFactor = oneKelvinInRankine - zeroKelvinInRankine;
+      expect(conversionFactor, closeTo(1.8, tolerance)); // 9/5
+    });
+  });
+
+  group('Round Trip Conversions with Rankine', () {
+    test('all temperature units round trip through rankine', () {
+      const testTemps = [0.0, 100.0, 273.15, 373.15, 500.0];
+
+      for (final temp in testTemps) {
+        // Celsius round trip
+        final celsius = temp.celsius;
+        final celsiusRoundTrip = celsius.asRankine.asCelsius;
+        expect(celsiusRoundTrip.value, closeTo(temp, tolerance));
+
+        // Kelvin round trip
+        final kelvin = temp.kelvin;
+        final kelvinRoundTrip = kelvin.asRankine.asKelvin;
+        expect(kelvinRoundTrip.value, closeTo(temp, tolerance));
+
+        // Fahrenheit round trip
+        final fahrenheit = temp.fahrenheit;
+        final fahrenheitRoundTrip = fahrenheit.asRankine.asFahrenheit;
+        expect(fahrenheitRoundTrip.value, closeTo(temp, tolerance));
+
+        // Rankine round trip
+        final rankine = temp.rankine;
+        final rankineRoundTrip = rankine.asKelvin.asRankine;
+        expect(rankineRoundTrip.value, closeTo(temp, tolerance));
+      }
+    });
+  });
+
+  group('Temperature Arithmetic with Rankine', () {
+    test('temperature difference calculations', () {
+      final temp1 = 500.0.rankine;
+      final temp2 = 600.0.rankine;
+
+      final difference = temp2 - temp1;
+      expect(difference, closeTo(100.0, tolerance));
+
+      // Same difference in other units
+      final temp1F = temp1.asFahrenheit;
+      final temp2F = temp2.asFahrenheit;
+      final differenceF = temp2F - temp1F;
+      expect(differenceF, closeTo(100.0, tolerance));
+    });
+
+    test('temperature ratios on absolute scales', () {
+      final temp1 = 200.0.rankine;
+      final temp2 = 400.0.rankine;
+
+      final ratio = temp2 / temp1;
+      expect(ratio, closeTo(2.0, tolerance));
+
+      // Same ratio in Kelvin
+      final temp1K = temp1.asKelvin;
+      final temp2K = temp2.asKelvin;
+      final ratioK = temp2K / temp1K;
+      expect(ratioK, closeTo(2.0, tolerance));
+    });
+  });
+
+  group('Engineering Applications', () {
+    test('thermodynamic cycle calculations', () {
+      // Simple heat engine with Rankine cycle
+      final hotReservoir = 1000.0.rankine; // High temperature
+      final coldReservoir = 500.0.rankine; // Low temperature
+
+      // Carnot efficiency = 1 - T_cold/T_hot (absolute temperatures)
+      final carnotEfficiency = 1.0 - (coldReservoir / hotReservoir);
+      expect(carnotEfficiency, closeTo(0.5, tolerance)); // 50% efficiency
+
+      // Same calculation in Kelvin should give same result
+      final hotK = hotReservoir.asKelvin;
+      final coldK = coldReservoir.asKelvin;
+      final carnotEfficiencyK = 1.0 - (coldK / hotK);
+      expect(carnotEfficiencyK, closeTo(carnotEfficiency, tolerance));
+    });
+
+    test('gas law calculations', () {
+      // Ideal gas law: PV = nRT (requires absolute temperature)
+      final roomTemp = 70.0.fahrenheit; // Room temperature
+      final roomTempR = roomTemp.inRankine;
+      final roomTempK = roomTemp.inKelvin;
+
+      // Both should be above absolute zero
+      expect(roomTempR, greaterThan(0.0));
+      expect(roomTempK, greaterThan(0.0));
+
+      // Ratio should be the conversion factor
+      final tempRatio = roomTempR / roomTempK;
+      expect(tempRatio, closeTo(1.8, tolerance)); // 9/5
+    });
+  });
+
+  group('Comparison and Sorting with Rankine', () {
+    test('temperature comparison across all scales', () {
+      final freezingC = 0.0.celsius;
+      final freezingR = 491.67.rankine;
+      final boilingF = 212.0.fahrenheit;
+      final roomTempK = 295.0.kelvin; // About 22°C
+
+      // All should be comparable
+      expect(freezingC.compareTo(freezingR), 0); // Equal
+      expect(roomTempK.compareTo(freezingC), greaterThan(0)); // Room temp > freezing
+      expect(boilingF.compareTo(roomTempK), greaterThan(0)); // Boiling > room temp
+    });
+
+    test('sorting mixed temperature units', () {
+      final temps = [
+        100.0.celsius, // Boiling water
+        32.0.fahrenheit, // Freezing water
+        300.0.kelvin, // Room temperature
+        671.67.rankine, // Boiling water in Rankine
+        0.0.kelvin, // Absolute zero
+      ];
+
+      temps.sort();
+
+      // Should be sorted by actual temperature value
+      expect(temps[0].unit, TemperatureUnit.kelvin); // Absolute zero
+      expect(temps[0].value, 0.0);
+      expect(temps[1].unit, TemperatureUnit.fahrenheit); // Freezing
+      expect(temps[2].unit, TemperatureUnit.kelvin); // Room temp
+      // Last two should be boiling point (equal temperatures)
+      expect(temps[3].inCelsius, closeTo(100.0, tolerance));
+      expect(temps[4].inCelsius, closeTo(100.0, tolerance));
+    });
+  });
+
+  group('toString formatting for Rankine', () {
+    test('should display correct symbol', () {
+      expect(100.0.rankine.toString(), '100.0\u00A0°R');
+      expect(459.67.rankine.toString(), '459.67\u00A0°R');
+    });
+
+    test('formatting with conversion', () {
+      final tempR = 600.0.rankine;
+      // Check the Fahrenheit conversion first
+      expect(
+        tempR.toString(targetUnit: TemperatureUnit.fahrenheit, fractionDigits: 1),
+        '140.3\u00A0°F', // Use non-breaking space
+      );
+      // Now check the Celsius conversion with the correct rounded value
+      expect(
+        tempR.toString(targetUnit: TemperatureUnit.celsius, fractionDigits: 2),
+        '60.18\u00A0°C', // Corrected value and non-breaking space
+      );
     });
   });
 }

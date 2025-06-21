@@ -16,7 +16,11 @@ enum TemperatureUnit implements Unit<TemperatureUnit> {
   kelvin('K'),
 
   /// Fahrenheit (°F).
-  fahrenheit('°F');
+  fahrenheit('°F'),
+
+  /// Rankine (°R), an absolute temperature scale using Fahrenheit degrees.
+  /// °R = °F + 459.67, or °R = °K × 9/5.
+  rankine('°R');
 
   /// Constant constructor for enum members.
   /// [symbol] is the display symbol for the unit.

@@ -34,6 +34,9 @@ class Temperature extends Quantity<TemperatureUnit> {
   /// The offset for Fahrenheit conversion from Celsius (0°C = 32°F).
   static const double fahrenheitOffset = 32.0;
 
+  /// The offset for Rankine conversion from Fahrenheit (0°F = 459.67°R).
+  static const double rankineOffsetFromFahrenheit = 459.67;
+
   /// Converts this temperature's value to the specified [targetUnit]
   /// using direct, optimized formulas for affine conversions.
   ///
@@ -53,6 +56,10 @@ class Temperature extends Quantity<TemperatureUnit> {
             return value + kelvinOffsetFromCelsius;
           case TemperatureUnit.fahrenheit:
             return (value * fahrenheitScaleFactor) + fahrenheitOffset;
+          case TemperatureUnit.rankine:
+            // Celsius -> Fahrenheit -> Rankine
+            final fahrenheitValue = (value * fahrenheitScaleFactor) + fahrenheitOffset;
+            return fahrenheitValue + rankineOffsetFromFahrenheit;
           case TemperatureUnit.celsius:
             return value;
         }
@@ -63,6 +70,9 @@ class Temperature extends Quantity<TemperatureUnit> {
           case TemperatureUnit.fahrenheit:
             final celsiusValue = value - kelvinOffsetFromCelsius;
             return (celsiusValue * fahrenheitScaleFactor) + fahrenheitOffset;
+          case TemperatureUnit.rankine:
+            // Kelvin -> Rankine: multiply by 9/5
+            return value * fahrenheitScaleFactor;
           case TemperatureUnit.kelvin:
             return value;
         }
@@ -73,7 +83,23 @@ class Temperature extends Quantity<TemperatureUnit> {
           case TemperatureUnit.kelvin:
             final celsiusValue = (value - fahrenheitOffset) / fahrenheitScaleFactor;
             return celsiusValue + kelvinOffsetFromCelsius;
+          case TemperatureUnit.rankine:
+            return value + rankineOffsetFromFahrenheit;
           case TemperatureUnit.fahrenheit:
+            return value;
+        }
+      case TemperatureUnit.rankine:
+        switch (targetUnit) {
+          case TemperatureUnit.fahrenheit:
+            return value - rankineOffsetFromFahrenheit;
+          case TemperatureUnit.celsius:
+            // Rankine -> Fahrenheit -> Celsius
+            final fahrenheitValue = value - rankineOffsetFromFahrenheit;
+            return (fahrenheitValue - fahrenheitOffset) / fahrenheitScaleFactor;
+          case TemperatureUnit.kelvin:
+            // Rankine -> Kelvin: divide by 9/5
+            return value / fahrenheitScaleFactor;
+          case TemperatureUnit.rankine:
             return value;
         }
     }
@@ -117,11 +143,14 @@ class Temperature extends Quantity<TemperatureUnit> {
     return value - otherValueInThisUnit;
   }
 
-  // Operator + (Temperature other) is intentionally not implemented as it's
-  // generally not physically meaningful for absolute temperatures.
+  // Operator + (Temperature other) is intentionally not implemented as adding
+  // absolute temperatures (e.g., 20°C + 10°C) is not physically meaningful.
+  // Use the `operator -` to find a temperature difference.
 
-  // Operator * (double scalar) is intentionally not implemented as it's
-  // generally not physically meaningful for absolute temperatures.
+  // Operator * (double scalar) is intentionally not implemented as scaling
+  // absolute temperatures is generally not meaningful, except in specific
+  // thermodynamic contexts where absolute scales (Kelvin/Rankine) are used.
+  // For such cases, it is safer for the user to extract the value and perform the calculation explicitly.
 
   // Operator / (double scalar) is intentionally not implemented as it's
   // generally not physically meaningful for absolute temperatures.
@@ -130,7 +159,7 @@ class Temperature extends Quantity<TemperatureUnit> {
   /// The [other] temperature is converted to the unit of this temperature before division.
   /// Returns a scalar [double] representing the ratio.
   /// Note: This operation is only meaningful in specific thermodynamic contexts (e.g., Carnot efficiency)
-  /// and should be used with caution. Both temperatures should ideally be on an absolute scale (Kelvin)
+  /// and should be used with caution. Both temperatures should ideally be on an absolute scale (Kelvin or Rankine)
   /// for physical meaning, though the calculation will be performed based on converted values.
   /// Throws [ArgumentError] if the effective value of [other] in this unit is zero.
   double operator /(Temperature other) {

@@ -12,6 +12,9 @@ extension TemperatureValueGetters on Temperature {
   /// Returns the temperature value in Fahrenheit (°F).
   double get inFahrenheit => getValue(TemperatureUnit.fahrenheit);
 
+  /// Returns the temperature value in Rankine (°R).
+  double get inRankine => getValue(TemperatureUnit.rankine);
+
   /// Returns a Temperature representing this temperature in Celsius (°C).
   Temperature get asCelsius => convertTo(TemperatureUnit.celsius);
 
@@ -20,6 +23,9 @@ extension TemperatureValueGetters on Temperature {
 
   /// Returns a Temperature representing this temperature in Fahrenheit (°F).
   Temperature get asFahrenheit => convertTo(TemperatureUnit.fahrenheit);
+
+  /// Returns a Temperature representing this temperature in Rankine (°R).
+  Temperature get asRankine => convertTo(TemperatureUnit.rankine);
 }
 
 /// Provides convenient factory methods for creating [Temperature] instances from [num].
@@ -32,4 +38,7 @@ extension TemperatureCreation on num {
 
   /// Creates a [Temperature] instance representing this numerical value in Fahrenheit (°F).
   Temperature get fahrenheit => Temperature(toDouble(), TemperatureUnit.fahrenheit);
+
+  /// Creates a [Temperature] instance representing this numerical value in Rankine (°R).
+  Temperature get rankine => Temperature(toDouble(), TemperatureUnit.rankine);
 }
