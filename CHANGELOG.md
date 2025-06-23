@@ -5,13 +5,40 @@ All notable changes to the `quantify` package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0]
+
+2025-06-23
+
+### Added
+
+- **New Quantity: `Angle`**
+  - `Angle` quantity
+  - `AngleUnit`:
+    - **`radian` (rad):** The SI-derived unit, used as the base for conversions.
+    - **`degree` (°):** The most common unit for angles.
+    - **`gradian` (grad):** Unit used in surveying (400 grad in a circle).
+    - **`revolution` (rev):** Represents a full circle or turn.
+    - **`arcminute` ('):** High-precision unit (1/60 of a degree).
+    - **`arcsecond` ("):** High-precision unit (1/60 of an arcminute).
+    - **`milliradian` (mrad):** Common in optics and ballistics.
+  - Standard arithmetic operators (`+`, `-`, `*`, `/`) for `Angle`.
+
+- **New Quantity: `AngularVelocity`**
+  - `AngularVelocity` quantity - represents rotational speed.
+  - `AngularVelocityUnit`:
+    - **`radianPerSecond` (rad/s):** The SI-derived unit.
+    - **`degreePerSecond` (°/s).**
+    - **`revolutionPerMinute` (rpm):** A widely used unit for rotational speed.
+    - **`revolutionPerSecond` (rps).**
+  - Standard arithmetic operators for `AngularVelocity`.
+
 ## [0.3.0]
 
 2025-06-21
 
 ### Added
 
-- **Expanded Unit Coverage:** 
+- **Expanded Unit Coverage:**
   - **Length:**
     - SI Prefixes: `hm` (hectometer), `dam` (decameter), `dm` (decimeter), `μm` (micrometer), `nm` (nanometer), `pm` (picometer), `fm` (femtometer).
     - Astronomical: `AU` (astronomical unit), `ly` (light year), `pc` (parsec).

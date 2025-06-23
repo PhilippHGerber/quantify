@@ -60,7 +60,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  quantify: ^0.3.0 # Or latest version
+  quantify: ^0.4.0 # Or latest version
   # Optional, for locale-specific number formatting:
   # intl: ^0.19.0
 ```
@@ -71,8 +71,8 @@ Then run `dart pub get` or `flutter pub get`.
 
 The library supports a comprehensive range of physical quantities, including all 7 SI base units and many derived units:
 
-| Quantity Type           | Status | Units Available                                                                                                                        | Notes / SI Base Unit Ref. |
-| :---------------------- | :----: | :------------------------------------------------------------------------------------------------------------------------------------- | :------------------------ |
+| Quantity Type           | Status | Units Available                                                                                                                         | Notes / SI Base Unit Ref. |
+| :---------------------- | :----: | :-------------------------------------------------------------------------------------------------------------------------------------- | :------------------------ |
 | **Length**              |   ✅    | **`m`** (meter), `km`, `hm`, `dam`, `dm`, `cm`, `mm`, `μm`, `nm`, `pm`, `fm`, `in`, `ft`, `yd`, `mi`, `nmi`, `AU`, `ly`, `pc`, `Å`     | SI Base: Meter (m)        |
 | **Mass**                |   ✅    | **`kg`** (kilogram), `hg`, `dag`, `g`, `dg`, `cg`, `mg`, `μg`, `ng`, `t`, `lb`, `oz`, `st`, `slug`, `short ton`, `long ton`, `u`, `ct` | SI Base: Kilogram (kg)    |
 | **Time**                |   ✅    | **`s`** (second), `μs`, `ns`, `ps`, `ms`, `min`, `h`, `d`, `wk`, `mo`, `yr`                                                            | SI Base: Second (s)       |
@@ -80,8 +80,10 @@ The library supports a comprehensive range of physical quantities, including all
 | **Temperature**         |   ✅    | **`K`** (kelvin), `°C` (celsius), `°F` (fahrenheit), `°R` (rankine)                                                                    | SI Base: Kelvin (K)       |
 | **Amount of Substance** |   ✅    | **`mol`** (mole), `mmol`, `μmol`, `nmol`, `pmol`, `kmol`                                                                               | SI Base: Mole (mol)       |
 | **Luminous Intensity**  |   ✅    | **`cd`** (candela), `mcd`, `kcd`                                                                                                       | SI Base: Candela (cd)     |
-| --- Derived ---         |        |                                                                                                                                        |                           |
+| --- Derived ---         |        |                                                                                                                                         |                           |
 | **Pressure**            |   ✅    | **`Pa`** (Pascal), `atm`, `bar`, `psi`, `Torr`, `mmHg`, `inHg`, `kPa`, `hPa`, `mbar`, `cmH₂O`, `inH₂O`                                 | Derived SI: N/m²          |
+| **Angle**               |   ✅    | **`rad`** (radian), `°` (degree), `grad`, `rev`, `arcmin` ('), `arcsec` ("), `mrad`                                                    | Derived SI: dimensionless |
+| **Angular Velocity**    |   ✅    | **`rad/s`**, `°/s`, `rpm`, `rps`                                                                                                       | Derived SI: 1/s           |
 | Area                    |   🗓️    | **`m²`** (square meter), `km²`, `cm²`, `ha` (hectare), `acre` ...                                                                      | Derived SI                |
 | Volume                  |   🗓️    | **`m³`** (cubic meter), `L` (liter), `mL`, `cm³`, `gal` (gallon), `fl oz` ...                                                          | Derived SI                |
 | Speed / Velocity        |   🗓️    | **`m/s`** (meter per second), `km/h`, `mph`, `knot` ...                                                                                | Derived SI                |
@@ -90,8 +92,6 @@ The library supports a comprehensive range of physical quantities, including all
 | Energy / Work           |   🗓️    | **`J`** (Joule), `kWh` (kilowatt-hour), `cal` (calorie), `eV` (electronvolt) ...                                                       | Derived SI: N·m           |
 | Power                   |   💡    | **`W`** (Watt), `hp` (horsepower) ...                                                                                                  | Derived SI: J/s           |
 | Frequency               |   💡    | **`Hz`** (Hertz), `kHz`, `MHz` ...                                                                                                     | Derived SI: 1/s           |
-
-
 
 ## Detailed Usage
 
