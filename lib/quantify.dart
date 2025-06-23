@@ -3,6 +3,14 @@ library;
 
 export 'src/core/quantity.dart';
 export 'src/core/unit.dart';
+// Exporting units and their extensions for angle
+export 'src/units/angle/angle.dart';
+export 'src/units/angle/angle_extensions.dart';
+export 'src/units/angle/angle_unit.dart';
+// Exporting units and their extensions for angular velocity
+export 'src/units/angular_velocity/angular_velocity.dart';
+export 'src/units/angular_velocity/angular_velocity_extensions.dart';
+export 'src/units/angular_velocity/angular_velocity_unit.dart';
 // Exporting units and their extensions for electric current
 export 'src/units/current/current.dart';
 export 'src/units/current/current_extensions.dart';
