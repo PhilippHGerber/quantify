@@ -10,26 +10,24 @@ import 'angular_velocity_factors.dart';
 /// are pre-calculated in the constructor relative to Radian per Second (rad/s).
 enum AngularVelocityUnit implements Unit<AngularVelocityUnit> {
   /// Radian per second (rad/s), the SI-derived unit of angular velocity.
-  radianPerSecond(1.0, 'rad/s'),
+  radianPerSecond(1, 'rad/s'),
 
   /// Degree per second (°/s).
-  degreePerSecond(AngularVelocityFactors.radPerSec_per_degPerSec, '°/s'),
+  degreePerSecond(AngularVelocityFactors.radPSecPerDegPSec, '°/s'),
 
   /// Revolution per minute (rpm), a common unit for rotational speed.
-  revolutionPerMinute(AngularVelocityFactors.radPerSec_per_revPerMin, 'rpm'),
+  revolutionPerMinute(AngularVelocityFactors.radPSecPerRevPMin, 'rpm'),
 
   /// Revolution per second (rps).
-  revolutionPerSecond(AngularVelocityFactors.radPerSec_per_revPerSec, 'rps');
+  revolutionPerSecond(AngularVelocityFactors.radPSecPerRevPSec, 'rps');
 
   /// Constant constructor for enum members.
   const AngularVelocityUnit(double toBaseFactor, this.symbol)
       : _toRadPerSecFactor = toBaseFactor,
         _factorToRadianPerSecond = toBaseFactor / 1.0,
-        _factorToDegreePerSecond = toBaseFactor / AngularVelocityFactors.radPerSec_per_degPerSec,
-        _factorToRevolutionPerMinute =
-            toBaseFactor / AngularVelocityFactors.radPerSec_per_revPerMin,
-        _factorToRevolutionPerSecond =
-            toBaseFactor / AngularVelocityFactors.radPerSec_per_revPerSec;
+        _factorToDegreePerSecond = toBaseFactor / AngularVelocityFactors.radPSecPerDegPSec,
+        _factorToRevolutionPerMinute = toBaseFactor / AngularVelocityFactors.radPSecPerRevPMin,
+        _factorToRevolutionPerSecond = toBaseFactor / AngularVelocityFactors.radPSecPerRevPSec;
 
   // ignore: unused_field // The factor to convert from this unit to Radian per Second.
   final double _toRadPerSecFactor;
