@@ -10,6 +10,12 @@ extension LengthValueGetters on Length {
   /// Returns the length value in Kilometers (km).
   double get inKm => getValue(LengthUnit.kilometer);
 
+  /// Returns the length value in Megameters (Mm).
+  double get inMegaM => getValue(LengthUnit.megameter);
+
+  /// Returns the length value in Gigameters (Gm).
+  double get inGigaM => getValue(LengthUnit.gigameter);
+
   /// Returns the length value in Hectometers (hm).
   double get inHm => getValue(LengthUnit.hectometer);
 
@@ -69,6 +75,13 @@ extension LengthValueGetters on Length {
 
   /// Returns a Length representing this length in Kilometers (km).
   Length get asKm => convertTo(LengthUnit.kilometer);
+
+    /// Returns a Length representing this length in Megameters (Mm).
+  Length get asMegaM => convertTo(LengthUnit.megameter);
+
+  /// Returns a Length representing this length in Gigameters (Gm).
+  Length get asGigaM => convertTo(LengthUnit.gigameter);
+
 
   /// Returns a Length representing this length in Hectometers (hm).
   Length get asHm => convertTo(LengthUnit.hectometer);
@@ -133,6 +146,12 @@ extension LengthCreation on num {
 
   /// Creates a [Length] instance representing this numerical value in Kilometers (km).
   Length get km => Length(toDouble(), LengthUnit.kilometer);
+
+  /// Creates a [Length] instance representing this numerical value in Megameters (Mm).
+  Length get megaM => Length(toDouble(), LengthUnit.megameter);
+
+  /// Creates a [Length] instance representing this numerical value in Gigameters (Gm).
+  Length get gigaM => Length(toDouble(), LengthUnit.gigameter);
 
   /// Creates a [Length] instance representing this numerical value in Hectometers (hm).
   Length get hm => Length(toDouble(), LengthUnit.hectometer);

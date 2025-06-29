@@ -10,6 +10,12 @@ class LengthFactors {
   /// Meters per Kilometer: 1 kilometer = 1000.0 meters.
   static const double metersPerKilometer = 1000.0;
 
+  /// Meters per Megameter: 1 megameter = 1e6 meters.
+  static const double metersPerMegameter = 1e6;
+
+  /// Meters per Gigameter: 1 gigameter = 1e9 meters.
+  static const double metersPerGigameter = 1e9;
+
   /// Meters per Hectometer: 1 hectometer = 100.0 meters.
   static const double metersPerHectometer = 100.0;
 

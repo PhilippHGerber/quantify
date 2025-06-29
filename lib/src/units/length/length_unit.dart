@@ -15,6 +15,12 @@ enum LengthUnit implements Unit<LengthUnit> {
   /// Kilometer (km), equal to 1000 meters.
   kilometer(LengthFactors.metersPerKilometer, 'km'),
 
+  /// Megameter (Mm), equal to 1e6 meters.
+  megameter(LengthFactors.metersPerMegameter, 'Mm'),
+
+  /// Gigameter (Gm), equal to 1e9 meters.
+  gigameter(LengthFactors.metersPerGigameter, 'Gm'),
+
   /// Hectometer (hm), equal to 100 meters.
   hectometer(LengthFactors.metersPerHectometer, 'hm'),
 
@@ -83,6 +89,8 @@ enum LengthUnit implements Unit<LengthUnit> {
         // Initialize direct factors from THIS unit to OTHERS.
         _factorToMeter = toBaseFactor / 1.0,
         _factorToKilometer = toBaseFactor / LengthFactors.metersPerKilometer,
+        _factorToMegameter = toBaseFactor / LengthFactors.metersPerMegameter,
+        _factorToGigameter = toBaseFactor / LengthFactors.metersPerGigameter,
         _factorToHectometer = toBaseFactor / LengthFactors.metersPerHectometer,
         _factorToDecameter = toBaseFactor / LengthFactors.metersPerDecameter,
         _factorToDecimeter = toBaseFactor / LengthFactors.metersPerDecimeter,
@@ -114,6 +122,8 @@ enum LengthUnit implements Unit<LengthUnit> {
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToMeter;
   final double _factorToKilometer;
+  final double _factorToMegameter;
+  final double _factorToGigameter;
   final double _factorToHectometer;
   final double _factorToDecameter;
   final double _factorToDecimeter;
@@ -143,6 +153,11 @@ enum LengthUnit implements Unit<LengthUnit> {
         return _factorToMeter;
       case LengthUnit.kilometer:
         return _factorToKilometer;
+      case LengthUnit.megameter:
+        return _factorToMegameter;
+      case LengthUnit.gigameter:
+        return _factorToGigameter;
+
       case LengthUnit.hectometer:
         return _factorToHectometer;
       case LengthUnit.decameter:
