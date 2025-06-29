@@ -287,5 +287,59 @@ void main() {
         expect(cSub.unit, CurrentUnit.ampere);
       });
     });
+
+    group('CGS and Historical Units', () {
+      const tolerance = 1e-12;
+
+      test('abampere (biot) conversions', () {
+        // Use the new explicit extension `abA`
+        final oneAbampere = 1.0.abA;
+        expect(oneAbampere.inAmperes, closeTo(10.0, tolerance));
+
+        // Test creation with `Bi` alias
+        final oneBiot = 1.0.bi;
+        expect(oneBiot.compareTo(oneAbampere), 0);
+
+        // Test conversion from SI
+        final fiftyAmperes = 50.0.A;
+        expect(fiftyAmperes.inAbamperes, closeTo(5.0, tolerance));
+      });
+
+      test('statampere conversions', () {
+        // Use the new explicit extension `statA`
+        final oneAmpere = 1.0.A;
+        const expectedStatA = 1.0 / 3.3356409519815204e-10;
+        expect(oneAmpere.inStatamperes, closeTo(expectedStatA, 1e-3));
+
+        // Test creation and conversion back
+        final oneStatampere = 1.0.statA;
+        expect(oneStatampere.inAmperes, closeTo(3.3356409519815204e-10, tolerance));
+      });
+
+      test('comparison between CGS and SI units', () {
+        final oneAbampere = 1.0.abA; // 10 A
+        final oneAmpere = 1.0.A;
+        final oneStatampere = 1.0.statA; // tiny current
+
+        expect(oneAbampere.compareTo(oneAmpere), greaterThan(0));
+        expect(oneAmpere.compareTo(oneStatampere), greaterThan(0));
+      });
+
+      test('round trip conversions for CGS units', () {
+        const testValue = 123.456;
+
+        // Test round trip via amperes
+        final originalAbA = testValue.abA;
+        final roundTripAbA = originalAbA.asAmperes.asAbamperes;
+        expect(roundTripAbA.value, closeTo(testValue, tolerance));
+
+        final originalStatA = testValue.statA;
+        final roundTripStatA = originalStatA.asAmperes.asStatamperes;
+        expect(
+          roundTripStatA.value,
+          closeTo(testValue, 1e-3),
+        ); // Lower precision due to large factor
+      });
+    });
   });
 }

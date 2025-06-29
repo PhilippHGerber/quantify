@@ -487,5 +487,68 @@ void main() {
         expect(1.0.ms.toString(), '1.0\u00A0ms');
       });
     });
+
+    group('SI Prefix Units (deci, centi, deca, hecto, kilo, mega, giga)', () {
+      const tolerance = 1e-12;
+
+      test('deci- and centiseconds', () {
+        final oneSecond = 1.0.s;
+        expect(oneSecond.inDeciseconds, closeTo(10.0, tolerance));
+        expect(oneSecond.inCentiseconds, closeTo(100.0, tolerance));
+
+        final oneDecisecond = 1.0.ds;
+        expect(oneDecisecond.inMilliseconds, closeTo(100.0, tolerance));
+
+        final oneCentisecond = 1.0.cs;
+        expect(oneCentisecond.inMilliseconds, closeTo(10.0, tolerance));
+      });
+
+      test('deca-, hecto-, and kiloseconds', () {
+        final oneKilosecond = 1.0.kiloS;
+        expect(oneKilosecond.inSeconds, closeTo(1000.0, tolerance));
+        expect(oneKilosecond.inHectoseconds, closeTo(10.0, tolerance));
+        expect(oneKilosecond.inDecaseconds, closeTo(100.0, tolerance));
+      });
+
+      test('mega- and gigaseconds', () {
+        final oneMegasecond = 1.0.megaS; // 1 million seconds
+        expect(oneMegasecond.inDays, closeTo(1e6 / 86400, 1e-9)); // ~11.57 days
+
+        final oneGigasecond = 1.0.gigaS; // 1 billion seconds
+        expect(oneGigasecond.inYears, closeTo(1e9 / 31557600.0, 1e-9)); // ~31.7 years
+      });
+    });
+
+    group('Calendar Units (Fortnight, Decade, Century)', () {
+      const tolerance = 1e-9;
+
+      test('fortnight conversions', () {
+        final oneFortnight = 1.0.fortnights;
+        expect(oneFortnight.inDays, closeTo(14.0, tolerance));
+        expect(oneFortnight.inWeeks, closeTo(2.0, tolerance));
+      });
+
+      test('decade conversions', () {
+        final oneDecade = 1.0.decades;
+        expect(oneDecade.inYears, closeTo(10.0, tolerance));
+        // A decade has 120 average months
+        expect(oneDecade.inMonths, closeTo(120.0, 1e-6));
+      });
+
+      test('century conversions', () {
+        final oneCentury = 1.0.centuries;
+        expect(oneCentury.inYears, closeTo(100.0, tolerance));
+        expect(oneCentury.inDecades, closeTo(10.0, tolerance));
+      });
+
+      test('sorting calendar units', () {
+        final times = [1.0.centuries, 1.0.years, 1.0.decades, 1.0.fortnights]..sort();
+
+        expect(times[0].unit, TimeUnit.fortnight);
+        expect(times[1].unit, TimeUnit.year);
+        expect(times[2].unit, TimeUnit.decade);
+        expect(times[3].unit, TimeUnit.century);
+      });
+    });
   });
 }

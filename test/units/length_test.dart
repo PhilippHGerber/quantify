@@ -496,5 +496,36 @@ void main() {
         expect(1.0.angstrom.toString(), '1.0\u00A0Å');
       });
     });
+    group('Mega and Giga Units', () {
+      const tolerance = 1e-9;
+
+      test('megameter conversions', () {
+        final oneMegameter = 1.0.megaM;
+        expect(oneMegameter.inM, closeTo(1e6, tolerance));
+        expect(oneMegameter.inKm, closeTo(1000.0, tolerance));
+        expect(oneMegameter.inGigaM, closeTo(0.001, tolerance));
+      });
+
+      test('gigameter conversions', () {
+        final oneGigameter = 1.0.gigaM;
+        expect(oneGigameter.inM, closeTo(1e9, tolerance));
+        expect(oneGigameter.inKm, closeTo(1e6, tolerance));
+        expect(oneGigameter.inMegaM, closeTo(1000.0, tolerance));
+      });
+
+      test('astronomical scale examples', () {
+        // Earth's diameter is about 12.742 Mm
+        final earthDiameter = 12.742.megaM;
+        expect(earthDiameter.inKm, closeTo(12742.0, tolerance));
+
+        // Sun's diameter is about 1.3927 Gm
+        final sunDiameter = 1.3927.gigaM;
+        expect(sunDiameter.inMegaM, closeTo(1392.7, tolerance));
+        expect(sunDiameter.inKm, closeTo(1392700.0, tolerance));
+
+        // Compare Earth and Sun
+        expect(sunDiameter.compareTo(earthDiameter), greaterThan(0));
+      });
+    });
   });
 }
