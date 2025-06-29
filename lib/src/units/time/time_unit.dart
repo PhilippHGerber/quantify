@@ -26,6 +26,27 @@ enum TimeUnit implements Unit<TimeUnit> {
   /// Millisecond (ms), equal to 0.001 seconds.
   millisecond(TimeFactors.secondsPerMillisecond, 'ms'),
 
+  /// Centisecond (cs), equal to 0.01 seconds.
+  centisecond(TimeFactors.secondsPerCentisecond, 'cs'),
+
+  /// Decisecond (ds), equal to 0.1 seconds.
+  decisecond(TimeFactors.secondsPerDecisecond, 'ds'),
+
+  /// Decasecond (das), equal to 10 seconds.
+  decasecond(TimeFactors.secondsPerDecasecond, 'das'),
+
+  /// Hectosecond (hs), equal to 100 seconds.
+  hectosecond(TimeFactors.secondsPerHectosecond, 'hs'),
+
+  /// Kilosecond (ks), equal to 1000 seconds.
+  kilosecond(TimeFactors.secondsPerKilosecond, 'ks'),
+
+  /// Megasecond (Ms), equal to 1e6 seconds.
+  megasecond(TimeFactors.secondsPerMegasecond, 'Ms'),
+
+  /// Gigasecond (Gs), equal to 1e9 seconds.
+  gigasecond(TimeFactors.secondsPerGigasecond, 'Gs'),
+
   /// Minute (min), equal to 60 seconds.
   minute(TimeFactors.secondsPerMinute, 'min'),
 
@@ -38,13 +59,22 @@ enum TimeUnit implements Unit<TimeUnit> {
   /// Week (wk), equal to 604800 seconds (7 days).
   week(TimeFactors.secondsPerWeek, 'wk'),
 
+  /// Fortnight (fn), equal to 2 weeks or 14 days.
+  fortnight(TimeFactors.secondsPerFortnight, 'fn'),
+
   /// Month (mo), equal to approximately 2629746 seconds.
   /// Based on average month length (365.25 days / 12).
   month(TimeFactors.secondsPerMonth, 'mo'),
 
   /// Year (yr), equal to 31557600 seconds.
   /// Based on Julian year (365.25 days).
-  year(TimeFactors.secondsPerYear, 'yr');
+  year(TimeFactors.secondsPerYear, 'yr'),
+
+  /// Decade (dec), equal to 10 Julian years.
+  decade(TimeFactors.secondsPerDecade, 'dec'),
+
+  /// Century (c), equal to 100 Julian years.
+  century(TimeFactors.secondsPerCentury, 'c');
 
   /// Constant constructor for enum members.
   ///
@@ -59,12 +89,22 @@ enum TimeUnit implements Unit<TimeUnit> {
         _factorToNanosecond = _toSecondFactor / TimeFactors.secondsPerNanosecond,
         _factorToPicosecond = _toSecondFactor / TimeFactors.secondsPerPicosecond,
         _factorToMillisecond = _toSecondFactor / TimeFactors.secondsPerMillisecond,
+        _factorToCentisecond = _toSecondFactor / TimeFactors.secondsPerCentisecond,
+        _factorToDecisecond = _toSecondFactor / TimeFactors.secondsPerDecisecond,
+        _factorToDecasecond = _toSecondFactor / TimeFactors.secondsPerDecasecond,
+        _factorToHectosecond = _toSecondFactor / TimeFactors.secondsPerHectosecond,
+        _factorToKilosecond = _toSecondFactor / TimeFactors.secondsPerKilosecond,
+        _factorToMegasecond = _toSecondFactor / TimeFactors.secondsPerMegasecond,
+        _factorToGigasecond = _toSecondFactor / TimeFactors.secondsPerGigasecond,
         _factorToMinute = _toSecondFactor / TimeFactors.secondsPerMinute,
         _factorToHour = _toSecondFactor / TimeFactors.secondsPerHour,
         _factorToDay = _toSecondFactor / TimeFactors.secondsPerDay,
         _factorToWeek = _toSecondFactor / TimeFactors.secondsPerWeek,
+        _factorToFortnight = _toSecondFactor / TimeFactors.secondsPerFortnight,
         _factorToMonth = _toSecondFactor / TimeFactors.secondsPerMonth,
-        _factorToYear = _toSecondFactor / TimeFactors.secondsPerYear;
+        _factorToYear = _toSecondFactor / TimeFactors.secondsPerYear,
+        _factorToDecade = _toSecondFactor / TimeFactors.secondsPerDecade,
+        _factorToCentury = _toSecondFactor / TimeFactors.secondsPerCentury;
 
   /// The factor to convert a value from this unit to the base unit (Second).
   /// After constructor initialization, its value is primarily baked into
@@ -83,12 +123,22 @@ enum TimeUnit implements Unit<TimeUnit> {
   final double _factorToNanosecond;
   final double _factorToPicosecond;
   final double _factorToMillisecond;
+  final double _factorToCentisecond;
+  final double _factorToDecisecond;
+  final double _factorToDecasecond;
+  final double _factorToHectosecond;
+  final double _factorToKilosecond;
+  final double _factorToMegasecond;
+  final double _factorToGigasecond;
   final double _factorToMinute;
   final double _factorToHour;
   final double _factorToDay;
   final double _factorToWeek;
+  final double _factorToFortnight;
   final double _factorToMonth;
   final double _factorToYear;
+  final double _factorToDecade;
+  final double _factorToCentury;
 
   /// Returns the direct conversion factor to convert a value from this [TimeUnit]
   /// to the [targetUnit].
@@ -106,6 +156,20 @@ enum TimeUnit implements Unit<TimeUnit> {
         return _factorToPicosecond;
       case TimeUnit.millisecond:
         return _factorToMillisecond;
+      case TimeUnit.centisecond:
+        return _factorToCentisecond;
+      case TimeUnit.decisecond:
+        return _factorToDecisecond;
+      case TimeUnit.decasecond:
+        return _factorToDecasecond;
+      case TimeUnit.hectosecond:
+        return _factorToHectosecond;
+      case TimeUnit.kilosecond:
+        return _factorToKilosecond;
+      case TimeUnit.megasecond:
+        return _factorToMegasecond;
+      case TimeUnit.gigasecond:
+        return _factorToGigasecond;
       case TimeUnit.minute:
         return _factorToMinute;
       case TimeUnit.hour:
@@ -114,10 +178,16 @@ enum TimeUnit implements Unit<TimeUnit> {
         return _factorToDay;
       case TimeUnit.week:
         return _factorToWeek;
+      case TimeUnit.fortnight:
+        return _factorToFortnight;
       case TimeUnit.month:
         return _factorToMonth;
       case TimeUnit.year:
         return _factorToYear;
+      case TimeUnit.decade:
+        return _factorToDecade;
+      case TimeUnit.century:
+        return _factorToCentury;
     }
   }
 }
