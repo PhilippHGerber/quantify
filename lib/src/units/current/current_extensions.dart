@@ -19,6 +19,12 @@ extension CurrentValueGetters on Current {
   /// Returns the electric current value in Kiloamperes (kA).
   double get inKiloamperes => getValue(CurrentUnit.kiloampere);
 
+  /// Returns the electric current value in Statamperes (statA).
+  double get inStatamperes => getValue(CurrentUnit.statampere);
+
+  /// Returns the electric current value in Abamperes (abA) or Biot (Bi).
+  double get inAbamperes => getValue(CurrentUnit.abampere);
+
   // --- "As" Getters for new Current objects ---
 
   /// Returns a new [Current] object representing this current in Amperes (A).
@@ -35,6 +41,12 @@ extension CurrentValueGetters on Current {
 
   /// Returns a new [Current] object representing this current in Kiloamperes (kA).
   Current get asKiloamperes => convertTo(CurrentUnit.kiloampere);
+
+  /// Returns a new [Current] object representing this current in Statamperes (statA).
+  Current get asStatamperes => convertTo(CurrentUnit.statampere);
+
+  /// Returns a new [Current] object representing this current in Abamperes (abA) or Biot (Bi).
+  Current get asAbamperes => convertTo(CurrentUnit.abampere);
 }
 
 /// Provides convenient factory methods for creating [Current] instances from [num]
@@ -74,4 +86,22 @@ extension CurrentCreation on num {
   /// Creates a [Current] instance representing this numerical value in Kiloamperes (kA).
   /// Alias for `kA`.
   Current get kiloamperes => Current(toDouble(), CurrentUnit.kiloampere);
+
+  /// Creates a [Current] instance from this numerical value in Statamperes (statA).
+  Current get statA => Current(toDouble(), CurrentUnit.statampere);
+
+  /// Creates a [Current] instance from this numerical value in Statamperes (statA).
+  /// Alias for `statA`.
+  Current get statamperes => Current(toDouble(), CurrentUnit.statampere);
+
+  /// Creates a [Current] instance from this numerical value in Abamperes (abA).
+  Current get abA => Current(toDouble(), CurrentUnit.abampere);
+
+  /// Creates a [Current] instance from this numerical value in Abamperes (abA).
+  /// Alias for `abA`, also known as Biot (Bi).
+  Current get abamperes => Current(toDouble(), CurrentUnit.abampere);
+
+  /// Creates a [Current] instance from this numerical value in Biot (Bi).
+  /// This is an alias for Abampere (`abA`).
+  Current get bi => Current(toDouble(), CurrentUnit.abampere);
 }

@@ -20,13 +20,13 @@ class CurrentFactors {
   /// Amperes per Kiloampere: 1 kiloampere (kA) = 1000 amperes (A).
   static const double amperesPerKiloampere = 1000.0;
 
-  // --- Other potential units (less common for general use, but exist) ---
-  // Example: Biot (Bi) or abampere, an electromagnetic CGS unit of current.
-  // 1 Biot (abampere) = 10 Amperes.
-  // static const double amperesPerBiot = 10.0;
+  /// Amperes per Statampere: 1 statampere (statA) ≈ 3.33564 × 10⁻¹⁰ Amperes.
+  /// The statampere is the unit of current in the CGS electrostatic system.
+  /// It is defined as 1 statcoulomb per second.
+  static const double amperesPerStatampere = 3.3356409519815204e-10;
 
-  // Example: Statampere, an electrostatic CGS unit of current.
-  // 1 Statampere ≈ 3.33564 × 10⁻¹⁰ Amperes.
-  // static const double amperesPerStatampere = 3.3356409519815204e-10;
-  // For now, focusing on SI prefixed units.
+  /// Amperes per Abampere (or Biot): 1 abampere (abA) = 10 Amperes.
+  /// The abampere is the unit of current in the CGS electromagnetic system.
+  /// It is also known as the biot (Bi).
+  static const double amperesPerAbampere = 10.0;
 }

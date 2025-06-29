@@ -25,12 +25,13 @@ enum CurrentUnit implements Unit<CurrentUnit> {
   nanoampere(CurrentFactors.amperesPerNanoampere, 'nA'),
 
   /// Kiloampere (kA), equal to 1000 amperes.
-  kiloampere(CurrentFactors.amperesPerKiloampere, 'kA');
+  kiloampere(CurrentFactors.amperesPerKiloampere, 'kA'),
 
-  // If Biot were to be added:
-  // /// Biot (Bi) or abampere, an electromagnetic CGS unit of current.
-  // /// 1 Bi = 10 A.
-  // biot(CurrentFactors.amperesPerBiot, 'Bi');
+  /// Statampere (statA), the CGS electrostatic unit of current.
+  statampere(CurrentFactors.amperesPerStatampere, 'statA'),
+
+  /// Abampere (abA) or Biot (Bi), the CGS electromagnetic unit of current.
+  abampere(CurrentFactors.amperesPerAbampere, 'abA');
 
   /// Constant constructor for enum members.
   ///
@@ -47,7 +48,9 @@ enum CurrentUnit implements Unit<CurrentUnit> {
         _factorToMilliampere = toAmpereFactor / CurrentFactors.amperesPerMilliampere,
         _factorToMicroampere = toAmpereFactor / CurrentFactors.amperesPerMicroampere,
         _factorToNanoampere = toAmpereFactor / CurrentFactors.amperesPerNanoampere,
-        _factorToKiloampere = toAmpereFactor / CurrentFactors.amperesPerKiloampere;
+        _factorToKiloampere = toAmpereFactor / CurrentFactors.amperesPerKiloampere,
+        _factorToStatampere = toAmpereFactor / CurrentFactors.amperesPerStatampere,
+        _factorToAbampere = toAmpereFactor / CurrentFactors.amperesPerAbampere;
   // If biot were added:
   // _factorToBiot = toAmpereFactor / CurrentFactors.amperesPerBiot;
 
@@ -67,8 +70,8 @@ enum CurrentUnit implements Unit<CurrentUnit> {
   final double _factorToMicroampere;
   final double _factorToNanoampere;
   final double _factorToKiloampere;
-  // If biot were added:
-  // final double _factorToBiot;
+  final double _factorToStatampere;
+  final double _factorToAbampere;
 
   /// Returns the direct conversion factor to convert a value from this [CurrentUnit]
   /// to the [targetUnit].
@@ -89,9 +92,10 @@ enum CurrentUnit implements Unit<CurrentUnit> {
         return _factorToNanoampere;
       case CurrentUnit.kiloampere:
         return _factorToKiloampere;
-      // If biot were added:
-      // case CurrentUnit.biot:
-      //  return _factorToBiot;
+      case CurrentUnit.statampere:
+        return _factorToStatampere;
+      case CurrentUnit.abampere:
+        return _factorToAbampere;
     }
   }
 }
