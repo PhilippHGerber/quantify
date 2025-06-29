@@ -5,6 +5,19 @@ All notable changes to the `quantify` package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0]
+
+2025-06-29
+
+### Added
+- Expanded Unit Coverage:
+  - Length: Added Mm (megametre) and Gm (gigametre).
+  - Mass: Added Mg (megagram) and Gg (gigagram).
+  - Time: Added full range of SI prefixes (Gs to cs) and calendar units (fortnight, decade, century).
+  - ElectricCurrent: Added CGS units statA (statampere) and abA (abampere/biot).
+
+- Granular Exports: Added separate library entry points (e.g., package:quantify/length.dart) to allow for explicit imports and prevent namespace conflicts.
+
 ## [0.4.0]
 
 2025-06-23

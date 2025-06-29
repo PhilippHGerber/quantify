@@ -3,7 +3,7 @@
 [![pub version](https://img.shields.io/pub/v/quantify.svg)](https://pub.dev/packages/quantify)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/PhilippHGerber/quantify/blob/main/LICENSE)
 
-A type-safe units of measurement library for Dart, providing an elegant syntax for unit conversions with good precision and optimal performance.
+A type-safe unit of measurement converter library for Dart with elegant syntax, high precision, and optimal performance.
 
 ## Why `quantify`?
 
@@ -60,7 +60,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  quantify: ^0.4.0 # Or latest version
+  quantify: ^0.5.0 # Or latest version
   # Optional, for locale-specific number formatting:
   # intl: ^0.19.0
 ```
@@ -71,8 +71,8 @@ Then run `dart pub get` or `flutter pub get`.
 
 The library supports a comprehensive range of physical quantities, including all 7 SI base units and many derived units:
 
-| Quantity Type           | Status | Units Available                                                                                                                         | Notes / SI Base Unit Ref. |
-| :---------------------- | :----: | :-------------------------------------------------------------------------------------------------------------------------------------- | :------------------------ |
+| Quantity Type           | Status | Units Available                                                                                                                        | Notes / SI Base Unit Ref. |
+| :---------------------- | :----: | :------------------------------------------------------------------------------------------------------------------------------------- | :------------------------ |
 | **Length**              |   ✅    | **`m`** (meter), `km`, `hm`, `dam`, `dm`, `cm`, `mm`, `μm`, `nm`, `pm`, `fm`, `in`, `ft`, `yd`, `mi`, `nmi`, `AU`, `ly`, `pc`, `Å`     | SI Base: Meter (m)        |
 | **Mass**                |   ✅    | **`kg`** (kilogram), `hg`, `dag`, `g`, `dg`, `cg`, `mg`, `μg`, `ng`, `t`, `lb`, `oz`, `st`, `slug`, `short ton`, `long ton`, `u`, `ct` | SI Base: Kilogram (kg)    |
 | **Time**                |   ✅    | **`s`** (second), `μs`, `ns`, `ps`, `ms`, `min`, `h`, `d`, `wk`, `mo`, `yr`                                                            | SI Base: Second (s)       |
@@ -80,7 +80,7 @@ The library supports a comprehensive range of physical quantities, including all
 | **Temperature**         |   ✅    | **`K`** (kelvin), `°C` (celsius), `°F` (fahrenheit), `°R` (rankine)                                                                    | SI Base: Kelvin (K)       |
 | **Amount of Substance** |   ✅    | **`mol`** (mole), `mmol`, `μmol`, `nmol`, `pmol`, `kmol`                                                                               | SI Base: Mole (mol)       |
 | **Luminous Intensity**  |   ✅    | **`cd`** (candela), `mcd`, `kcd`                                                                                                       | SI Base: Candela (cd)     |
-| --- Derived ---         |        |                                                                                                                                         |                           |
+| --- Derived ---         |        |                                                                                                                                        |                           |
 | **Pressure**            |   ✅    | **`Pa`** (Pascal), `atm`, `bar`, `psi`, `Torr`, `mmHg`, `inHg`, `kPa`, `hPa`, `mbar`, `cmH₂O`, `inH₂O`                                 | Derived SI: N/m²          |
 | **Angle**               |   ✅    | **`rad`** (radian), `°` (degree), `grad`, `rev`, `arcmin` ('), `arcsec` ("), `mrad`                                                    | Derived SI: dimensionless |
 | **Angular Velocity**    |   ✅    | **`rad/s`**, `°/s`, `rpm`, `rps`                                                                                                       | Derived SI: 1/s           |
@@ -190,6 +190,39 @@ print(oneMeter == hundredCm);          // false (units are different)
 final lengths = [1.mi, 2000.m, 1.km, 5000.ft];
 lengths.sort(); // Sorts by physical magnitude
 ```
+
+## **Managing Imports and Avoiding Conflicts**
+
+`quantify` is designed to be both convenient and robust. By default, importing `package:quantify/quantify.dart` gives you access to all quantities and their handy extensions (like `10.m` or `5.s`).
+
+However, in large projects or when combining `quantify` with other libraries, this might lead to name conflicts with extension methods. To give you full control over what is imported into your project's namespace, `quantify` provides separate entry points for each quantity type.
+
+If you encounter a name conflict or simply want to be more explicit about your dependencies, you can import only the quantities you need.
+
+**Example: Importing only Length and Time**
+
+Instead of the main package, you can import specific libraries:
+
+```dart
+
+// Import only the extensions you need
+import 'package:quantify/length.dart';
+import 'package:quantify/time.dart';
+
+void main() {
+  // Now, only extensions for Length and Time are available.
+  final distance = 100.m; // Works
+  final duration = 30.s;   // Works
+
+  // This will cause a compile-time error because Mass extensions were not imported.
+  // final weight = 70.kg; // ERROR: The getter 'kg' isn't defined for the type 'int'.
+
+  // You can still create the Mass object using its constructor:
+  final weight = Mass(70, MassUnit.kilogram); // This always works
+}
+```
+
+This granular approach ensures that `quantify` can be used safely and effectively in any project, no matter how complex.
 
 ## Goals & Roadmap
 
