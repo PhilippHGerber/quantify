@@ -76,12 +76,11 @@ extension LengthValueGetters on Length {
   /// Returns a Length representing this length in Kilometers (km).
   Length get asKm => convertTo(LengthUnit.kilometer);
 
-    /// Returns a Length representing this length in Megameters (Mm).
+  /// Returns a Length representing this length in Megameters (Mm).
   Length get asMegaM => convertTo(LengthUnit.megameter);
 
   /// Returns a Length representing this length in Gigameters (Gm).
   Length get asGigaM => convertTo(LengthUnit.gigameter);
-
 
   /// Returns a Length representing this length in Hectometers (hm).
   Length get asHm => convertTo(LengthUnit.hectometer);
