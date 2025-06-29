@@ -37,6 +37,12 @@ enum MassUnit implements Unit<MassUnit> {
   /// Nanogram (ng), equal to 1e-12 kilograms.
   nanogram(MassFactors.kilogramsPerNanogram, 'ng'),
 
+  /// Megagram (Mg), equal to 1000 kilograms. It is equivalent to a metric ton (tonne).
+  megagram(MassFactors.kilogramsPerMegagram, 'Mg'),
+
+  /// Gigagram (Gg), equal to 1e6 kilograms.
+  gigagram(MassFactors.kilogramsPerGigagram, 'Gg'),
+
   /// Tonne (metric ton) (t), equal to 1000 kilograms.
   tonne(MassFactors.kilogramsPerTonne, 't'),
 
@@ -90,6 +96,8 @@ enum MassUnit implements Unit<MassUnit> {
         _factorToMilligram = toKilogramFactor / MassFactors.kilogramsPerMilligram,
         _factorToMicrogram = toKilogramFactor / MassFactors.kilogramsPerMicrogram,
         _factorToNanogram = toKilogramFactor / MassFactors.kilogramsPerNanogram,
+        _factorToMegagram = toKilogramFactor / MassFactors.kilogramsPerMegagram,
+        _factorToGigagram = toKilogramFactor / MassFactors.kilogramsPerGigagram,
         _factorToTonne = toKilogramFactor / MassFactors.kilogramsPerTonne,
         _factorToPound = toKilogramFactor / MassFactors.kilogramsPerPound,
         _factorToOunce = toKilogramFactor / MassFactors.kilogramsPerOunce,
@@ -119,6 +127,8 @@ enum MassUnit implements Unit<MassUnit> {
   final double _factorToMilligram;
   final double _factorToMicrogram;
   final double _factorToNanogram;
+  final double _factorToMegagram;
+  final double _factorToGigagram;
   final double _factorToTonne;
   final double _factorToPound;
   final double _factorToOunce;
@@ -156,6 +166,10 @@ enum MassUnit implements Unit<MassUnit> {
         return _factorToMicrogram;
       case MassUnit.nanogram:
         return _factorToNanogram;
+      case MassUnit.megagram:
+        return _factorToMegagram;
+      case MassUnit.gigagram:
+        return _factorToGigagram;
       case MassUnit.tonne:
         return _factorToTonne;
       case MassUnit.pound:

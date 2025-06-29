@@ -41,6 +41,12 @@ class MassFactors {
   /// Kilograms per Nanogram: 1 nanogram = 1e-12 kilograms.
   static const double kilogramsPerNanogram = 1e-12;
 
+  /// Kilograms per Megagram: 1 megagram = 1000 kilograms (equivalent to 1 tonne).
+  static const double kilogramsPerMegagram = 1000.0;
+
+  /// Kilograms per Gigagram: 1 gigagram = 1e6 kilograms.
+  static const double kilogramsPerGigagram = 1e6;
+
   /// Kilograms per Tonne (Metric Ton): 1 tonne = 1000 kilograms.
   static const double kilogramsPerTonne = 1000.0;
 

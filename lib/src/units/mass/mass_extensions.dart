@@ -34,6 +34,12 @@ extension MassValueGetters on Mass {
   /// Returns the mass value in Nanograms (ng).
   double get inNanograms => getValue(MassUnit.nanogram);
 
+  /// Returns the mass value in Megagrams (Mg).
+  double get inMegaG => getValue(MassUnit.megagram);
+
+  /// Returns the mass value in Gigagrams (Gg).
+  double get inGigaG => getValue(MassUnit.gigagram);
+
   /// Returns the mass value in Tonnes (t, metric tons).
   double get inTonnes => getValue(MassUnit.tonne);
 
@@ -89,6 +95,12 @@ extension MassValueGetters on Mass {
 
   /// Returns a new [Mass] object representing this mass in Nanograms (ng).
   Mass get asNanograms => convertTo(MassUnit.nanogram);
+
+  /// Returns a new [Mass] object representing this mass in Megagrams (Mg).
+  Mass get asMegaG => convertTo(MassUnit.megagram);
+
+  /// Returns a new [Mass] object representing this mass in Gigagrams (Gg).
+  Mass get asGigaG => convertTo(MassUnit.gigagram);
 
   /// Returns a new [Mass] object representing this mass in Tonnes (t).
   Mass get asTonnes => convertTo(MassUnit.tonne);
@@ -166,6 +178,12 @@ extension MassCreation on num {
   /// Creates a [Mass] instance representing this numerical value in Nanograms (ng).
   /// Alias for `ng`.
   Mass get nanograms => Mass(toDouble(), MassUnit.nanogram);
+
+  /// Creates a [Mass] instance representing this numerical value in Megagrams (Mg).
+  Mass get megaG => Mass(toDouble(), MassUnit.megagram);
+
+  /// Creates a [Mass] instance representing this numerical value in Gigagrams (Gg).
+  Mass get gigaG => Mass(toDouble(), MassUnit.gigagram);
 
   /// Creates a [Mass] instance representing this numerical value in Tonnes (t, metric tons).
   Mass get t => Mass(toDouble(), MassUnit.tonne);
