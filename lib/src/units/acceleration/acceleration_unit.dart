@@ -40,7 +40,7 @@ enum AccelerationUnit implements Unit<AccelerationUnit> {
         _factorToKnotPerSecond = toMpssFactor / AccelerationFactors.mpssPerKnotPerSec,
         _factorToFootPerSecondSquared = toMpssFactor / AccelerationFactors.mpssPerFpsSquared;
 
-  // ignore: unused_field
+  // ignore: unused_field // Used to store the conversion factor to Meter per Second Squared (m/s²).
   final double _toMpssFactor;
 
   @override

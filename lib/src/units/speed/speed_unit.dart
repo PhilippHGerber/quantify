@@ -41,7 +41,7 @@ enum SpeedUnit implements Unit<SpeedUnit> {
         _factorToKnot = toMpsFactor / SpeedFactors.mpsPerKnot,
         _factorToFootPerSecond = toMpsFactor / SpeedFactors.mpsPerFps;
 
-  // ignore: unused_field
+  // ignore: unused_field // Used to store the conversion factor to Meter per Second (m/s).
   final double _toMpsFactor;
 
   @override

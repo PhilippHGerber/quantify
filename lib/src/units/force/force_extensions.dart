@@ -61,7 +61,7 @@ extension ForceCreation on num {
   Force get kilonewtons => Force(toDouble(), ForceUnit.kilonewton);
 
   /// Creates a [Force] instance from this value in Meganewtons (MN).
-  Force get MN => Force(toDouble(), ForceUnit.meganewton);
+  Force get megaN => Force(toDouble(), ForceUnit.meganewton);
 
   /// Creates a [Force] instance from this value in Meganewtons (MN).
   Force get meganewtons => Force(toDouble(), ForceUnit.meganewton);

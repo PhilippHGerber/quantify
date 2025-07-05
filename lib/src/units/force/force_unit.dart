@@ -42,7 +42,7 @@ enum ForceUnit implements Unit<ForceUnit> {
         _factorToDyne = toNewtonFactor / ForceFactors.newtonsPerDyne,
         _factorToKilogramForce = toNewtonFactor / ForceFactors.newtonsPerKilogramForce;
 
-  // ignore: unused_field
+  // ignore: unused_field // Used to store the conversion factor to Newton (N).
   final double _toNewtonFactor;
 
   @override
