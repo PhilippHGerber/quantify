@@ -3,6 +3,10 @@ library;
 
 export 'src/core/quantity.dart';
 export 'src/core/unit.dart';
+// Exporting units and their extensions for acceleration
+export 'src/units/acceleration/acceleration.dart';
+export 'src/units/acceleration/acceleration_extensions.dart';
+export 'src/units/acceleration/acceleration_unit.dart';
 // Exporting units and their extensions for angle
 export 'src/units/angle/angle.dart';
 export 'src/units/angle/angle_extensions.dart';
@@ -15,6 +19,10 @@ export 'src/units/angular_velocity/angular_velocity_unit.dart';
 export 'src/units/current/current.dart';
 export 'src/units/current/current_extensions.dart';
 export 'src/units/current/current_unit.dart';
+// Exporting units and their extensions for force
+export 'src/units/force/force.dart';
+export 'src/units/force/force_extensions.dart';
+export 'src/units/force/force_unit.dart';
 // Exporting units and their extensions for length
 export 'src/units/length/length.dart';
 export 'src/units/length/length_extensions.dart';
@@ -35,6 +43,10 @@ export 'src/units/molar/molar_unit.dart';
 export 'src/units/pressure/pressure.dart';
 export 'src/units/pressure/pressure_extensions.dart';
 export 'src/units/pressure/pressure_unit.dart';
+// Exporting units and their extensions for speed
+export 'src/units/speed/speed.dart';
+export 'src/units/speed/speed_extensions.dart';
+export 'src/units/speed/speed_unit.dart';
 // Exporting units and their extensions for temperature
 export 'src/units/temperature/temperature.dart';
 export 'src/units/temperature/temperature_extensions.dart';
