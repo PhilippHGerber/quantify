@@ -60,7 +60,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  quantify: ^0.6.0 # Or latest version
+  quantify: ^0.7.0 # Or latest version
   # Optional, for locale-specific number formatting:
   # intl: ^0.19.0
 ```
@@ -73,22 +73,22 @@ The library supports a comprehensive range of physical quantities, including all
 
 | Quantity Type           | Status | Units Available                                                                                                                        | Notes / SI Base Unit Ref. |
 | :---------------------- | :----: | :------------------------------------------------------------------------------------------------------------------------------------- | :------------------------ |
-| **Length**              |   ✅    | **`m`** (meter), `km`, `hm`, `dam`, `dm`, `cm`, `mm`, `μm`, `nm`, `pm`, `fm`, `in`, `ft`, `yd`, `mi`, `nmi`, `AU`, `ly`, `pc`, `Å`     | SI Base: Meter (m)        |
-| **Mass**                |   ✅    | **`kg`** (kilogram), `hg`, `dag`, `g`, `dg`, `cg`, `mg`, `μg`, `ng`, `t`, `lb`, `oz`, `st`, `slug`, `short ton`, `long ton`, `u`, `ct` | SI Base: Kilogram (kg)    |
-| **Time**                |   ✅    | **`s`** (second), `μs`, `ns`, `ps`, `ms`, `min`, `h`, `d`, `wk`, `mo`, `yr`                                                            | SI Base: Second (s)       |
-| **Electric Current**    |   ✅    | **`A`** (ampere), `mA`, `μA`, `nA`, `kA`                                                                                               | SI Base: Ampere (A)       |
-| **Temperature**         |   ✅    | **`K`** (kelvin), `°C` (celsius), `°F` (fahrenheit), `°R` (rankine)                                                                    | SI Base: Kelvin (K)       |
-| **Amount of Substance** |   ✅    | **`mol`** (mole), `mmol`, `μmol`, `nmol`, `pmol`, `kmol`                                                                               | SI Base: Mole (mol)       |
-| **Luminous Intensity**  |   ✅    | **`cd`** (candela), `mcd`, `kcd`                                                                                                       | SI Base: Candela (cd)     |
-| --- Derived ---         |        |                                                                                                                                        |                           |
-| **Angle**               |   ✅    | **`rad`** (radian), `°` (degree), `grad`, `rev`, `arcmin` ('), `arcsec` ("), `mrad`                                                    | Derived SI: dimensionless |
-| **Angular Velocity**    |   ✅    | **`rad/s`**, `°/s`, `rpm`, `rps`                                                                                                       | Derived SI: 1/s           |
-| **Speed / Velocity**    |   ✅    | **`m/s`** (meter per second), `km/h`, `mph`, `kn` (knot), `ft/s`                                                                       | Derived SI                |
-| **Acceleration**        |   ✅    | **`m/s²`** (meter per second squared), `g` (standard gravity), `km/h/s`                                                                | Derived SI                |
-| **Force**               |   ✅    | **`N`** (Newton), `lbf` (pound-force), `dyn` (dyne), `kgf` (kilogram-force), `kN`                                                      | Derived SI: kg·m/s²       |
-| **Pressure**            |   ✅    | **`Pa`** (Pascal), `atm`, `bar`, `psi`, `Torr`, `mmHg`, `inHg`, `kPa`, `hPa`, `mbar`, `cmH₂O`, `inH₂O`                                 | Derived SI: N/m²          |
-| Area                    |   🗓️    | **`m²`** (square meter), `km²`, `cm²`, `ha` (hectare), `acre` ...                                                                      | Derived SI                |
-| Volume                  |   🗓️    | **`m³`** (cubic meter), `L` (liter), `mL`, `cm³`, `gal` (gallon), `fl oz` ...                                                          | Derived SI                |
+| **Length**              |   ✅   | **`m`** (meter), `km`, `hm`, `dam`, `dm`, `cm`, `mm`, `μm`, `nm`, `pm`, `fm`, `in`, `ft`, `yd`, `mi`, `nmi`, `AU`, `ly`, `pc`, `Å`     | SI Base: Meter (m)        |
+| **Mass**                |   ✅   | **`kg`** (kilogram), `hg`, `dag`, `g`, `dg`, `cg`, `mg`, `μg`, `ng`, `t`, `lb`, `oz`, `st`, `slug`, `short ton`, `long ton`, `u`, `ct` | SI Base: Kilogram (kg)    |
+| **Time**                |   ✅   | **`s`** (second), `μs`, `ns`, `ps`, `ms`, `min`, `h`, `d`, `wk`, `mo`, `yr`                                                            | SI Base: Second (s)       |
+| **Electric Current**    |   ✅   | **`A`** (ampere), `mA`, `μA`, `nA`, `kA`                                                                                               | SI Base: Ampere (A)       |
+| **Temperature**         |   ✅   | **`K`** (kelvin), `°C` (celsius), `°F` (fahrenheit), `°R` (rankine)                                                                    | SI Base: Kelvin (K)       |
+| **Amount of Substance** |   ✅   | **`mol`** (mole), `mmol`, `μmol`, `nmol`, `pmol`, `kmol`                                                                               | SI Base: Mole (mol)       |
+| **Luminous Intensity**  |   ✅   | **`cd`** (candela), `mcd`, `kcd`                                                                                                       | SI Base: Candela (cd)     |
+| *Derived*         |        |                                                                                                                                        |                           |
+| **Angle**               |   ✅   | **`rad`** (radian), `°` (degree), `grad`, `rev`, `arcmin` ('), `arcsec` ("), `mrad`                                                    | Derived SI: dimensionless |
+| **Angular Velocity**    |   ✅   | **`rad/s`**, `°/s`, `rpm`, `rps`                                                                                                       | Derived SI: 1/s           |
+| **Speed / Velocity**    |   ✅   | **`m/s`** (meter per second), `km/h`, `mph`, `kn` (knot), `ft/s`                                                                       | Derived SI                |
+| **Acceleration**        |   ✅   | **`m/s²`** (meter per second squared), `g` (standard gravity), `km/h/s`                                                                | Derived SI                |
+| **Force**               |   ✅   | **`N`** (Newton), `lbf` (pound-force), `dyn` (dyne), `kgf` (kilogram-force), `kN`                                                      | Derived SI: kg·m/s²       |
+| **Pressure**            |   ✅   | **`Pa`** (Pascal), `atm`, `bar`, `psi`, `Torr`, `mmHg`, `inHg`, `kPa`, `hPa`, `mbar`, `cmH₂O`, `inH₂O`                                 | Derived SI: N/m²          |
+| **Area**                |   ✅   | **`m²`** (square meter), `Mm²`, `km²`, `hm²`, `dam²`, `dm²`, `cm²`, `mm²`, `µm²`, `ha` (hectare), `mi²`, `acre`, `yd²`, `ft²`, `in²`   | Derived SI                |
+| **Volume**              |   ✅   | **`m³`**, **`L`**, `mL`, `gal`, `fl-oz`, `ft³`, `in³`, `qt`, `pt`, `tbsp`, `tsp`...                                                    | Derived SI: L (Liter)     |
 | Energy / Work           |   🗓️    | **`J`** (Joule), `kWh` (kilowatt-hour), `cal` (calorie), `eV` (electronvolt) ...                                                       | Derived SI: N·m           |
 | Power                   |   💡    | **`W`** (Watt), `hp` (horsepower) ...                                                                                                  | Derived SI: J/s           |
 | Frequency               |   💡    | **`Hz`** (Hertz), `kHz`, `MHz` ...                                                                                                     | Derived SI: 1/s           |
@@ -199,7 +199,7 @@ However, in large projects or when combining `quantify` with other libraries, th
 
 If you encounter a name conflict or simply want to be more explicit about your dependencies, you can import only the quantities you need.
 
-**Example: Importing only Length and Time**
+### Example: Importing only Length and Time
 
 Instead of the main package, you can import specific libraries:
 

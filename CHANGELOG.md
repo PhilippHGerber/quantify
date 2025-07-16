@@ -5,22 +5,31 @@ All notable changes to the `quantify` package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0]
+
+2025-07-16
+
+- New Derived Quantity:
+  - `Area` with units (`m²`, `km²`, `ha`, `acre`, `yd²`, `ft²`, etc.).
+  - `Volume` with comprehensive SI, US customary, and cooking units (`m³`, `L`, `gal`, `fl-oz`, `tsp`, etc.).
+
 ## [0.6.0]
 
 2025-07-05
 
 ### Added
+
 - New Derived Quantities:
   - `Speed`: Added `m/s`, `km/h`, `mph`, `kn`, `ft/s`.
   - `Acceleration`: Added `m/s²`, `g` (standard gravity), `km/h/s`.
   - `Force`: Added `N` (Newton), `lbf`, `dyn`, `kgf`, `kN`.
-
 
 ## [0.5.0]
 
 2025-06-29
 
 ### Added
+
 - Expanded Unit Coverage:
   - Length: Added Mm (megametre) and Gm (gigametre).
   - Mass: Added Mg (megagram) and Gg (gigagram).
