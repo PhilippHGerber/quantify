@@ -1,4 +1,3 @@
-// lib/src/units/angular_velocity/angular_velocity.dart
 import 'package:meta/meta.dart';
 
 import '../../core/quantity.dart';
