@@ -1,6 +1,7 @@
 /// A type-safe library for units of measurement, providing elegant syntax for unit conversions.
 library;
 
+// Exporting core classes for quantities and units
 export 'src/core/quantity.dart';
 export 'src/core/unit.dart';
 // Exporting units and their extensions for acceleration
@@ -15,6 +16,10 @@ export 'src/units/angle/angle_unit.dart';
 export 'src/units/angular_velocity/angular_velocity.dart';
 export 'src/units/angular_velocity/angular_velocity_extensions.dart';
 export 'src/units/angular_velocity/angular_velocity_unit.dart';
+// Exporting units and their extensions for area
+export 'src/units/area/area.dart';
+export 'src/units/area/area_extensions.dart';
+export 'src/units/area/area_unit.dart';
 // Exporting units and their extensions for electric current
 export 'src/units/current/current.dart';
 export 'src/units/current/current_extensions.dart';
@@ -55,3 +60,7 @@ export 'src/units/temperature/temperature_unit.dart';
 export 'src/units/time/time.dart';
 export 'src/units/time/time_extensions.dart';
 export 'src/units/time/time_unit.dart';
+// Exporting units and their extensions for volume
+export 'src/units/volume/volume.dart';
+export 'src/units/volume/volume_extensions.dart';
+export 'src/units/volume/volume_unit.dart';
