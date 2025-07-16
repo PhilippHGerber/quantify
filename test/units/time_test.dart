@@ -458,6 +458,7 @@ void main() {
           10.0.wk, // 10 weeks = 70 days
         ];
 
+        // ignore: cascade_invocations // Sort by magnitude
         times.sort();
 
         // Should be sorted: 1 mo < 1000 h < 10 wk < 100 d < 1 yr

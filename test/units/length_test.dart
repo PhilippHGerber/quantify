@@ -421,6 +421,7 @@ void main() {
           100000.AU, // ~1.58 ly
         ];
 
+        // ignore: cascade_invocations // Sort by magnitude
         distances.sort();
 
         // Should be sorted by magnitude: 1000 AU < 100000 AU < 1 ly < 1 pc < 10 ly

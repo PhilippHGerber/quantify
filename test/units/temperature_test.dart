@@ -544,6 +544,7 @@ void main() {
         0.0.kelvin, // Absolute zero
       ];
 
+      // ignore: cascade_invocations // Sort by magnitude
       temps.sort();
 
       // Should be sorted by actual temperature value
