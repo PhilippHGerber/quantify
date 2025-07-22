@@ -275,6 +275,33 @@ abstract class Quantity<T extends Unit<T>> implements Comparable<Quantity<T>> {
         _unit == other._unit;
   }
 
+  /// Checks if this quantity has the same physical magnitude as another.
+  ///
+  /// This method performs a unit-agnostic comparison. For example,
+  /// `1.m.isEquivalentTo(100.cm)` will return `true`.
+  ///
+  /// Internally, this is equivalent to `this.compareTo(other) == 0` and relies on
+  /// standard `double` equality. This means it can be sensitive to minute
+  /// floating-point inaccuracies that may arise from arithmetic operations.
+  ///
+  /// For example, `(0.1.m + 0.2.m).isEquivalentTo(0.3.m)` might return `false`
+  /// due to the nature of floating-point representation.
+  ///
+  /// Returns `true` if the physical magnitudes are exactly equal, `false` otherwise.
+  bool isEquivalentTo(Quantity<T> other) => compareTo(other) == 0;
+
+  /// Checks if this quantity's magnitude is greater than another's.
+  bool operator >(Quantity<T> other) => compareTo(other) > 0;
+
+  /// Checks if this quantity's magnitude is less than another's.
+  bool operator <(Quantity<T> other) => compareTo(other) < 0;
+
+  /// Checks if this quantity's magnitude is greater than or equal to another's.
+  bool operator >=(Quantity<T> other) => compareTo(other) >= 0;
+
+  /// Checks if this quantity's magnitude is less than or equal to another's.
+  bool operator <=(Quantity<T> other) => compareTo(other) <= 0;
+
   /// Returns a hash code for this `Quantity` instance.
   ///
   /// The hash code is generated based on the [runtimeType], the numerical [_value],

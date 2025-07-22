@@ -529,4 +529,165 @@ void main() {
       });
     });
   });
+
+  group('Quantity Comparison Operators for Length', () {
+    // --- Test Fixtures ---
+    final oneMeter = 1.m;
+    final oneMeterAgain = 1.m; // Different instance, same value/unit
+    final twoMeters = 2.m;
+    final hundredCm = 100.cm; // Equivalent to 1 meter
+    final ninetyNineCm = 99.cm; // Less than 1 meter
+    final oneHundredOneCm = 101.cm; // More than 1 meter
+    final oneFoot = 1.ft; // Different unit, different magnitude
+
+    group('Strict Equality (operator ==)', () {
+      test('should return true for identical value and unit', () {
+        expect(oneMeter == oneMeterAgain, isTrue);
+      });
+
+      test('should return false for different values, even with same unit', () {
+        expect(oneMeter == twoMeters, isFalse);
+      });
+
+      test('should return false for different units, even with same magnitude', () {
+        // This is the core distinction: == checks for strict, not magnitude, equality.
+        expect(oneMeter == hundredCm, isFalse);
+      });
+
+      test('should return false for different units and different magnitudes', () {
+        expect(oneMeter == oneFoot, isFalse);
+      });
+
+      test('should have consistent hashCode with strict equality', () {
+        expect(oneMeter.hashCode, equals(oneMeterAgain.hashCode));
+        expect(oneMeter.hashCode, isNot(equals(twoMeters.hashCode)));
+        expect(oneMeter.hashCode, isNot(equals(hundredCm.hashCode)));
+      });
+    });
+
+    group('Magnitude Equality (isEquivalentTo)', () {
+      test('should return true for different units with the same magnitude', () {
+        expect(oneMeter.isEquivalentTo(hundredCm), isTrue);
+      });
+
+      test('should return true for identical value and unit', () {
+        expect(oneMeter.isEquivalentTo(oneMeterAgain), isTrue);
+      });
+
+      test('should return false for different magnitudes', () {
+        expect(oneMeter.isEquivalentTo(ninetyNineCm), isFalse);
+        expect(oneMeter.isEquivalentTo(twoMeters), isFalse);
+      });
+
+      test('floating point inaccuracy showcase', () {
+        // As documented, direct float arithmetic can lead to non-equivalence.
+        final l1 = 0.1.m;
+        final l2 = 0.2.m;
+        final sum = l1 + l2; // Internally, this is 0.1 + 0.2
+        final l3 = 0.3.m;
+
+        // 0.1 + 0.2 is famously not exactly 0.3 in binary floating point.
+        expect(sum.value, isNot(equals(0.3)));
+        expect(sum.isEquivalentTo(l3), isFalse);
+      });
+    });
+
+    group('Relational Operators (>, <, >=, <=)', () {
+      // --- Operator > (Greater Than) ---
+      test('operator > should be true when left operand is larger', () {
+        expect(twoMeters > oneMeter, isTrue);
+        expect(oneMeter > ninetyNineCm, isTrue);
+        expect(1.mi > 1.km, isTrue); // 1 mile > 1 kilometer
+      });
+
+      test('operator > should be false when left operand is smaller', () {
+        expect(oneMeter > twoMeters, isFalse);
+        expect(ninetyNineCm > oneMeter, isFalse);
+      });
+
+      test('operator > should be false for equivalent magnitudes', () {
+        expect(oneMeter > hundredCm, isFalse);
+      });
+
+      // --- Operator < (Less Than) ---
+      test('operator < should be true when left operand is smaller', () {
+        expect(oneMeter < twoMeters, isTrue);
+        expect(ninetyNineCm < oneMeter, isTrue);
+        expect(1.km < 1.mi, isTrue);
+      });
+
+      test('operator < should be false when left operand is larger', () {
+        expect(twoMeters < oneMeter, isFalse);
+        expect(oneMeter < ninetyNineCm, isFalse);
+      });
+
+      test('operator < should be false for equivalent magnitudes', () {
+        expect(oneMeter < hundredCm, isFalse);
+      });
+
+      // --- Operator >= (Greater Than or Equal) ---
+      test('operator >= should be true for equivalent magnitudes', () {
+        expect(oneMeter >= hundredCm, isTrue);
+        expect(hundredCm >= oneMeter, isTrue);
+      });
+
+      test('operator >= should be true when left operand is larger', () {
+        expect(twoMeters >= oneMeter, isTrue);
+        expect(oneMeter >= ninetyNineCm, isTrue);
+      });
+
+      test('operator >= should be false when left operand is smaller', () {
+        expect(oneMeter >= twoMeters, isFalse);
+        expect(ninetyNineCm >= oneMeter, isFalse);
+      });
+
+      // --- Operator <= (Less Than or Equal) ---
+      test('operator <= should be true for equivalent magnitudes', () {
+        expect(oneMeter <= hundredCm, isTrue);
+        expect(hundredCm <= oneMeter, isTrue);
+      });
+
+      test('operator <= should be true when left operand is smaller', () {
+        expect(oneMeter <= twoMeters, isTrue);
+        expect(ninetyNineCm <= oneMeter, isTrue);
+      });
+
+      test('operator <= should be false when left operand is larger', () {
+        expect(twoMeters <= oneMeter, isFalse);
+        expect(oneMeter <= ninetyNineCm, isFalse);
+      });
+    });
+
+    group('Consistency between compareTo, isEquivalentTo, and operators', () {
+      test('isEquivalentTo(b) should be consistent with a.compareTo(b) == 0', () {
+        expect(oneMeter.isEquivalentTo(hundredCm), equals(oneMeter.compareTo(hundredCm) == 0));
+        expect(
+          oneMeter.isEquivalentTo(ninetyNineCm),
+          equals(oneMeter.compareTo(ninetyNineCm) == 0),
+        );
+      });
+
+      test('a > b should be consistent with a.compareTo(b) > 0', () {
+        expect(oneMeter > ninetyNineCm, equals(oneMeter.compareTo(ninetyNineCm) > 0));
+        expect(ninetyNineCm > oneMeter, equals(ninetyNineCm.compareTo(oneMeter) > 0));
+      });
+
+      test('a < b should be consistent with a.compareTo(b) < 0', () {
+        expect(oneMeter < oneHundredOneCm, equals(oneMeter.compareTo(oneHundredOneCm) < 0));
+        expect(oneHundredOneCm < oneMeter, equals(oneHundredOneCm.compareTo(oneMeter) < 0));
+      });
+
+      test('a >= b should be consistent with a.compareTo(b) >= 0', () {
+        expect(oneMeter >= hundredCm, equals(oneMeter.compareTo(hundredCm) >= 0));
+        expect(oneMeter >= ninetyNineCm, equals(oneMeter.compareTo(ninetyNineCm) >= 0));
+        expect(ninetyNineCm >= oneMeter, equals(ninetyNineCm.compareTo(oneMeter) >= 0));
+      });
+
+      test('a <= b should be consistent with a.compareTo(b) <= 0', () {
+        expect(oneMeter <= hundredCm, equals(oneMeter.compareTo(hundredCm) <= 0));
+        expect(oneMeter <= oneHundredOneCm, equals(oneMeter.compareTo(oneHundredOneCm) <= 0));
+        expect(oneHundredOneCm <= oneMeter, equals(oneHundredOneCm.compareTo(oneMeter) <= 0));
+      });
+    });
+  });
 }
