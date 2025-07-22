@@ -6,6 +6,9 @@ extension FrequencyValueGetters on Frequency {
   /// Returns the frequency value in Hertz (Hz).
   double get inHertz => getValue(FrequencyUnit.hertz);
 
+  /// Returns the frequency value in Terahertz (THz).
+  double get inTerahertz => getValue(FrequencyUnit.terahertz);
+
   /// Returns the frequency value in Gigahertz (GHz).
   double get inGigahertz => getValue(FrequencyUnit.gigahertz);
 
@@ -23,6 +26,9 @@ extension FrequencyValueGetters on Frequency {
 
   /// Returns a new [Frequency] object representing this frequency in Hertz (Hz).
   Frequency get asHertz => convertTo(FrequencyUnit.hertz);
+
+  /// Returns a new [Frequency] object representing this frequency in Terahertz (THz).
+  Frequency get asTerahertz => convertTo(FrequencyUnit.terahertz);
 
   /// Returns a new [Frequency] object representing this frequency in Gigahertz (GHz).
   Frequency get asGigahertz => convertTo(FrequencyUnit.gigahertz);
@@ -44,6 +50,9 @@ extension FrequencyValueGetters on Frequency {
 extension FrequencyCreation on num {
   /// Creates a [Frequency] instance from this value in Hertz (Hz).
   Frequency get hz => Frequency(toDouble(), FrequencyUnit.hertz);
+
+  /// Creates a [Frequency] instance from this value in Terahertz (THz).
+  Frequency get thz => Frequency(toDouble(), FrequencyUnit.terahertz);
 
   /// Creates a [Frequency] instance from this value in Gigahertz (GHz).
   Frequency get ghz => Frequency(toDouble(), FrequencyUnit.gigahertz);

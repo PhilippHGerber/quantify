@@ -53,6 +53,12 @@ void main() {
         expect(oneHertz.inBeatsPerMinute, closeTo(60.0, tolerance));
       });
 
+      test('Terahertz to other SI units', () {
+        final opticalFreq = 1.5.thz;
+        expect(opticalFreq.inGigahertz, closeTo(1500.0, tolerance));
+        expect(opticalFreq.inHertz, closeTo(1.5e12, tolerance));
+      });
+
       test('Kilohertz to Hertz', () {
         final radioFreq = 88.5.khz;
         expect(radioFreq.inHertz, closeTo(88500.0, tolerance));

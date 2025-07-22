@@ -7,6 +7,9 @@
 class FrequencyFactors {
   // --- SI Prefixed Units (relative to Hertz) ---
 
+  /// Hertz per Terahertz: 1 THz = 1e12 Hz.
+  static const double hzPerTerahertz = 1e12;
+
   /// Hertz per Gigahertz: 1 GHz = 1e9 Hz.
   static const double hzPerGigahertz = 1e9;
 

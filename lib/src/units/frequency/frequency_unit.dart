@@ -13,6 +13,9 @@ enum FrequencyUnit implements Unit<FrequencyUnit> {
   /// Hertz (Hz), the SI derived unit of frequency, equal to one cycle per second.
   hertz(1, 'Hz'),
 
+  /// Terahertz (THz), a multiple of the Hertz.
+  terahertz(FrequencyFactors.hzPerTerahertz, 'THz'),
+
   /// Gigahertz (GHz), a multiple of the Hertz.
   gigahertz(FrequencyFactors.hzPerGigahertz, 'GHz'),
 
@@ -32,6 +35,7 @@ enum FrequencyUnit implements Unit<FrequencyUnit> {
   const FrequencyUnit(double toHertzFactor, this.symbol)
       : _toHertzFactor = toHertzFactor,
         _factorToHertz = toHertzFactor / 1.0,
+        _factorToTerahertz = toHertzFactor / FrequencyFactors.hzPerTerahertz,
         _factorToGigahertz = toHertzFactor / FrequencyFactors.hzPerGigahertz,
         _factorToMegahertz = toHertzFactor / FrequencyFactors.hzPerMegahertz,
         _factorToKilohertz = toHertzFactor / FrequencyFactors.hzPerKilohertz,
@@ -46,6 +50,7 @@ enum FrequencyUnit implements Unit<FrequencyUnit> {
 
   // --- Pre-calculated direct conversion factors ---
   final double _factorToHertz;
+  final double _factorToTerahertz;
   final double _factorToGigahertz;
   final double _factorToMegahertz;
   final double _factorToKilohertz;
@@ -58,6 +63,8 @@ enum FrequencyUnit implements Unit<FrequencyUnit> {
     switch (targetUnit) {
       case FrequencyUnit.hertz:
         return _factorToHertz;
+      case FrequencyUnit.terahertz:
+        return _factorToTerahertz;
       case FrequencyUnit.gigahertz:
         return _factorToGigahertz;
       case FrequencyUnit.megahertz:
