@@ -56,6 +56,10 @@ export 'src/units/molar/molar_unit.dart';
 export 'src/units/pressure/pressure.dart';
 export 'src/units/pressure/pressure_extensions.dart';
 export 'src/units/pressure/pressure_unit.dart';
+// Exporting units and their extensions for solid angle
+export 'src/units/solid_angle/solid_angle.dart';
+export 'src/units/solid_angle/solid_angle_extensions.dart';
+export 'src/units/solid_angle/solid_angle_unit.dart';
 // Exporting units and their extensions for speed
 export 'src/units/speed/speed.dart';
 export 'src/units/speed/speed_extensions.dart';
