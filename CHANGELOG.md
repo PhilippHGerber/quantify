@@ -5,6 +5,13 @@ All notable changes to the `quantify` package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.0]
+
+2025-07-22
+
+- **Added relational operators (`>`, `<`, `>=`, `<=`) for all quantities.** Comparisons are now more readable (e.g., `1.m > 99.cm`).
+- **Added `isEquivalentTo()` method** for explicit magnitude equality checks (e.g., `1.m.isEquivalentTo(100.cm)`).
+
 ## [0.8.0]
 
 2025-07-22

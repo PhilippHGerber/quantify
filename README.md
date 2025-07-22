@@ -60,7 +60,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  quantify: ^0.8.0 # Or latest version
+  quantify: ^0.9.0 # Or latest version
   # Optional, for locale-specific number formatting:
   # intl: ^0.19.0
 ```
@@ -176,21 +176,54 @@ final smallMass = 250.g; // grams
 final combined = bigMass + smallMass; // Result: 5.00025 t
 ```
 
-### Comparisons & Sorting
+### Comparisons & Sorting: Magnitude vs. Strict Equality
 
-Quantities are `Comparable`, allowing them to be sorted even if their units differ. `compareTo()` is used for magnitude comparison. The `==` operator checks for equal value AND unit.
+`quantify` provides a clear and intuitive way to compare quantities, distinguishing between checking for physical magnitude and strict equality.
+
+#### Magnitude Comparison (using `>`, `<`, `>=`, `<=`)
+
+All `Quantity` objects can be compared directly using standard relational operators. The library automatically handles unit conversions, so you can compare any two quantities of the same type (e.g., two `Length` objects) without worrying about their internal units.
+
+```dart
+final oneKm = 1.km;
+final oneMile = 1.mi;
+final thousandMeters = 1000.m;
+
+print(oneMile > oneKm);          // true
+print(oneKm < 999.m);            // false
+print(oneKm >= thousandMeters);  // true
+```
+
+#### Equality Checks (`isEquivalentTo()` vs. `==`)
+
+It's important to understand the two types of equality checks available:
+
+1. **Magnitude Equality (`isEquivalentTo`)**: Checks if two quantities represent the **same physical amount**.
+2. **Strict Equality (`==`)**: Checks if two quantities have the **exact same value AND unit**.
 
 ```dart
 final oneMeter = 1.m;
 final hundredCm = 100.cm;
-final oneYard = 1.yd;
 
-print(oneMeter.compareTo(hundredCm) == 0); // true (magnitudes are equal)
-print(oneMeter == hundredCm);          // false (units are different)
+// Magnitude check: Do they represent the same distance?
+print(oneMeter.isEquivalentTo(hundredCm)); // true
 
-// Sort mixed units
-final lengths = [1.mi, 2000.m, 1.km, 5000.ft];
-lengths.sort(); // Sorts by physical magnitude
+// Strict check: Are they represented in the same way?
+print(oneMeter == hundredCm);              // false (different units: m vs cm)
+print(oneMeter == 1.m);                    // true (same value and unit)
+```
+
+This distinction is crucial when working with collections like `Set`s or `Map`s, where the strict equality of `==` is typically the desired behavior.
+
+#### Sorting
+
+```dart
+final lengths = [1.mi, 2000.m, 1.km, 5000.ft]
+..sort(); // Sorts by physical magnitude
+print(lengths.map((l) => l.toString()).join(', '));
+// Output: 1.0 km, 5000.0 ft, 1.0 mi, 2000.0 m
+print(lengths.map((l) => l.asM).join(', '));
+// Output: 1000.0 m, 1524.0 m, 1609.344 m, 2000.0 m
 ```
 
 ## **Managing Imports and Avoiding Conflicts**
@@ -231,8 +264,6 @@ This granular approach ensures that `quantify` can be used safely and effectivel
 * **V1.0 (Current):** All 7 SI base units with comprehensive unit coverage
 * **V2.0 and Beyond:**
   * **High Precision:** Support for `Decimal`.
-  * **Enhanced Quantity Arithmetic:** e.g., `Distance / Time = Speed`.
-  * **More Derived Units:** Area, Volume, Speed, Force, Energy, Power, etc.
   * **Serialization support.**
 
 ## Contributing
