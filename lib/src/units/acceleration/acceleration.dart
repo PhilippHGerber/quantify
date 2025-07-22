@@ -97,7 +97,7 @@ class Acceleration extends Quantity<AccelerationUnit> {
   ///
   /// Example:
   /// ```dart
-  /// final gravity = 1.g_; // 9.80665 m/s²
+  /// final gravity = 1.gravity; // 9.80665 m/s²
   /// final fallTime = 3.s;
   /// final finalSpeed = gravity.speedGainedOver(fallTime);
   /// print(finalSpeed.inMps); // Output: ~29.42
