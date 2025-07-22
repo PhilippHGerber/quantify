@@ -60,7 +60,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  quantify: ^0.7.0 # Or latest version
+  quantify: ^0.8.0 # Or latest version
   # Optional, for locale-specific number formatting:
   # intl: ^0.19.0
 ```
@@ -80,7 +80,7 @@ The library supports a comprehensive range of physical quantities, including all
 | **Temperature**         |   ✅   | **`K`** (kelvin), `°C` (celsius), `°F` (fahrenheit), `°R` (rankine)                                                                    | SI Base: Kelvin (K)       |
 | **Amount of Substance** |   ✅   | **`mol`** (mole), `mmol`, `μmol`, `nmol`, `pmol`, `kmol`                                                                               | SI Base: Mole (mol)       |
 | **Luminous Intensity**  |   ✅   | **`cd`** (candela), `mcd`, `kcd`                                                                                                       | SI Base: Candela (cd)     |
-| *Derived*         |        |                                                                                                                                        |                           |
+| *Derived*               |        |                                                                                                                                        |                           |
 | **Angle**               |   ✅   | **`rad`** (radian), `°` (degree), `grad`, `rev`, `arcmin` ('), `arcsec` ("), `mrad`                                                    | Derived SI: dimensionless |
 | **Angular Velocity**    |   ✅   | **`rad/s`**, `°/s`, `rpm`, `rps`                                                                                                       | Derived SI: 1/s           |
 | **Speed / Velocity**    |   ✅   | **`m/s`** (meter per second), `km/h`, `mph`, `kn` (knot), `ft/s`                                                                       | Derived SI                |
@@ -89,9 +89,11 @@ The library supports a comprehensive range of physical quantities, including all
 | **Pressure**            |   ✅   | **`Pa`** (Pascal), `atm`, `bar`, `psi`, `Torr`, `mmHg`, `inHg`, `kPa`, `hPa`, `mbar`, `cmH₂O`, `inH₂O`                                 | Derived SI: N/m²          |
 | **Area**                |   ✅   | **`m²`** (square meter), `Mm²`, `km²`, `hm²`, `dam²`, `dm²`, `cm²`, `mm²`, `µm²`, `ha` (hectare), `mi²`, `acre`, `yd²`, `ft²`, `in²`   | Derived SI                |
 | **Volume**              |   ✅   | **`m³`**, **`L`**, `mL`, `gal`, `fl-oz`, `ft³`, `in³`, `qt`, `pt`, `tbsp`, `tsp`...                                                    | Derived SI: L (Liter)     |
-| Energy / Work           |   🗓️    | **`J`** (Joule), `kWh` (kilowatt-hour), `cal` (calorie), `eV` (electronvolt) ...                                                       | Derived SI: N·m           |
-| Power                   |   💡    | **`W`** (Watt), `hp` (horsepower) ...                                                                                                  | Derived SI: J/s           |
-| Frequency               |   💡    | **`Hz`** (Hertz), `kHz`, `MHz` ...                                                                                                     | Derived SI: 1/s           |
+| **Frequency**           |   ✅   | **`Hz`** (Hertz), `kHz`, `MHz`, `GHz`, `THz`, `rpm`, `bpm`                                                                                    | Derived SI: 1/s           |
+| **Electric Charge**     |   ✅   | **`C`** (Coulomb), `mC`, `µC`, `nC`, `Ah` (Ampere-hour), `e` (Elementary Charge)                                                       | Derived SI: A·s           |
+| **Solid Angle**         |   ✅   | **`sr`** (Steradian), `deg²` (Square Degree), `sp` (Spat)                                                                              | Derived SI: dimensionless |
+| Energy / Work           |   🗓️   | **`J`** (Joule), `kWh` (kilowatt-hour), `cal` (calorie), `eV` (electronvolt) ...                                                       | Derived SI: N·m           |
+| Power                   |   💡   | **`W`** (Watt), `hp` (horsepower) ...                                                                                                  | Derived SI: J/s           |
 
 ## Detailed Usage
 

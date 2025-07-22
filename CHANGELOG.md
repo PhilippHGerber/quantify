@@ -5,11 +5,20 @@ All notable changes to the `quantify` package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.0]
+
+2025-07-22
+
+- **New Derived Quantities**
+  - `Frequency` with units (`Hz`, `MHz`, `GHz`, `THz`, `rpm`, etc.).
+  - `ElectricCharge` with units (`C`, `Ah`, `e`, `µC`, etc.).
+  - `SolidAngle` with units (`sr`, `deg²`, `sp`).
+
 ## [0.7.0]
 
 2025-07-16
 
-- New Derived Quantity:
+- **New Derived Quantity**
   - `Area` with units (`m²`, `km²`, `ha`, `acre`, `yd²`, `ft²`, etc.).
   - `Volume` with comprehensive SI, US customary, and cooking units (`m³`, `L`, `gal`, `fl-oz`, `tsp`, etc.).
 
@@ -17,9 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 2025-07-05
 
-### Added
-
-- New Derived Quantities:
+- **New Derived Quantities**
   - `Speed`: Added `m/s`, `km/h`, `mph`, `kn`, `ft/s`.
   - `Acceleration`: Added `m/s²`, `g` (standard gravity), `km/h/s`.
   - `Force`: Added `N` (Newton), `lbf`, `dyn`, `kgf`, `kN`.
