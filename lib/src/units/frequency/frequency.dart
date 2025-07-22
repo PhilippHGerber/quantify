@@ -1,4 +1,3 @@
-// lib/src/units/frequency/frequency.dart
 import 'package:meta/meta.dart';
 
 import '../../core/quantity.dart';

@@ -1,4 +1,3 @@
-// lib/frequency.dart
 /// Provides type-safe units for Frequency.
 ///
 /// Import this file to use Frequency quantities and their extensions on `num`
