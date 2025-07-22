@@ -28,6 +28,10 @@ export 'src/units/current/current_unit.dart';
 export 'src/units/force/force.dart';
 export 'src/units/force/force_extensions.dart';
 export 'src/units/force/force_unit.dart';
+// Exporting units and their extensions for frequency
+export 'src/units/frequency/frequency.dart';
+export 'src/units/frequency/frequency_extensions.dart' hide FrequencyCreationRpm;
+export 'src/units/frequency/frequency_unit.dart';
 // Exporting units and their extensions for length
 export 'src/units/length/length.dart';
 export 'src/units/length/length_extensions.dart';
