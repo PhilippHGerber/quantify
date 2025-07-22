@@ -24,6 +24,10 @@ export 'src/units/area/area_unit.dart';
 export 'src/units/current/current.dart';
 export 'src/units/current/current_extensions.dart';
 export 'src/units/current/current_unit.dart';
+// Exporting units and their extensions for electric charge
+export 'src/units/electric_charge/electric_charge.dart';
+export 'src/units/electric_charge/electric_charge_extensions.dart';
+export 'src/units/electric_charge/electric_charge_unit.dart';
 // Exporting units and their extensions for force
 export 'src/units/force/force.dart';
 export 'src/units/force/force_extensions.dart';
