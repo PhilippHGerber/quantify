@@ -60,7 +60,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  quantify: ^0.9.0 # Or latest version
+  quantify: ^0.10.0 # Or latest version
   # Optional, for locale-specific number formatting:
   # intl: ^0.19.0
 ```
@@ -84,16 +84,16 @@ The library supports a comprehensive range of physical quantities, including all
 | **Angle**               |   ✅   | **`rad`** (radian), `°` (degree), `grad`, `rev`, `arcmin` ('), `arcsec` ("), `mrad`                                                    | Derived SI: dimensionless |
 | **Angular Velocity**    |   ✅   | **`rad/s`**, `°/s`, `rpm`, `rps`                                                                                                       | Derived SI: 1/s           |
 | **Speed / Velocity**    |   ✅   | **`m/s`** (meter per second), `km/h`, `mph`, `kn` (knot), `ft/s`                                                                       | Derived SI                |
-| **Acceleration**        |   ✅   | **`m/s²`** (meter per second squared), `g` (standard gravity), `km/h/s`                                                                | Derived SI                |
-| **Force**               |   ✅   | **`N`** (Newton), `lbf` (pound-force), `dyn` (dyne), `kgf` (kilogram-force), `kN`                                                      | Derived SI: kg·m/s²       |
+| **Acceleration**        |   ✅   | **`m/s²`**, `g` (standard gravity), `km/h/s`, `cm/s²` (Galileo)                                                                       | Derived SI                |
+| **Force**               |   ✅   | **`N`** (Newton), `lbf`, `dyn`, `kgf`, `kN`, `gf`, `pdl`                                                                               | Derived SI: kg·m/s²       |
 | **Pressure**            |   ✅   | **`Pa`** (Pascal), `atm`, `bar`, `psi`, `Torr`, `mmHg`, `inHg`, `kPa`, `hPa`, `mbar`, `cmH₂O`, `inH₂O`                                 | Derived SI: N/m²          |
-| **Area**                |   ✅   | **`m²`** (square meter), `Mm²`, `km²`, `hm²`, `dam²`, `dm²`, `cm²`, `mm²`, `µm²`, `ha` (hectare), `mi²`, `acre`, `yd²`, `ft²`, `in²`   | Derived SI                |
+| **Area**                |   ✅   | **`m²`**, `Mm²`, `km²`, `hm²`, `dam²`, `dm²`, `cm²`, `mm²`, `µm²`, `ha`, `mi²`, `acre`, `yd²`, `ft²`, `in²`                               | Derived SI                |
 | **Volume**              |   ✅   | **`m³`**, **`L`**, `mL`, `gal`, `fl-oz`, `ft³`, `in³`, `qt`, `pt`, `tbsp`, `tsp`...                                                    | Derived SI: L (Liter)     |
-| **Frequency**           |   ✅   | **`Hz`** (Hertz), `kHz`, `MHz`, `GHz`, `THz`, `rpm`, `bpm`                                                                                    | Derived SI: 1/s           |
-| **Electric Charge**     |   ✅   | **`C`** (Coulomb), `mC`, `µC`, `nC`, `Ah` (Ampere-hour), `e` (Elementary Charge)                                                       | Derived SI: A·s           |
-| **Solid Angle**         |   ✅   | **`sr`** (Steradian), `deg²` (Square Degree), `sp` (Spat)                                                                              | Derived SI: dimensionless |
-| Energy / Work           |   🗓️   | **`J`** (Joule), `kWh` (kilowatt-hour), `cal` (calorie), `eV` (electronvolt) ...                                                       | Derived SI: N·m           |
-| Power                   |   💡   | **`W`** (Watt), `hp` (horsepower) ...                                                                                                  | Derived SI: J/s           |
+| **Frequency**           |   ✅   | **`Hz`**, `kHz`, `MHz`, `GHz`, `THz`, `rpm`, `bpm`                                                                                     | Derived SI: 1/s           |
+| **Electric Charge**     |   ✅   | **`C`**, `mC`, `µC`, `nC`, `Ah`, `e`, `mAh`, `statC`, `abC`                                                                             | Derived SI: A·s           |
+| **Solid Angle**         |   ✅   | **`sr`**, `deg²` (Square Degree), `sp` (Spat)                                                                                        | Derived SI: dimensionless |
+| **Energy / Work**       |   ✅   | **`J`** (Joule), `kJ`, `MJ`, `kWh`, `cal`, `kcal`, `eV`, `Btu`                                                                         | Derived SI: N·m           |
+| **Power**               |   ✅   | **`W`** (Watt), `mW`, `kW`, `MW`, `GW`, `hp`, `PS` (metric hp), `Btu/h`, `erg/s`                                                       | Derived SI: J/s           |
 
 ## Detailed Usage
 

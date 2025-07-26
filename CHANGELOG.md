@@ -5,6 +5,20 @@ All notable changes to the `quantify` package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.10.0]
+
+2025-07-26
+
+### Added
+
+- **New Quantities: `Energy` and `Power`**
+  - Added the `Energy` quantity with common units (J, kJ, MJ, kWh, kcal, eV, Btu).
+  - Added the `Power` quantity with a comprehensive set of SI, engineering, and CGS units (W, kW, MW, GW, hp, PS, Btu/h, erg/s).
+
+- **Expanded Unit Coverage**
+  - Added new units to `Acceleration` (cm/s²), `Force` (gf, pdl), and `ElectricCharge` (mAh, statC, abC)
+  -
+
 ## [0.9.0]
 
 2025-07-22
