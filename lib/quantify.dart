@@ -28,6 +28,10 @@ export 'src/units/current/current_unit.dart';
 export 'src/units/electric_charge/electric_charge.dart';
 export 'src/units/electric_charge/electric_charge_extensions.dart';
 export 'src/units/electric_charge/electric_charge_unit.dart';
+// Exporting units and their extensions for energy
+export 'src/units/energy/energy.dart';
+export 'src/units/energy/energy_extensions.dart';
+export 'src/units/energy/energy_unit.dart';
 // Exporting units and their extensions for force
 export 'src/units/force/force.dart';
 export 'src/units/force/force_extensions.dart';
@@ -52,6 +56,10 @@ export 'src/units/mass/mass_unit.dart';
 export 'src/units/molar/molar_amount.dart';
 export 'src/units/molar/molar_extensions.dart';
 export 'src/units/molar/molar_unit.dart';
+// Exporting units and their extensions for power
+export 'src/units/power/power.dart';
+export 'src/units/power/power_extensions.dart';
+export 'src/units/power/power_unit.dart';
 // Exporting units and their extensions for pressure
 export 'src/units/pressure/pressure.dart';
 export 'src/units/pressure/pressure_extensions.dart';
