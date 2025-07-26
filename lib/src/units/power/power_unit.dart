@@ -41,6 +41,19 @@ enum PowerUnit implements Unit<PowerUnit> {
   /// Erg per second (erg/s), the power unit in the CGS system.
   ergPerSecond(PowerFactors.wattsPerErgPerSecond, 'erg/s');
 
+  /// Constant constructor for enum members.
+  const PowerUnit(double toWattFactor, this.symbol)
+      : _toWattFactor = toWattFactor,
+        _factorToWatt = toWattFactor / 1.0,
+        _factorToMilliwatt = toWattFactor / PowerFactors.wattsPerMilliwatt,
+        _factorToKilowatt = toWattFactor / PowerFactors.wattsPerKilowatt,
+        _factorToMegawatt = toWattFactor / PowerFactors.wattsPerMegawatt,
+        _factorToGigawatt = toWattFactor / PowerFactors.wattsPerGigawatt,
+        _factorToHorsepower = toWattFactor / PowerFactors.wattsPerHorsepower,
+        _factorToMetricHorsepower = toWattFactor / PowerFactors.wattsPerMetricHorsepower,
+        _factorToBtuPerHour = toWattFactor / PowerFactors.wattsPerBtuPerHour,
+        _factorToErgPerSecond = toWattFactor / PowerFactors.wattsPerErgPerSecond;
+
   /// The factor to convert a value from this unit to the base unit (Watt).
   // ignore: unused_field
   final double _toWattFactor;
@@ -59,19 +72,6 @@ enum PowerUnit implements Unit<PowerUnit> {
   final double _factorToMetricHorsepower;
   final double _factorToBtuPerHour;
   final double _factorToErgPerSecond;
-
-  /// Constant constructor for enum members.
-  const PowerUnit(double toWattFactor, this.symbol)
-      : _toWattFactor = toWattFactor,
-        _factorToWatt = toWattFactor / 1.0,
-        _factorToMilliwatt = toWattFactor / PowerFactors.wattsPerMilliwatt,
-        _factorToKilowatt = toWattFactor / PowerFactors.wattsPerKilowatt,
-        _factorToMegawatt = toWattFactor / PowerFactors.wattsPerMegawatt,
-        _factorToGigawatt = toWattFactor / PowerFactors.wattsPerGigawatt,
-        _factorToHorsepower = toWattFactor / PowerFactors.wattsPerHorsepower,
-        _factorToMetricHorsepower = toWattFactor / PowerFactors.wattsPerMetricHorsepower,
-        _factorToBtuPerHour = toWattFactor / PowerFactors.wattsPerBtuPerHour,
-        _factorToErgPerSecond = toWattFactor / PowerFactors.wattsPerErgPerSecond;
 
   /// Returns the direct conversion factor to convert a value from this [PowerUnit]
   /// to the [targetUnit].

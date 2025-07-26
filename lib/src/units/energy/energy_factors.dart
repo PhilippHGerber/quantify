@@ -8,7 +8,7 @@
 /// All values are based on internationally recognized standard definitions.
 class EnergyFactors {
   // --- SI Prefixed Units (relative to Joule) ---
-  
+
   /// Joules per Megajoule: 1 MJ = 1,000,000 J.
   static const double joulesPerMegajoule = 1000000.0;
 
