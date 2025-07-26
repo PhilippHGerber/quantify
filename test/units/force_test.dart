@@ -34,6 +34,20 @@ void main() {
         final force = 1.kgf;
         expect(force.inNewtons, closeTo(9.80665, tolerance));
       });
+
+      test('Gram-force and Poundal conversions', () {
+        // 1 kgf should be 1000 gf
+        final oneKgf = 1.kgf;
+        expect(oneKgf.inGramsForce, closeTo(1000.0, 1e-12));
+
+        // 1 lbf should be ~32.174 pdl (g_std in ft/s^2)
+        final oneLbf = 1.lbf;
+        expect(oneLbf.inPoundals, closeTo(32.174048556, 1e-8));
+
+        // Test the base definition of poundal
+        final onePdl = 1.pdl;
+        expect(onePdl.inNewtons, closeTo(0.138254954376, 1e-12));
+      });
     });
 
     group('Comparison', () {

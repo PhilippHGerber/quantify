@@ -24,6 +24,12 @@ extension ForceValueGetters on Force {
   /// Returns the force value in Kilogram-force (kgf).
   double get inKilogramsForce => getValue(ForceUnit.kilogramForce);
 
+  /// Returns the force value in Gram-force (gf).
+  double get inGramsForce => getValue(ForceUnit.gramForce);
+
+  /// Returns the force value in Poundals (pdl).
+  double get inPoundals => getValue(ForceUnit.poundal);
+
   /// Returns a [Force] object representing this force in Newtons (N).
   Force get asNewtons => convertTo(ForceUnit.newton);
 
@@ -44,6 +50,12 @@ extension ForceValueGetters on Force {
 
   /// Returns a [Force] object representing this force in Kilogram-force (kgf).
   Force get asKilogramsForce => convertTo(ForceUnit.kilogramForce);
+
+  /// Returns a [Force] object representing this force in Gram-force (gf).
+  Force get asGramsForce => convertTo(ForceUnit.gramForce);
+
+  /// Returns a [Force] object representing this force in Poundals (pdl).
+  Force get asPoundals => convertTo(ForceUnit.poundal);
 }
 
 /// Provides convenient factory methods for creating [Force] instances from [num].
@@ -83,4 +95,10 @@ extension ForceCreation on num {
 
   /// Creates a [Force] instance from this value in Kilogram-force (kgf).
   Force get kgf => Force(toDouble(), ForceUnit.kilogramForce);
+
+  /// Creates a [Force] instance from this value in Gram-force (gf).
+  Force get gf => Force(toDouble(), ForceUnit.gramForce);
+
+  /// Creates a [Force] instance from this value in Poundals (pdl).
+  Force get pdl => Force(toDouble(), ForceUnit.poundal);
 }

@@ -25,4 +25,13 @@ class ForceFactors {
   /// Newtons per Kilogram-force (kgf) or Kilopond (kp): 1 kgf = 9.80665 N.
   /// This is the force exerted by one kilogram of mass in standard gravity.
   static const double newtonsPerKilogramForce = 9.80665;
+
+  /// Newtons per Gram-force (gf): 1 gf = 0.00980665 N.
+  /// The force exerted by one gram of mass in standard gravity.
+  static const double newtonsPerGramForce = 0.00980665;
+
+  /// Newtons per Poundal (pdl): 1 pdl ≈ 0.138255 N.
+  /// The force required to accelerate 1 pound-mass by 1 ft/s².
+  /// Defined as `0.45359237 kg * 0.3048 m/s²`.
+  static const double newtonsPerPoundal = 0.138254954376;
 }

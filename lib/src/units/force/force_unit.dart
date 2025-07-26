@@ -29,7 +29,13 @@ enum ForceUnit implements Unit<ForceUnit> {
   dyne(ForceFactors.newtonsPerDyne, 'dyn'),
 
   /// Kilogram-force (kgf) or Kilopond (kp), a gravitational metric unit of force.
-  kilogramForce(ForceFactors.newtonsPerKilogramForce, 'kgf');
+  kilogramForce(ForceFactors.newtonsPerKilogramForce, 'kgf'),
+
+  /// Gram-force (gf), the force exerted by one gram in standard gravity.
+  gramForce(ForceFactors.newtonsPerGramForce, 'gf'),
+
+  /// Poundal (pdl), the force to accelerate 1 pound-mass by 1 ft/s².
+  poundal(ForceFactors.newtonsPerPoundal, 'pdl');
 
   /// Constant constructor for enum members.
   const ForceUnit(double toNewtonFactor, this.symbol)
@@ -40,7 +46,9 @@ enum ForceUnit implements Unit<ForceUnit> {
         _factorToMillinewton = toNewtonFactor / ForceFactors.newtonsPerMillinewton,
         _factorToPoundForce = toNewtonFactor / ForceFactors.newtonsPerPoundForce,
         _factorToDyne = toNewtonFactor / ForceFactors.newtonsPerDyne,
-        _factorToKilogramForce = toNewtonFactor / ForceFactors.newtonsPerKilogramForce;
+        _factorToKilogramForce = toNewtonFactor / ForceFactors.newtonsPerKilogramForce,
+        _factorToGramForce = toNewtonFactor / ForceFactors.newtonsPerGramForce,
+        _factorToPoundal = toNewtonFactor / ForceFactors.newtonsPerPoundal;
 
   // ignore: unused_field // Used to store the conversion factor to Newton (N).
   final double _toNewtonFactor;
@@ -56,6 +64,8 @@ enum ForceUnit implements Unit<ForceUnit> {
   final double _factorToPoundForce;
   final double _factorToDyne;
   final double _factorToKilogramForce;
+  final double _factorToGramForce;
+  final double _factorToPoundal;
 
   @override
   @internal
@@ -75,6 +85,10 @@ enum ForceUnit implements Unit<ForceUnit> {
         return _factorToDyne;
       case ForceUnit.kilogramForce:
         return _factorToKilogramForce;
+      case ForceUnit.gramForce:
+        return _factorToGramForce;
+      case ForceUnit.poundal:
+        return _factorToPoundal;
     }
   }
 }
