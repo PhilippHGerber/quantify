@@ -28,7 +28,11 @@ enum AccelerationUnit implements Unit<AccelerationUnit> {
   knotPerSecond(AccelerationFactors.mpssPerKnotPerSec, 'kn/s'),
 
   /// Foot per second squared (ft/s²), an imperial/US customary unit.
-  footPerSecondSquared(AccelerationFactors.mpssPerFpsSquared, 'ft/s²');
+  footPerSecondSquared(AccelerationFactors.mpssPerFpsSquared, 'ft/s²'),
+
+  /// Centimeter per second squared (cm/s²), also known as the Galileo (Gal).
+  /// The CGS unit of acceleration.
+  centimeterPerSecondSquared(AccelerationFactors.mpssPerCmpss, 'cm/s²');
 
   /// Constant constructor for enum members.
   const AccelerationUnit(double toMpssFactor, this.symbol)
@@ -38,7 +42,8 @@ enum AccelerationUnit implements Unit<AccelerationUnit> {
         _factorToKilometerPerHourPerSecond = toMpssFactor / AccelerationFactors.mpssPerKmhPerSec,
         _factorToMilePerHourPerSecond = toMpssFactor / AccelerationFactors.mpssPerMphPerSec,
         _factorToKnotPerSecond = toMpssFactor / AccelerationFactors.mpssPerKnotPerSec,
-        _factorToFootPerSecondSquared = toMpssFactor / AccelerationFactors.mpssPerFpsSquared;
+        _factorToFootPerSecondSquared = toMpssFactor / AccelerationFactors.mpssPerFpsSquared,
+        _factorToCentimeterPerSecondSquared = toMpssFactor / AccelerationFactors.mpssPerCmpss;
 
   // ignore: unused_field // Used to store the conversion factor to Meter per Second Squared (m/s²).
   final double _toMpssFactor;
@@ -53,6 +58,7 @@ enum AccelerationUnit implements Unit<AccelerationUnit> {
   final double _factorToMilePerHourPerSecond;
   final double _factorToKnotPerSecond;
   final double _factorToFootPerSecondSquared;
+  final double _factorToCentimeterPerSecondSquared;
 
   @override
   @internal
@@ -70,6 +76,8 @@ enum AccelerationUnit implements Unit<AccelerationUnit> {
         return _factorToKnotPerSecond;
       case AccelerationUnit.footPerSecondSquared:
         return _factorToFootPerSecondSquared;
+      case AccelerationUnit.centimeterPerSecondSquared:
+        return _factorToCentimeterPerSecondSquared;
     }
   }
 }

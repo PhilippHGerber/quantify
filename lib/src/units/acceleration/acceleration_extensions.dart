@@ -21,6 +21,9 @@ extension AccelerationValueGetters on Acceleration {
   /// Returns the acceleration value in Feet per second squared.
   double get inFeetPerSecondSquared => getValue(AccelerationUnit.footPerSecondSquared);
 
+  /// Returns the acceleration value in Centimeters per second squared (cm/s²).
+  double get inCentimetersPerSecondSquared => getValue(AccelerationUnit.centimeterPerSecondSquared);
+
   /// Returns an [Acceleration] object in Meters per second squared (m/s²).
   Acceleration get asMetersPerSecondSquared => convertTo(AccelerationUnit.meterPerSecondSquared);
 
@@ -39,6 +42,10 @@ extension AccelerationValueGetters on Acceleration {
 
   /// Returns an [Acceleration] object in Feet per second squared.
   Acceleration get asFeetPerSecondSquared => convertTo(AccelerationUnit.footPerSecondSquared);
+
+  /// Returns an [Acceleration] object in Centimeters per second squared (cm/s²).
+  Acceleration get asCentimetersPerSecondSquared =>
+      convertTo(AccelerationUnit.centimeterPerSecondSquared);
 }
 
 /// Provides convenient factory methods for creating [Acceleration] instances from [num].
@@ -61,4 +68,12 @@ extension AccelerationCreation on num {
 
   /// Creates an [Acceleration] instance from this value in Feet per second squared (ft/s²).
   Acceleration get fpsSquared => Acceleration(toDouble(), AccelerationUnit.footPerSecondSquared);
+
+  /// Creates an [Acceleration] instance from this value in Centimeters per second squared (cm/s²).
+  /// Also known as the Galileo (Gal).
+  Acceleration get cmpss => Acceleration(toDouble(), AccelerationUnit.centimeterPerSecondSquared);
+
+  /// Creates an [Acceleration] instance from this value in Galileos (Gal).
+  /// Alias for `cmpss`.
+  Acceleration get gal => Acceleration(toDouble(), AccelerationUnit.centimeterPerSecondSquared);
 }

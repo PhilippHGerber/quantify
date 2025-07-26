@@ -36,6 +36,15 @@ void main() {
         // Check how many 'g's this is
         expect(carAcc.inStandardGravity, closeTo(expectedMpss / 9.80665, tolerance));
       });
+
+      test('Centimeter per second squared (Galileo)', () {
+        // 1 m/s² = 100 cm/s²
+        final acc = 1.mpsSquared;
+        expect(acc.inCentimetersPerSecondSquared, closeTo(100.0, 1e-12));
+
+        final galileo = 500.gal;
+        expect(galileo.inMetersPerSecondSquared, closeTo(5.0, 1e-12));
+      });
     });
 
     group('Comparison', () {

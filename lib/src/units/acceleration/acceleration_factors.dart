@@ -24,4 +24,8 @@ class AccelerationFactors {
   /// Meters per second squared per Foot per second squared:
   /// 1 ft/s² = 0.3048 m/s².
   static const double mpssPerFpsSquared = 0.3048;
+
+  /// Meters per second squared per Centimeter per second squared (Galileo):
+  /// 1 cm/s² = 0.01 m/s².
+  static const double mpssPerCmpss = 0.01;
 }
