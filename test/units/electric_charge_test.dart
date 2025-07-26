@@ -62,6 +62,21 @@ void main() {
         const faradayConstant = 96485.33212; // C/mol
         expect(oneMoleElectrons.inCoulombs, closeTo(faradayConstant, 1e-4));
       });
+
+      test('mAh and CGS units conversions', () {
+        // 1 Ah = 1000 mAh
+        final oneAh = 1.0.ah;
+        expect(oneAh.inMilliampereHours, closeTo(1000.0, 1e-12));
+
+        // 1 abcoulomb = 10 coulombs
+        final oneAbc = 1.0.abC;
+        expect(oneAbc.inCoulombs, closeTo(10.0, 1e-12));
+
+        // 1 coulomb to statcoulombs
+        final oneCoulomb = 1.0.C;
+        const expectedStatC = 1.0 / 3.3356409519815204e-10;
+        expect(oneCoulomb.inStatcoulombs, closeTo(expectedStatC, 1e-3));
+      });
     });
 
     group('Comparison', () {

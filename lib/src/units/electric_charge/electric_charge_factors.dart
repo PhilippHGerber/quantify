@@ -25,4 +25,15 @@ class ElectricChargeFactors {
   /// Coulombs per Ampere-Hour (Ah): Commonly used for battery capacity.
   /// 1 Ah = 1 A * 3600 s = 3600 C.
   static const double coulombsPerAmpereHour = 3600.0;
+
+  /// Coulombs per Milliampere-Hour (mAh): 1 mAh = 0.001 Ah = 3.6 C.
+  static const double coulombsPerMilliampereHour = 3.6;
+
+  /// Coulombs per Statcoulomb (statC) or Franklin (Fr): The CGS-ESU unit of charge.
+  /// 1 statC ≈ 3.33564 × 10⁻¹⁰ C.
+  static const double coulombsPerStatcoulomb = 3.3356409519815204e-10;
+
+  /// Coulombs per Abcoulomb (abC): The CGS-EMU unit of charge.
+  /// 1 abC = 10 C.
+  static const double coulombsPerAbcoulomb = 10.0;
 }

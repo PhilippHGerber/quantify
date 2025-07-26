@@ -21,6 +21,15 @@ extension ElectricChargeValueGetters on ElectricCharge {
   /// Returns the electric charge value in Ampere-hours (Ah).
   double get inAmpereHours => getValue(ElectricChargeUnit.ampereHour);
 
+  /// Returns the electric charge value in Milliampere-hours (mAh).
+  double get inMilliampereHours => getValue(ElectricChargeUnit.milliampereHour);
+
+  /// Returns the electric charge value in Statcoulombs (statC).
+  double get inStatcoulombs => getValue(ElectricChargeUnit.statcoulomb);
+
+  /// Returns the electric charge value in Abcoulombs (abC).
+  double get inAbcoulombs => getValue(ElectricChargeUnit.abcoulomb);
+
   /// Returns a new [ElectricCharge] object representing this charge in Coulombs (C).
   ElectricCharge get asCoulombs => convertTo(ElectricChargeUnit.coulomb);
 
@@ -38,6 +47,15 @@ extension ElectricChargeValueGetters on ElectricCharge {
 
   /// Returns a new [ElectricCharge] object representing this charge in Ampere-hours (Ah).
   ElectricCharge get asAmpereHours => convertTo(ElectricChargeUnit.ampereHour);
+
+  /// Returns a new [ElectricCharge] object representing this charge in Milliampere-hours (mAh).
+  ElectricCharge get asMilliampereHours => convertTo(ElectricChargeUnit.milliampereHour);
+
+  /// Returns a new [ElectricCharge] object representing this charge in Statcoulombs (statC).
+  ElectricCharge get asStatcoulombs => convertTo(ElectricChargeUnit.statcoulomb);
+
+  /// Returns a new [ElectricCharge] object representing this charge in Abcoulombs (abC).
+  ElectricCharge get asAbcoulombs => convertTo(ElectricChargeUnit.abcoulomb);
 }
 
 /// Provides convenient factory methods for creating [ElectricCharge] instances from [num].
@@ -64,4 +82,17 @@ extension ElectricChargeCreation on num {
 
   /// Creates an [ElectricCharge] instance from this value in Ampere-hours (Ah).
   ElectricCharge get ah => ElectricCharge(toDouble(), ElectricChargeUnit.ampereHour);
+
+  /// Creates an [ElectricCharge] instance from this value in Milliampere-hours (mAh).
+  ElectricCharge get mAh => ElectricCharge(toDouble(), ElectricChargeUnit.milliampereHour);
+
+  /// Creates an [ElectricCharge] instance from this value in Statcoulombs (statC).
+  ElectricCharge get statC => ElectricCharge(toDouble(), ElectricChargeUnit.statcoulomb);
+
+  /// Creates an [ElectricCharge] instance from this value in Franklin (Fr).
+  /// Alias for `statC`.
+  ElectricCharge get franklin => ElectricCharge(toDouble(), ElectricChargeUnit.statcoulomb);
+
+  /// Creates an [ElectricCharge] instance from this value in Abcoulombs (abC).
+  ElectricCharge get abC => ElectricCharge(toDouble(), ElectricChargeUnit.abcoulomb);
 }

@@ -26,7 +26,16 @@ enum ElectricChargeUnit implements Unit<ElectricChargeUnit> {
   elementaryCharge(ElectricChargeFactors.coulombsPerElementaryCharge, 'e'),
 
   /// Ampere-hour (Ah), a unit commonly used for battery capacity.
-  ampereHour(ElectricChargeFactors.coulombsPerAmpereHour, 'Ah');
+  ampereHour(ElectricChargeFactors.coulombsPerAmpereHour, 'Ah'),
+
+  /// Milliampere-hour (mAh), a smaller unit for battery capacity.
+  milliampereHour(ElectricChargeFactors.coulombsPerMilliampereHour, 'mAh'),
+
+  /// Statcoulomb (statC) or Franklin (Fr), the CGS-ESU unit of charge.
+  statcoulomb(ElectricChargeFactors.coulombsPerStatcoulomb, 'statC'),
+
+  /// Abcoulomb (abC), the CGS-EMU unit of charge.
+  abcoulomb(ElectricChargeFactors.coulombsPerAbcoulomb, 'abC');
 
   /// Constant constructor for enum members.
   const ElectricChargeUnit(double toCoulombFactor, this.symbol)
@@ -37,7 +46,11 @@ enum ElectricChargeUnit implements Unit<ElectricChargeUnit> {
         _factorToNanocoulomb = toCoulombFactor / ElectricChargeFactors.coulombsPerNanocoulomb,
         _factorToElementaryCharge =
             toCoulombFactor / ElectricChargeFactors.coulombsPerElementaryCharge,
-        _factorToAmpereHour = toCoulombFactor / ElectricChargeFactors.coulombsPerAmpereHour;
+        _factorToAmpereHour = toCoulombFactor / ElectricChargeFactors.coulombsPerAmpereHour,
+        _factorToMilliampereHour =
+            toCoulombFactor / ElectricChargeFactors.coulombsPerMilliampereHour,
+        _factorToStatcoulomb = toCoulombFactor / ElectricChargeFactors.coulombsPerStatcoulomb,
+        _factorToAbcoulomb = toCoulombFactor / ElectricChargeFactors.coulombsPerAbcoulomb;
 
   // ignore: unused_field // The factor to convert this unit to Coulomb (C).
   final double _toCoulombFactor;
@@ -52,6 +65,9 @@ enum ElectricChargeUnit implements Unit<ElectricChargeUnit> {
   final double _factorToNanocoulomb;
   final double _factorToElementaryCharge;
   final double _factorToAmpereHour;
+  final double _factorToMilliampereHour;
+  final double _factorToStatcoulomb;
+  final double _factorToAbcoulomb;
 
   @override
   @internal
@@ -69,6 +85,12 @@ enum ElectricChargeUnit implements Unit<ElectricChargeUnit> {
         return _factorToElementaryCharge;
       case ElectricChargeUnit.ampereHour:
         return _factorToAmpereHour;
+      case ElectricChargeUnit.milliampereHour:
+        return _factorToMilliampereHour;
+      case ElectricChargeUnit.statcoulomb:
+        return _factorToStatcoulomb;
+      case ElectricChargeUnit.abcoulomb:
+        return _factorToAbcoulomb;
     }
   }
 }
