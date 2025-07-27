@@ -60,7 +60,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  quantify: ^0.10.0 # Or latest version
+  quantify: ^0.11.0 
   # Optional, for locale-specific number formatting:
   # intl: ^0.19.0
 ```

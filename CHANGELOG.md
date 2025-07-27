@@ -5,11 +5,26 @@ All notable changes to the `quantify` package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.11.0]
+
+2025-07-27
+
+### Changed
+
+- **Conceptual Refinement of `Frequency` and `AngularVelocity`**:
+  - `Frequency` is now the comprehensive quantity for all periodic units (inverse time, T⁻¹), including rotational rates.
+  - `AngularVelocity` remains a distinct, specialized type for rotational mechanics to ensure semantic type safety.
+
+### Added
+
+- **`Frequency` Unit Expansion**: Added `rad/s` (radian per second) and `deg/s` (degree per second) to `Frequency`.
+- **Interoperability Between `Frequency` and `AngularVelocity`**:
+  - Added a safe `.asFrequency` getter to `AngularVelocity` for direct conversion to a `Frequency` object.
+  - Added a guarded `.asAngularVelocity` getter to `Frequency` that only converts compatible rotational units (`rpm`, `rad/s`, `Hz`, etc.) and throws an `UnsupportedError` for non-rotational units (like `bpm` or `MHz`), preventing logical errors in calculations.
+
 ## [0.10.0]
 
 2025-07-26
-
-### Added
 
 - **New Quantities: `Energy` and `Power`**
   - Added the `Energy` quantity with common units (J, kJ, MJ, kWh, kcal, eV, Btu).
