@@ -24,6 +24,12 @@ extension FrequencyValueGetters on Frequency {
   /// Returns the frequency value in Beats per minute (bpm).
   double get inBeatsPerMinute => getValue(FrequencyUnit.beatsPerMinute);
 
+  /// Returns the frequency value in Radians per second (rad/s).
+  double get inRadiansPerSecond => getValue(FrequencyUnit.radianPerSecond);
+
+  /// Returns the frequency value in Degrees per second (°/s).
+  double get inDegreesPerSecond => getValue(FrequencyUnit.degreePerSecond);
+
   /// Returns a new [Frequency] object representing this frequency in Hertz (Hz).
   Frequency get asHertz => convertTo(FrequencyUnit.hertz);
 
@@ -44,6 +50,12 @@ extension FrequencyValueGetters on Frequency {
 
   /// Returns a new [Frequency] object representing this frequency in Beats per minute (bpm).
   Frequency get asBeatsPerMinute => convertTo(FrequencyUnit.beatsPerMinute);
+
+  /// Returns a new [Frequency] object representing this frequency in Radians per second (rad/s).
+  Frequency get asRadiansPerSecond => convertTo(FrequencyUnit.radianPerSecond);
+
+  /// Returns a new [Frequency] object representing this frequency in Degrees per second (°/s).
+  Frequency get asDegreesPerSecond => convertTo(FrequencyUnit.degreePerSecond);
 }
 
 /// Provides convenient factory methods for creating [Frequency] instances from [num].
@@ -71,6 +83,12 @@ extension FrequencyCreation on num {
 
   /// Creates a [Frequency] instance from this value in Beats per minute (bpm).
   Frequency get bpm => Frequency(toDouble(), FrequencyUnit.beatsPerMinute);
+
+  /// Creates a [Frequency] instance from this value in Radians per second (rad/s).
+  Frequency get radPerSec => Frequency(toDouble(), FrequencyUnit.radianPerSecond);
+
+  /// Creates a [Frequency] instance from this value in Degrees per second (°/s).
+  Frequency get degPerSec => Frequency(toDouble(), FrequencyUnit.degreePerSecond);
 }
 
 /// Provides an alias for the `rpm` extension on `num` for creating [Frequency] instances.

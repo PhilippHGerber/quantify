@@ -29,7 +29,13 @@ enum FrequencyUnit implements Unit<FrequencyUnit> {
   revolutionsPerMinute(FrequencyFactors.hzPerRpm, 'rpm'),
 
   /// Beats per minute (bpm), commonly used for heart rate or music tempo.
-  beatsPerMinute(FrequencyFactors.hzPerBpm, 'bpm');
+  beatsPerMinute(FrequencyFactors.hzPerBpm, 'bpm'),
+
+  /// Radian per second (rad/s), the SI unit for angular velocity, also a measure of frequency.
+  radianPerSecond(FrequencyFactors.hzPerRadPerSecond, 'rad/s'),
+
+  /// Degree per second (°/s), a common unit for rotational speed.
+  degreePerSecond(FrequencyFactors.hzPerDegPerSecond, '°/s');
 
   /// Constant constructor for enum members.
   const FrequencyUnit(double toHertzFactor, this.symbol)
@@ -40,7 +46,9 @@ enum FrequencyUnit implements Unit<FrequencyUnit> {
         _factorToMegahertz = toHertzFactor / FrequencyFactors.hzPerMegahertz,
         _factorToKilohertz = toHertzFactor / FrequencyFactors.hzPerKilohertz,
         _factorToRevolutionsPerMinute = toHertzFactor / FrequencyFactors.hzPerRpm,
-        _factorToBeatsPerMinute = toHertzFactor / FrequencyFactors.hzPerBpm;
+        _factorToBeatsPerMinute = toHertzFactor / FrequencyFactors.hzPerBpm,
+        _factorToRadianPerSecond = toHertzFactor / FrequencyFactors.hzPerRadPerSecond,
+        _factorToDegreePerSecond = toHertzFactor / FrequencyFactors.hzPerDegPerSecond;
 
   // ignore: unused_field // The factor to convert this unit to Hertz (Hz).
   final double _toHertzFactor;
@@ -56,6 +64,8 @@ enum FrequencyUnit implements Unit<FrequencyUnit> {
   final double _factorToKilohertz;
   final double _factorToRevolutionsPerMinute;
   final double _factorToBeatsPerMinute;
+  final double _factorToRadianPerSecond;
+  final double _factorToDegreePerSecond;
 
   @override
   @internal
@@ -75,6 +85,10 @@ enum FrequencyUnit implements Unit<FrequencyUnit> {
         return _factorToRevolutionsPerMinute;
       case FrequencyUnit.beatsPerMinute:
         return _factorToBeatsPerMinute;
+      case FrequencyUnit.radianPerSecond:
+        return _factorToRadianPerSecond;
+      case FrequencyUnit.degreePerSecond:
+        return _factorToDegreePerSecond;
     }
   }
 }

@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_int_literals // All constants are doubles for precision.
 
+import 'dart:math' as math;
+
 /// Defines base conversion factors for various frequency units relative to the
 /// Hertz (Hz), which is the SI derived unit for frequency (s⁻¹).
 ///
@@ -27,6 +29,11 @@ class FrequencyFactors {
   /// Hertz per Beats Per Minute (BPM): Same as RPM.
   static const double hzPerBpm = 1.0 / 60.0;
 
-  // Note: Revolutions Per Second (RPS) is not included as a separate factor
-  // because 1 RPS is exactly 1 Hz, making its factor 1.0.
+  /// Hertz per Radian per second (rad/s): 1 rad/s = 1/(2π) Hz.
+  /// Since 1 rev/s (or 1 Hz) is 2π rad/s.
+  static const double hzPerRadPerSecond = 1.0 / (2 * math.pi);
+
+  /// Hertz per Degree per second (deg/s): 1 deg/s = 1/360 Hz.
+  /// Since 1 rev/s (or 1 Hz) is 360 deg/s.
+  static const double hzPerDegPerSecond = 1.0 / 360.0;
 }
