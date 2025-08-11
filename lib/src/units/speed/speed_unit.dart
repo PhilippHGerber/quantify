@@ -13,6 +13,9 @@ enum SpeedUnit implements Unit<SpeedUnit> {
   /// Meter per second (m/s), the SI derived unit of speed.
   meterPerSecond(1, 'm/s'),
 
+  /// Kilometer per second (km/s), a common unit in scientific contexts like astronomy.
+  kilometerPerSecond(SpeedFactors.mpsPerKps, 'km/s'),
+
   /// Kilometer per hour (km/h), a common unit for road vehicle speed.
   kilometerPerHour(SpeedFactors.mpsPerKmh, 'km/h'),
 
@@ -36,6 +39,7 @@ enum SpeedUnit implements Unit<SpeedUnit> {
   const SpeedUnit(double toMpsFactor, this.symbol)
       : _toMpsFactor = toMpsFactor,
         _factorToMeterPerSecond = toMpsFactor / 1.0,
+        _factorToKilometerPerSecond = toMpsFactor / SpeedFactors.mpsPerKps,
         _factorToKilometerPerHour = toMpsFactor / SpeedFactors.mpsPerKmh,
         _factorToMilePerHour = toMpsFactor / SpeedFactors.mpsPerMph,
         _factorToKnot = toMpsFactor / SpeedFactors.mpsPerKnot,
@@ -49,6 +53,7 @@ enum SpeedUnit implements Unit<SpeedUnit> {
 
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToMeterPerSecond;
+  final double _factorToKilometerPerSecond;
   final double _factorToKilometerPerHour;
   final double _factorToMilePerHour;
   final double _factorToKnot;
@@ -62,6 +67,8 @@ enum SpeedUnit implements Unit<SpeedUnit> {
     switch (targetUnit) {
       case SpeedUnit.meterPerSecond:
         return _factorToMeterPerSecond;
+      case SpeedUnit.kilometerPerSecond:
+        return _factorToKilometerPerSecond;
       case SpeedUnit.kilometerPerHour:
         return _factorToKilometerPerHour;
       case SpeedUnit.milePerHour:

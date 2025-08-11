@@ -10,6 +10,9 @@ extension SpeedValueGetters on Speed {
   /// Alias for `inMetersPerSecond`.
   double get inMps => getValue(SpeedUnit.meterPerSecond);
 
+  /// Returns the speed value in Kilometers per second (km/s).
+  double get inKilometersPerSecond => getValue(SpeedUnit.kilometerPerSecond);
+
   /// Returns the speed value in Kilometers per hour (km/h).
   double get inKilometersPerHour => getValue(SpeedUnit.kilometerPerHour);
 
@@ -33,6 +36,9 @@ extension SpeedValueGetters on Speed {
   /// Returns an [Speed] object representing this speed in Meters per second (m/s).
   Speed get asMetersPerSecond => convertTo(SpeedUnit.meterPerSecond);
 
+  /// Returns an [Speed] object representing this speed in Kilometers per second (km/s).
+  Speed get asKilometersPerSecond => convertTo(SpeedUnit.kilometerPerSecond);
+
   /// Returns an [Speed] object representing this speed in Kilometers per hour (km/h).
   Speed get asKilometersPerHour => convertTo(SpeedUnit.kilometerPerHour);
 
@@ -53,6 +59,12 @@ extension SpeedCreation on num {
 
   /// Creates a [Speed] instance from this value in Meters per second (m/s).
   Speed get metersPerSecond => Speed(toDouble(), SpeedUnit.meterPerSecond);
+
+  /// Creates a [Speed] instance from this value in Kilometers per second (km/s).
+  Speed get kps => Speed(toDouble(), SpeedUnit.kilometerPerSecond);
+
+  /// Creates a [Speed] instance from this value in Kilometers per second (km/s).
+  Speed get kilometersPerSecond => Speed(toDouble(), SpeedUnit.kilometerPerSecond);
 
   /// Creates a [Speed] instance from this value in Kilometers per hour (km/h).
   Speed get kmh => Speed(toDouble(), SpeedUnit.kilometerPerHour);

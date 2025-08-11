@@ -21,6 +21,9 @@ class SpeedFactors {
   /// (based on the exact definition of a foot in meters).
   static const double mpsPerFps = 0.3048;
 
+  /// Meters per second per Kilometer per second: 1 km/s = 1000 m/s.
+  static const double mpsPerKps = 1000.0;
+
   // --- Other potential units (can be added if needed) ---
   // Example: Speed of Light (c)
   // /// Meters per second per speed of light: 1 c = 299792458 m/s.
