@@ -5,6 +5,16 @@ All notable changes to the `quantify` package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.12.0]
+
+### Added
+
+* Major Feature: Comprehensive Constants Library.
+  * A library of over 100 type-safe constants, organized into three categories: PhysicalConstants, AstronomicalConstants, and EngineeringConstants.
+  * Constants are represented as Quantity objects wherever possible (e.g., PhysicalConstants.speedOfLight is a Speed object, AstronomicalConstants.standardGravity is an Acceleration object).
+  * Added convenience methods for common scientific and engineering formulas, such as PhysicalConstants.photonEnergy(), AstronomicalConstants.escapeVelocity(), and EngineeringConstants.mechanicalStress().
+  * Constants are accessible via a new, separate import: package:quantify/constants.dart.
+
 ## [0.11.0]
 
 2025-07-27
