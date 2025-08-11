@@ -25,6 +25,12 @@ extension PressureValueGetters on Pressure {
   /// Returns the pressure value in Inches of Mercury (inHg).
   double get inInHg => getValue(PressureUnit.inchOfMercury);
 
+  /// Returns the pressure value in Megapascals (MPa).
+  double get inMegaPascals => getValue(PressureUnit.megapascal);
+
+  /// Returns the pressure value in Kilopascals (kPa).
+  double get inKiloPascals => getValue(PressureUnit.kilopascal);
+
   /// Returns the pressure value in Kilopascals (kPa).
   double get inKPa => getValue(PressureUnit.kilopascal);
 
@@ -61,8 +67,11 @@ extension PressureValueGetters on Pressure {
   /// Returns a Pressure representing this pressure in Inches of Mercury (inHg).
   Pressure get asInHg => convertTo(PressureUnit.inchOfMercury);
 
+  /// Returns a Pressure representing this pressure in Megapascals (MPa).
+  Pressure get asMegaPascals => convertTo(PressureUnit.megapascal);
+
   /// Returns a Pressure representing this pressure in Kilopascals (kPa).
-  Pressure get asKPa => convertTo(PressureUnit.kilopascal);
+  Pressure get asKiloPascals => convertTo(PressureUnit.kilopascal);
 
   /// Returns a Pressure representing this pressure in Hectopascals (hPa).
   Pressure get asHPa => convertTo(PressureUnit.hectopascal);
@@ -101,7 +110,18 @@ extension PressureCreation on num {
   /// Creates a [Pressure] instance representing this numerical value in Inches of Mercury (inHg).
   Pressure get inHg => Pressure(toDouble(), PressureUnit.inchOfMercury);
 
+  /// Creates a [Pressure] instance representing this numerical value in Megapascals (MPa).
+  Pressure get megaPascals => Pressure(toDouble(), PressureUnit.megapascal);
+
+  /// Creates a [Pressure] instance representing this numerical value in Megapascals (MPa).
+  /// Alias for `megaPascals`.
+  Pressure get mpa => Pressure(toDouble(), PressureUnit.megapascal);
+
   /// Creates a [Pressure] instance representing this numerical value in Kilopascals (kPa).
+  Pressure get kiloPascals => Pressure(toDouble(), PressureUnit.kilopascal);
+
+  /// Creates a [Pressure] instance representing this numerical value in Kilopascals (kPa).
+  /// Alias for `kiloPascals`.
   Pressure get kPa => Pressure(toDouble(), PressureUnit.kilopascal);
 
   /// Creates a [Pressure] instance representing this numerical value in Hectopascals (hPa).
@@ -115,18 +135,4 @@ extension PressureCreation on num {
 
   /// Creates a [Pressure] instance representing this numerical value in Inches of Water (inH₂O) at 4°C.
   Pressure get inH2O => Pressure(toDouble(), PressureUnit.inchOfWater);
-
-  // Longer aliases (optional)
-  // Pressure get pascals => Pressure(toDouble(), PressureUnit.pascal);
-  // Pressure get atmospheres => Pressure(toDouble(), PressureUnit.atmosphere);
-  // Pressure get bars => Pressure(toDouble(), PressureUnit.bar);
-  // Pressure get poundsPerSquareInch => Pressure(toDouble(), PressureUnit.psi);
-  // Pressure get torrs => Pressure(toDouble(), PressureUnit.torr);
-  // Pressure get millimetersOfMercury => Pressure(toDouble(), PressureUnit.millimeterOfMercury);
-  // Pressure get inchesOfMercury => Pressure(toDouble(), PressureUnit.inchOfMercury);
-  // Pressure get kilopascals => Pressure(toDouble(), PressureUnit.kilopascal);
-  // Pressure get hectopascals => Pressure(toDouble(), PressureUnit.hectopascal);
-  // Pressure get millibars => Pressure(toDouble(), PressureUnit.millibar);
-  // Pressure get centimetersOfWater => Pressure(toDouble(), PressureUnit.centimeterOfWater);
-  // Pressure get inchesOfWater => Pressure(toDouble(), PressureUnit.inchOfWater);
 }

@@ -1,13 +1,10 @@
 // ignore_for_file: prefer_int_literals // All constants are doubles for precision.
 
-import '../../../quantify.dart' show Unit;
-import '../../core/unit.dart' show Unit;
-
 /// Defines base conversion factors for various pressure units relative to Pascal (Pa).
 ///
 /// These constants are based on international standards (e.g., NIST) where available.
 /// The base unit for internal calculations is Pascal.
-/// Factors represent: 1 [Unit] = X Pascals.
+/// Factors represent: 1 Unit = X Pascals.
 /// All water column units (cmH₂O, inH₂O) refer to a water temperature of 4°C (39.2°F)
 /// unless otherwise specified, aligning with common scientific reference points for water density
 /// and conventional values (e.g., NIST SP 811).
@@ -40,6 +37,9 @@ class PressureFactors {
   // Inch of mercury (0 °C)  = 3.386 389 E+03 Pa
   // The calculated value is extremely close and based on fundamental definitions.
   // Using the calculated one for consistency, the difference is negligible for doubles.
+
+  /// Pascals per Megapascal (MPa): 1 MPa = 1,000,000 Pa.
+  static const double pascalsPerMegapascal = 1000000.0;
 
   /// Pascals per Kilopascal (kPa): 1 kPa = 1000 Pa.
   static const double pascalsPerKilopascal = 1000.0;

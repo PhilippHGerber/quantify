@@ -30,6 +30,9 @@ enum PressureUnit implements Unit<PressureUnit> {
   /// Inch of mercury (inHg) at 0°C.
   inchOfMercury(PressureFactors.pascalsPerInchOfMercury, 'inHg'),
 
+  /// Megapascal (MPa).
+  megapascal(PressureFactors.pascalsPerMegapascal, 'MPa'),
+
   /// Kilopascal (kPa).
   kilopascal(PressureFactors.pascalsPerKilopascal, 'kPa'),
 
@@ -62,6 +65,7 @@ enum PressureUnit implements Unit<PressureUnit> {
         _factorToMillimeterOfMercury =
             _toPascalFactor / PressureFactors.pascalsPerMillimeterOfMercury,
         _factorToInchOfMercury = _toPascalFactor / PressureFactors.pascalsPerInchOfMercury,
+        _factorToMegapascal = _toPascalFactor / PressureFactors.pascalsPerMegapascal,
         _factorToKilopascal = _toPascalFactor / PressureFactors.pascalsPerKilopascal,
         _factorToHectopascal = _toPascalFactor / PressureFactors.pascalsPerHectopascal,
         _factorToMillibar = _toPascalFactor / PressureFactors.pascalsPerMillibar,
@@ -71,11 +75,6 @@ enum PressureUnit implements Unit<PressureUnit> {
             _toPascalFactor / PressureFactors.conventionalPascalsPerInchOfWater4C;
 
   /// The factor to convert a value from this unit to the base unit (Pascal).
-  /// Example: For Bar, this is 100000.0 (meaning 1 bar = 100000.0 Pa).
-  /// After constructor initialization, its value is primarily baked into
-  /// the specific _factorToXxx fields for direct inter-unit conversions.
-  /// It's generally not accessed directly by methods outside this enum's constructor
-  /// but is crucial for deriving the pre-calculated factors.
   // ignore: unused_field
   final double _toPascalFactor;
 
@@ -84,8 +83,6 @@ enum PressureUnit implements Unit<PressureUnit> {
   final String symbol;
 
   // --- Pre-calculated direct conversion factors from this unit to all others ---
-  // These are calculated once in the const constructor.
-
   final double _factorToPascal;
   final double _factorToAtmosphere;
   final double _factorToBar;
@@ -93,6 +90,7 @@ enum PressureUnit implements Unit<PressureUnit> {
   final double _factorToTorr;
   final double _factorToMillimeterOfMercury;
   final double _factorToInchOfMercury;
+  final double _factorToMegapascal;
   final double _factorToKilopascal;
   final double _factorToHectopascal;
   final double _factorToMillibar;
@@ -119,6 +117,8 @@ enum PressureUnit implements Unit<PressureUnit> {
         return _factorToMillimeterOfMercury;
       case PressureUnit.inchOfMercury:
         return _factorToInchOfMercury;
+      case PressureUnit.megapascal:
+        return _factorToMegapascal;
       case PressureUnit.kilopascal:
         return _factorToKilopascal;
       case PressureUnit.hectopascal:
