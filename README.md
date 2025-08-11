@@ -3,18 +3,19 @@
 [![pub version](https://img.shields.io/pub/v/quantify.svg)](https://pub.dev/packages/quantify)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/PhilippHGerber/quantify/blob/main/LICENSE)
 
-A type-safe unit of measurement converter library for Dart with elegant syntax, high precision, and optimal performance.
+Quantify is a Dart package for type-safe units, quantities, and measurements — offering compile-time safety, fluent arithmetic, and robust unit conversion for physical values like speed, mass, and temperature.
 
 ## Why `quantify`?
 
 `quantify` makes working with physical units in Dart safer, more readable, and efficient:
 
-* **Type Safety:** Prevents unit mismatch errors at compile-time.
-* **Elegant API:** Intuitive syntax like `10.m` or `length.inKm`.
-* **Precise & Performant:** Uses `double` and direct conversion factors for speed and to minimize rounding errors.
-* **Immutable:** `Quantity` objects are immutable for safer code.
-* **Configurable Output:** Highly flexible `toString()` for customized formatting.
-* **Lightweight:** Minimal dependencies.
+*   **Type Safety:** Prevents unit mismatch errors at compile-time.
+*   **Elegant API:** Intuitive syntax like `10.m` or `length.inKm`.
+*   **Rich Constants Library:** Provides type-safe physical, astronomical, and engineering constants.
+*   **Precise & Performant:** Uses `double` and direct conversion factors for speed and to minimize rounding errors.
+*   **Immutable:** `Quantity` objects are immutable for safer code.
+*   **Configurable Output:** Highly flexible `toString()` for customized formatting.
+*   **Lightweight:** Minimal dependencies.
 
 ## Quick Start
 
@@ -60,7 +61,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  quantify: ^0.11.0 
+  quantify: ^0.12.0 # Or the latest version
   # Optional, for locale-specific number formatting:
   # intl: ^0.19.0
 ```
@@ -73,27 +74,27 @@ The library supports a comprehensive range of physical quantities, including all
 
 | Quantity Type           | Status | Units Available                                                                                                                        | Notes / SI Base Unit Ref. |
 | :---------------------- | :----: | :------------------------------------------------------------------------------------------------------------------------------------- | :------------------------ |
-| **Length**              |   ✅   | **`m`** (meter), `km`, `hm`, `dam`, `dm`, `cm`, `mm`, `μm`, `nm`, `pm`, `fm`, `in`, `ft`, `yd`, `mi`, `nmi`, `AU`, `ly`, `pc`, `Å`     | SI Base: Meter (m)        |
-| **Mass**                |   ✅   | **`kg`** (kilogram), `hg`, `dag`, `g`, `dg`, `cg`, `mg`, `μg`, `ng`, `t`, `lb`, `oz`, `st`, `slug`, `short ton`, `long ton`, `u`, `ct` | SI Base: Kilogram (kg)    |
-| **Time**                |   ✅   | **`s`** (second), `μs`, `ns`, `ps`, `ms`, `min`, `h`, `d`, `wk`, `mo`, `yr`                                                            | SI Base: Second (s)       |
-| **Electric Current**    |   ✅   | **`A`** (ampere), `mA`, `μA`, `nA`, `kA`                                                                                               | SI Base: Ampere (A)       |
-| **Temperature**         |   ✅   | **`K`** (kelvin), `°C` (celsius), `°F` (fahrenheit), `°R` (rankine)                                                                    | SI Base: Kelvin (K)       |
-| **Amount of Substance** |   ✅   | **`mol`** (mole), `mmol`, `μmol`, `nmol`, `pmol`, `kmol`                                                                               | SI Base: Mole (mol)       |
-| **Luminous Intensity**  |   ✅   | **`cd`** (candela), `mcd`, `kcd`                                                                                                       | SI Base: Candela (cd)     |
+| **Length**              |   ✅    | **`m`** (meter), `km`, `hm`, `dam`, `dm`, `cm`, `mm`, `μm`, `nm`, `pm`, `fm`, `in`, `ft`, `yd`, `mi`, `nmi`, `AU`, `ly`, `pc`, `Å`     | SI Base: Meter (m)        |
+| **Mass**                |   ✅    | **`kg`** (kilogram), `hg`, `dag`, `g`, `dg`, `cg`, `mg`, `μg`, `ng`, `t`, `lb`, `oz`, `st`, `slug`, `short ton`, `long ton`, `u`, `ct` | SI Base: Kilogram (kg)    |
+| **Time**                |   ✅    | **`s`** (second), `μs`, `ns`, `ps`, `ms`, `min`, `h`, `d`, `wk`, `mo`, `yr`                                                            | SI Base: Second (s)       |
+| **Electric Current**    |   ✅    | **`A`** (ampere), `mA`, `μA`, `nA`, `kA`                                                                                               | SI Base: Ampere (A)       |
+| **Temperature**         |   ✅    | **`K`** (kelvin), `°C` (celsius), `°F` (fahrenheit), `°R` (rankine)                                                                    | SI Base: Kelvin (K)       |
+| **Amount of Substance** |   ✅    | **`mol`** (mole), `mmol`, `μmol`, `nmol`, `pmol`, `kmol`                                                                               | SI Base: Mole (mol)       |
+| **Luminous Intensity**  |   ✅    | **`cd`** (candela), `mcd`, `kcd`                                                                                                       | SI Base: Candela (cd)     |
 | *Derived*               |        |                                                                                                                                        |                           |
-| **Angle**               |   ✅   | **`rad`** (radian), `°` (degree), `grad`, `rev`, `arcmin` ('), `arcsec` ("), `mrad`                                                    | Derived SI: dimensionless |
-| **Angular Velocity**    |   ✅   | **`rad/s`**, `°/s`, `rpm`, `rps`                                                                                                       | Derived SI: 1/s           |
-| **Speed / Velocity**    |   ✅   | **`m/s`** (meter per second), `km/h`, `mph`, `kn` (knot), `ft/s`                                                                       | Derived SI                |
-| **Acceleration**        |   ✅   | **`m/s²`**, `g` (standard gravity), `km/h/s`, `cm/s²` (Galileo)                                                                       | Derived SI                |
-| **Force**               |   ✅   | **`N`** (Newton), `lbf`, `dyn`, `kgf`, `kN`, `gf`, `pdl`                                                                               | Derived SI: kg·m/s²       |
-| **Pressure**            |   ✅   | **`Pa`** (Pascal), `atm`, `bar`, `psi`, `Torr`, `mmHg`, `inHg`, `kPa`, `hPa`, `mbar`, `cmH₂O`, `inH₂O`                                 | Derived SI: N/m²          |
-| **Area**                |   ✅   | **`m²`**, `Mm²`, `km²`, `hm²`, `dam²`, `dm²`, `cm²`, `mm²`, `µm²`, `ha`, `mi²`, `acre`, `yd²`, `ft²`, `in²`                               | Derived SI                |
-| **Volume**              |   ✅   | **`m³`**, **`L`**, `mL`, `gal`, `fl-oz`, `ft³`, `in³`, `qt`, `pt`, `tbsp`, `tsp`...                                                    | Derived SI: L (Liter)     |
-| **Frequency**           |   ✅   | **`Hz`**, `kHz`, `MHz`, `GHz`, `THz`, `rpm`, `bpm`                                                                                     | Derived SI: 1/s           |
-| **Electric Charge**     |   ✅   | **`C`**, `mC`, `µC`, `nC`, `Ah`, `e`, `mAh`, `statC`, `abC`                                                                             | Derived SI: A·s           |
-| **Solid Angle**         |   ✅   | **`sr`**, `deg²` (Square Degree), `sp` (Spat)                                                                                        | Derived SI: dimensionless |
-| **Energy / Work**       |   ✅   | **`J`** (Joule), `kJ`, `MJ`, `kWh`, `cal`, `kcal`, `eV`, `Btu`                                                                         | Derived SI: N·m           |
-| **Power**               |   ✅   | **`W`** (Watt), `mW`, `kW`, `MW`, `GW`, `hp`, `PS` (metric hp), `Btu/h`, `erg/s`                                                       | Derived SI: J/s           |
+| **Angle**               |   ✅    | **`rad`** (radian), `°` (degree), `grad`, `rev`, `arcmin` ('), `arcsec` ("), `mrad`                                                    | Derived SI: dimensionless |
+| **Angular Velocity**    |   ✅    | **`rad/s`**, `°/s`, `rpm`, `rps`                                                                                                       | Derived SI: 1/s           |
+| **Speed / Velocity**    |   ✅    | **`m/s`** (meter per second), `km/h`, `mph`, `kn` (knot), `ft/s`                                                                       | Derived SI                |
+| **Acceleration**        |   ✅    | **`m/s²`**, `g` (standard gravity), `km/h/s`, `cm/s²` (Galileo)                                                                        | Derived SI                |
+| **Force**               |   ✅    | **`N`** (Newton), `lbf`, `dyn`, `kgf`, `kN`, `gf`, `pdl`                                                                               | Derived SI: kg·m/s²       |
+| **Pressure**            |   ✅    | **`Pa`** (Pascal), `atm`, `bar`, `psi`, `Torr`, `mmHg`, `inHg`, `kPa`, `hPa`, `mbar`, `cmH₂O`, `inH₂O`                                 | Derived SI: N/m²          |
+| **Area**                |   ✅    | **`m²`**, `Mm²`, `km²`, `hm²`, `dam²`, `dm²`, `cm²`, `mm²`, `µm²`, `ha`, `mi²`, `acre`, `yd²`, `ft²`, `in²`                            | Derived SI                |
+| **Volume**              |   ✅    | **`m³`**, **`L`**, `mL`, `gal`, `fl-oz`, `ft³`, `in³`, `qt`, `pt`, `tbsp`, `tsp`...                                                    | Derived SI: L (Liter)     |
+| **Frequency**           |   ✅    | **`Hz`**, `kHz`, `MHz`, `GHz`, `THz`, `rpm`, `bpm`                                                                                     | Derived SI: 1/s           |
+| **Electric Charge**     |   ✅    | **`C`**, `mC`, `µC`, `nC`, `Ah`, `e`, `mAh`, `statC`, `abC`                                                                            | Derived SI: A·s           |
+| **Solid Angle**         |   ✅    | **`sr`**, `deg²` (Square Degree), `sp` (Spat)                                                                                          | Derived SI: dimensionless |
+| **Energy / Work**       |   ✅    | **`J`** (Joule), `kJ`, `MJ`, `kWh`, `cal`, `kcal`, `eV`, `Btu`                                                                         | Derived SI: N·m           |
+| **Power**               |   ✅    | **`W`** (Watt), `mW`, `kW`, `MW`, `GW`, `hp`, `PS` (metric hp), `Btu/h`, `erg/s`                                                       | Derived SI: J/s           |
 
 ## Detailed Usage
 
@@ -116,7 +117,7 @@ final specificLength = Length(5.0, LengthUnit.yard);
 
 ### Converting and Retrieving Values
 
-1. **Get Numerical Value:** Use `in[UnitName]` getters or `getValue(TargetUnit)`.
+1.  **Get Numerical Value:** Use `in[UnitName]` getters or `getValue(TargetUnit)`.
 
     ```dart
     final oneMile = 1.0.mi;
@@ -127,7 +128,7 @@ final specificLength = Length(5.0, LengthUnit.yard);
     double inNanometers = smallDistance.inNm; // 1000.0
     ```
 
-2. **Get New `Quantity` Object:** Use `convertTo(TargetUnit)` or `as[UnitName]` getters.
+2.  **Get New `Quantity` Object:** Use `convertTo(TargetUnit)` or `as[UnitName]` getters.
 
     ```dart
     final tenMeters = 10.m;
@@ -136,6 +137,31 @@ final specificLength = Length(5.0, LengthUnit.yard);
     final tenMetersInKmObj = tenMeters.asKm;
     // tenMetersInKmObj is Length(0.01, LengthUnit.kilometer)
     ```
+
+### Using the Constants Library
+
+`quantify` includes a comprehensive library of type-safe physical, astronomical, and engineering constants.
+
+```dart
+import 'package:quantify/quantify.dart';
+import 'package:quantify/constants.dart'; // Import the constants library
+
+void main() {
+  // Constants are already Quantity objects, ready for use.
+  final gravity = AstronomicalConstants.standardGravity; // An Acceleration object
+  final electron = PhysicalConstants.electronMass; // A Mass object
+  final speedOfLight = PhysicalConstants.speedOfLight; // A Speed object
+  final steelStiffness = EngineeringConstants.steelYoungsModulus; // A Pressure object
+
+  // Use them in calculations
+  final weightOfElectron = Force.from(electron, gravity);
+  print('Weight of an electron on Earth: ${weightOfElectron.inNewtons} N');
+
+  // Use convenience methods for common formulas
+  final photonEnergy = PhysicalConstants.photonEnergy(500.0.nm); // Returns an Energy object
+  print('Energy of a 500nm photon: ${photonEnergy.inElectronvolts.toStringAsFixed(2)} eV');
+}
+```
 
 ### Formatting Output with `toString()`
 
@@ -198,8 +224,8 @@ print(oneKm >= thousandMeters);  // true
 
 It's important to understand the two types of equality checks available:
 
-1. **Magnitude Equality (`isEquivalentTo`)**: Checks if two quantities represent the **same physical amount**.
-2. **Strict Equality (`==`)**: Checks if two quantities have the **exact same value AND unit**.
+1.  **Magnitude Equality (`isEquivalentTo`)**: Checks if two quantities represent the **same physical amount**.
+2.  **Strict Equality (`==`)**: Checks if two quantities have the **exact same value AND unit**.
 
 ```dart
 final oneMeter = 1.m;
@@ -261,10 +287,11 @@ This granular approach ensures that `quantify` can be used safely and effectivel
 
 ## Goals & Roadmap
 
-* **V1.0 (Current):** All 7 SI base units with comprehensive unit coverage
-* **V2.0 and Beyond:**
-  * **High Precision:** Support for `Decimal`.
-  * **Serialization support.**
+*   **V1.0 (Current):** All 7 SI base units with comprehensive unit coverage and a rich constants library.
+*   **V2.0 and Beyond:**
+    *   **High Precision:** Support for `Decimal`.
+    *   **Serialization support.**
+    *   **Compound Units:** More advanced `Quantity` types (e.g., `Density`, `Resistivity`).
 
 ## Contributing
 
