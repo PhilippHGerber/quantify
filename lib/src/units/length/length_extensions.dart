@@ -10,6 +10,9 @@ extension LengthValueGetters on Length {
   /// Returns the length value in Kilometers (km).
   double get inKm => getValue(LengthUnit.kilometer);
 
+  /// Returns the length value in Kilometers (km).
+  double get inKilometers => getValue(LengthUnit.kilometer);
+
   /// Returns the length value in Megameters (Mm).
   double get inMegaM => getValue(LengthUnit.megameter);
 
