@@ -5,3 +5,4 @@ coverage/
 lcov.info
 llmifierrc.yaml
 llms.txt
+/example/**/pubspec_overrides.yaml
