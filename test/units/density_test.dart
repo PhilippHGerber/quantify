@@ -1,0 +1,71 @@
+import 'package:quantify/density.dart';
+import 'package:quantify/mass.dart';
+import 'package:quantify/volume.dart';
+import 'package:test/test.dart';
+
+void main() {
+  group('Density', () {
+    const tolerance = 1e-9;
+
+    group('Constructors and Getters', () {
+      test('should create from num extensions and retrieve values', () {
+        final water = 1000.kgPerM3;
+        expect(water.value, 1000.0);
+        expect(water.unit, DensityUnit.kilogramPerCubicMeter);
+        expect(water.inKilogramsPerCubicMeter, closeTo(1000.0, tolerance));
+
+        final mercury = 13.6.gPerCm3;
+        expect(mercury.inKilogramsPerCubicMeter, closeTo(13600.0, tolerance));
+        expect(mercury.inGramsPerCubicCentimeter, closeTo(13.6, tolerance));
+      });
+    });
+
+    group('Conversions', () {
+      test('kg/m³ to g/cm³', () {
+        // 1000 kg/m³ = 1 g/cm³
+        final d = 1000.kgPerM3;
+        expect(d.inGramsPerCubicCentimeter, closeTo(1.0, tolerance));
+        expect(d.inGramsPerMilliliter, closeTo(1.0, tolerance));
+      });
+
+      test('g/cm³ to kg/m³', () {
+        final d = 1.gPerCm3;
+        expect(d.inKilogramsPerCubicMeter, closeTo(1000.0, tolerance));
+      });
+    });
+
+    group('Comparison', () {
+      test('should correctly compare different units', () {
+        final d1 = 1000.kgPerM3;
+        final d2 = 1.gPerCm3;
+        expect(d1.compareTo(d2), 0);
+        expect(d1.compareTo(0.5.gPerCm3), greaterThan(0));
+      });
+    });
+
+    group('Arithmetic', () {
+      test('should perform basic arithmetic', () {
+        final sum = 1.gPerCm3 + 1000.kgPerM3; // 1 + 1 (in g/cm³)
+        expect(sum.inGramsPerCubicCentimeter, closeTo(2.0, tolerance));
+      });
+    });
+
+    group('Dimensional Analysis', () {
+      test('Density = Mass / Volume', () {
+        final mass = 2000.kg;
+        final volume = 2.m3;
+        final density = Density.from(mass, volume);
+        expect(density.inKilogramsPerCubicMeter, closeTo(1000.0, tolerance));
+
+        expect(() => Density.from(10.kg, 0.m3), throwsArgumentError);
+      });
+
+      test('Mass = Density * Volume', () {
+        final density = 1000.kgPerM3;
+        final volume = 5.m3;
+        final mass = density.massOf(volume);
+        expect(mass.inKilograms, closeTo(5000.0, tolerance));
+      });
+    });
+  });
+}
