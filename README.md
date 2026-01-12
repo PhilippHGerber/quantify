@@ -1,21 +1,58 @@
-# Quantify
+# quantify - Type-Safe Unit Conversion & Measurement for Dart & Flutter
 
-[![pub version](https://img.shields.io/pub/v/quantify.svg)](https://pub.dev/packages/quantify)
+[![pub package](https://img.shields.io/pub/v/quantify.svg)](https://pub.dev/packages/quantify)
+
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/PhilippHGerber/quantify/blob/main/LICENSE)
 
-Quantify is a Dart package for type-safe units, quantities, and measurements — offering compile-time safety, fluent arithmetic, and robust unit conversion for physical values like speed, mass, and temperature.
+**quantify** is a modern, type-safe unit conversion and measurement library for Dart and Flutter. Convert between physical units with elegant syntax, zero runtime errors, and built-in physics constants — perfect for scientific apps, engineering tools, fitness trackers, and IoT dashboards.
+
+```dart
+  // Create quantities
+  final pathA = 1500.m;
+  final pathB = 2.5.km;
+
+  // Arithmetic
+  final distance = pathA + pathB; // pathB is converted to meters
+
+  // Convert to double valuea
+  double pathInKm = pathA.inKm;
+  // A new Quantity object
+  Length pathAsKm = pathA.asKm;
+
+  // Convert and print
+  print(pathA);
+  // Output: "1500.0 m"
+  print(pathA.toString(targetUnit: LengthUnit.kilometer, fractionDigits: 1));
+  // Output: "1.5 km"
+  print(pathB.toString(targetUnit: LengthUnit.mile, fractionDigits: 2));
+  // Output: "1.55 mi" (approx.)
+```
+
+---
+
+## ⚡ Quick Start
+
+### Installation
+
+Add to your `pubspec.yaml`:
+
+```yaml
+dependencies:
+  quantify: ^0.13.0
+```
+
 
 ## Why `quantify`?
 
 `quantify` makes working with physical units in Dart safer, more readable, and efficient:
 
-*   **Type Safety:** Prevents unit mismatch errors at compile-time.
-*   **Elegant API:** Intuitive syntax like `10.m` or `length.inKm`.
-*   **Rich Constants Library:** Provides type-safe physical, astronomical, and engineering constants.
-*   **Precise & Performant:** Uses `double` and direct conversion factors for speed and to minimize rounding errors.
-*   **Immutable:** `Quantity` objects are immutable for safer code.
-*   **Configurable Output:** Highly flexible `toString()` for customized formatting.
-*   **Lightweight:** Minimal dependencies.
+* **Type Safety:** Prevents unit mismatch errors at compile-time.
+* **Elegant API:** Intuitive syntax like `10.m` or `length.inKm`.
+* **Rich Constants Library:** Provides type-safe physical, astronomical, and engineering constants.
+* **Precise & Performant:** Uses `double` and direct conversion factors for speed and to minimize rounding errors.
+* **Immutable:** `Quantity` objects are immutable for safer code.
+* **Configurable Output:** Highly flexible `toString()` for customized formatting.
+* **Lightweight:** Minimal dependencies.
 
 ## Quick Start
 
@@ -29,15 +66,22 @@ void main() {
   final pathA = 1500.m;
   final pathB = 2.5.km;
 
-  // Convert to value / a new Quantity object
+  // Arithmetic
+  final distance = pathA + pathB; // pathB is converted to meters
+
+  // Convert to double valuea
   double pathInKm = pathA.inKm;
+  // A new Quantity object
   final pathAsKm = pathA.asKm;
 
   // Convert and print
-  print(pathA.toString(targetUnit: LengthUnit.kilometer, fractionDigits: 1));  // Output: "1.5 km"
-  print(pathB.toString(targetUnit: LengthUnit.mile, fractionDigits: 2));  // Output: "1.55 mi" (approx.)
+  print(pathA.toString());
+  print(pathA.toString(targetUnit: LengthUnit.kilometer, fractionDigits: 1));
+  // Output: "1.5 km"
+  print(pathB.toString(targetUnit: LengthUnit.mile, fractionDigits: 2));
+  // Output: "1.55 mi" (approx.)
 
-  // Arithmetic
+
   final distance = pathA + pathB; // pathB is converted to meters
   print(distance.toString(fractionDigits: 0));  // Output: "4000 m"
   print(distance.toString(
@@ -89,11 +133,13 @@ The library supports a comprehensive range of physical quantities, including all
 | **Force**               |   ✅    | **`N`** (Newton), `lbf`, `dyn`, `kgf`, `kN`, `gf`, `pdl`                                                                               | Derived SI: kg·m/s²       |
 | **Pressure**            |   ✅    | **`Pa`** (Pascal), `atm`, `bar`, `psi`, `Torr`, `mmHg`, `inHg`, `kPa`, `hPa`, `mbar`, `cmH₂O`, `inH₂O`                                 | Derived SI: N/m²          |
 | **Area**                |   ✅    | **`m²`**, `Mm²`, `km²`, `hm²`, `dam²`, `dm²`, `cm²`, `mm²`, `µm²`, `ha`, `mi²`, `acre`, `yd²`, `ft²`, `in²`                            | Derived SI                |
-| **Volume**              |   ✅    | **`m³`**, **`L`**, `mL`, `gal`, `fl-oz`, `ft³`, `in³`, `qt`, `pt`, `tbsp`, `tsp`...                                                    | Derived SI: L (Liter)     |
+| **Volume**              |   ✅    | **`m³`**, **`L`**, `mL`, `cl`, `gal`, `fl-oz`, `ft³`, `in³`, `qt`, `pt`, `tbsp`, `tsp`...                                              | Derived SI: L (Liter)     |
 | **Frequency**           |   ✅    | **`Hz`**, `kHz`, `MHz`, `GHz`, `THz`, `rpm`, `bpm`                                                                                     | Derived SI: 1/s           |
 | **Electric Charge**     |   ✅    | **`C`**, `mC`, `µC`, `nC`, `Ah`, `e`, `mAh`, `statC`, `abC`                                                                            | Derived SI: A·s           |
+| **Density**             |   ✅    | **`kg/m³`**, `g/cm³`, `g/mL`                                                                                                           | Derived SI: kg/m³         |
 | **Solid Angle**         |   ✅    | **`sr`**, `deg²` (Square Degree), `sp` (Spat)                                                                                          | Derived SI: dimensionless |
 | **Energy / Work**       |   ✅    | **`J`** (Joule), `kJ`, `MJ`, `kWh`, `cal`, `kcal`, `eV`, `Btu`                                                                         | Derived SI: N·m           |
+| **Specific Energy**     |   ✅    | **`J/kg`**, `kJ/kg`, `Wh/kg`, `kWh/kg`                                                                                                 | Derived SI: J/kg          |
 | **Power**               |   ✅    | **`W`** (Watt), `mW`, `kW`, `MW`, `GW`, `hp`, `PS` (metric hp), `Btu/h`, `erg/s`                                                       | Derived SI: J/s           |
 
 ## Detailed Usage
@@ -117,7 +163,7 @@ final specificLength = Length(5.0, LengthUnit.yard);
 
 ### Converting and Retrieving Values
 
-1.  **Get Numerical Value:** Use `in[UnitName]` getters or `getValue(TargetUnit)`.
+1. **Get Numerical Value:** Use `in[UnitName]` getters or `getValue(TargetUnit)`.
 
     ```dart
     final oneMile = 1.0.mi;
@@ -128,7 +174,7 @@ final specificLength = Length(5.0, LengthUnit.yard);
     double inNanometers = smallDistance.inNm; // 1000.0
     ```
 
-2.  **Get New `Quantity` Object:** Use `convertTo(TargetUnit)` or `as[UnitName]` getters.
+2. **Get New `Quantity` Object:** Use `convertTo(TargetUnit)` or `as[UnitName]` getters.
 
     ```dart
     final tenMeters = 10.m;
@@ -224,8 +270,8 @@ print(oneKm >= thousandMeters);  // true
 
 It's important to understand the two types of equality checks available:
 
-1.  **Magnitude Equality (`isEquivalentTo`)**: Checks if two quantities represent the **same physical amount**.
-2.  **Strict Equality (`==`)**: Checks if two quantities have the **exact same value AND unit**.
+1. **Magnitude Equality (`isEquivalentTo`)**: Checks if two quantities represent the **same physical amount**.
+2. **Strict Equality (`==`)**: Checks if two quantities have the **exact same value AND unit**.
 
 ```dart
 final oneMeter = 1.m;
@@ -287,11 +333,11 @@ This granular approach ensures that `quantify` can be used safely and effectivel
 
 ## Goals & Roadmap
 
-*   **V1.0 (Current):** All 7 SI base units with comprehensive unit coverage and a rich constants library.
-*   **V2.0 and Beyond:**
-    *   **High Precision:** Support for `Decimal`.
-    *   **Serialization support.**
-    *   **Compound Units:** More advanced `Quantity` types (e.g., `Density`, `Resistivity`).
+* **V1.0 (Current):** All 7 SI base units with comprehensive unit coverage and a rich constants library.
+* **V2.0 and Beyond:**
+  * **High Precision:** Support for `Decimal`.
+  * **Serialization support.**
+  * **Compound Units:** More advanced `Quantity` types (e.g., `Density`, `Resistivity`).
 
 ## Contributing
 
