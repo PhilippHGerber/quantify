@@ -51,6 +51,9 @@ enum VolumeUnit implements Unit<VolumeUnit> {
   /// Millilitre (mL). Equivalent to a cubic centimeter.
   milliliter(VolumeFactors.cm3, 'mL'),
 
+  /// Centiliter (cl).
+  centiliter(VolumeFactors.cl, 'cl'),
+
   /// Microlitre (µL). Equivalent to a cubic millimeter.
   microliter(VolumeFactors.mm3, 'µL'),
 
@@ -100,6 +103,7 @@ enum VolumeUnit implements Unit<VolumeUnit> {
         _factorToTeraliter = toCubicMillimeterFactor / VolumeFactors.km3,
         _factorToLitre = toCubicMillimeterFactor / VolumeFactors.dm3,
         _factorToMilliliter = toCubicMillimeterFactor / VolumeFactors.cm3,
+        _factorToCentiliter = toCubicMillimeterFactor / VolumeFactors.cl,
         _factorToMicroliter = toCubicMillimeterFactor / VolumeFactors.mm3,
         _factorToCubicInch = toCubicMillimeterFactor / VolumeFactors.in3,
         _factorToCubicFoot = toCubicMillimeterFactor / VolumeFactors.ft3,
@@ -131,6 +135,7 @@ enum VolumeUnit implements Unit<VolumeUnit> {
   final double _factorToTeraliter;
   final double _factorToLitre;
   final double _factorToMilliliter;
+  final double _factorToCentiliter;
   final double _factorToMicroliter;
   final double _factorToCubicInch;
   final double _factorToCubicFoot;
@@ -172,6 +177,8 @@ enum VolumeUnit implements Unit<VolumeUnit> {
         return _factorToLitre;
       case VolumeUnit.milliliter:
         return _factorToMilliliter;
+      case VolumeUnit.centiliter:
+        return _factorToCentiliter;
       case VolumeUnit.microliter:
         return _factorToMicroliter;
       case VolumeUnit.cubicInch:

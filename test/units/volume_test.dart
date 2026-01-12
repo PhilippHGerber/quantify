@@ -39,6 +39,10 @@ void main() {
         expect(v3.inQuarts, closeTo(4.0, tolerance));
         expect(v3.inPints, closeTo(8.0, tolerance));
         expect(v3.inFluidOunces, closeTo(128.0, tolerance));
+
+        final v4 = 10.cl;
+        expect(v4.inMilliliters, closeTo(100.0, tolerance));
+        expect(v4.inLiters, closeTo(0.1, tolerance));
       });
     });
 
@@ -47,6 +51,7 @@ void main() {
         expect(1.m3.inKiloliters, closeTo(1.0, tolerance));
         expect(1.dm3.inLiters, closeTo(1.0, tolerance));
         expect(1.cm3.inMilliliters, closeTo(1.0, tolerance));
+        expect(10.ml.inCentiliters, closeTo(1.0, tolerance));
         expect(1.mm3.inMicroliters, closeTo(1.0, tolerance));
         expect(1.dam3.inMegaliters, closeTo(1.0, tolerance));
         expect(1.hm3.inGigaliters, closeTo(1.0, tolerance));
@@ -106,6 +111,9 @@ void main() {
 
         // Test EQUAL: 1 Liter is EXACTLY 1000 Cubic Centimeters.
         expect(1.l.compareTo(1000.cm3), 0);
+
+        // Test EQUAL: 1 Centiliter is EXACTLY 10 Milliliters.
+        expect(1.cl.compareTo(10.ml), 0);
       });
     });
 
@@ -142,6 +150,7 @@ void main() {
         expect(250.ml.toString(), '250.0\u00A0mL');
         expect(1.gal.toString(), '1.0\u00A0gal');
         expect(8.flOz.toString(), '8.0\u00A0fl-oz');
+        expect(5.cl.toString(), '5.0\u00A0cl');
         expect(1.tsp.toString(), '1.0\u00A0tsp');
       });
     });

@@ -47,6 +47,9 @@ extension VolumeValueGetters on Volume {
   /// Returns the volume value in Milliliters (mL).
   double get inMilliliters => getValue(VolumeUnit.milliliter);
 
+  /// Returns the volume value in Centiliters (cl).
+  double get inCentiliters => getValue(VolumeUnit.centiliter);
+
   /// Returns the volume value in Microliters (µL).
   double get inMicroliters => getValue(VolumeUnit.microliter);
 
@@ -124,6 +127,9 @@ extension VolumeValueGetters on Volume {
   /// Returns a new [Volume] object representing this volume in Milliliters (mL).
   Volume get asMilliliters => convertTo(VolumeUnit.milliliter);
 
+  /// Returns a new [Volume] object representing this volume in Centiliters (cl).
+  Volume get asCentiliters => convertTo(VolumeUnit.centiliter);
+
   /// Returns a new [Volume] object representing this volume in Microliters (µL).
   Volume get asMicroliters => convertTo(VolumeUnit.microliter);
 
@@ -185,6 +191,13 @@ extension VolumeCreation on num {
   /// Creates a [Volume] instance from this value in Milliliters (mL).
   /// Alias for `ml`.
   Volume get milliliters => Volume(toDouble(), VolumeUnit.milliliter);
+
+  /// Creates a [Volume] instance from this value in Centiliters (cl).
+  Volume get cl => Volume(toDouble(), VolumeUnit.centiliter);
+
+  /// Creates a [Volume] instance from this value in Centiliters (cl).
+  /// Alias for `cl`.
+  Volume get centiliters => Volume(toDouble(), VolumeUnit.centiliter);
 
   /// Creates a [Volume] instance from this value in Cubic Millimeters (mm³).
   Volume get mm3 => Volume(toDouble(), VolumeUnit.cubicMillimeter);

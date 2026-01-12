@@ -17,6 +17,9 @@ class VolumeFactors {
   /// Cubic Millimeters per Cubic Decimeter (L): 1 dm³ = 1,000,000 mm³.
   static const double dm3 = cm3 * 1000.0;
 
+  /// Cubic Millimeters per Centiliter (cl): 1 cl = 10 mL = 10,000 mm³.
+  static const double cl = cm3 * 10.0;
+
   /// Cubic Millimeters per Cubic Meter (kl): 1 m³ = 1,000,000,000 mm³.
   static const double m3 = dm3 * 1000.0;
 
