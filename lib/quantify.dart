@@ -1,4 +1,5 @@
-/// A type-safe library for units of measurement, providing elegant syntax for unit conversions.
+/// A type-safe library for units of measurement,
+/// providing elegant syntax for unit conversions.
 library;
 
 // Exporting core classes for quantities and units
@@ -24,6 +25,10 @@ export 'src/units/area/area_unit.dart';
 export 'src/units/current/current.dart';
 export 'src/units/current/current_extensions.dart';
 export 'src/units/current/current_unit.dart';
+// Exporting units and their extensions for density
+export 'src/units/density/density.dart';
+export 'src/units/density/density_extensions.dart';
+export 'src/units/density/density_unit.dart';
 // Exporting units and their extensions for electric charge
 export 'src/units/electric_charge/electric_charge.dart';
 export 'src/units/electric_charge/electric_charge_extensions.dart';
@@ -69,6 +74,10 @@ export 'src/units/pressure/pressure_unit.dart';
 export 'src/units/solid_angle/solid_angle.dart';
 export 'src/units/solid_angle/solid_angle_extensions.dart';
 export 'src/units/solid_angle/solid_angle_unit.dart';
+// Exporting units and their extensions for specific energy
+export 'src/units/specific_energy/specific_energy.dart';
+export 'src/units/specific_energy/specific_energy_extensions.dart';
+export 'src/units/specific_energy/specific_energy_unit.dart';
 // Exporting units and their extensions for speed
 export 'src/units/speed/speed.dart';
 export 'src/units/speed/speed_extensions.dart';
