@@ -1,8 +1,9 @@
 /// Physical, astronomical, and engineering constants for the quantify package.
 ///
 /// This library provides type-safe access to fundamental constants with
-/// appropriate units from physics, astronomy, and engineering. By importing this
-/// single file, you gain access to all three constant categories.
+/// appropriate units from physics, astronomy, and engineering.
+/// By importing this single file, you gain access to all three constant
+/// categories.
 ///
 /// ## Usage
 ///
@@ -12,15 +13,15 @@
 ///
 /// void main() {
 ///   // Physical constants are now type-safe Quantities where possible
-///   final lightSpeed = PhysicalConstants.speedOfLight; // Returns a Speed object
-///   final electronEnergy = PhysicalConstants.electronRestEnergy; // Returns an Energy object
+///   final lightSpeed = PhysicalConstants.speedOfLight;
+///   final electronEnergy = PhysicalConstants.electronRestEnergy;
 ///
 ///   // Astronomical constants
-///   final earthGravity = AstronomicalConstants.standardGravity; // Returns an Acceleration object
-///   final sunPower = AstronomicalConstants.solarLuminosity; // Returns a Power object
+///   final earthGravity = AstronomicalConstants.standardGravity;
+///   final sunPower = AstronomicalConstants.solarLuminosity;
 ///
 ///   // Engineering constants
-///   final steelStiffness = EngineeringConstants.steelYoungsModulus; // Returns a Pressure object
+///   final steelStiffness = EngineeringConstants.steelYoungsModulus;
 ///
 ///   // Use in convenience methods for powerful, type-safe calculations
 ///   final photonEnergy = PhysicalConstants.photonEnergy(500.0.nm);
@@ -30,27 +31,32 @@
 ///   );
 ///
 ///   print('Speed of light: ${lightSpeed.asKilometersPerHour}');
-///   print('Earth standard gravity: ${earthGravity.asMetersPerSecondSquared}');
-///   print('Energy of a 500nm photon: ${photonEnergy.inElectronvolts.toStringAsFixed(2)} eV');
+///   print('Earth standard gravity:  ');
+///   print('${earthGravity.asMetersPerSecondSquared}');
+///   print('Energy of a 500nm photon: ');
+///   print('${photonEnergy.inElectronvolts.toStringAsFixed(2)} eV');
 /// }
 /// ```
 ///
 /// ## Constant Categories
 ///
 /// ### PhysicalConstants
-/// Fundamental constants from physics including the speed of light, Planck constant,
-/// elementary charge, particle masses, quantum and electromagnetic constants, and
-/// convenience methods for common physics calculations.
+/// Fundamental constants from physics including the speed of light,
+/// Planck constant, elementary charge, particle masses, quantum and
+/// electromagnetic constants, and convenience methods for common
+/// physics calculations.
 ///
 /// ### AstronomicalConstants
-/// Constants from astronomy and astrophysics including solar system body properties
-/// (masses, radii, distances), galactic and cosmological scales, stellar physics
-/// constants, and convenience methods for orbital mechanics.
+/// Constants from astronomy and astrophysics including solar system
+/// body properties (masses, radii, distances), galactic and cosmological
+/// scales, stellar physics constants, and convenience methods for orbital
+/// mechanics.
 ///
 /// ### EngineeringConstants
-/// Practical constants for engineering including standard conditions (STP, NTP),
-/// material properties (density, strength), mechanical properties (Young's modulus),
-/// and convenience methods for common engineering calculations.
+/// Practical constants for engineering including standard conditions
+/// (STP, NTP), material properties (density, strength),
+/// mechanical properties (Young's modulus), and convenience methods
+/// for common engineering calculations.
 library;
 
 export 'src/constants/astronomical_constants.dart';
