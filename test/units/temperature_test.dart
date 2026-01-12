@@ -30,12 +30,10 @@ void main() {
 
       test('Unit.factorTo should throw UnsupportedError for TemperatureUnit', () {
         expect(
-          // ignore: invalid_use_of_protected_member : protected member access
           () => TemperatureUnit.celsius.factorTo(TemperatureUnit.fahrenheit),
           throwsUnsupportedError,
         );
         expect(
-          // ignore: invalid_use_of_protected_member : protected member access
           () => TemperatureUnit.kelvin.factorTo(TemperatureUnit.celsius),
           throwsUnsupportedError,
         );
