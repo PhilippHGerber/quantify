@@ -1,7 +1,7 @@
 /// Provides type-safe units for Solid Angle.
 ///
-/// Import this file to use SolidAngle quantities and their extensions on `num`
-/// (like `1.5.sr`, `4000.deg2`).
+/// Import this file to use SolidAngle quantities and their
+/// extensions on `num` (like `1.5.sr`, `4000.deg2`).
 library;
 
 export 'src/core/quantity.dart';

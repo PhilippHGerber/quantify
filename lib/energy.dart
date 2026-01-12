@@ -2,8 +2,8 @@
 
 /// Provides type-safe units for Energy.
 ///
-/// Import this file to use Energy quantities and their extensions on `num`
-/// (like `500.J`, `250.kcal`, `1.2.kWh`).
+/// Import this file to use Energy quantities and their
+/// extensions on `num` (like `500.J`, `250.kcal`, `1.2.kWh`).
 library;
 
 export 'src/core/quantity.dart';

@@ -269,8 +269,7 @@ abstract class Quantity<T extends Unit<T>> implements Comparable<Quantity<T>> {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     return other is Quantity<T> &&
-        runtimeType ==
-            other.runtimeType && // Ensures strict type equality (e.g., Length != Pressure)
+        runtimeType == other.runtimeType &&
         _value == other._value &&
         _unit == other._unit;
   }

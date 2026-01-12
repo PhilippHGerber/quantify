@@ -1,7 +1,7 @@
 /// Provides type-safe units for Force.
 ///
-/// Import this file to use Force quantities and their extensions on `num`
-/// (like `100.N`, `50.lbf`).
+/// Import this file to use Force quantities and their
+/// extensions on `num` (like `100.N`, `50.lbf`).
 library;
 
 export 'src/core/quantity.dart';

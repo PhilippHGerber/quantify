@@ -1,7 +1,7 @@
 /// Provides type-safe units for Pressure.
 ///
-/// Import this file to use Pressure quantities and their extensions on `num`
-/// (like `1.atm`, `32.psi`).
+/// Import this file to use Pressure quantities and their
+/// extensions on `num` (like `1.atm`, `32.psi`).
 library;
 
 export 'src/core/quantity.dart';

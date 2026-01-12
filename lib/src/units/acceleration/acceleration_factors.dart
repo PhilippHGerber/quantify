@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_int_literals // All constants are doubles for precision.
 
 /// Defines base conversion factors for various acceleration units relative to the
 /// Meter per Second Squared (m/s²), which is the SI derived unit for acceleration.

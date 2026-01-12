@@ -1,7 +1,7 @@
 /// Provides type-safe units for Acceleration.
 ///
-/// Import this file to use Acceleration quantities and their extensions on `num`
-/// (like `9.8.gravity`, `10.mps_squared`).
+/// Import this file to use Acceleration quantities and 
+/// extensions on `num` (like `9.8.gravity`, `10.mps_squared`).
 library;
 
 export 'src/core/quantity.dart';

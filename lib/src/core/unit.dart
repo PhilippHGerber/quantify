@@ -8,6 +8,10 @@ import 'package:meta/meta.dart';
 ///
 /// [T] is the specific unit enum type itself (e.g., `PressureUnit`).
 abstract class Unit<T extends Unit<T>> {
+  /// Creates a [Unit].
+  /// This constructor is used only by subclasses.
+  const Unit();
+
   /// Returns the direct conversion factor to convert a value from this unit
   /// to the [targetUnit].
   ///

@@ -1,7 +1,7 @@
 /// Provides type-safe units for Amount of Substance (Molar Amount).
 ///
-/// Import this file to use MolarAmount quantities and their extensions on `num`
-/// (like `0.5.mol`, `25.mmol`).
+/// Import this file to use MolarAmount quantities and their
+/// extensions on `num` (like `0.5.mol`, `25.mmol`).
 library;
 
 export 'src/core/quantity.dart';

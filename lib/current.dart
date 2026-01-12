@@ -1,7 +1,7 @@
 /// Provides type-safe units for Electric Current.
 ///
-/// Import this file to use Current quantities and their extensions on `num`
-/// (like `1.5.A`, `20.mA`).
+/// Import this file to use Current quantities and their
+/// extensions on `num` (like `1.5.A`, `20.mA`).
 library;
 
 export 'src/core/quantity.dart';

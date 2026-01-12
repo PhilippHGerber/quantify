@@ -1,7 +1,7 @@
 /// Provides type-safe units for Length.
 ///
-/// Import this file to use Length quantities and their extensions on `num`
-/// (like `10.m`, `5.ft`).
+/// Import this file to use Length quantities and their
+/// extensions on `num` (like `10.m`, `5.ft`).
 library;
 
 export 'src/core/quantity.dart';

@@ -1,7 +1,7 @@
 /// Provides type-safe units for Frequency.
 ///
-/// Import this file to use Frequency quantities and their extensions on `num`
-/// (like `4.2.ghz`, `120.bpm`).
+/// Import this file to use Frequency quantities and their
+/// extensions on `num` (like `4.2.ghz`, `120.bpm`).
 library;
 
 export 'src/core/quantity.dart';
