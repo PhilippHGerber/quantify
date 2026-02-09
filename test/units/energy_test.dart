@@ -53,14 +53,14 @@ void main() {
         expect(oneKwh.inJoules, closeTo(3600000.0, strictTolerance));
         expect(oneKwh.inKilojoules, closeTo(3600.0, strictTolerance));
         expect(oneKwh.inKilocalories, closeTo(3600000.0 / 4184.0, highTolerance)); // ~860.4 kcal
-        expect(oneKwh.inBtu, closeTo(3600000.0 / 1055.056, highTolerance)); // ~3412 Btu
+        expect(oneKwh.inBtu, closeTo(3600000.0 / 1055.05585262, highTolerance)); // ~3412 Btu
       });
 
       final oneKcal = 1.0.kilocalories; // 4184 Joules
       test('1 Kilocalorie to other units', () {
         expect(oneKcal.inJoules, closeTo(4184.0, strictTolerance));
         expect(oneKcal.inCalories, closeTo(1000.0, strictTolerance));
-        expect(oneKcal.inBtu, closeTo(4184.0 / 1055.056, highTolerance)); // ~3.96 Btu
+        expect(oneKcal.inBtu, closeTo(4184.0 / 1055.05585262, highTolerance)); // ~3.96 Btu
       });
 
       final oneElectronvolt = 1.0.eV;

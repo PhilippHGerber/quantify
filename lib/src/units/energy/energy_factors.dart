@@ -38,9 +38,8 @@ class EnergyFactors {
   /// gained by an electron when accelerated through a potential difference of one volt.
   static const double joulesPerElectronvolt = 1.602176634e-19;
 
-  /// Joules per British Thermal Unit (Btu): 1 Btu (International Table) ≈ 1055.056 J.
+  /// Joules per British Thermal Unit (Btu): 1 Btu (International Table) = 1055.05585262 J.
   /// The International Table definition is commonly used in engineering and is
-  /// based on the properties of steam. There are several slightly different
-  /// definitions of the Btu; this is a widely accepted standard.
-  static const double joulesPerBtu = 1055.056;
+  /// based on the properties of steam (NIST SP 811, ISO 31-4).
+  static const double joulesPerBtu = 1055.05585262;
 }
