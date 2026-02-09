@@ -27,6 +27,16 @@ class EnergyFactors {
   /// It is equivalent to 1000 thermochemical calories.
   static const double joulesPerKilocalorie = 4184.0;
 
+  /// Joules per IT Calorie (cal_IT): 1 IT calorie = 4.1868 J.
+  /// The International Table (IT) calorie is defined by the 5th International
+  /// Conference on the Properties of Steam (London, 1956). It is commonly used
+  /// in steam tables and some engineering applications.
+  static const double joulesPerCalorieIT = 4.1868;
+
+  /// Joules per IT Kilocalorie (kcal_IT): 1 IT kcal = 4186.8 J.
+  /// This is the IT "large calorie", equivalent to 1000 IT calories.
+  static const double joulesPerKilocalorieIT = 4186.8;
+
   /// Joules per Kilowatt-hour (kWh): 1 kWh = 3.6 × 10⁶ J.
   /// A common unit for electrical energy billing. Derived from Power × Time:
   /// 1 kW × 1 h = 1000 J/s × 3600 s = 3,600,000 J.

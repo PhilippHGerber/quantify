@@ -18,11 +18,25 @@ enum EnergyUnit implements Unit<EnergyUnit> {
   /// Kilojoule (kJ), a common multiple of the Joule.
   kilojoule(EnergyFactors.joulesPerKilojoule, 'kJ'),
 
-  /// Calorie (cal), the thermochemical calorie, commonly used in science.
+  /// Calorie (cal), the thermochemical calorie (4.184 J exact).
+  /// This is the IUPAC/ISO 31-4 recommended standard for scientific use.
+  /// For the International Table calorie, use [calorieIT].
   calorie(EnergyFactors.joulesPerCalorie, 'cal'),
 
-  /// Kilocalorie (kcal), the "food calorie", equal to 1000 small calories.
+  /// International Table Calorie (cal_IT), defined as 4.1868 J exact.
+  /// Used in steam tables and some engineering applications.
+  /// For the standard thermochemical calorie, use [calorie].
+  calorieIT(EnergyFactors.joulesPerCalorieIT, 'cal_IT'),
+
+  /// Kilocalorie (kcal), the "food calorie" (4184 J).
+  /// Based on 1000 thermochemical calories.
+  /// For the International Table kilocalorie, use [kilocalorieIT].
   kilocalorie(EnergyFactors.joulesPerKilocalorie, 'kcal'),
+
+  /// International Table Kilocalorie (kcal_IT), defined as 4186.8 J exact.
+  /// Based on 1000 IT calories.
+  /// For the standard thermochemical kilocalorie, use [kilocalorie].
+  kilocalorieIT(EnergyFactors.joulesPerKilocalorieIT, 'kcal_IT'),
 
   /// Kilowatt-hour (kWh), a common unit for electrical energy.
   kilowattHour(EnergyFactors.joulesPerKilowattHour, 'kWh'),
@@ -46,7 +60,9 @@ enum EnergyUnit implements Unit<EnergyUnit> {
         _factorToMegajoule = toJouleFactor / EnergyFactors.joulesPerMegajoule,
         _factorToKilojoule = toJouleFactor / EnergyFactors.joulesPerKilojoule,
         _factorToCalorie = toJouleFactor / EnergyFactors.joulesPerCalorie,
+        _factorToCalorieIT = toJouleFactor / EnergyFactors.joulesPerCalorieIT,
         _factorToKilocalorie = toJouleFactor / EnergyFactors.joulesPerKilocalorie,
+        _factorToKilocalorieIT = toJouleFactor / EnergyFactors.joulesPerKilocalorieIT,
         _factorToKilowattHour = toJouleFactor / EnergyFactors.joulesPerKilowattHour,
         _factorToElectronvolt = toJouleFactor / EnergyFactors.joulesPerElectronvolt,
         _factorToBtu = toJouleFactor / EnergyFactors.joulesPerBtu;
@@ -64,7 +80,9 @@ enum EnergyUnit implements Unit<EnergyUnit> {
   final double _factorToMegajoule;
   final double _factorToKilojoule;
   final double _factorToCalorie;
+  final double _factorToCalorieIT;
   final double _factorToKilocalorie;
+  final double _factorToKilocalorieIT;
   final double _factorToKilowattHour;
   final double _factorToElectronvolt;
   final double _factorToBtu;
@@ -86,8 +104,12 @@ enum EnergyUnit implements Unit<EnergyUnit> {
         return _factorToKilojoule;
       case EnergyUnit.calorie:
         return _factorToCalorie;
+      case EnergyUnit.calorieIT:
+        return _factorToCalorieIT;
       case EnergyUnit.kilocalorie:
         return _factorToKilocalorie;
+      case EnergyUnit.kilocalorieIT:
+        return _factorToKilocalorieIT;
       case EnergyUnit.kilowattHour:
         return _factorToKilowattHour;
       case EnergyUnit.electronvolt:

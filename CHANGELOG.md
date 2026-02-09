@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **Energy: International Table (IT) Calorie Variants**:
+  - Added `EnergyUnit.calorieIT` and `EnergyUnit.kilocalorieIT` for International Table calorie (4.1868 J).
+  - New extensions: `.calIT`, `.kcalIT`, `.caloriesIT`, `.kilocaloriesIT` for creating Energy instances.
+  - New getters: `.inCaloriesIT`, `.inKilocaloriesIT`, `.asCaloriesIT`, `.asKilocaloriesIT` for conversions.
+  - Existing `calorie` and `kilocalorie` units continue to use the thermochemical calorie (4.184 J) as the IUPAC/ISO standard.
+
+
 ### Changed
 
 - **Improved Pressure Unit Conversion Accuracy**:

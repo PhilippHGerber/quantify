@@ -150,5 +150,60 @@ void main() {
         expect(bulbEnergy.inMegajoules, closeTo(8.64, defaultTolerance));
       });
     });
+
+    group('IT Calorie Conversions', () {
+      test('calorieIT to joule conversion', () {
+        const energy = Energy(1, EnergyUnit.calorieIT);
+        expect(energy.inJoules, closeTo(4.1868, strictTolerance));
+      });
+
+      test('kilocalorieIT to joule conversion', () {
+        const energy = Energy(1, EnergyUnit.kilocalorieIT);
+        expect(energy.inJoules, closeTo(4186.8, strictTolerance));
+      });
+
+      test('thermochemical vs IT calorie difference', () {
+        const thermoCal = Energy(1000, EnergyUnit.calorie);
+        const itCal = Energy(1000, EnergyUnit.calorieIT);
+
+        // Difference should be ~2.8 J per 1000 cal
+        final diff = (itCal.inJoules - thermoCal.inJoules).abs();
+        expect(diff, closeTo(2.8, 0.01));
+      });
+
+      test('extension creation for IT variants', () {
+        expect(100.calIT.inJoules, closeTo(418.68, defaultTolerance));
+        expect(1.kcalIT.inJoules, closeTo(4186.8, defaultTolerance));
+      });
+
+      test('extension value getters for IT variants', () {
+        const energy = Energy(4186.8, EnergyUnit.joule);
+        expect(energy.inCaloriesIT, closeTo(1000, highTolerance));
+        expect(energy.inKilocaloriesIT, closeTo(1, defaultTolerance));
+      });
+
+      test('round-trip conversions for IT variants', () {
+        const original = Energy(123.456, EnergyUnit.calorieIT);
+        final roundTrip = original.asJoules.asCaloriesIT;
+        expect(
+          roundTrip.getValue(EnergyUnit.calorieIT),
+          closeTo(123.456, defaultTolerance),
+        );
+      });
+
+      test('conversion between thermochemical and IT calories', () {
+        final thermoCal = 100.cal; // 100 thermochemical calories = 418.4 J
+        final itEquivalent = thermoCal.inCaloriesIT;
+        // 418.4 J / 4.1868 J/cal_IT = 99.93312314894432 cal_IT
+        expect(itEquivalent, closeTo(99.93312314894432, highTolerance));
+      });
+
+      test('conversion between thermochemical and IT kilocalories', () {
+        final thermoKcal = 10.kcal; // 10 kcal = 41840 J
+        final itEquivalent = thermoKcal.inKilocaloriesIT;
+        // 41840 J / 4186.8 J/kcal_IT = 9.993312314894428 kcal_IT
+        expect(itEquivalent, closeTo(9.993312314894428, highTolerance));
+      });
+    });
   });
 }

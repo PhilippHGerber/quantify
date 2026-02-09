@@ -19,8 +19,14 @@ extension EnergyValueGetters on Energy {
   /// Returns the energy value in Calories (cal).
   double get inCalories => getValue(EnergyUnit.calorie);
 
+  /// Returns the energy value in International Table Calories (cal_IT).
+  double get inCaloriesIT => getValue(EnergyUnit.calorieIT);
+
   /// Returns the energy value in Kilocalories (kcal).
   double get inKilocalories => getValue(EnergyUnit.kilocalorie);
+
+  /// Returns the energy value in International Table Kilocalories (kcal_IT).
+  double get inKilocaloriesIT => getValue(EnergyUnit.kilocalorieIT);
 
   /// Returns the energy value in Kilowatt-hours (kWh).
   double get inKilowattHours => getValue(EnergyUnit.kilowattHour);
@@ -45,8 +51,14 @@ extension EnergyValueGetters on Energy {
   /// Returns a new [Energy] object representing this energy in Calories (cal).
   Energy get asCalories => convertTo(EnergyUnit.calorie);
 
+  /// Returns a new [Energy] object representing this energy in IT Calories (cal_IT).
+  Energy get asCaloriesIT => convertTo(EnergyUnit.calorieIT);
+
   /// Returns a new [Energy] object representing this energy in Kilocalories (kcal).
   Energy get asKilocalories => convertTo(EnergyUnit.kilocalorie);
+
+  /// Returns a new [Energy] object representing this energy in IT Kilocalories (kcal_IT).
+  Energy get asKilocaloriesIT => convertTo(EnergyUnit.kilocalorieIT);
 
   /// Returns a new [Energy] object representing this energy in Kilowatt-hours (kWh).
   Energy get asKilowattHours => convertTo(EnergyUnit.kilowattHour);
@@ -88,11 +100,23 @@ extension EnergyCreation on num {
   /// Creates an [Energy] instance from this value in Calories (cal).
   Energy get calories => Energy(toDouble(), EnergyUnit.calorie);
 
+  /// Creates an [Energy] instance from this value in International Table Calories (cal_IT).
+  Energy get calIT => Energy(toDouble(), EnergyUnit.calorieIT);
+
+  /// Creates an [Energy] instance from this value in International Table Calories (cal_IT).
+  Energy get caloriesIT => Energy(toDouble(), EnergyUnit.calorieIT);
+
   /// Creates an [Energy] instance from this value in Kilocalories (kcal).
   Energy get kcal => Energy(toDouble(), EnergyUnit.kilocalorie);
 
   /// Creates an [Energy] instance from this value in Kilocalories (kcal).
   Energy get kilocalories => Energy(toDouble(), EnergyUnit.kilocalorie);
+
+  /// Creates an [Energy] instance from this value in International Table Kilocalories (kcal_IT).
+  Energy get kcalIT => Energy(toDouble(), EnergyUnit.kilocalorieIT);
+
+  /// Creates an [Energy] instance from this value in International Table Kilocalories (kcal_IT).
+  Energy get kilocaloriesIT => Energy(toDouble(), EnergyUnit.kilocalorieIT);
 
   /// Creates an [Energy] instance from this value in Kilowatt-hours (kWh).
   Energy get kWh => Energy(toDouble(), EnergyUnit.kilowattHour);
