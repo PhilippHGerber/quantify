@@ -38,7 +38,7 @@ class PowerFactors {
   static const double wattsPerMetricHorsepower = 735.49875;
 
   /// Watts per British Thermal Unit per hour (Btu/h): 1 Btu/h ≈ 0.293071 W.
-  /// Based on the International Table Btu (1055.056 J) divided by 3600 seconds.
+  /// Based on the International Table Btu (1055.05585262 J) divided by 3600 seconds.
   /// Commonly used in the HVAC and heating/cooling industries.
-  static const double wattsPerBtuPerHour = 1055.056 / 3600.0;
+  static const double wattsPerBtuPerHour = 1055.05585262 / 3600.0;
 }

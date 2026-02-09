@@ -56,12 +56,15 @@ void main() {
         expect(p.inAtm, closeTo(100000.0 / 101325.0, 1e-7));
         expect(p.inBar, closeTo(1.0, 1e-9));
         expect(p.inPsi, closeTo(100000.0 / 6894.757293168361, 1e-7));
+        // Torr is defined as exactly 1/760 of an atmosphere
         expect(p.inTorr, closeTo(100000.0 / (101325.0 / 760.0), 1e-7));
-        expect(p.inMmHg, closeTo(100000.0 / (101325.0 / 760.0), 1e-7));
+        // mmHg is based on actual mercury density at 0°C (slightly different from Torr)
+        expect(p.inMmHg, closeTo(100000.0 / 133.322387415, 1e-7));
+        // inHg is based on mmHg, not Torr
         expect(
           p.inInHg,
           closeTo(
-            100000.0 / ((101325.0 / 760.0) * 25.4),
+            100000.0 / (133.322387415 * 25.4),
             1e-6,
           ),
         ); // Higher tolerance due to more factors
@@ -85,12 +88,18 @@ void main() {
       test('1 atm to PSI', () {
         expect(oneAtm.inPsi, closeTo(14.695948775513, 1e-7));
       });
-      test('1 atm to Torr (mmHg)', () {
+      test('1 atm to Torr', () {
+        // Torr is defined as exactly 1/760 of an atmosphere
         expect(oneAtm.inTorr, closeTo(760.0, 1e-9));
-        expect(oneAtm.inMmHg, closeTo(760.0, 1e-9));
+      });
+      test('1 atm to mmHg', () {
+        // mmHg is based on actual mercury density at 0°C (slightly different from Torr)
+        // 1 atm = 101325 Pa, 1 mmHg = 133.322387415 Pa
+        expect(oneAtm.inMmHg, closeTo(101325.0 / 133.322387415, 1e-7));
       });
       test('1 atm to Inches of Mercury', () {
-        expect(oneAtm.inInHg, closeTo(760.0 / 25.4, 1e-7));
+        // inHg is based on mmHg, not Torr: 1 inHg = 133.322387415 * 25.4 Pa
+        expect(oneAtm.inInHg, closeTo(101325.0 / (133.322387415 * 25.4), 1e-7));
       });
       test('1 atm to Kilopascals', () {
         expect(oneAtm.inKPa, closeTo(101.325, 1e-9));

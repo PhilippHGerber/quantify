@@ -24,9 +24,12 @@ class PressureFactors {
   /// Defined as 1/760 of a standard atmosphere. Mercury at 0°C.
   static const double pascalsPerTorr = pascalsPerAtmosphere / 760.0;
 
-  /// Pascals per Millimeter of Mercury (mmHg) at 0°C: Same as Torr.
-  /// 1 mmHg (at 0°C) ≈ 133.322368421 Pa.
-  static const double pascalsPerMillimeterOfMercury = pascalsPerTorr;
+  /// Pascals per Millimeter of Mercury (mmHg) at 0°C.
+  /// 1 mmHg (at 0°C) = 133.322 387 415 Pa (NIST SP 811 conventional value).
+  /// Note: mmHg differs slightly from Torr (101325/760 Pa) because mmHg is
+  /// based on the actual density of mercury at 0°C under standard gravity,
+  /// whereas Torr is defined as exactly 1/760 of a standard atmosphere.
+  static const double pascalsPerMillimeterOfMercury = 133.322387415;
 
   /// Pascals per Inch of Mercury (inHg) at 0°C: 1 inHg ≈ 3386.388687636 Pa.
   /// Defined as `pascalsPerMillimeterOfMercury * 25.4` (since 1 inch = 25.4 mm).
