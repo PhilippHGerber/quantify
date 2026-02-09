@@ -5,6 +5,18 @@ All notable changes to the `quantify` package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- **Improved Pressure Unit Conversion Accuracy**:
+  - Distinguished between **Torr** and **mmHg** (millimeter of mercury) for higher precision.
+    - `Torr` is now defined as exactly 1/760 of a standard atmosphere (101325/760 Pa).
+    - `mmHg` uses the conventional value based on actual mercury density at 0°C (133.322387415 Pa).
+    - The difference is approximately 0.000019 Pa, significant for high-precision scientific applications.
+  - Updated **inHg** (inch of mercury) conversion to be based on mmHg rather than Torr for consistency with scientific standards (NIST SP 811).
+
+
 ## [0.13.0]
 
 - **New Quantity: Density**: Support for `kg/m³`, `g/cm³`, `g/mL`.
