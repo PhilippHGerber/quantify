@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.14.0]
+
 ### Added
 
 - **Energy: International Table (IT) Calorie Variants**:
@@ -14,7 +16,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - New extensions: `.calIT`, `.kcalIT`, `.caloriesIT`, `.kilocaloriesIT` for creating Energy instances.
   - New getters: `.inCaloriesIT`, `.inKilocaloriesIT`, `.asCaloriesIT`, `.asKilocaloriesIT` for conversions.
   - Existing `calorie` and `kilocalorie` units continue to use the thermochemical calorie (4.184 J) as the IUPAC/ISO standard.
-
 
 ### Changed
 
@@ -24,7 +25,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `mmHg` uses the conventional value based on actual mercury density at 0°C (133.322387415 Pa).
     - The difference is approximately 0.000019 Pa, significant for high-precision scientific applications.
   - Updated **inHg** (inch of mercury) conversion to be based on mmHg rather than Torr for consistency with scientific standards (NIST SP 811).
-
 
 ## [0.13.0]
 
@@ -37,11 +37,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-* Major Feature: Comprehensive Constants Library.
-  * A library of over 100 type-safe constants, organized into three categories: PhysicalConstants, AstronomicalConstants, and EngineeringConstants.
-  * Constants are represented as Quantity objects wherever possible (e.g., PhysicalConstants.speedOfLight is a Speed object, AstronomicalConstants.standardGravity is an Acceleration object).
-  * Added convenience methods for common scientific and engineering formulas, such as PhysicalConstants.photonEnergy(), AstronomicalConstants.escapeVelocity(), and EngineeringConstants.mechanicalStress().
-  * Constants are accessible via a new, separate import: package:quantify/constants.dart.
+- Major Feature: Comprehensive Constants Library.
+  - A library of over 100 type-safe constants, organized into three categories: PhysicalConstants, AstronomicalConstants, and EngineeringConstants.
+  - Constants are represented as Quantity objects wherever possible (e.g., PhysicalConstants.speedOfLight is a Speed object, AstronomicalConstants.standardGravity is an Acceleration object).
+  - Added convenience methods for common scientific and engineering formulas, such as PhysicalConstants.photonEnergy(), AstronomicalConstants.escapeVelocity(), and EngineeringConstants.mechanicalStress().
+  - Constants are accessible via a new, separate import: package:quantify/constants.dart.
 
 ## [0.11.0]
 

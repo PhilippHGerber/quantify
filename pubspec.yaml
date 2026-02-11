@@ -1,17 +1,17 @@
 name: quantify
-description: A type-safe unit of measurement converter library for Dart with elegant syntax, high precision, and optimal performance.
-version: 0.13.0
+description: Type-safe unit converter - convert length, mass, temperature and 20+ physical quantities with compile-time safety and elegant syntax.
+version: 0.14.0
 
 homepage: https://github.com/PhilippHGerber/quantify
 repository: https://github.com/PhilippHGerber/quantify
 issue_tracker: https://github.com/PhilippHGerber/quantify/issues
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=3.5.0 <4.0.0"
 
 dependencies:
   intl: ">=0.18.1 <0.21.0"
-  meta: ^1.16.0
+  meta: ">=1.9.0 <2.0.0"
 
 dev_dependencies:
   test: ^1.26.0
@@ -22,7 +22,7 @@ topics:
   - unit-converter
   - measurement
   - conversion
-  - physics
+  - converter
 
 screenshots:
   - description: "Quantify - Convert SI Units"
