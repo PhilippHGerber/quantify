@@ -24,7 +24,7 @@ class Mass extends Quantity<MassUnit> {
   /// final sugarAmountGrams = Mass(500.0, MassUnit.gram);
   /// final packageWeightLbs = Mass(5.0, MassUnit.pound);
   /// ```
-  const Mass(super.value, super.unit);
+  const Mass(super._value, super._unit);
 
   /// Converts this mass's value to the specified [targetUnit].
   ///

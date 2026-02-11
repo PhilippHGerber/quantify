@@ -7,7 +7,7 @@ import 'length_unit.dart';
 @immutable
 class Length extends Quantity<LengthUnit> {
   /// Creates a new Length quantity with the given [value] and [unit].
-  const Length(super.value, super.unit);
+  const Length(super._value, super._unit);
 
   /// Converts this length's value to the specified [targetUnit].
   @override

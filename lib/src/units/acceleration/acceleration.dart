@@ -15,7 +15,7 @@ import 'acceleration_unit.dart';
 @immutable
 class Acceleration extends Quantity<AccelerationUnit> {
   /// Creates a new `Acceleration` with a given [value] and [unit].
-  const Acceleration(super.value, super.unit);
+  const Acceleration(super._value, super._unit);
 
   /// Creates an `Acceleration` instance from a change in `Speed` over a `Time` duration.
   ///

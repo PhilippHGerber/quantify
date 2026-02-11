@@ -20,7 +20,7 @@ class Current extends Quantity<CurrentUnit> {
   /// final circuitCurrent = Current(1.5, CurrentUnit.ampere);
   /// final sensorOutput = Current(20.0, CurrentUnit.milliampere);
   /// ```
-  const Current(super.value, super.unit);
+  const Current(super._value, super._unit);
 
   /// Converts this electric current's value to the specified [targetUnit].
   ///

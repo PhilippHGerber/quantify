@@ -19,7 +19,7 @@ class Energy extends Quantity<EnergyUnit> {
   /// final foodEnergy = Energy(250.0, EnergyUnit.kilocalorie);
   /// final electricityUsed = Energy(1.2, EnergyUnit.kilowattHour);
   /// ```
-  const Energy(super.value, super.unit);
+  const Energy(super._value, super._unit);
 
   /// Converts this energy's value to the specified [targetUnit].
   ///

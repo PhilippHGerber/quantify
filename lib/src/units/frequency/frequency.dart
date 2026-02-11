@@ -14,7 +14,7 @@ import 'frequency_unit.dart';
 @immutable
 class Frequency extends Quantity<FrequencyUnit> {
   /// Creates a new `Frequency` with a given [value] and [unit].
-  const Frequency(super.value, super.unit);
+  const Frequency(super._value, super._unit);
 
   // --- Dimensional Analysis ---
 

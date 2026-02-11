@@ -10,7 +10,7 @@ import 'volume_unit.dart';
 @immutable
 class Volume extends Quantity<VolumeUnit> {
   /// Creates a new `Volume` quantity with the given numerical [value] and [unit].
-  const Volume(super.value, super.unit);
+  const Volume(super._value, super._unit);
 
   /// Converts this volume's value to the specified [targetUnit].
   @override

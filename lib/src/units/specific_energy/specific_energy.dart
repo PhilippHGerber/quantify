@@ -16,7 +16,7 @@ import 'specific_energy_unit.dart';
 @immutable
 class SpecificEnergy extends Quantity<SpecificEnergyUnit> {
   /// Creates a new `SpecificEnergy` with a given [value] and [unit].
-  const SpecificEnergy(super.value, super.unit);
+  const SpecificEnergy(super._value, super._unit);
 
   /// Creates a `SpecificEnergy` instance from a given [Energy] and [Mass].
   ///

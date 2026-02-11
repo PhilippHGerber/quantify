@@ -12,7 +12,7 @@ import 'speed_unit.dart';
 @immutable
 class Speed extends Quantity<SpeedUnit> {
   /// Creates a new `Speed` with a given [value] and [unit].
-  const Speed(super.value, super.unit);
+  const Speed(super._value, super._unit);
 
   /// Creates a `Speed` instance from a `Length` and a `Time`.
   ///

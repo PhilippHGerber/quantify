@@ -21,7 +21,7 @@ class LuminousIntensity extends Quantity<LuminousIntensityUnit> {
   /// final ledBrightness = LuminousIntensity(150.0, LuminousIntensityUnit.millicandela);
   /// final headlightIntensity = LuminousIntensity(800.0, LuminousIntensityUnit.candela);
   /// ```
-  const LuminousIntensity(super.value, super.unit);
+  const LuminousIntensity(super._value, super._unit);
 
   /// Converts this luminous intensity's value to the specified [targetUnit].
   ///

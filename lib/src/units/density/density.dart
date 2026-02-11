@@ -15,7 +15,7 @@ import 'density_unit.dart';
 @immutable
 class Density extends Quantity<DensityUnit> {
   /// Creates a new `Density` with a given [value] and [unit].
-  const Density(super.value, super.unit);
+  const Density(super._value, super._unit);
 
   /// Creates a `Density` instance from a given [Mass] and [Volume].
   ///

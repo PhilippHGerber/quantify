@@ -1,6 +1,6 @@
 /// Provides type-safe units for Angular Velocity.
 ///
-/// Import this file to use AngularVelocity quantities and their 
+/// Import this file to use AngularVelocity quantities and their
 /// extensions on `num` (like `3000.rpm`, `10.radiansPerSecond`).
 library;
 

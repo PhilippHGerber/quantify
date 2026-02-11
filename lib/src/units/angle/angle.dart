@@ -12,7 +12,7 @@ import 'angle_unit.dart';
 @immutable
 class Angle extends Quantity<AngleUnit> {
   /// Creates a new `Angle` quantity with the given numerical [value] and [unit].
-  const Angle(super.value, super.unit);
+  const Angle(super._value, super._unit);
 
   /// Converts this angle's value to the specified [targetUnit].
   @override

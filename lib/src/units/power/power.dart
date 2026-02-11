@@ -19,7 +19,7 @@ class Power extends Quantity<PowerUnit> {
   /// final carEnginePower = Power(150.0, PowerUnit.horsepower);
   /// final nuclearPlantOutput = Power(1.2, PowerUnit.gigawatt);
   /// ```
-  const Power(super.value, super.unit);
+  const Power(super._value, super._unit);
 
   /// Converts this power's value to the specified [targetUnit].
   ///

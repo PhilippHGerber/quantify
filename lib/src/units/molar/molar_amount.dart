@@ -21,7 +21,7 @@ class MolarAmount extends Quantity<MolarUnit> {
   /// final glucoseSample = MolarAmount(0.5, MolarUnit.mole);
   /// final reagentAmount = MolarAmount(25.0, MolarUnit.millimole);
   /// ```
-  const MolarAmount(super.value, super.unit);
+  const MolarAmount(super._value, super._unit);
 
   /// Converts this molar amount's value to the specified [targetUnit].
   ///

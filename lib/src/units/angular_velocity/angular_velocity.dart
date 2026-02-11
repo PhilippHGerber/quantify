@@ -14,7 +14,7 @@ import 'angular_velocity_unit.dart';
 @immutable
 class AngularVelocity extends Quantity<AngularVelocityUnit> {
   /// Creates a new `AngularVelocity` with a given [value] and [unit].
-  const AngularVelocity(super.value, super.unit);
+  const AngularVelocity(super._value, super._unit);
 
   /// Converts this angular velocity's value to the specified [targetUnit].
   @override

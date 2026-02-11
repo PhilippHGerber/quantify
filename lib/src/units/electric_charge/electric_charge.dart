@@ -17,7 +17,7 @@ import 'electric_charge_unit.dart';
 @immutable
 class ElectricCharge extends Quantity<ElectricChargeUnit> {
   /// Creates a new `ElectricCharge` with a given [value] and [unit].
-  const ElectricCharge(super.value, super.unit);
+  const ElectricCharge(super._value, super._unit);
 
   // --- Dimensional Analysis ---
 

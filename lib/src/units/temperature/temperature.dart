@@ -19,7 +19,7 @@ class Temperature extends Quantity<TemperatureUnit> {
   /// final bodyTemp = Temperature(37.0, TemperatureUnit.celsius);
   /// final absoluteZero = Temperature(0.0, TemperatureUnit.kelvin);
   /// ```
-  const Temperature(super.value, super.unit);
+  const Temperature(super._value, super._unit);
 
   // --- Conversion Constants ---
   // These could also be in a separate TemperatureFactors class if they grew more complex

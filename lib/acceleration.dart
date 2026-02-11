@@ -1,6 +1,6 @@
 /// Provides type-safe units for Acceleration.
 ///
-/// Import this file to use Acceleration quantities and 
+/// Import this file to use Acceleration quantities and
 /// extensions on `num` (like `9.8.gravity`, `10.mps_squared`).
 library;
 

@@ -17,7 +17,7 @@ class Pressure extends Quantity<PressureUnit> {
   /// final standardAtmosphere = Pressure(1.0, PressureUnit.atmosphere);
   /// final tirePressure = Pressure(32.0, PressureUnit.psi);
   /// ```
-  const Pressure(super.value, super.unit);
+  const Pressure(super._value, super._unit);
 
   /// Converts this pressure's value to the specified [targetUnit].
   ///

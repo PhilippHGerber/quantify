@@ -16,7 +16,7 @@ class Area extends Quantity<AreaUnit> {
   /// final roomArea = Area(20.0, AreaUnit.squareMeter);
   /// final landArea = Area(2.5, AreaUnit.hectare);
   /// ```
-  const Area(super.value, super.unit);
+  const Area(super._value, super._unit);
 
   /// Converts this area's value to the specified [targetUnit].
   ///

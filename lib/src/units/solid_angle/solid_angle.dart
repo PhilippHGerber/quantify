@@ -11,7 +11,7 @@ import 'solid_angle_unit.dart';
 @immutable
 class SolidAngle extends Quantity<SolidAngleUnit> {
   /// Creates a new `SolidAngle` with a given [value] and [unit].
-  const SolidAngle(super.value, super.unit);
+  const SolidAngle(super._value, super._unit);
 
   // --- Boilerplate ---
 

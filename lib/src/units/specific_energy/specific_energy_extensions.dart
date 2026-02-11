@@ -32,13 +32,13 @@ extension SpecificEnergyValueGetters on SpecificEnergy {
 /// Provides convenient factory methods for creating [SpecificEnergy] instances from [num].
 extension SpecificEnergyCreation on num {
   /// Creates a [SpecificEnergy] instance from this value in Joules per Kilogram (J/kg).
-  SpecificEnergy get JPerKg => SpecificEnergy(toDouble(), SpecificEnergyUnit.joulePerKilogram);
+  SpecificEnergy get jPerKg => SpecificEnergy(toDouble(), SpecificEnergyUnit.joulePerKilogram);
 
   /// Creates a [SpecificEnergy] instance from this value in Kilojoules per Kilogram (kJ/kg).
   SpecificEnergy get kJPerKg => SpecificEnergy(toDouble(), SpecificEnergyUnit.kilojoulePerKilogram);
 
   /// Creates a [SpecificEnergy] instance from this value in Watt-hours per Kilogram (Wh/kg).
-  SpecificEnergy get WhPerKg => SpecificEnergy(toDouble(), SpecificEnergyUnit.wattHourPerKilogram);
+  SpecificEnergy get whPerKg => SpecificEnergy(toDouble(), SpecificEnergyUnit.wattHourPerKilogram);
 
   /// Creates a [SpecificEnergy] instance from this value in Kilowatt-hours per Kilogram (kWh/kg).
   SpecificEnergy get kWhPerKg =>

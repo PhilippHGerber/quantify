@@ -17,7 +17,7 @@ import 'force_unit.dart';
 @immutable
 class Force extends Quantity<ForceUnit> {
   /// Creates a new `Force` with a given [value] and [unit].
-  const Force(super.value, super.unit);
+  const Force(super._value, super._unit);
 
   /// Creates a `Force` instance from `Mass` and `Acceleration` (F = m * a).
   ///

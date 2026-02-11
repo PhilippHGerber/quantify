@@ -13,7 +13,7 @@ class Time extends Quantity<TimeUnit> {
   /// final duration = Time(120.0, TimeUnit.second);
   /// final meetingLength = Time(1.5, TimeUnit.hour);
   /// ```
-  const Time(super.value, super.unit);
+  const Time(super._value, super._unit);
 
   /// Converts this time's value to the specified [targetUnit].
   @override
