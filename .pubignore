@@ -6,3 +6,16 @@ lcov.info
 llmifierrc.yaml
 llms.txt
 /example/**/pubspec_overrides.yaml
+GEMINI.md
+TODO.md
+baseunit_de.md
+baseunit.md
+constants.md
+improvements_roadmap.md
+quantify_Roadmap_claude.md
+roadmap.md
+/doc/**
+/results/**
+/example/**/x_e*.dart
+/scripts/**
+/tool/**
