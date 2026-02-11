@@ -138,6 +138,63 @@ void main() {
       }
     });
 
+    group('Comprehensive Extension Coverage', () {
+      test('all creation extensions', () {
+        expect(360.degPerSec.unit, FrequencyUnit.degreePerSecond);
+        expect(360.degPerSec.inHertz, closeTo(1.0, tolerance));
+        // 2π rad/s = 1 Hz
+        const twoPi = 2 * 3.141592653589793;
+        expect(twoPi.radPerSec.inHertz, closeTo(1.0, tolerance));
+      });
+
+      test('all in* value getters', () {
+        final f = 1.0.hz;
+        expect(f.inRadiansPerSecond, closeTo(2 * 3.141592653589793, tolerance));
+        expect(f.inDegreesPerSecond, closeTo(360.0, tolerance));
+      });
+
+      test('all as* conversion getters', () {
+        const twoPi = 2 * 3.141592653589793;
+        final f = 1.0.ghz;
+
+        final asHz = f.asHertz;
+        expect(asHz.unit, FrequencyUnit.hertz);
+        expect(asHz.value, closeTo(1e9, tolerance));
+
+        final asThz = 1e12.hz.asTerahertz;
+        expect(asThz.unit, FrequencyUnit.terahertz);
+        expect(asThz.value, closeTo(1.0, tolerance));
+
+        final asGhz = 1e9.hz.asGigahertz;
+        expect(asGhz.unit, FrequencyUnit.gigahertz);
+        expect(asGhz.value, closeTo(1.0, tolerance));
+
+        final asMhz = 1e6.hz.asMegahertz;
+        expect(asMhz.unit, FrequencyUnit.megahertz);
+        expect(asMhz.value, closeTo(1.0, tolerance));
+
+        final asKhz = 1000.hz.asKilohertz;
+        expect(asKhz.unit, FrequencyUnit.kilohertz);
+        expect(asKhz.value, closeTo(1.0, tolerance));
+
+        final asRpm = 1.0.hz.asRevolutionsPerMinute;
+        expect(asRpm.unit, FrequencyUnit.revolutionsPerMinute);
+        expect(asRpm.value, closeTo(60.0, tolerance));
+
+        final asBpm = 1.0.hz.asBeatsPerMinute;
+        expect(asBpm.unit, FrequencyUnit.beatsPerMinute);
+        expect(asBpm.value, closeTo(60.0, tolerance));
+
+        final asRadPerSec = 1.0.hz.asRadiansPerSecond;
+        expect(asRadPerSec.unit, FrequencyUnit.radianPerSecond);
+        expect(asRadPerSec.value, closeTo(twoPi, tolerance));
+
+        final asDegPerSec = 1.0.hz.asDegreesPerSecond;
+        expect(asDegPerSec.unit, FrequencyUnit.degreePerSecond);
+        expect(asDegPerSec.value, closeTo(360.0, tolerance));
+      });
+    });
+
     group('Practical Examples', () {
       test('AC Power Frequency', () {
         final usPower = 60.hz;

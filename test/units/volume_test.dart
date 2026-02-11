@@ -154,5 +154,137 @@ void main() {
         expect(1.tsp.toString(), '1.0\u00A0tsp');
       });
     });
+
+    group('Comprehensive Extension Coverage', () {
+      test('all creation extension aliases', () {
+        expect(1.kl.unit, VolumeUnit.kiloliter);
+        expect(1.liters.unit, VolumeUnit.litre);
+        expect(5.milliliters.unit, VolumeUnit.milliliter);
+        expect(2.centiliters.unit, VolumeUnit.centiliter);
+        expect(1.dam3.unit, VolumeUnit.cubicDecameter);
+        expect(1.megaliter.unit, VolumeUnit.megaliter);
+        expect(1.hm3.unit, VolumeUnit.cubicHectometer);
+        expect(1.gigaliter.unit, VolumeUnit.gigaliter);
+        expect(1.km3.unit, VolumeUnit.cubicKilometer);
+        expect(1.teraliter.unit, VolumeUnit.teraliter);
+        expect(1.mi3.unit, VolumeUnit.cubicMile);
+        expect(2.gallons.unit, VolumeUnit.gallon);
+        expect(4.quarts.unit, VolumeUnit.quart);
+        expect(2.pt.unit, VolumeUnit.pint);
+        expect(2.tablespoons.unit, VolumeUnit.tablespoon);
+        expect(6.teaspoons.unit, VolumeUnit.teaspoon);
+      });
+
+      test('all remaining as* conversion getters', () {
+        final v = 1.m3;
+
+        expect(v.asCubicDecameters.unit, VolumeUnit.cubicDecameter);
+        expect(v.asCubicHectometers.unit, VolumeUnit.cubicHectometer);
+        expect(v.asCubicKilometers.unit, VolumeUnit.cubicKilometer);
+        expect(v.asCubicDecimeters.unit, VolumeUnit.cubicDecimeter);
+        expect(v.asCubicCentimeters.unit, VolumeUnit.cubicCentimeter);
+        expect(v.asCubicMillimeters.unit, VolumeUnit.cubicMillimeter);
+        expect(v.asKiloliters.unit, VolumeUnit.kiloliter);
+        expect(v.asMegaliters.unit, VolumeUnit.megaliter);
+        expect(v.asGigaliters.unit, VolumeUnit.gigaliter);
+        expect(v.asTeraliters.unit, VolumeUnit.teraliter);
+        expect(v.asCentiliters.unit, VolumeUnit.centiliter);
+        expect(v.asMicroliters.unit, VolumeUnit.microliter);
+        expect(v.asCubicMiles.unit, VolumeUnit.cubicMile);
+        expect(v.asTablespoons.unit, VolumeUnit.tablespoon);
+        expect(v.asTeaspoons.unit, VolumeUnit.teaspoon);
+
+        // Spot-check a value
+        expect(v.asLiters.value, closeTo(1000.0, tolerance));
+        expect(v.asCubicCentimeters.value, closeTo(1e6, tolerance));
+      });
+    });
+
+    group('US Customary Volume Extensions', () {
+      test('should create and convert cubic feet', () {
+        // 1 cubic foot = 28316.8466 cm³ = 28.3168466 liters
+        final vol = 2.ft3;
+        expect(vol.value, 2.0);
+        expect(vol.unit, VolumeUnit.cubicFoot);
+        expect(vol.inLiters, closeTo(56.6336932, highTolerance));
+        expect(vol.inCubicMeters, closeTo(0.0566336932, highTolerance));
+
+        final volAsLiters = vol.asLiters;
+        expect(volAsLiters.value, closeTo(56.6336932, highTolerance));
+        expect(volAsLiters.unit, VolumeUnit.litre);
+      });
+
+      test('should create and convert cubic inches', () {
+        // 1 cubic inch = 16.387064 cm³
+        final vol = 100.in3;
+        expect(vol.value, 100.0);
+        expect(vol.unit, VolumeUnit.cubicInch);
+        expect(vol.inCubicCentimeters, closeTo(1638.7064, tolerance));
+        expect(vol.inMilliliters, closeTo(1638.7064, tolerance)); // 1 cm³ = 1 mL
+
+        final volAsMl = vol.asMilliliters;
+        expect(volAsMl.value, closeTo(1638.7064, tolerance));
+        expect(volAsMl.unit, VolumeUnit.milliliter);
+      });
+
+      test('should create and convert fluid ounces', () {
+        // 1 US fluid ounce = 29.5735296 mL
+        final vol = 8.flOz; // Half a cup
+        expect(vol.value, 8.0);
+        expect(vol.unit, VolumeUnit.fluidOunce);
+        expect(vol.inMilliliters, closeTo(236.588237, highTolerance));
+        expect(vol.inGallons, closeTo(0.0625, tolerance)); // 8 fl oz = 1/16 gallon
+
+        final volAsGal = vol.asGallons;
+        expect(volAsGal.value, closeTo(0.0625, tolerance));
+        expect(volAsGal.unit, VolumeUnit.gallon);
+      });
+
+      test('should create and convert pints', () {
+        // 1 US pint = 473.176473 mL = 16 fl oz
+        final vol = 2.pints;
+        expect(vol.value, 2.0);
+        expect(vol.unit, VolumeUnit.pint);
+        expect(vol.inMilliliters, closeTo(946.352946, tolerance));
+        expect(vol.inFluidOunces, closeTo(32.0, tolerance)); // 2 pints = 32 fl oz
+        expect(vol.inQuarts, closeTo(1.0, tolerance)); // 2 pints = 1 quart
+
+        final volAsQt = vol.asQuarts;
+        expect(volAsQt.value, closeTo(1.0, tolerance));
+        expect(volAsQt.unit, VolumeUnit.quart);
+      });
+
+      test('practical cooking volume conversions', () {
+        // 1 tablespoon = 3 teaspoons
+        final vol = 2.tablespoons;
+        expect(vol.inTeaspoons, closeTo(6.0, tolerance));
+        expect(vol.inFluidOunces, closeTo(1.0, tolerance)); // 2 tbsp = 1 fl oz
+
+        // Recipe conversion: 1 cup = 16 tablespoons = 48 teaspoons
+        final cup = 16.tablespoons;
+        expect(cup.inFluidOunces, closeTo(8.0, tolerance)); // 1 cup = 8 fl oz
+        expect(cup.inTeaspoons, closeTo(48.0, tolerance));
+      });
+
+      test('round trip conversions for US customary units', () {
+        const testValue = 5.5;
+
+        final ftOrig = testValue.ft3;
+        final ftRoundTrip = ftOrig.asCubicMeters.asCubicFeet;
+        expect(ftRoundTrip.value, closeTo(testValue, highTolerance));
+
+        final inOrig = testValue.in3;
+        final inRoundTrip = inOrig.asCubicCentimeters.asCubicInches;
+        expect(inRoundTrip.value, closeTo(testValue, tolerance));
+
+        final flOzOrig = testValue.flOz;
+        final flOzRoundTrip = flOzOrig.asMilliliters.asFluidOunces;
+        expect(flOzRoundTrip.value, closeTo(testValue, tolerance));
+
+        final pintOrig = testValue.pints;
+        final pintRoundTrip = pintOrig.asQuarts.asPints;
+        expect(pintRoundTrip.value, closeTo(testValue, tolerance));
+      });
+    });
   });
 }

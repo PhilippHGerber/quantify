@@ -290,5 +290,52 @@ void main() {
         expect(maSub.unit, MolarUnit.mole);
       });
     });
+
+    group('Comprehensive Extension Coverage', () {
+      test('all creation extension aliases', () {
+        expect(0.5.mol.unit, MolarUnit.mole);
+        expect(0.5.moles.unit, MolarUnit.mole);
+        expect(1.0.mmol.unit, MolarUnit.millimole);
+        expect(1.0.millimoles.unit, MolarUnit.millimole);
+        expect(1.0.umol.unit, MolarUnit.micromole);
+        expect(1.0.micromoles.unit, MolarUnit.micromole);
+        expect(1.0.nmol.unit, MolarUnit.nanomole);
+        expect(1.0.nanomoles.unit, MolarUnit.nanomole);
+        expect(1.0.pmol.unit, MolarUnit.picomole);
+        expect(1.0.picomoles.unit, MolarUnit.picomole);
+        expect(1.0.kmol.unit, MolarUnit.kilomole);
+        expect(1.0.kilomoles.unit, MolarUnit.kilomole);
+        expect(5.0.moles.value, 5.0);
+        expect(500.0.mmol.inMoles, closeTo(0.5, tolerance));
+      });
+
+      test('all as* conversion getters', () {
+        final base = 1.0.mol;
+
+        final asMol = base.asMoles;
+        expect(asMol.unit, MolarUnit.mole);
+        expect(asMol.value, closeTo(1.0, tolerance));
+
+        final asMmol = base.asMillimoles;
+        expect(asMmol.unit, MolarUnit.millimole);
+        expect(asMmol.value, closeTo(1000.0, tolerance));
+
+        final asUmol = base.asMicromoles;
+        expect(asUmol.unit, MolarUnit.micromole);
+        expect(asUmol.value, closeTo(1e6, tolerance));
+
+        final asNmol = base.asNanomoles;
+        expect(asNmol.unit, MolarUnit.nanomole);
+        expect(asNmol.value, closeTo(1e9, 1e-3));
+
+        final asPmol = base.asPicomoles;
+        expect(asPmol.unit, MolarUnit.picomole);
+        expect(asPmol.value, closeTo(1e12, tolerance));
+
+        final asKmol = base.asKilomoles;
+        expect(asKmol.unit, MolarUnit.kilomole);
+        expect(asKmol.value, closeTo(0.001, tolerance));
+      });
+    });
   });
 }

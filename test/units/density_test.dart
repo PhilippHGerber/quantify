@@ -50,6 +50,64 @@ void main() {
       });
     });
 
+    group('Equality and HashCode', () {
+      test('same value and unit are equal', () {
+        final d1 = 1000.kgPerM3;
+        final d2 = 1000.kgPerM3;
+        expect(d1, equals(d2));
+        expect(d1.hashCode, equals(d2.hashCode));
+      });
+
+      test('different units are not equal even if equivalent', () {
+        final d1 = 1000.kgPerM3;
+        final d2 = 1.gPerCm3;
+        expect(d1, isNot(equals(d2)));
+        expect(d1.compareTo(d2), 0);
+      });
+    });
+
+    group('toString', () {
+      test('displays value with symbol', () {
+        expect(1000.kgPerM3.toString(), '1000.0\u00A0kg/m³');
+        expect(1.gPerCm3.toString(), '1.0\u00A0g/cm³');
+        expect(1.gPerMl.toString(), '1.0\u00A0g/mL');
+      });
+    });
+
+    group('Round Trip Conversions', () {
+      for (final unit in DensityUnit.values) {
+        test('Round trip ${unit.symbol} <-> kg/m³', () {
+          const initialValue = 1234.5;
+          final d = Density(initialValue, unit);
+          final roundTrip = d.asKilogramsPerCubicMeter.convertTo(unit);
+          expect(roundTrip.value, closeTo(initialValue, tolerance));
+        });
+      }
+    });
+
+    group('Comprehensive Extension Coverage', () {
+      test('all creation extensions', () {
+        expect(1.gPerMl.unit, DensityUnit.gramPerMilliliter);
+        expect(1.gPerMl.inGramsPerMilliliter, closeTo(1.0, tolerance));
+      });
+
+      test('all as* conversion getters', () {
+        final d = 1000.kgPerM3;
+
+        final asKg = d.asKilogramsPerCubicMeter;
+        expect(asKg.unit, DensityUnit.kilogramPerCubicMeter);
+        expect(asKg.value, closeTo(1000.0, tolerance));
+
+        final asCm3 = d.asGramsPerCubicCentimeter;
+        expect(asCm3.unit, DensityUnit.gramPerCubicCentimeter);
+        expect(asCm3.value, closeTo(1.0, tolerance));
+
+        final asMl = d.asGramsPerMilliliter;
+        expect(asMl.unit, DensityUnit.gramPerMilliliter);
+        expect(asMl.value, closeTo(1.0, tolerance));
+      });
+    });
+
     group('Dimensional Analysis', () {
       test('Density = Mass / Volume', () {
         final mass = 2000.kg;

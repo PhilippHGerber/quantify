@@ -157,6 +157,57 @@ void main() {
       }
     });
 
+    group('Comprehensive Extension Coverage', () {
+      test('all creation extensions', () {
+        expect(10.mC.unit, ElectricChargeUnit.millicoulomb);
+        expect(5.uC.unit, ElectricChargeUnit.microcoulomb);
+        expect(100.nC.unit, ElectricChargeUnit.nanocoulomb);
+        expect(100.nC.inNanocoulombs, closeTo(100.0, tolerance));
+        expect(1.franklin.unit, ElectricChargeUnit.statcoulomb);
+        expect(1.franklin.inStatcoulombs, closeTo(1.0, tolerance));
+      });
+
+      test('all as* conversion getters', () {
+        final q = 1.ah; // 3600 C
+
+        final asC = q.asCoulombs;
+        expect(asC.unit, ElectricChargeUnit.coulomb);
+        expect(asC.value, closeTo(3600.0, tolerance));
+
+        final asMc = q.asMillicoulombs;
+        expect(asMc.unit, ElectricChargeUnit.millicoulomb);
+        expect(asMc.value, closeTo(3600000.0, tolerance));
+
+        final asUc = q.asMicrocoulombs;
+        expect(asUc.unit, ElectricChargeUnit.microcoulomb);
+        expect(asUc.value, closeTo(3.6e9, highTolerance));
+
+        final asNc = q.asNanocoulombs;
+        expect(asNc.unit, ElectricChargeUnit.nanocoulomb);
+        expect(asNc.value, closeTo(3.6e12, highTolerance));
+
+        final asE = q.asElementaryCharges;
+        expect(asE.unit, ElectricChargeUnit.elementaryCharge);
+        expect(asE.value, closeTo(3600.0 / 1.602176634e-19, highTolerance));
+
+        final asAh = 3600.0.C.asAmpereHours;
+        expect(asAh.unit, ElectricChargeUnit.ampereHour);
+        expect(asAh.value, closeTo(1.0, tolerance));
+
+        final asMah = 3600.0.C.asMilliampereHours;
+        expect(asMah.unit, ElectricChargeUnit.milliampereHour);
+        expect(asMah.value, closeTo(1000.0, tolerance));
+
+        final asStatC = 1.0.C.asStatcoulombs;
+        expect(asStatC.unit, ElectricChargeUnit.statcoulomb);
+        expect(asStatC.value, closeTo(1.0 / 3.3356409519815204e-10, 1e-3));
+
+        final asAbC = 10.0.C.asAbcoulombs;
+        expect(asAbC.unit, ElectricChargeUnit.abcoulomb);
+        expect(asAbC.value, closeTo(1.0, tolerance));
+      });
+    });
+
     group('Practical Examples', () {
       test('Battery Capacity', () {
         // A typical phone battery has a capacity of 4500 mAh.

@@ -341,5 +341,26 @@ void main() {
         ); // Lower precision due to large factor
       });
     });
+
+    group('Comprehensive Current Extension Coverage', () {
+      const tolerance = 1e-9;
+
+      test('All current unit creation and value getters', () {
+        // mA
+        final ma = 500.milliamperes;
+        expect(ma.inMilliamperes, closeTo(500.0, tolerance));
+        expect(ma.asMilliamperes.unit, CurrentUnit.milliampere);
+
+        // μA
+        final ua = 1000.microamperes;
+        expect(ua.inMicroamperes, closeTo(1000.0, tolerance));
+        expect(ua.asMicroamperes.unit, CurrentUnit.microampere);
+
+        // kA
+        final ka = 5.kiloamperes;
+        expect(ka.inKiloamperes, closeTo(5.0, tolerance));
+        expect(ka.asKiloamperes.unit, CurrentUnit.kiloampere);
+      });
+    });
   });
 }

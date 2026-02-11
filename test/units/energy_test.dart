@@ -151,6 +151,60 @@ void main() {
       });
     });
 
+    group('Comprehensive Extension Coverage', () {
+      test('all creation extension aliases', () {
+        expect(100.joules.unit, EnergyUnit.joule);
+        expect(1.megaJ.unit, EnergyUnit.megajoule);
+        expect(1.megajoules.unit, EnergyUnit.megajoule);
+        expect(5.kilojoules.unit, EnergyUnit.kilojoule);
+        expect(250.calories.unit, EnergyUnit.calorie);
+        expect(1.kilocalories.unit, EnergyUnit.kilocalorie);
+        expect(1.kilowattHours.unit, EnergyUnit.kilowattHour);
+        expect(1.electronvolts.unit, EnergyUnit.electronvolt);
+        expect(1000.btu.unit, EnergyUnit.btu);
+        expect(100.joules.inJoules, closeTo(100.0, defaultTolerance));
+      });
+
+      test('all as* conversion getters', () {
+        final e = 3600000.0.J; // 1 kWh
+
+        final asMj = e.asMegajoules;
+        expect(asMj.unit, EnergyUnit.megajoule);
+        expect(asMj.value, closeTo(3.6, defaultTolerance));
+
+        final asKj = e.asKilojoules;
+        expect(asKj.unit, EnergyUnit.kilojoule);
+        expect(asKj.value, closeTo(3600.0, defaultTolerance));
+
+        final asCal = e.asCalories;
+        expect(asCal.unit, EnergyUnit.calorie);
+        expect(asCal.value, closeTo(3600000.0 / 4.184, defaultTolerance)); // 1 cal = 4.184 J
+
+        final asKcal = e.asKilocalories;
+        expect(asKcal.unit, EnergyUnit.kilocalorie);
+        expect(asKcal.value, closeTo(3600000.0 / 4184.0, defaultTolerance)); // 1 kcal = 4184 J
+
+        final asKcalIt = e.asKilocaloriesIT;
+        expect(asKcalIt.unit, EnergyUnit.kilocalorieIT);
+        expect(
+          asKcalIt.value,
+          closeTo(3600000.0 / 4186.8, defaultTolerance),
+        ); // 1 kcal_IT = 4186.8 J
+
+        final asKwh = e.asKilowattHours;
+        expect(asKwh.unit, EnergyUnit.kilowattHour);
+        expect(asKwh.value, closeTo(1.0, defaultTolerance));
+
+        final asEv = e.asElectronvolts;
+        expect(asEv.unit, EnergyUnit.electronvolt);
+        expect(asEv.value, closeTo(3600000.0 / 1.602176634e-19, 1e12));
+
+        final asBtu = e.asBtu;
+        expect(asBtu.unit, EnergyUnit.btu);
+        expect(asBtu.value, closeTo(3412.14, 1e-2));
+      });
+    });
+
     group('IT Calorie Conversions', () {
       test('calorieIT to joule conversion', () {
         const energy = Energy(1, EnergyUnit.calorieIT);

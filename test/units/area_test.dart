@@ -309,5 +309,97 @@ void main() {
         expect(roomArea.compareTo(carpetArea), greaterThan(0));
       });
     });
+
+    group('Comprehensive Extension Coverage - All Area Units', () {
+      test('SI square unit extensions (dm², cm², mm², μm²)', () {
+        final dm2 = 100.dm2;
+        expect(dm2.inSquareMeters, closeTo(1.0, tolerance));
+        expect(dm2.asSquareMeter.unit, AreaUnit.squareMeter);
+
+        final cm2 = 10000.cm2;
+        expect(cm2.inSquareMeters, closeTo(1.0, tolerance));
+        expect(cm2.asSquareMeter.unit, AreaUnit.squareMeter);
+
+        final mm2 = 1000000.mm2;
+        expect(mm2.inSquareMeters, closeTo(1.0, tolerance));
+        expect(mm2.asSquareMeter.unit, AreaUnit.squareMeter);
+
+        final um2 = 1e12.um2;
+        expect(um2.inSquareMeters, closeTo(1.0, tolerance));
+        expect(um2.asSquareMeter.unit, AreaUnit.squareMeter);
+      });
+
+      test('Large SI square unit extensions (dam², hm², km², Mm²)', () {
+        final dam2 = 1.dam2;
+        expect(dam2.inSquareMeters, closeTo(100.0, tolerance));
+        expect(dam2.asSquareMeter.unit, AreaUnit.squareMeter);
+
+        final hm2 = 1.hm2;
+        expect(hm2.inSquareMeters, closeTo(10000.0, tolerance));
+        expect(hm2.asSquareMeter.unit, AreaUnit.squareMeter);
+
+        final km2 = 1.km2;
+        expect(km2.inSquareMeters, closeTo(1000000.0, tolerance));
+        expect(km2.asSquareMeter.unit, AreaUnit.squareMeter);
+
+        final squareMegaM = 1.squareMegameter;
+        expect(squareMegaM.inSquareKilometers, closeTo(1000000.0, tolerance));
+        expect(squareMegaM.asSquareKilometer.unit, AreaUnit.squareKilometer);
+      });
+
+      test('Hectare extensions', () {
+        final hectares = 5.ha;
+        expect(hectares.value, 5.0);
+        expect(hectares.unit, AreaUnit.hectare);
+        expect(hectares.inSquareMeters, closeTo(50000.0, tolerance));
+        expect(hectares.asSquareMeter.unit, AreaUnit.squareMeter);
+      });
+
+      test('Imperial square unit extensions (in², ft², yd², mi²)', () {
+        final in2 = 144.in2;
+        expect(in2.inSquareFeet, closeTo(1.0, tolerance));
+        expect(in2.asSquareFoot.unit, AreaUnit.squareFoot);
+
+        final ft2 = 9.ft2;
+        expect(ft2.inSquareYards, closeTo(1.0, tolerance));
+        expect(ft2.asSquareYard.unit, AreaUnit.squareYard);
+
+        final yd2 = 4840.yd2;
+        expect(yd2.inAcres, closeTo(1.0, tolerance));
+        expect(yd2.asAcre.unit, AreaUnit.acre);
+
+        final mi2 = 1.mi2;
+        expect(mi2.inAcres, closeTo(640.0, tolerance));
+        expect(mi2.asAcre.unit, AreaUnit.acre);
+      });
+
+      test('Acre extensions', () {
+        final acres = 10.ac;
+        expect(acres.value, 10.0);
+        expect(acres.unit, AreaUnit.acre);
+        expect(acres.inSquareYards, closeTo(48400.0, tolerance));
+        expect(acres.asSquareYard.unit, AreaUnit.squareYard);
+      });
+
+      test('All area conversion getters work correctly', () {
+        final base = 1000.m2;
+
+        expect(base.asSquareMeter.unit, AreaUnit.squareMeter);
+        expect(base.asSquareDecimeter.unit, AreaUnit.squareDecimeter);
+        expect(base.asSquareCentimeter.unit, AreaUnit.squareCentimeter);
+        expect(base.asSquareMillimeter.unit, AreaUnit.squareMillimeter);
+        expect(base.asSquareMicrometer.unit, AreaUnit.squareMicrometer);
+        expect(base.asSquareDecameter.unit, AreaUnit.squareDecameter);
+        expect(base.asSquareHectometer.unit, AreaUnit.squareHectometer);
+        expect(base.asHectare.unit, AreaUnit.hectare);
+        expect(base.asSquareKilometer.unit, AreaUnit.squareKilometer);
+        expect(base.asSquareMegameter.unit, AreaUnit.squareMegameter);
+        expect(base.asSquareInch.unit, AreaUnit.squareInch);
+        expect(base.asSquareFoot.unit, AreaUnit.squareFoot);
+        expect(base.asSquareYard.unit, AreaUnit.squareYard);
+        expect(base.asSquareMile.unit, AreaUnit.squareMile);
+        expect(base.asAcre.unit, AreaUnit.acre);
+      });
+    });
   });
 }

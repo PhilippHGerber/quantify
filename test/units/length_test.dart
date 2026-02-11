@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_int_literals : all constants are doubles.
 
+import 'package:intl/intl.dart';
 import 'package:quantify/quantify.dart';
 import 'package:quantify/src/units/length/length_factors.dart';
 import 'package:test/test.dart';
@@ -687,6 +688,185 @@ void main() {
         expect(oneMeter <= hundredCm, equals(oneMeter.compareTo(hundredCm) <= 0));
         expect(oneMeter <= oneHundredOneCm, equals(oneMeter.compareTo(oneHundredOneCm) <= 0));
         expect(oneHundredOneCm <= oneMeter, equals(oneHundredOneCm.compareTo(oneMeter) <= 0));
+      });
+    });
+
+    group('toString() with Locale and NumberFormat', () {
+      test('should use explicit NumberFormat when provided', () {
+        final customFormat = NumberFormat('#,##0.00', 'en_US');
+        const length = Length(1234.5, LengthUnit.meter);
+        final result = length.toString(numberFormat: customFormat);
+        expect(result, contains('1,234.50'));
+        expect(result, contains('m'));
+      });
+
+      test('should format with locale and fixed fractionDigits (German)', () {
+        const length = Length(1234.567, LengthUnit.meter);
+        final result = length.toString(locale: 'de_DE', fractionDigits: 2);
+        // German locale uses comma for decimal separator and dot for thousands
+        expect(result, contains(',57')); // Should have ,57 or ,56 (rounded)
+        expect(result, contains('m'));
+      });
+
+      test('should format with locale and fixed fractionDigits (US)', () {
+        const length = Length(1234.567, LengthUnit.meter);
+        final result = length.toString(locale: 'en_US', fractionDigits: 2);
+        // US locale uses dot for decimal separator and comma for thousands
+        expect(result, contains('.57')); // Should have .57 or .56 (rounded)
+        expect(result, contains('1,234'));
+        expect(result, contains('m'));
+      });
+
+      test('should format with locale-aware default pattern (US)', () {
+        const length = Length(1234.5, LengthUnit.meter);
+        final result = length.toString(locale: 'en_US');
+        expect(result, contains('1,234'));
+        expect(result, contains('m'));
+      });
+
+      test('should format with locale-aware default pattern (German)', () {
+        const length = Length(1234.5, LengthUnit.meter);
+        final result = length.toString(locale: 'de_DE');
+        // German uses dot for thousands separator
+        expect(result, contains('234'));
+        expect(result, contains('m'));
+      });
+
+      test('should convert units and apply locale formatting', () {
+        const length = Length(1.5, LengthUnit.kilometer);
+        final result = length.toString(
+          targetUnit: LengthUnit.meter,
+          locale: 'en_US',
+          fractionDigits: 1,
+        );
+        expect(result, contains('1,500.0'));
+        expect(result, contains('m'));
+      });
+
+      test('numberFormat should take precedence over locale and fractionDigits', () {
+        final customFormat = NumberFormat.decimalPattern('fr_FR');
+        const length = Length(1234.567, LengthUnit.meter);
+        final result = length.toString(
+          numberFormat: customFormat,
+          locale: 'en_US', // This should be ignored
+          fractionDigits: 5, // This should be ignored
+        );
+        // French format should be applied, not US format
+        expect(result, contains('234'));
+        expect(result, contains('m'));
+      });
+
+      test('should handle fractionDigits without locale', () {
+        const length = Length(1234.5678, LengthUnit.meter);
+        final result = length.toString(fractionDigits: 2);
+        expect(result, contains('1234.57')); // No thousands separator, dot decimal
+        expect(result, contains('m'));
+      });
+    });
+
+    group('Comprehensive Extension Coverage - All Units', () {
+      test('SI large unit extensions (Mm, Gm)', () {
+        final megaM = 5.megaM;
+        expect(megaM.value, 5.0);
+        expect(megaM.unit, LengthUnit.megameter);
+        expect(megaM.inKm, closeTo(5000.0, tolerance));
+        expect(megaM.asKm.unit, LengthUnit.kilometer);
+
+        final gigaM = 2.gigaM;
+        expect(gigaM.value, 2.0);
+        expect(gigaM.unit, LengthUnit.gigameter);
+        expect(gigaM.inMegaM, closeTo(2000.0, tolerance));
+        expect(gigaM.asMegaM.unit, LengthUnit.megameter);
+      });
+
+      test('SI intermediate unit extensions (hm, dam, dm)', () {
+        final hectoM = 10.hm;
+        expect(hectoM.inM, closeTo(1000.0, tolerance));
+        expect(hectoM.asM.unit, LengthUnit.meter);
+
+        final decaM = 5.dam;
+        expect(decaM.inM, closeTo(50.0, tolerance));
+        expect(decaM.asM.unit, LengthUnit.meter);
+
+        final deciM = 100.dm;
+        expect(deciM.inM, closeTo(10.0, tolerance));
+        expect(deciM.asM.unit, LengthUnit.meter);
+      });
+
+      test('Very small SI unit extensions (μm, nm, pm, fm)', () {
+        final microM = 1000.um;
+        expect(microM.inMm, closeTo(1.0, tolerance));
+        expect(microM.asMm.unit, LengthUnit.millimeter);
+
+        final nanoM = 1000.nm;
+        expect(nanoM.inUm, closeTo(1.0, tolerance));
+        expect(nanoM.asUm.unit, LengthUnit.micrometer);
+
+        final picoM = 1000.pm;
+        expect(picoM.inNm, closeTo(1.0, tolerance));
+        expect(picoM.asNm.unit, LengthUnit.nanometer);
+
+        final femtoM = 1000.fm;
+        expect(femtoM.inPm, closeTo(1.0, tolerance));
+        expect(femtoM.asPm.unit, LengthUnit.picometer);
+      });
+
+      test('Imperial/US unit extensions (yd, nmi)', () {
+        final yards = 100.yd;
+        expect(yards.inFt, closeTo(300.0, tolerance));
+        expect(yards.asFt.unit, LengthUnit.foot);
+
+        final nauticalMiles = 10.nmi;
+        expect(nauticalMiles.inKm, closeTo(18.52, highTolerance));
+        expect(nauticalMiles.asKm.unit, LengthUnit.kilometer);
+      });
+
+      test('Astronomical unit extensions (AU, ly, pc)', () {
+        final au = 2.AU;
+        expect(au.inAU, closeTo(2.0, tolerance));
+        expect(au.asAU.unit, LengthUnit.astronomicalUnit);
+
+        final lightYears = 1.ly;
+        expect(lightYears.inLy, closeTo(1.0, tolerance));
+        expect(lightYears.asLy.unit, LengthUnit.lightYear);
+
+        final parsecs = 1.pc;
+        expect(parsecs.inPc, closeTo(1.0, tolerance));
+        expect(parsecs.asPc.unit, LengthUnit.parsec);
+      });
+
+      test('Angstrom extensions', () {
+        final angstroms = 10.angstrom;
+        expect(angstroms.inAngstrom, closeTo(10.0, tolerance));
+        expect(angstroms.asAngstrom.unit, LengthUnit.angstrom);
+        expect(angstroms.inNm, closeTo(1.0, tolerance));
+      });
+
+      test('All conversion getters work correctly', () {
+        final base = 1000.m;
+
+        // Test all "as" getters return correct unit type
+        expect(base.asKm.unit, LengthUnit.kilometer);
+        expect(base.asMegaM.unit, LengthUnit.megameter);
+        expect(base.asGigaM.unit, LengthUnit.gigameter);
+        expect(base.asHm.unit, LengthUnit.hectometer);
+        expect(base.asDam.unit, LengthUnit.decameter);
+        expect(base.asDm.unit, LengthUnit.decimeter);
+        expect(base.asCm.unit, LengthUnit.centimeter);
+        expect(base.asMm.unit, LengthUnit.millimeter);
+        expect(base.asUm.unit, LengthUnit.micrometer);
+        expect(base.asNm.unit, LengthUnit.nanometer);
+        expect(base.asPm.unit, LengthUnit.picometer);
+        expect(base.asFm.unit, LengthUnit.femtometer);
+        expect(base.asInch.unit, LengthUnit.inch);
+        expect(base.asFt.unit, LengthUnit.foot);
+        expect(base.asYd.unit, LengthUnit.yard);
+        expect(base.asMi.unit, LengthUnit.mile);
+        expect(base.asNmi.unit, LengthUnit.nauticalMile);
+        expect(base.asAU.unit, LengthUnit.astronomicalUnit);
+        expect(base.asLy.unit, LengthUnit.lightYear);
+        expect(base.asPc.unit, LengthUnit.parsec);
+        expect(base.asAngstrom.unit, LengthUnit.angstrom);
       });
     });
   });

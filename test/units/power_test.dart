@@ -123,5 +123,59 @@ void main() {
         expect(acPower.inKilowatts, closeTo(3.516, 1e-3));
       });
     });
+
+    group('Comprehensive Extension Coverage', () {
+      test('all creation extension aliases', () {
+        expect(50.W.unit, PowerUnit.watt);
+        expect(50.watts.unit, PowerUnit.watt);
+        expect(100.kilowatts.unit, PowerUnit.kilowatt);
+        expect(5.megaW.unit, PowerUnit.megawatt);
+        expect(5.megawatts.unit, PowerUnit.megawatt);
+        expect(1.gigaW.unit, PowerUnit.gigawatt);
+        expect(1.gigawatts.unit, PowerUnit.gigawatt);
+        expect(500.milliwatts.unit, PowerUnit.milliwatt);
+        expect(500.milliwatts.inWatts, closeTo(0.5, defaultTolerance));
+      });
+
+      test('all as* conversion getters', () {
+        final p = 1000.W;
+
+        final asW = p.asWatts;
+        expect(asW.unit, PowerUnit.watt);
+        expect(asW.value, closeTo(1000.0, defaultTolerance));
+
+        final asMw = p.asMilliwatts;
+        expect(asMw.unit, PowerUnit.milliwatt);
+        expect(asMw.value, closeTo(1e6, defaultTolerance));
+
+        final asKw = p.asKilowatts;
+        expect(asKw.unit, PowerUnit.kilowatt);
+        expect(asKw.value, closeTo(1.0, defaultTolerance));
+
+        final asMegaW = p.asMegawatts;
+        expect(asMegaW.unit, PowerUnit.megawatt);
+        expect(asMegaW.value, closeTo(0.001, defaultTolerance));
+
+        final asGw = p.asGigawatts;
+        expect(asGw.unit, PowerUnit.gigawatt);
+        expect(asGw.value, closeTo(1e-6, defaultTolerance));
+
+        final asHp = p.asHorsepower;
+        expect(asHp.unit, PowerUnit.horsepower);
+        expect(asHp.value, closeTo(1.341, 1e-3));
+
+        final asMetricHp = p.asMetricHorsepower;
+        expect(asMetricHp.unit, PowerUnit.metricHorsepower);
+        expect(asMetricHp.value, closeTo(1.360, 1e-3));
+
+        final asBtu = p.asBtuPerHour;
+        expect(asBtu.unit, PowerUnit.btuPerHour);
+        expect(asBtu.value, closeTo(3412.14, 1e-2));
+
+        final asErg = p.asErgPerSecond;
+        expect(asErg.unit, PowerUnit.ergPerSecond);
+        expect(asErg.value, closeTo(1e10, defaultTolerance));
+      });
+    });
   });
 }

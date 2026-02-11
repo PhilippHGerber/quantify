@@ -80,6 +80,33 @@ void main() {
       });
     });
 
+    group('Comprehensive Extension Coverage', () {
+      test('all creation extension aliases', () {
+        expect(10.revolutionsPerSecond.unit, AngularVelocityUnit.revolutionPerSecond);
+        expect(10.revolutionsPerSecond.inRps, closeTo(10.0, tolerance));
+      });
+
+      test('all as* conversion getters', () {
+        final speed = 60.0.rpm; // 60 rpm = 1 rps = 2π rad/s = 360 °/s
+
+        final asRad = speed.asRadiansPerSecond;
+        expect(asRad.unit, AngularVelocityUnit.radianPerSecond);
+        expect(asRad.value, closeTo(2 * math.pi, tolerance));
+
+        final asDeg = speed.asDegreesPerSecond;
+        expect(asDeg.unit, AngularVelocityUnit.degreePerSecond);
+        expect(asDeg.value, closeTo(360.0, tolerance));
+
+        final asRpm = (2 * math.pi).radiansPerSecond.asRpm;
+        expect(asRpm.unit, AngularVelocityUnit.revolutionPerMinute);
+        expect(asRpm.value, closeTo(60.0, tolerance));
+
+        final asRps = 60.0.rpm.asRps;
+        expect(asRps.unit, AngularVelocityUnit.revolutionPerSecond);
+        expect(asRps.value, closeTo(1.0, tolerance));
+      });
+    });
+
     group('Practical Examples', () {
       test('Car Engine', () {
         // An engine idles at 800 rpm and has a redline at 7000 rpm.

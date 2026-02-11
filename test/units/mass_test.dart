@@ -629,5 +629,173 @@ void main() {
         expect(roundTripGiga.value, closeTo(testValue, tolerance));
       });
     });
+
+    group('US/UK Ton Units and Carats', () {
+      test('should create and convert using short tons (US)', () {
+        // 1 short ton = 2000 pounds = 907.18474 kg
+        final mass = 2.0.shortTons;
+        expect(mass.value, 2.0);
+        expect(mass.unit, MassUnit.shortTon);
+        expect(mass.inPounds, closeTo(4000.0, tolerance)); // 2 * 2000
+        expect(mass.inKilograms, closeTo(1814.36948, highTolerance)); // 2 * 907.18474
+
+        // Test "as" conversion getter
+        final massInPounds = mass.asPounds;
+        expect(massInPounds.value, closeTo(4000.0, tolerance));
+        expect(massInPounds.unit, MassUnit.pound);
+      });
+
+      test('should create and convert using long tons (UK)', () {
+        // 1 long ton = 2240 pounds = 1016.0469088 kg
+        final mass = 1.5.longTons;
+        expect(mass.value, 1.5);
+        expect(mass.unit, MassUnit.longTon);
+        expect(mass.inPounds, closeTo(3360.0, tolerance)); // 1.5 * 2240
+        expect(mass.inKilograms, closeTo(1524.0703632, highTolerance)); // 1.5 * 1016.0469088
+
+        // Test "as" conversion getter
+        final massInKg = mass.asKilograms;
+        expect(massInKg.value, closeTo(1524.0703632, highTolerance));
+        expect(massInKg.unit, MassUnit.kilogram);
+      });
+
+      test('should differentiate between short and long tons', () {
+        final shortTon = 1.0.shortTons;
+        final longTon = 1.0.longTons;
+
+        // Long ton is heavier than short ton
+        expect(longTon.inKilograms, greaterThan(shortTon.inKilograms));
+        expect(longTon.inPounds, closeTo(2240.0, tolerance));
+        expect(shortTon.inPounds, closeTo(2000.0, tolerance));
+      });
+
+      test('should create and convert using carats', () {
+        // 1 carat = 200 mg = 0.2 g
+        final diamond = 5.0.ct;
+        expect(diamond.value, 5.0);
+        expect(diamond.unit, MassUnit.carat);
+        expect(diamond.inGrams, closeTo(1.0, tolerance)); // 5 * 0.2
+        expect(diamond.inMilligrams, closeTo(1000.0, tolerance)); // 5 * 200
+
+        // Test using alias
+        final ruby = 10.0.carats;
+        expect(ruby.value, 10.0);
+        expect(ruby.unit, MassUnit.carat);
+        expect(ruby.inGrams, closeTo(2.0, tolerance));
+
+        // Test "as" conversion getter
+        final rubyInMg = ruby.asMilligrams;
+        expect(rubyInMg.value, closeTo(2000.0, tolerance));
+        expect(rubyInMg.unit, MassUnit.milligram);
+      });
+
+      test('practical examples with tons and carats', () {
+        // A typical car weighs about 1.5 short tons
+        final car = 1.5.shortTons;
+        expect(car.inKilograms, closeTo(1360.77711, highTolerance));
+
+        // Hope Diamond is 45.52 carats
+        final hopeDiamond = 45.52.carats;
+        expect(hopeDiamond.inGrams, closeTo(9.104, tolerance));
+
+        // UK freight might use long tons
+        final freight = 50.0.longTons;
+        expect(freight.inKilograms, closeTo(50802.34544, highTolerance));
+      });
+
+      test('round trip conversions for tons and carats', () {
+        const testValue = 5.5;
+
+        // Short tons
+        final shortTonOrig = testValue.shortTons;
+        final shortTonRoundTrip = shortTonOrig.asKilograms.asShortTons;
+        expect(shortTonRoundTrip.value, closeTo(testValue, highTolerance));
+
+        // Long tons
+        final longTonOrig = testValue.longTons;
+        final longTonRoundTrip = longTonOrig.asKilograms.asLongTons;
+        expect(longTonRoundTrip.value, closeTo(testValue, highTolerance));
+
+        // Carats
+        final caratOrig = testValue.carats;
+        final caratRoundTrip = caratOrig.asGrams.asCarats;
+        expect(caratRoundTrip.value, closeTo(testValue, tolerance));
+      });
+    });
+
+    group('Comprehensive Extension Coverage', () {
+      test('creation aliases not previously covered', () {
+        expect(1.0.mg.unit, MassUnit.milligram);
+        expect(1.0.milligrams.unit, MassUnit.milligram);
+        expect(1.0.micrograms.unit, MassUnit.microgram);
+        expect(1.0.nanograms.unit, MassUnit.nanogram);
+        expect(1.0.ounces.unit, MassUnit.ounce);
+        expect(1.0.stones.unit, MassUnit.stone);
+        expect(1.0.slugs.unit, MassUnit.slug);
+        expect(1.0.atomicMassUnits.unit, MassUnit.atomicMassUnit);
+        expect(1.0.t.unit, MassUnit.tonne);
+        expect(1.0.pounds.unit, MassUnit.pound);
+        expect(1.0.grams.unit, MassUnit.gram);
+        // Spot-check values
+        expect(1.0.mg.inGrams, closeTo(0.001, highPrecisiontolerance));
+        expect(1.0.ounces.inPounds, closeTo(1.0 / 16.0, highPrecisiontolerance));
+      });
+
+      test('all as* conversion getters', () {
+        final oneKg = 1.0.kg;
+
+        final asHg = oneKg.asHectograms;
+        expect(asHg.unit, MassUnit.hectogram);
+        expect(asHg.value, closeTo(10.0, highPrecisiontolerance));
+
+        final asDag = oneKg.asDecagrams;
+        expect(asDag.unit, MassUnit.decagram);
+        expect(asDag.value, closeTo(100.0, highPrecisiontolerance));
+
+        final asDg = oneKg.asDecigrams;
+        expect(asDg.unit, MassUnit.decigram);
+        expect(asDg.value, closeTo(10000.0, highPrecisiontolerance));
+
+        final asCg = oneKg.asCentigrams;
+        expect(asCg.unit, MassUnit.centigram);
+        expect(asCg.value, closeTo(100000.0, tolerance));
+
+        final asUg = oneKg.asMicrograms;
+        expect(asUg.unit, MassUnit.microgram);
+        expect(asUg.value, closeTo(1e9, 1)); // tolerance accounts for float scale
+
+        final asNg = oneKg.asNanograms;
+        expect(asNg.unit, MassUnit.nanogram);
+        expect(asNg.value, closeTo(1e12, 1e3)); // tolerance accounts for float scale
+
+        final asMegaG = oneKg.asMegaG;
+        expect(asMegaG.unit, MassUnit.megagram);
+        expect(asMegaG.value, closeTo(0.001, highPrecisiontolerance));
+
+        final asGigaG = 1e6.kg.asGigaG;
+        expect(asGigaG.unit, MassUnit.gigagram);
+        expect(asGigaG.value, closeTo(1.0, highPrecisiontolerance));
+
+        final asTonnes = oneKg.asTonnes;
+        expect(asTonnes.unit, MassUnit.tonne);
+        expect(asTonnes.value, closeTo(0.001, highPrecisiontolerance));
+
+        final asOz = oneKg.asOunces;
+        expect(asOz.unit, MassUnit.ounce);
+        expect(asOz.value, closeTo(16.0 / 0.45359237, highTolerance));
+
+        final asSt = oneKg.asStones;
+        expect(asSt.unit, MassUnit.stone);
+        expect(asSt.value, closeTo(1.0 / (14.0 * 0.45359237), highTolerance));
+
+        final asSlugs = oneKg.asSlugs;
+        expect(asSlugs.unit, MassUnit.slug);
+        expect(asSlugs.value, closeTo(1.0 / 14.5939029372, highTolerance));
+
+        final asAmu = 1.0.u.asAtomicMassUnits;
+        expect(asAmu.unit, MassUnit.atomicMassUnit);
+        expect(asAmu.value, closeTo(1.0, highPrecisiontolerance));
+      });
+    });
   });
 }

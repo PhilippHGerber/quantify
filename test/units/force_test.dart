@@ -120,6 +120,62 @@ void main() {
       }
     });
 
+    group('Comprehensive Extension Coverage', () {
+      test('all creation extension aliases', () {
+        expect(5.kN.unit, ForceUnit.kilonewton);
+        expect(5.kilonewtons.unit, ForceUnit.kilonewton);
+        expect(5.kilonewtons.inNewtons, closeTo(5000.0, tolerance));
+        expect(2.megaN.unit, ForceUnit.meganewton);
+        expect(2.meganewtons.unit, ForceUnit.meganewton);
+        expect(500.mN.unit, ForceUnit.millinewton);
+        expect(500.millinewtons.unit, ForceUnit.millinewton);
+        expect(500.millinewtons.inNewtons, closeTo(0.5, tolerance));
+        expect(10.dynes.unit, ForceUnit.dyne);
+        expect(1.gf.unit, ForceUnit.gramForce);
+        expect(1.newtons.unit, ForceUnit.newton);
+      });
+
+      test('all as* conversion getters', () {
+        final f = 100.N;
+
+        final asN = f.asNewtons;
+        expect(asN.unit, ForceUnit.newton);
+        expect(asN.value, closeTo(100.0, tolerance));
+
+        final asKn = f.asKilonewtons;
+        expect(asKn.unit, ForceUnit.kilonewton);
+        expect(asKn.value, closeTo(0.1, tolerance));
+
+        final asMn = f.asMeganewtons;
+        expect(asMn.unit, ForceUnit.meganewton);
+        expect(asMn.value, closeTo(1e-4, tolerance));
+
+        final asMn2 = f.asMillinewtons;
+        expect(asMn2.unit, ForceUnit.millinewton);
+        expect(asMn2.value, closeTo(100000.0, tolerance));
+
+        final asLbf = f.asPoundsForce;
+        expect(asLbf.unit, ForceUnit.poundForce);
+        expect(asLbf.value, closeTo(22.4809, 1e-4));
+
+        final asDyn = f.asDynes;
+        expect(asDyn.unit, ForceUnit.dyne);
+        expect(asDyn.value, closeTo(1e7, 1e-6));
+
+        final asKgf = f.asKilogramsForce;
+        expect(asKgf.unit, ForceUnit.kilogramForce);
+        expect(asKgf.value, closeTo(10.1972, 1e-4));
+
+        final asGf = f.asGramsForce;
+        expect(asGf.unit, ForceUnit.gramForce);
+        expect(asGf.value, closeTo(10197.2, 1e-1));
+
+        final asPdl = f.asPoundals;
+        expect(asPdl.unit, ForceUnit.poundal);
+        expect(asPdl.value, closeTo(723.301, 1e-3));
+      });
+    });
+
     group('Practical Examples', () {
       test('Weight on Earth', () {
         final personMass = 75.kg;

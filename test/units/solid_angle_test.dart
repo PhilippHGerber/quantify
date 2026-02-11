@@ -101,6 +101,30 @@ void main() {
       }
     });
 
+    group('Comprehensive Extension Coverage', () {
+      test('all creation extension aliases', () {
+        expect(math.pi.steradians.unit, SolidAngleUnit.steradian);
+        expect(90.squareDegrees.unit, SolidAngleUnit.squareDegree);
+        expect(0.5.spats.unit, SolidAngleUnit.spat);
+      });
+
+      test('all as* conversion getters', () {
+        final fullSphere = 1.0.sp; // 1 spat = 4π sr
+
+        final asSr = fullSphere.asSteradians;
+        expect(asSr.unit, SolidAngleUnit.steradian);
+        expect(asSr.value, closeTo(4 * math.pi, tolerance));
+
+        final asDeg2 = fullSphere.asSquareDegrees;
+        expect(asDeg2.unit, SolidAngleUnit.squareDegree);
+        expect(asDeg2.value, closeTo(41252.96, 1e-2));
+
+        final asSp = (4 * math.pi).sr.asSpat;
+        expect(asSp.unit, SolidAngleUnit.spat);
+        expect(asSp.value, closeTo(1.0, tolerance));
+      });
+    });
+
     group('Practical Examples', () {
       test('Field of view calculation', () {
         // A camera lens with a 90° x 90° field of view

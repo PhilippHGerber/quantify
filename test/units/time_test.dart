@@ -551,5 +551,182 @@ void main() {
         expect(times[3].unit, TimeUnit.century);
       });
     });
+
+    group('Common Time Unit Extensions', () {
+      test('should create and convert hours', () {
+        final time = 24.hours;
+        expect(time.value, 24.0);
+        expect(time.unit, TimeUnit.hour);
+        expect(time.inDays, closeTo(1.0, tolerance));
+        expect(time.inMinutes, closeTo(1440.0, tolerance));
+        expect(time.inSeconds, closeTo(86400.0, tolerance));
+
+        final timeAsDays = time.asDays;
+        expect(timeAsDays.value, closeTo(1.0, tolerance));
+        expect(timeAsDays.unit, TimeUnit.day);
+      });
+
+      test('should create and convert days', () {
+        final time = 7.days;
+        expect(time.value, 7.0);
+        expect(time.unit, TimeUnit.day);
+        expect(time.inWeeks, closeTo(1.0, tolerance));
+        expect(time.inHours, closeTo(168.0, tolerance));
+        expect(time.inMinutes, closeTo(10080.0, tolerance));
+
+        final timeAsWeeks = time.asWeeks;
+        expect(timeAsWeeks.value, closeTo(1.0, tolerance));
+        expect(timeAsWeeks.unit, TimeUnit.week);
+      });
+
+      test('should create and convert weeks', () {
+        final time = 4.weeks;
+        expect(time.value, 4.0);
+        expect(time.unit, TimeUnit.week);
+        expect(time.inDays, closeTo(28.0, tolerance));
+        expect(time.inFortnights, closeTo(2.0, tolerance));
+        expect(time.inMonths, closeTo(0.92, 0.01)); // Approximate: 4 weeks ≈ 0.92 months
+
+        final timeAsDays = time.asDays;
+        expect(timeAsDays.value, closeTo(28.0, tolerance));
+        expect(timeAsDays.unit, TimeUnit.day);
+      });
+
+      test('practical time conversions', () {
+        // Work week
+        final workWeek = 40.hours;
+        expect(workWeek.inDays, closeTo(1.667, 0.001)); // 40/24 ≈ 1.667 days
+
+        // Sleep time
+        final sleepTime = 8.hours;
+        expect(sleepTime.inMinutes, closeTo(480.0, tolerance));
+
+        // Sprint duration
+        final sprint = 2.weeks;
+        expect(sprint.inDays, closeTo(14.0, tolerance));
+        expect(sprint.inHours, closeTo(336.0, tolerance));
+      });
+
+      test('round trip conversions for common time units', () {
+        const testValue = 10.5;
+
+        final hoursOrig = testValue.hours;
+        final hoursRoundTrip = hoursOrig.asMinutes.asHours;
+        expect(hoursRoundTrip.value, closeTo(testValue, tolerance));
+
+        final daysOrig = testValue.days;
+        final daysRoundTrip = daysOrig.asHours.asDays;
+        expect(daysRoundTrip.value, closeTo(testValue, tolerance));
+
+        final weeksOrig = testValue.weeks;
+        final weeksRoundTrip = weeksOrig.asDays.asWeeks;
+        expect(weeksRoundTrip.value, closeTo(testValue, tolerance));
+      });
+    });
+
+    group('Comprehensive Extension Coverage', () {
+      test('all short creation aliases', () {
+        expect(1.s.unit, TimeUnit.second);
+        expect(1.us.unit, TimeUnit.microsecond);
+        expect(1.ns.unit, TimeUnit.nanosecond);
+        expect(1.ps.unit, TimeUnit.picosecond);
+        expect(1.ms.unit, TimeUnit.millisecond);
+        expect(1.min.unit, TimeUnit.minute);
+        expect(1.h.unit, TimeUnit.hour);
+        expect(1.d.unit, TimeUnit.day);
+        expect(1.wk.unit, TimeUnit.week);
+        expect(1.mo.unit, TimeUnit.month);
+        expect(1.yr.unit, TimeUnit.year);
+        expect(60.s.inMinutes, closeTo(1.0, tolerance));
+        expect(24.h.inDays, closeTo(1.0, tolerance));
+      });
+
+      test('long creation aliases not previously covered', () {
+        expect(1.microseconds.unit, TimeUnit.microsecond);
+        expect(1.nanoseconds.unit, TimeUnit.nanosecond);
+        expect(1.picoseconds.unit, TimeUnit.picosecond);
+        expect(1.years.unit, TimeUnit.year);
+        expect(1.minutes.unit, TimeUnit.minute);
+        expect(1.microseconds.inSeconds, closeTo(1e-6, tolerance));
+        expect(1.nanoseconds.inSeconds, closeTo(1e-9, tolerance));
+        expect(1.picoseconds.inSeconds, closeTo(1e-12, tolerance));
+      });
+
+      test('all as* conversion getters', () {
+        final oneSecond = 1.0.seconds;
+
+        final asS = oneSecond.asSeconds;
+        expect(asS.unit, TimeUnit.second);
+        expect(asS.value, closeTo(1.0, tolerance));
+
+        final asMs = oneSecond.asMilliseconds;
+        expect(asMs.unit, TimeUnit.millisecond);
+        expect(asMs.value, closeTo(1000.0, tolerance));
+
+        final asUs = oneSecond.asMicroseconds;
+        expect(asUs.unit, TimeUnit.microsecond);
+        expect(asUs.value, closeTo(1e6, tolerance));
+
+        final asNs = oneSecond.asNanoseconds;
+        expect(asNs.unit, TimeUnit.nanosecond);
+        expect(asNs.value, closeTo(1e9, 1e-3));
+
+        final asPs = oneSecond.asPicoseconds;
+        expect(asPs.unit, TimeUnit.picosecond);
+        expect(asPs.value, closeTo(1e12, tolerance));
+
+        final asCs = oneSecond.asCentiseconds;
+        expect(asCs.unit, TimeUnit.centisecond);
+        expect(asCs.value, closeTo(100.0, tolerance));
+
+        final asDs = oneSecond.asDeciseconds;
+        expect(asDs.unit, TimeUnit.decisecond);
+        expect(asDs.value, closeTo(10.0, tolerance));
+
+        final asDas = oneSecond.asDecaseconds;
+        expect(asDas.unit, TimeUnit.decasecond);
+        expect(asDas.value, closeTo(0.1, tolerance));
+
+        final asHs = oneSecond.asHectoseconds;
+        expect(asHs.unit, TimeUnit.hectosecond);
+        expect(asHs.value, closeTo(0.01, tolerance));
+
+        final asKs = oneSecond.asKiloseconds;
+        expect(asKs.unit, TimeUnit.kilosecond);
+        expect(asKs.value, closeTo(0.001, tolerance));
+
+        final asMegaS = 1.0.megaS.asMegaseconds;
+        expect(asMegaS.unit, TimeUnit.megasecond);
+        expect(asMegaS.value, closeTo(1.0, tolerance));
+
+        final asGigaS = 1.0.gigaS.asGigaseconds;
+        expect(asGigaS.unit, TimeUnit.gigasecond);
+        expect(asGigaS.value, closeTo(1.0, tolerance));
+
+        final asMin = 60.0.seconds.asMinutes;
+        expect(asMin.unit, TimeUnit.minute);
+        expect(asMin.value, closeTo(1.0, tolerance));
+
+        final asHr = 3600.0.seconds.asHours;
+        expect(asHr.unit, TimeUnit.hour);
+        expect(asHr.value, closeTo(1.0, tolerance));
+
+        final asFn = 28.0.days.asFortnights;
+        expect(asFn.unit, TimeUnit.fortnight);
+        expect(asFn.value, closeTo(2.0, tolerance));
+
+        final asYr = 10.0.years.asDecades;
+        expect(asYr.unit, TimeUnit.decade);
+        expect(asYr.value, closeTo(1.0, tolerance));
+
+        final asCent = 10.0.decades.asCenturies;
+        expect(asCent.unit, TimeUnit.century);
+        expect(asCent.value, closeTo(1.0, tolerance));
+
+        final asMonths = 1.0.years.asMonths;
+        expect(asMonths.unit, TimeUnit.month);
+        expect(asMonths.value, closeTo(12.0, lowprecisionTolerance));
+      });
+    });
   });
 }

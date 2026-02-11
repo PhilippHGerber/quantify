@@ -129,5 +129,53 @@ void main() {
         expect(averageAcceleration.inStandardGravity, closeTo(0.8, 0.01));
       });
     });
+
+    group('Comprehensive Extension Coverage', () {
+      test('all creation extensions', () {
+        expect(10.mphPerS.unit, AccelerationUnit.milePerHourPerSecond);
+        expect(10.mphPerS.inMetersPerSecondSquared, closeTo(10 * 0.44704, tolerance));
+        expect(5.knotsPerS.unit, AccelerationUnit.knotPerSecond);
+        expect(5.knotsPerS.inMetersPerSecondSquared, closeTo(5 * 1852.0 / 3600.0, tolerance));
+        expect(100.cmpss.unit, AccelerationUnit.centimeterPerSecondSquared);
+      });
+
+      test('all in* value getters', () {
+        final a = 9.80665.mpsSquared; // 1 g
+        expect(a.inMilesPerHourPerSecond, closeTo(9.80665 / 0.44704, tolerance));
+        expect(a.inKnotsPerSecond, closeTo(9.80665 / (1852.0 / 3600.0), tolerance));
+      });
+
+      test('all as* conversion getters', () {
+        final a = 9.80665.mpsSquared; // 1 g
+
+        final asMps2 = a.asMetersPerSecondSquared;
+        expect(asMps2.unit, AccelerationUnit.meterPerSecondSquared);
+        expect(asMps2.value, closeTo(9.80665, tolerance));
+
+        final asG = a.asStandardGravity;
+        expect(asG.unit, AccelerationUnit.standardGravity);
+        expect(asG.value, closeTo(1.0, tolerance));
+
+        final asKmhPerS = a.asKilometersPerHourPerSecond;
+        expect(asKmhPerS.unit, AccelerationUnit.kilometerPerHourPerSecond);
+        expect(asKmhPerS.value, closeTo(9.80665 * 3.6, tolerance));
+
+        final asMphPerS = a.asMilesPerHourPerSecond;
+        expect(asMphPerS.unit, AccelerationUnit.milePerHourPerSecond);
+        expect(asMphPerS.value, closeTo(9.80665 / 0.44704, tolerance));
+
+        final asKnots = a.asKnotsPerSecond;
+        expect(asKnots.unit, AccelerationUnit.knotPerSecond);
+        expect(asKnots.value, closeTo(9.80665 / (1852.0 / 3600.0), tolerance));
+
+        final asFps2 = a.asFeetPerSecondSquared;
+        expect(asFps2.unit, AccelerationUnit.footPerSecondSquared);
+        expect(asFps2.value, closeTo(32.174, 1e-3));
+
+        final asCm = a.asCentimetersPerSecondSquared;
+        expect(asCm.unit, AccelerationUnit.centimeterPerSecondSquared);
+        expect(asCm.value, closeTo(980.665, tolerance));
+      });
+    });
   });
 }

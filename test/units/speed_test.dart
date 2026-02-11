@@ -107,6 +107,56 @@ void main() {
       }
     });
 
+    group('Comprehensive Extension Coverage', () {
+      test('all creation extensions', () {
+        expect(10.metersPerSecond.unit, SpeedUnit.meterPerSecond);
+        expect(5.kps.unit, SpeedUnit.kilometerPerSecond);
+        expect(5.kilometersPerSecond.unit, SpeedUnit.kilometerPerSecond);
+        expect(100.kilometersPerHour.unit, SpeedUnit.kilometerPerHour);
+        expect(60.mph.unit, SpeedUnit.milePerHour);
+        expect(60.milesPerHour.unit, SpeedUnit.milePerHour);
+        expect(10.fps.unit, SpeedUnit.footPerSecond);
+        expect(10.feetPerSecond.unit, SpeedUnit.footPerSecond);
+        expect(10.feetPerSecond.inFeetPerSecond, closeTo(10.0, tolerance));
+      });
+
+      test('all in* value getter aliases', () {
+        final s = 10.mps;
+        expect(s.inMetersPerSecond, closeTo(10.0, tolerance));
+        expect(s.inKilometersPerSecond, closeTo(0.01, tolerance));
+        expect(s.inKilometersPerHour, closeTo(36.0, tolerance));
+        expect(s.inMilesPerHour, closeTo(22.3694, 1e-4));
+      });
+
+      test('all as* conversion getters', () {
+        final s = 10.mps;
+
+        final asMps = s.asMetersPerSecond;
+        expect(asMps.unit, SpeedUnit.meterPerSecond);
+        expect(asMps.value, closeTo(10.0, tolerance));
+
+        final asKps = s.asKilometersPerSecond;
+        expect(asKps.unit, SpeedUnit.kilometerPerSecond);
+        expect(asKps.value, closeTo(0.01, tolerance));
+
+        final asKmh = s.asKilometersPerHour;
+        expect(asKmh.unit, SpeedUnit.kilometerPerHour);
+        expect(asKmh.value, closeTo(36.0, tolerance));
+
+        final asMph = s.asMilesPerHour;
+        expect(asMph.unit, SpeedUnit.milePerHour);
+        expect(asMph.value, closeTo(22.3694, 1e-4));
+
+        final asKnots = s.asKnots;
+        expect(asKnots.unit, SpeedUnit.knot);
+        expect(asKnots.value, closeTo(19.4384, 1e-4));
+
+        final asFps = s.asFeetPerSecond;
+        expect(asFps.unit, SpeedUnit.footPerSecond);
+        expect(asFps.value, closeTo(32.8084, 1e-4));
+      });
+    });
+
     group('Practical Examples', () {
       test('Vehicle speed', () {
         final highwaySpeed = 120.kmh;

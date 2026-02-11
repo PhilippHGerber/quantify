@@ -182,5 +182,29 @@ void main() {
         expect(finalAngle, closeTo(180.0, tolerance));
       });
     });
+
+    group('Comprehensive Angle Extension Coverage', () {
+      test('All angle unit creation and value getters', () {
+        // degrees
+        final deg = 180.degrees;
+        expect(deg.inDegrees, closeTo(180.0, tolerance));
+        expect(deg.asDegrees.unit, AngleUnit.degree);
+
+        // arcminutes
+        final arcmin = 60.arcminutes;
+        expect(arcmin.inArcminutes, closeTo(60.0, tolerance));
+        expect(arcmin.asArcminutes.unit, AngleUnit.arcminute);
+
+        // arcseconds
+        final arcsec = 3600.arcseconds;
+        expect(arcsec.inArcseconds, closeTo(3600.0, tolerance));
+        expect(arcsec.asArcseconds.unit, AngleUnit.arcsecond);
+
+        // gradians
+        final grad = 200.gradians;
+        expect(grad.inGradians, closeTo(200.0, tolerance));
+        expect(grad.asGradians.unit, AngleUnit.gradian);
+      });
+    });
   });
 }

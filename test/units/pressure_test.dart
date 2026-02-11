@@ -3,6 +3,7 @@ import 'package:test/test.dart';
 
 void main() {
   const tolerance = 1e-9; // Tolerance for double comparisons
+  const highTolerance = 1e-6; // For conversions with rounding
 
   group('Pressure', () {
     // Helper for round trip tests
@@ -306,6 +307,75 @@ void main() {
         expect(scaled.value, closeTo(0.5, tolerance));
         expect(scaled.unit, PressureUnit.bar);
         expect(() => p1Bar / 0.0, throwsArgumentError);
+      });
+    });
+
+    group('Common Pressure Unit Extensions', () {
+      test('should create and convert PSI (pounds per square inch)', () {
+        // 1 psi = 6894.76 Pa
+        final pressure = 30.psi; // Typical car tire pressure
+        expect(pressure.value, 30.0);
+        expect(pressure.unit, PressureUnit.psi);
+        expect(pressure.inKiloPascals, closeTo(206.84, 0.01));
+        expect(pressure.inBar, closeTo(2.068, 0.001));
+
+        final pressureAsBar = pressure.asBar;
+        expect(pressureAsBar.value, closeTo(2.068, 0.001));
+        expect(pressureAsBar.unit, PressureUnit.bar);
+      });
+
+      test('should create and convert mmHg (millimeters of mercury)', () {
+        // 1 mmHg = 133.322 Pa, normal blood pressure ~120 mmHg
+        final pressure = 120.mmHg;
+        expect(pressure.value, 120.0);
+        expect(pressure.unit, PressureUnit.millimeterOfMercury);
+        expect(pressure.inKiloPascals, closeTo(15.999, 0.001));
+        expect(pressure.inPsi, closeTo(2.32, 0.01));
+
+        final pressureAsPa = pressure.asPa;
+        expect(pressureAsPa.value, closeTo(15998.64, 1.0));
+        expect(pressureAsPa.unit, PressureUnit.pascal);
+      });
+
+      test('should create and convert inHg (inches of mercury)', () {
+        // 1 inHg = 3386.39 Pa, typical barometric pressure ~30 inHg
+        final pressure = 29.92.inHg; // Standard atmospheric pressure
+        expect(pressure.value, closeTo(29.92, tolerance));
+        expect(pressure.unit, PressureUnit.inchOfMercury);
+        expect(pressure.inMbar, closeTo(1013.25, 0.1)); // Standard atmosphere
+        expect(pressure.inAtm, closeTo(1.0, 0.01));
+
+        final pressureAsMbar = pressure.asMbar;
+        expect(pressureAsMbar.value, closeTo(1013.25, 0.1));
+        expect(pressureAsMbar.unit, PressureUnit.millibar);
+      });
+
+      test('practical pressure unit conversions', () {
+        // Sea level pressure
+        final seaLevel = 1.atm;
+        expect(seaLevel.inBar, closeTo(1.01325, tolerance));
+        expect(seaLevel.inPsi, closeTo(14.6959, 0.001)); // 1 atm = 14.6959 psi
+        expect(seaLevel.inMmHg, closeTo(760.0, 0.001)); // 760 mmHg = 1 atm
+
+        // Scuba diving depth pressure (2 atm at 10m depth)
+        final divingPressure = 2.atm;
+        expect(divingPressure.inBar, closeTo(2.0265, tolerance));
+      });
+
+      test('round trip conversions for pressure units', () {
+        const testValue = 15.5;
+
+        final psiOrig = testValue.psi;
+        final psiRoundTrip = psiOrig.asKiloPascals.asPsi;
+        expect(psiRoundTrip.value, closeTo(testValue, highTolerance));
+
+        final mmHgOrig = testValue.mmHg;
+        final mmHgRoundTrip = mmHgOrig.asPa.asMmHg;
+        expect(mmHgRoundTrip.value, closeTo(testValue, highTolerance));
+
+        final inHgOrig = testValue.inHg;
+        final inHgRoundTrip = inHgOrig.asMbar.asInHg;
+        expect(inHgRoundTrip.value, closeTo(testValue, highTolerance));
       });
     });
   });
