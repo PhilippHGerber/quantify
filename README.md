@@ -1,8 +1,6 @@
 # quantify - Type-Safe Unit Conversion & Measurement for Dart & Flutter
 
-[![pub package](https://img.shields.io/pub/v/quantify.svg)](https://pub.dev/packages/quantify)
-
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/PhilippHGerber/quantify/blob/main/LICENSE)
+[![pub package](https://img.shields.io/pub/v/quantify.svg?label=pub.dev&labelColor=333940&logo=flutter&color=00589B)](https://pub.dev/packages/quantify) [![license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/PhilippHGerber/quantify/blob/main/LICENSE) [![style: very good analysis](https://img.shields.io/badge/Style-very_good_analysis-B22C89.svg)](https://pub.dev/packages/very_good_analysis) [![tests](https://github.com/PhilippHGerber/quantify/actions/workflows/package.yaml/badge.svg)](https://github.com/PhilippHGerber/quantify/actions/workflows/package.yaml) [![coverage](https://raw.githubusercontent.com/PhilippHGerber/quantify/badges/coverage.svg)](https://github.com/PhilippHGerber/quantify/actions/workflows/package.yaml)
 
 **quantify** is a modern, type-safe unit conversion and measurement library for Dart and Flutter. Convert between physical units with elegant syntax, zero runtime errors, and built-in physics constants — perfect for scientific apps, engineering tools, fitness trackers, and IoT dashboards.
 
@@ -40,7 +38,6 @@ Add to your `pubspec.yaml`:
 dependencies:
   quantify: ^0.13.0
 ```
-
 
 ## Why `quantify`?
 
