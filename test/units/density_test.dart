@@ -34,6 +34,20 @@ void main() {
       });
     });
 
+    group('convertTo', () {
+      test('convertTo same unit returns identical instance', () {
+        final d = 1000.kgPerM3;
+        expect(identical(d, d.convertTo(DensityUnit.kilogramPerCubicMeter)), isTrue);
+      });
+
+      test('convertTo different unit returns correct value and unit', () {
+        final d = 1000.kgPerM3;
+        final converted = d.convertTo(DensityUnit.gramPerCubicCentimeter);
+        expect(converted.unit, DensityUnit.gramPerCubicCentimeter);
+        expect(converted.value, closeTo(1.0, tolerance));
+      });
+    });
+
     group('Comparison', () {
       test('should correctly compare different units', () {
         final d1 = 1000.kgPerM3;
@@ -44,9 +58,38 @@ void main() {
     });
 
     group('Arithmetic', () {
-      test('should perform basic arithmetic', () {
+      test('operator + with same unit', () {
         final sum = 1.gPerCm3 + 1000.kgPerM3; // 1 + 1 (in g/cm³)
         expect(sum.inGramsPerCubicCentimeter, closeTo(2.0, tolerance));
+      });
+
+      test('operator - subtracts density (same unit)', () {
+        final diff = 2.gPerCm3 - 1.gPerCm3;
+        expect(diff.inGramsPerCubicCentimeter, closeTo(1.0, tolerance));
+        expect(diff.unit, DensityUnit.gramPerCubicCentimeter);
+      });
+
+      test('operator - subtracts density (mixed units, result in lhs unit)', () {
+        // 2000 kg/m³ − 1 g/cm³ = 2000 − 1000 = 1000 kg/m³
+        final diff = 2000.kgPerM3 - 1.gPerCm3;
+        expect(diff.inKilogramsPerCubicMeter, closeTo(1000.0, tolerance));
+        expect(diff.unit, DensityUnit.kilogramPerCubicMeter);
+      });
+
+      test('operator * scales density by a scalar', () {
+        final scaled = 500.kgPerM3 * 3.0;
+        expect(scaled.inKilogramsPerCubicMeter, closeTo(1500.0, tolerance));
+        expect(scaled.unit, DensityUnit.kilogramPerCubicMeter);
+      });
+
+      test('operator / scales density by a scalar', () {
+        final scaled = 4.gPerCm3 / 2.0;
+        expect(scaled.inGramsPerCubicCentimeter, closeTo(2.0, tolerance));
+        expect(scaled.unit, DensityUnit.gramPerCubicCentimeter);
+      });
+
+      test('operator / throws ArgumentError for zero divisor', () {
+        expect(() => 1000.kgPerM3 / 0.0, throwsArgumentError);
       });
     });
 

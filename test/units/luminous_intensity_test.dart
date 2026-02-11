@@ -50,6 +50,13 @@ void main() {
         const intensity = LuminousIntensity(15.0, LuminousIntensityUnit.candela);
         expect(intensity.getValue(LuminousIntensityUnit.candela), 15.0);
       });
+
+      test('kilocandelas num alias matches kcd', () {
+        final fromAlias = 2.0.kilocandelas;
+        final fromShort = 2.0.kcd;
+        expect(fromAlias.value, fromShort.value);
+        expect(fromAlias.unit, LuminousIntensityUnit.kilocandela);
+      });
     });
 
     group('Conversions between various luminous intensity units', () {
@@ -68,6 +75,13 @@ void main() {
       final oneMillicandela = 1.0.mcd;
       test('1 Millicandela to candelas', () {
         expect(oneMillicandela.inCandelas, closeTo(0.001, strictTolerance));
+      });
+
+      test('asKilocandelas returns correct object', () {
+        final li = 5000.0.cd;
+        final asKcd = li.asKilocandelas;
+        expect(asKcd.unit, LuminousIntensityUnit.kilocandela);
+        expect(asKcd.value, closeTo(5.0, strictTolerance));
       });
     });
 
@@ -177,6 +191,13 @@ void main() {
         for (final unit in LuminousIntensityUnit.values) {
           expect(liZeroCd.getValue(unit), 0.0, reason: '0 cd to ${unit.symbol} should be 0');
         }
+      });
+
+      test('Conversion with negative value', () {
+        // Not physically meaningful, but the arithmetic must hold.
+        final liNeg = (-500.0).mcd;
+        expect(liNeg.inCandelas, closeTo(-0.5, strictTolerance));
+        expect(liNeg.inKilocandelas, closeTo(-0.0005, strictTolerance));
       });
     });
 

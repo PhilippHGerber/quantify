@@ -361,6 +361,43 @@ void main() {
         expect(ka.inKiloamperes, closeTo(5.0, tolerance));
         expect(ka.asKiloamperes.unit, CurrentUnit.kiloampere);
       });
+
+      test('asNanoamperes returns correct object', () {
+        final c = 1.0.uA; // 1000 nA
+        final asNa = c.asNanoamperes;
+        expect(asNa.unit, CurrentUnit.nanoampere);
+        expect(asNa.value, closeTo(1000.0, tolerance));
+      });
+
+      test('amperes creation alias matches A', () {
+        final fromAlias = 3.0.amperes;
+        final fromSymbol = 3.0.A;
+        expect(fromAlias.unit, CurrentUnit.ampere);
+        expect(fromAlias.value, fromSymbol.value);
+      });
+
+      test('nanoamperes creation alias matches nA', () {
+        final fromAlias = 250.0.nanoamperes;
+        final fromSymbol = 250.0.nA;
+        expect(fromAlias.unit, CurrentUnit.nanoampere);
+        expect(fromAlias.value, fromSymbol.value);
+        expect(fromAlias.inMicroamperes, closeTo(0.25, tolerance));
+      });
+
+      test('statamperes creation alias matches statA', () {
+        final fromAlias = 1.0.statamperes;
+        final fromSymbol = 1.0.statA;
+        expect(fromAlias.unit, CurrentUnit.statampere);
+        expect(fromAlias.value, fromSymbol.value);
+      });
+
+      test('abamperes creation alias matches abA', () {
+        final fromAlias = 1.0.abamperes;
+        final fromSymbol = 1.0.abA;
+        expect(fromAlias.unit, CurrentUnit.abampere);
+        expect(fromAlias.value, fromSymbol.value);
+        expect(fromAlias.inAmperes, closeTo(10.0, tolerance));
+      });
     });
   });
 }

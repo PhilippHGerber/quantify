@@ -37,6 +37,20 @@ void main() {
       });
     });
 
+    group('convertTo', () {
+      test('convertTo same unit returns identical instance', () {
+        final se = 100.jPerKg;
+        expect(identical(se, se.convertTo(SpecificEnergyUnit.joulePerKilogram)), isTrue);
+      });
+
+      test('convertTo different unit returns correct value and unit', () {
+        final se = 3600.jPerKg;
+        final converted = se.convertTo(SpecificEnergyUnit.wattHourPerKilogram);
+        expect(converted.unit, SpecificEnergyUnit.wattHourPerKilogram);
+        expect(converted.value, closeTo(1.0, tolerance));
+      });
+    });
+
     group('Comparison', () {
       test('should correctly compare different units', () {
         final se1 = 3600.jPerKg;
@@ -47,9 +61,38 @@ void main() {
     });
 
     group('Arithmetic', () {
-      test('should perform basic arithmetic', () {
+      test('operator + with mixed units', () {
         final sum = 1.whPerKg + 3600.jPerKg; // 1 + 1 (in Wh/kg)
         expect(sum.inWattHoursPerKilogram, closeTo(2.0, tolerance));
+      });
+
+      test('operator - subtracts specific energy (same unit)', () {
+        final diff = 5.whPerKg - 2.whPerKg;
+        expect(diff.inWattHoursPerKilogram, closeTo(3.0, tolerance));
+        expect(diff.unit, SpecificEnergyUnit.wattHourPerKilogram);
+      });
+
+      test('operator - subtracts specific energy (mixed units, result in lhs unit)', () {
+        // 7200 J/kg − 1 Wh/kg (= 3600 J/kg) = 3600 J/kg
+        final diff = 7200.jPerKg - 1.whPerKg;
+        expect(diff.inJoulesPerKilogram, closeTo(3600.0, tolerance));
+        expect(diff.unit, SpecificEnergyUnit.joulePerKilogram);
+      });
+
+      test('operator * scales specific energy by a scalar', () {
+        final scaled = 10.whPerKg * 3.0;
+        expect(scaled.inWattHoursPerKilogram, closeTo(30.0, tolerance));
+        expect(scaled.unit, SpecificEnergyUnit.wattHourPerKilogram);
+      });
+
+      test('operator / scales specific energy by a scalar', () {
+        final scaled = 9.kJPerKg / 3.0;
+        expect(scaled.inKilojoulesPerKilogram, closeTo(3.0, tolerance));
+        expect(scaled.unit, SpecificEnergyUnit.kilojoulePerKilogram);
+      });
+
+      test('operator / throws ArgumentError for zero divisor', () {
+        expect(() => 100.jPerKg / 0.0, throwsArgumentError);
       });
     });
 

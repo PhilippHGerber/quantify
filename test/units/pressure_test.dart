@@ -310,6 +310,64 @@ void main() {
       });
     });
 
+    group('Untested Extension Getters', () {
+      test('inMegaPascals value getter', () {
+        final p = 2.0.megaPascals; // 2 MPa = 2,000,000 Pa
+        expect(p.inMegaPascals, closeTo(2.0, tolerance));
+        expect(p.inPa, closeTo(2000000.0, tolerance));
+        expect(1000000.0.pa.inMegaPascals, closeTo(1.0, tolerance));
+      });
+
+      test('asMegaPascals conversion getter', () {
+        final p = 2000000.0.pa;
+        final asMpa = p.asMegaPascals;
+        expect(asMpa.unit, PressureUnit.megapascal);
+        expect(asMpa.value, closeTo(2.0, tolerance));
+      });
+
+      test('megaPascals and mpa creation extensions', () {
+        final fromMegaPascals = 5.0.megaPascals;
+        final fromMpa = 5.0.mpa;
+        expect(fromMegaPascals.unit, PressureUnit.megapascal);
+        expect(fromMpa.unit, PressureUnit.megapascal);
+        expect(fromMegaPascals.value, fromMpa.value);
+        expect(fromMegaPascals.inPa, closeTo(5000000.0, tolerance));
+      });
+
+      test('kiloPascals creation extension (vs kPa alias)', () {
+        final fromKiloPascals = 100.0.kiloPascals;
+        final fromKPa = 100.0.kPa;
+        expect(fromKiloPascals.unit, PressureUnit.kilopascal);
+        expect(fromKPa.unit, PressureUnit.kilopascal);
+        expect(fromKiloPascals.value, fromKPa.value);
+      });
+
+      test('asTorr conversion getter', () {
+        final p = 760.0.torr;
+        final asTorr = p.asTorr;
+        expect(identical(p, asTorr), isTrue); // same unit → same instance
+        final pAtm = 1.0.atm;
+        expect(pAtm.asTorr.unit, PressureUnit.torr);
+        expect(pAtm.asTorr.value, closeTo(760.0, tolerance));
+      });
+
+      test('asHPa conversion getter', () {
+        final p = 1013.25.hPa;
+        final asHPa = p.asHPa;
+        expect(identical(p, asHPa), isTrue);
+        expect(1.0.atm.asHPa.unit, PressureUnit.hectopascal);
+        expect(1.0.atm.asHPa.value, closeTo(1013.25, tolerance));
+      });
+
+      test('asInH2O conversion getter', () {
+        final p = 10.0.inH2O;
+        final asInH2O = p.asInH2O;
+        expect(identical(p, asInH2O), isTrue);
+        expect(249.08891.pa.asInH2O.unit, PressureUnit.inchOfWater);
+        expect(249.08891.pa.asInH2O.value, closeTo(1.0, highTolerance));
+      });
+    });
+
     group('Common Pressure Unit Extensions', () {
       test('should create and convert PSI (pounds per square inch)', () {
         // 1 psi = 6894.76 Pa

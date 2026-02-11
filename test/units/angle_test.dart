@@ -81,6 +81,20 @@ void main() {
       });
     });
 
+    group('convertTo', () {
+      test('convertTo same unit returns identical instance', () {
+        final a = 90.0.degrees;
+        expect(identical(a, a.convertTo(AngleUnit.degree)), isTrue);
+      });
+
+      test('convertTo different unit returns correct value and unit', () {
+        final a = 1.0.revolutions;
+        final converted = a.convertTo(AngleUnit.degree);
+        expect(converted.unit, AngleUnit.degree);
+        expect(converted.value, closeTo(360.0, tolerance));
+      });
+    });
+
     group('Comparison (compareTo)', () {
       test('should correctly compare angles of different units', () {
         final a1 = 90.0.degrees;
@@ -204,6 +218,41 @@ void main() {
         final grad = 200.gradians;
         expect(grad.inGradians, closeTo(200.0, tolerance));
         expect(grad.asGradians.unit, AngleUnit.gradian);
+      });
+
+      test('asRadians returns correct object', () {
+        final a = 180.0.degrees;
+        final asRad = a.asRadians;
+        expect(asRad.unit, AngleUnit.radian);
+        expect(asRad.value, closeTo(math.pi, tolerance));
+      });
+
+      test('asRevolutions returns correct object', () {
+        final a = 360.0.degrees;
+        final asRev = a.asRevolutions;
+        expect(asRev.unit, AngleUnit.revolution);
+        expect(asRev.value, closeTo(1.0, tolerance));
+      });
+
+      test('asMilliradians returns correct object', () {
+        final a = 1.0.radians;
+        final asMrad = a.asMilliradians;
+        expect(asMrad.unit, AngleUnit.milliradian);
+        expect(asMrad.value, closeTo(1000.0, tolerance));
+      });
+
+      test('grad creation alias matches gradians', () {
+        final fromGrad = 200.0.grad;
+        final fromGradians = 200.0.gradians;
+        expect(fromGrad.unit, AngleUnit.gradian);
+        expect(fromGrad.value, fromGradians.value);
+      });
+
+      test('milliradians creation getter matches mrad alias', () {
+        final fromMilliradians = 500.0.milliradians;
+        final fromMrad = 500.0.mrad;
+        expect(fromMilliradians.unit, AngleUnit.milliradian);
+        expect(fromMilliradians.value, fromMrad.value);
       });
     });
   });
