@@ -1,4 +1,4 @@
-name: "quantify"
+name: "tests"
 
 permissions:
   contents: write
