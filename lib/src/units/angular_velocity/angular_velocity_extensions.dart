@@ -44,7 +44,7 @@ extension AngularVelocityCreation on num {
   /// Creates an [AngularVelocity] from this value in Revolutions per second (rps).
   AngularVelocity get rps => AngularVelocity(toDouble(), AngularVelocityUnit.revolutionPerSecond);
 
-  /// Alias for `rps`.
+  /// Creates an [AngularVelocity] from this value in Revolutions per second (rps). Alias for `rps`.
   AngularVelocity get revolutionsPerSecond =>
       AngularVelocity(toDouble(), AngularVelocityUnit.revolutionPerSecond);
 }

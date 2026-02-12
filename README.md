@@ -274,9 +274,6 @@ void main() {
 
   // This will cause a compile-time error because Mass extensions were not imported.
   // final weight = 70.kg; // ERROR: The getter 'kg' isn't defined for the type 'int'.
-
-  // You can still create the Mass object using its constructor:
-  final weight = Mass(70, MassUnit.kilogram); // This always works
 }
 ```
 

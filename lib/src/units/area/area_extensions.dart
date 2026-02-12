@@ -129,7 +129,6 @@ extension AreaCreation on num {
   Area get km2 => Area(toDouble(), AreaUnit.squareKilometer);
 
   /// Creates an [Area] instance representing this numerical value in Square Megameters (Mm²).
-  /// Alias for `squareMegameter`.
   Area get squareMegameter => Area(toDouble(), AreaUnit.squareMegameter);
 
   /// Creates an [Area] instance representing this numerical value in Square Inches (in²).

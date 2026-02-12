@@ -40,6 +40,24 @@ class Time extends Quantity<TimeUnit> {
   /// Compares this [Time] object to another [Quantity<TimeUnit>].
   ///
   /// Comparison is based on the physical magnitude of the durations.
+  /// For an accurate comparison, this time's value is converted to the unit
+  /// of the [other] time before their numerical values are compared.
+  ///
+  /// Returns:
+  /// - A negative integer if this duration is less than [other].
+  /// - Zero if this duration is equal in magnitude to [other].
+  /// - A positive integer if this duration is greater than [other].
+  ///
+  /// Example:
+  /// ```dart
+  /// final t1 = Time(1.0, TimeUnit.minute);   // 60 s
+  /// final t2 = Time(60.0, TimeUnit.second);  // 60 s
+  /// final t3 = Time(30.0, TimeUnit.second);
+  ///
+  /// print(t1.compareTo(t2)); // 0 (equal magnitude)
+  /// print(t1.compareTo(t3)); // 1 (t1 > t3)
+  /// print(t3.compareTo(t1)); // -1 (t3 < t1)
+  /// ```
   @override
   int compareTo(Quantity<TimeUnit> other) {
     final thisValueInOtherUnit = getValue(other.unit);

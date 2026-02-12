@@ -43,6 +43,9 @@ export 'src/units/force/force_extensions.dart';
 export 'src/units/force/force_unit.dart';
 // Exporting units and their extensions for frequency
 export 'src/units/frequency/frequency.dart';
+// FrequencyCreationRpm is hidden because its `.rpm` getter conflicts with
+// AngularVelocityCreation.rpm from angular_velocity_extensions.dart.
+// Use angular_velocity_extensions.dart for `.rpm` (returns AngularVelocity).
 export 'src/units/frequency/frequency_extensions.dart' hide FrequencyCreationRpm;
 export 'src/units/frequency/frequency_interop.dart';
 export 'src/units/frequency/frequency_unit.dart';

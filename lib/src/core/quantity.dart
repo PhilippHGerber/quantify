@@ -290,15 +290,27 @@ abstract class Quantity<T extends Unit<T>> implements Comparable<Quantity<T>> {
   bool isEquivalentTo(Quantity<T> other) => compareTo(other) == 0;
 
   /// Checks if this quantity's magnitude is greater than another's.
+  ///
+  /// Returns `true` if [compareTo]\([other]) > 0. Cross-unit comparisons are
+  /// handled correctly; see [compareTo] for conversion semantics.
   bool operator >(Quantity<T> other) => compareTo(other) > 0;
 
   /// Checks if this quantity's magnitude is less than another's.
+  ///
+  /// Returns `true` if [compareTo]\([other]) < 0. Cross-unit comparisons are
+  /// handled correctly; see [compareTo] for conversion semantics.
   bool operator <(Quantity<T> other) => compareTo(other) < 0;
 
   /// Checks if this quantity's magnitude is greater than or equal to another's.
+  ///
+  /// Returns `true` if [compareTo]\([other]) >= 0. Cross-unit comparisons are
+  /// handled correctly; see [compareTo] for conversion semantics.
   bool operator >=(Quantity<T> other) => compareTo(other) >= 0;
 
   /// Checks if this quantity's magnitude is less than or equal to another's.
+  ///
+  /// Returns `true` if [compareTo]\([other]) <= 0. Cross-unit comparisons are
+  /// handled correctly; see [compareTo] for conversion semantics.
   bool operator <=(Quantity<T> other) => compareTo(other) <= 0;
 
   /// Returns a hash code for this `Quantity` instance.
