@@ -4,8 +4,6 @@
 /// and calculations.
 library;
 
-import 'quantify.dart' show SpecificEnergy;
-
 export 'src/units/specific_energy/specific_energy.dart';
 export 'src/units/specific_energy/specific_energy_extensions.dart';
 export 'src/units/specific_energy/specific_energy_factors.dart';
