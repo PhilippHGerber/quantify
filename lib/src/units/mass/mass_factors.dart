@@ -1,18 +1,8 @@
 // ignore_for_file: prefer_int_literals // All constants are doubles for precision in calculations.
 
-import '../../../quantify.dart' show Unit;
-import '../../core/unit.dart' show Unit;
 
 /// Defines base conversion factors for various mass units relative to the Kilogram (kg),
 /// which is the SI base unit for mass.
-///
-/// These constants are based on international standards and exact definitions where available
-/// (e.g., the international avoirdupois pound).
-///
-/// The structure `X_per_Y` means "how many X are in one Y".
-/// However, for consistency with how factors are used (1 [Unit] = X BaseUnit),
-/// these constants represent: `1 [Unit] = Z [Kilograms]`.
-/// So, `kilogramsPerGram` means `1 gram = kilogramsPerGram kilograms`.
 class MassFactors {
   // --- SI Units (relative to Kilogram) ---
 
