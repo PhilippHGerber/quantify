@@ -2,7 +2,7 @@
 
 [![platform](https://img.shields.io/badge/platform-flutter%20%7C%20dart-35B8F7.svg)](https://pub.dev/packages/quantify) [![pub package](https://img.shields.io/pub/v/quantify.svg?label=pub.dev&labelColor=333940&logo=flutter&color=00589B)](https://pub.dev/packages/quantify) [![pub points](https://img.shields.io/pub/points/quantify?logo=dart)](https://pub.dev/packages/quantify/score) [![license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/PhilippHGerber/quantify/blob/main/LICENSE) [![style: very good analysis](https://img.shields.io/badge/Style-very_good_analysis-B22C89.svg)](https://pub.dev/packages/very_good_analysis) [![tests](https://github.com/PhilippHGerber/quantify/actions/workflows/package.yaml/badge.svg)](https://github.com/PhilippHGerber/quantify/actions/workflows/package.yaml) [![coverage](https://raw.githubusercontent.com/PhilippHGerber/quantify/badges/coverage.svg)](https://github.com/PhilippHGerber/quantify/actions/workflows/package.yaml)
 
-**Quantify** is a comprehensive, type-safe unit conversion library for Dart and Flutter applications. Convert length, mass, temperature, speed, force, energy, and 20+ other physical quantities with compile-time safety, elegant syntax, and optimal performance. Perfect for scientific computing, engineering applications, fitness tracking, IoT projects, and any cross-platform app that works with measurements.
+**Quantify** is a comprehensive, type-safe unit conversion library. Convert length, mass, temperature, speed, force, energy, and 20+ other physical quantities with compile-time safety, elegant syntax, and optimal performance. Perfect for scientific computing, engineering applications, fitness tracking, IoT projects, and any cross-platform app that works with measurements.
 
 ## Why `quantify`?
 
@@ -61,9 +61,9 @@ void main() {
 
 Add to your `pubspec.yaml`:
 
-```yaml
-dependencies:
-  quantify: ^0.14.0 # Use the latest version
+```sh
+dart pub add quantify
+dart pub get
 ```
 
 ## Supported Units
