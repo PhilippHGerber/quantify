@@ -4,7 +4,7 @@ description: >
   Convert between units of length, mass, temperature, speed, volume, energy,
   force, pressure, and 20+ physical quantities with compile-time safety,
   extension syntax, and rich physical constants.
-version: 0.14.1
+version: 0.14.2
 homepage: https://github.com/PhilippHGerber/quantify
 repository: https://github.com/PhilippHGerber/quantify
 issue_tracker: https://github.com/PhilippHGerber/quantify/issues
