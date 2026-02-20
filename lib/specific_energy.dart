@@ -1,4 +1,4 @@
-/// Exports the [SpecificEnergy] quantity, its units, and convenience extensions.
+/// Exports the 'SpecificEnergy' quantity, its units, and convenience extensions.
 ///
 /// This library provides all necessary components to work with specific energy conversions
 /// and calculations.

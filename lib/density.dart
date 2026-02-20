@@ -1,4 +1,4 @@
-/// Exports the [Density] quantity, its units, and convenience extensions.
+/// Exports the 'Density' quantity, its units, and convenience extensions.
 ///
 /// This library provides all necessary components to work with density conversions
 /// and calculations.

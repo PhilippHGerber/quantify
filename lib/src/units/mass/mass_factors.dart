@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_int_literals // All constants are doubles for precision in calculations.
 
-
 /// Defines base conversion factors for various mass units relative to the Kilogram (kg),
 /// which is the SI base unit for mass.
 class MassFactors {
