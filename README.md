@@ -48,7 +48,7 @@ void main() {
   ));  // Output: "4374 yd" (approx., with non-breaking space)
 
   // Locale-specific example (if 'intl' is used)
-  // final distanceDE = 1234.567.m;
+  final distanceDE = 1234.567.m;
   print(distanceDE.toString(
     targetUnit: LengthUnit.kilometer,
     fractionDigits: 2,
