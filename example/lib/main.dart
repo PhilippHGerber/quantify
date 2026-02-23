@@ -51,18 +51,12 @@ void main() {
 
   final boilingPoint = 100.celsius;
   final freezingPoint = 0.celsius;
-  final tempDifference = boilingPoint - freezingPoint; // Returns a double
-  print('Difference between boiling and freezing point of water: $tempDifference C°');
+  final tempDifference = boilingPoint - freezingPoint; // Returns a TemperatureDelta
+  print('Difference between boiling and freezing point of water: $tempDifference');
 
-  // Caution with temperature division (consider physical meaning)
-  try {
-    final tempRatio = 200.kelvin / 100.kelvin; // Meaningful
-    print('Ratio 200K / 100K: $tempRatio');
-    // final problematicRatio = 20.celsius / 10.celsius; // Mathematically 2.0, but often not directly interpretable physically
-    // print('Ratio 20°C / 10°C: $problematicRatio');
-  } on Exception catch (e) {
-    print('Error during temperature division: $e');
-  }
+  // Temperature ratios via ratioTo (always in Kelvin for physical meaning)
+  final tempRatio = 200.kelvin.ratioTo(100.kelvin);
+  print('Ratio 200K / 100K: $tempRatio');
 
   // 5. Pressures
   print('\n--- Pressure ---');
