@@ -70,29 +70,30 @@ dart pub get
 
 The library supports a comprehensive range of physical quantities, including all 7 SI base units and many derived units - ideal for scientific computing, engineering calculations, and any Flutter or Dart application requiring precise unit conversions:
 
-| Quantity Type           | Status | Units Available                                                                                                                        | Notes / SI Base Unit Ref. |
-| ----------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
-| **Length**              | ✅     | **`m`** (meter), `km`, `hm`, `dam`, `dm`, `cm`, `mm`, `μm`, `nm`, `pm`, `fm`, `in`, `ft`, `yd`, `mi`, `nmi`, `AU`, `ly`, `pc`, `Å`     | SI Base: Meter (m)        |
-| **Mass**                | ✅     | **`kg`** (kilogram), `hg`, `dag`, `g`, `dg`, `cg`, `mg`, `μg`, `ng`, `t`, `lb`, `oz`, `st`, `slug`, `short ton`, `long ton`, `u`, `ct` | SI Base: Kilogram (kg)    |
-| **Time**                | ✅     | **`s`** (second), `μs`, `ns`, `ps`, `ms`, `min`, `h`, `d`, `wk`, `mo`, `yr`                                                            | SI Base: Second (s)       |
-| **Electric Current**    | ✅     | **`A`** (ampere), `mA`, `μA`, `nA`, `kA`                                                                                               | SI Base: Ampere (A)       |
-| **Temperature**         | ✅     | **`K`** (kelvin), `°C` (celsius), `°F` (fahrenheit), `°R` (rankine)                                                                    | SI Base: Kelvin (K)       |
-| **Amount of Substance** | ✅     | **`mol`** (mole), `mmol`, `μmol`, `nmol`, `pmol`, `kmol`                                                                               | SI Base: Mole (mol)       |
-| **Luminous Intensity**  | ✅     | **`cd`** (candela), `mcd`, `kcd`                                                                                                       | SI Base: Candela (cd)     |
-| *Derived*               |        |                                                                                                                                        |                           |
-| **Angle**               | ✅     | **`rad`** (radian), `°` (degree), `grad`, `rev`, `arcmin` ('), `arcsec` ("), `mrad`                                                    | Derived SI: dimensionless |
-| **Angular Velocity**    | ✅     | **`rad/s`**, `°/s`, `rpm`, `rps`                                                                                                       | Derived SI: 1/s           |
-| **Speed / Velocity**    | ✅     | **`m/s`** (meter per second), `km/h`, `mph`, `kn` (knot), `ft/s`                                                                       | Derived SI                |
-| **Acceleration**        | ✅     | **`m/s²`**, `g` (standard gravity), `km/h/s`, `cm/s²` (Galileo)                                                                        | Derived SI                |
-| **Force**               | ✅     | **`N`** (Newton), `lbf`, `dyn`, `kgf`, `kN`, `gf`, `pdl`                                                                               | Derived SI: kg·m/s²       |
-| **Pressure**            | ✅     | **`Pa`** (Pascal), `atm`, `bar`, `psi`, `Torr`, `mmHg`, `inHg`, `kPa`, `hPa`, `mbar`, `cmH₂O`, `inH₂O`                                 | Derived SI: N/m²          |
-| **Area**                | ✅     | **`m²`**, `Mm²`, `km²`, `hm²`, `dam²`, `dm²`, `cm²`, `mm²`, `µm²`, `ha`, `mi²`, `acre`, `yd²`, `ft²`, `in²`                            | Derived SI                |
-| **Volume**              | ✅     | **`m³`**, **`L`**, `mL`, `gal`, `fl-oz`, `ft³`, `in³`, `qt`, `pt`, `tbsp`, `tsp`...                                                    | Derived SI: L (Liter)     |
-| **Frequency**           | ✅     | **`Hz`**, `kHz`, `MHz`, `GHz`, `THz`, `rpm`, `bpm`                                                                                     | Derived SI: 1/s           |
-| **Electric Charge**     | ✅     | **`C`**, `mC`, `µC`, `nC`, `Ah`, `e`, `mAh`, `statC`, `abC`                                                                            | Derived SI: A·s           |
-| **Solid Angle**         | ✅     | **`sr`**, `deg²` (Square Degree), `sp` (Spat)                                                                                          | Derived SI: dimensionless |
-| **Energy / Work**       | ✅     | **`J`** (Joule), `kJ`, `MJ`, `kWh`, `cal`, `kcal`, `eV`, `Btu`                                                                         | Derived SI: N·m           |
-| **Power**               | ✅     | **`W`** (Watt), `mW`, `kW`, `MW`, `GW`, `hp`, `PS` (metric hp), `Btu/h`, `erg/s`                                                       | Derived SI: J/s           |
+| Quantity Type           | Status | Units Available                                                                                                                        | Notes / SI Base Unit Ref.                               |
+| ----------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| **Length**              | ✅     | **`m`** (meter), `km`, `hm`, `dam`, `dm`, `cm`, `mm`, `μm`, `nm`, `pm`, `fm`, `in`, `ft`, `yd`, `mi`, `nmi`, `AU`, `ly`, `pc`, `Å`     | SI Base: Meter (m)                                      |
+| **Mass**                | ✅     | **`kg`** (kilogram), `hg`, `dag`, `g`, `dg`, `cg`, `mg`, `μg`, `ng`, `t`, `lb`, `oz`, `st`, `slug`, `short ton`, `long ton`, `u`, `ct` | SI Base: Kilogram (kg)                                  |
+| **Time**                | ✅     | **`s`** (second), `μs`, `ns`, `ps`, `ms`, `min`, `h`, `d`, `wk`, `mo`, `yr`                                                            | SI Base: Second (s)                                     |
+| **Electric Current**    | ✅     | **`A`** (ampere), `mA`, `μA`, `nA`, `kA`                                                                                               | SI Base: Ampere (A)                                     |
+| **Temperature**         | ✅     | **`K`** (kelvin), `°C` (celsius), `°F` (fahrenheit), `°R` (rankine)                                                                    | SI Base: Kelvin (K). Affine conversions.                |
+| **TemperatureDelta**    | ✅     | **`K`** (kelvinDelta), `°C` (celsiusDelta), `°F` (fahrenheitDelta), `°R` (rankineDelta)                                                | Linear. Represents a temperature *change*, not a point. |
+| **Amount of Substance** | ✅     | **`mol`** (mole), `mmol`, `μmol`, `nmol`, `pmol`, `kmol`                                                                               | SI Base: Mole (mol)                                     |
+| **Luminous Intensity**  | ✅     | **`cd`** (candela), `mcd`, `kcd`                                                                                                       | SI Base: Candela (cd)                                   |
+| *Derived*               |        |                                                                                                                                        |                                                         |
+| **Angle**               | ✅     | **`rad`** (radian), `°` (degree), `grad`, `rev`, `arcmin` ('), `arcsec` ("), `mrad`                                                    | Derived SI: dimensionless                               |
+| **Angular Velocity**    | ✅     | **`rad/s`**, `°/s`, `rpm`, `rps`                                                                                                       | Derived SI: 1/s                                         |
+| **Speed / Velocity**    | ✅     | **`m/s`** (meter per second), `km/h`, `mph`, `kn` (knot), `ft/s`                                                                       | Derived SI                                              |
+| **Acceleration**        | ✅     | **`m/s²`**, `g` (standard gravity), `km/h/s`, `cm/s²` (Galileo)                                                                        | Derived SI                                              |
+| **Force**               | ✅     | **`N`** (Newton), `lbf`, `dyn`, `kgf`, `kN`, `gf`, `pdl`                                                                               | Derived SI: kg·m/s²                                     |
+| **Pressure**            | ✅     | **`Pa`** (Pascal), `atm`, `bar`, `psi`, `Torr`, `mmHg`, `inHg`, `kPa`, `hPa`, `mbar`, `cmH₂O`, `inH₂O`                                 | Derived SI: N/m²                                        |
+| **Area**                | ✅     | **`m²`**, `Mm²`, `km²`, `hm²`, `dam²`, `dm²`, `cm²`, `mm²`, `µm²`, `ha`, `mi²`, `acre`, `yd²`, `ft²`, `in²`                            | Derived SI                                              |
+| **Volume**              | ✅     | **`m³`**, **`L`**, `mL`, `gal`, `fl-oz`, `ft³`, `in³`, `qt`, `pt`, `tbsp`, `tsp`...                                                    | Derived SI: L (Liter)                                   |
+| **Frequency**           | ✅     | **`Hz`**, `kHz`, `MHz`, `GHz`, `THz`, `rpm`, `bpm`                                                                                     | Derived SI: 1/s                                         |
+| **Electric Charge**     | ✅     | **`C`**, `mC`, `µC`, `nC`, `Ah`, `e`, `mAh`, `statC`, `abC`                                                                            | Derived SI: A·s                                         |
+| **Solid Angle**         | ✅     | **`sr`**, `deg²` (Square Degree), `sp` (Spat)                                                                                          | Derived SI: dimensionless                               |
+| **Energy / Work**       | ✅     | **`J`** (Joule), `kJ`, `MJ`, `kWh`, `cal`, `kcal`, `eV`, `Btu`                                                                         | Derived SI: N·m                                         |
+| **Power**               | ✅     | **`W`** (Watt), `mW`, `kW`, `MW`, `GW`, `hp`, `PS` (metric hp), `Btu/h`, `erg/s`                                                       | Derived SI: J/s                                         |
 
 ## Detailed Usage
 
@@ -183,7 +184,7 @@ print(smallLength.toString(targetUnit: LengthUnit.micrometer, fractionDigits: 0)
 
 ### Arithmetic Operations
 
-Standard arithmetic operators (`+`, `-`, `*`, `/` by a scalar) are overloaded. The result's unit is typically that of the left-hand operand. `Temperature` has specific arithmetic rules.
+Standard arithmetic operators (`+`, `-`, `*`, `/` by a scalar) are overloaded. The result's unit is typically that of the left-hand operand.
 
 ```dart
 final segment1 = 500.m;
@@ -199,6 +200,49 @@ final bigMass = 5.t; // tonnes
 final smallMass = 250.g; // grams
 final combined = bigMass + smallMass; // Result: 5.00025 t
 ```
+
+### Temperature & TemperatureDelta
+
+`Temperature` is an **affine** quantity—absolute temperatures are points on a scale, not linear vectors. This means you cannot add two temperatures (20 °C + 20 °C is not 40 °C), and ratios between Celsius or Fahrenheit values are physically meaningless.
+
+`TemperatureDelta` is the companion **linear** quantity representing a temperature **change**. It behaves like every other quantity: factor-based conversion with no offsets, and full arithmetic support.
+
+```dart
+// 1. Creating temperature deltas
+final rise   = 20.celsiusDelta;    // A change of 20 °C (equivalent to 20 K)
+final drop   = 18.fahrenheitDelta; // A change of 18 °F (equivalent to 10 K)
+final step   = 5.kelvinDelta;
+
+// 2. Point − Point = Vector (Temperature subtraction yields a Delta)
+final t1 = 10.celsius;
+final t2 = 30.celsius;
+final delta = t2 - t1;              // Result is a TemperatureDelta object
+print(delta.inCelsiusDelta);        // 20.0
+print(delta.inFahrenheitDelta);     // 36.0 (Handles the 1.8x scaling automatically!)
+
+// 3. Point + Vector = Point (Heating an object)
+final heated = t1 + 20.celsiusDelta; // Temperature(30.0, celsius)
+
+// 4. Point − Vector = Point (Cooling via named method)
+final cooled = t2.subtract(5.kelvinDelta); // Temperature(25.0, celsius)
+
+// 5. Vector Arithmetic & Scaling
+final doubled = delta * 2.0;        // TemperatureDelta(40.0, celsiusDelta)
+final combined = rise + drop;       // 20 + 10 = 30 celsiusDelta
+
+// 6. Thermodynamic Ratios (Always calculated in Kelvin for physical validity)
+final efficiency = 1.0 - 300.kelvin.ratioTo(600.kelvin); // Carnot: 0.5
+
+// 7. Engineering constants now require TemperatureDelta (Prevents logic bugs)
+final expansion = EngineeringConstants.thermalExpansion(
+  10.0.m,
+  11.7e-6,
+  20.celsiusDelta, // Correctly treated as 20 K
+);
+```
+
+> [!IMPORTANT]
+> **Why a separate type?** Without `TemperatureDelta`, a 20°C *change* passed to a formula would be incorrectly converted to $293.15\,\text{K}$ (by adding the Celsius offset). This makes the result **~14× too large**. The type system now makes this common scientific mistake impossible at compile time.
 
 ### Comparisons & Sorting: Magnitude vs. Strict Equality
 

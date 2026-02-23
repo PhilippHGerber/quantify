@@ -5,11 +5,51 @@ All notable changes to the `quantify` package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.15.0]
 
 2026-02-23
 
-* fix: Removed duplicated sentence in Quantity.getValue() API documentation.
+### Added
+
+* **New Quantity: `TemperatureDelta`** — a dedicated type for temperature *changes* (intervals), distinct from absolute `Temperature` points.
+  * `TemperatureDeltaUnit` enum with four linear units: `kelvinDelta`, `celsiusDelta`, `fahrenheitDelta`, `rankineDelta`.
+  * Factors: `kelvinDelta` = `celsiusDelta` = 1.0 K; `fahrenheitDelta` = `rankineDelta` = 5/9 K.
+  * Full arithmetic: `TemperatureDelta + TemperatureDelta`, `- TemperatureDelta`, `* scalar`, `/ scalar`.
+  * Convenience extensions on `num`: `20.celsiusDelta`, `18.fahrenheitDelta`, `10.kelvinDelta`, `9.rankineDelta`.
+  * Value getters on `TemperatureDelta`: `inKelvinDelta`, `inCelsiusDelta`, `inFahrenheitDelta`, `inRankineDelta` and `as*` conversion variants.
+  * Interop extension `TemperatureDeltaTemperatureInterop` providing `delta.addTo(temperature)` for the commutative form of heating.
+  * Available via `package:quantify/quantify.dart` or the new granular `package:quantify/temperature_delta.dart`.
+
+* **`Temperature.asDelta` getter** — converts an absolute temperature to a `TemperatureDelta` relative to absolute zero (always in `kelvinDelta`). Useful for formulas that require a Kelvin scalar magnitude, such as the ideal gas law or Boltzmann energy calculations.
+
+* **`Temperature.ratioTo(Temperature other)`** — replaces `operator /` for temperature ratios. Always converts both operands to Kelvin before dividing, ensuring thermodynamic validity regardless of the input scale (e.g. `300.celsius.ratioTo(200.celsius)` gives `573.15 / 473.15`, not `3/2`). Throws `ArgumentError` if the divisor is absolute zero.
+
+* **`Temperature.operator +(TemperatureDelta delta)`** — adds a delta to an absolute temperature, returning a new `Temperature` in the same unit. Models heating.
+
+* **`Temperature.subtract(TemperatureDelta delta)`** — subtracts a delta from an absolute temperature, returning a new `Temperature`. Named method (not an operator) because `operator -` is reserved for `Temperature - Temperature`. Equivalent to `temp + (delta * -1.0)`.
+
+### Changed — Breaking
+
+* **`Temperature.operator -(Temperature other)` now returns `TemperatureDelta`** (previously returned `double`). The result's unit mirrors the LHS unit (e.g. subtracting two Celsius temperatures yields a `celsiusDelta`).
+
+  **Migration:** replace `double diff = t2 - t1;` with `double diff = (t2 - t1).inKelvinDelta;` (or `.inCelsiusDelta`, etc.).
+
+* **`Temperature.operator /` removed.** Use `temperature.ratioTo(other)` instead. The new method always uses Kelvin, making the ratio physically meaningful for all input scales.
+
+  **Migration:** replace `t2 / t1` with `t2.ratioTo(t1)`.
+
+* **`EngineeringConstants.thermalExpansion` now accepts `TemperatureDelta`** instead of `Temperature`. The previous signature would apply the Kelvin affine offset to what should be a plain delta, producing results up to ~14× too large for typical Celsius inputs.
+
+  **Migration:** replace `20.celsius` with `20.celsiusDelta`, or pass the result of `t2 - t1` directly (it is now a `TemperatureDelta`).
+
+* **`EngineeringConstants.conductiveHeatTransfer` now accepts `TemperatureDelta`** instead of `Temperature`, for the same reason.
+
+  **Migration:** replace `const Temperature(10, TemperatureUnit.kelvin)` with `10.kelvinDelta`.
+
+### Fixed
+
+* `thermalExpansion` and `conductiveHeatTransfer` no longer misinterpret a temperature difference as an absolute temperature, eliminating a silent calculation error where `20.celsius` was internally treated as 293.15 K.
+
 
 ## [0.14.2]
 
