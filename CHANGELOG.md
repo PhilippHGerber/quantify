@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-2026-mm-dd
+2026-02-23
+
+* fix: Removed duplicated sentence in Quantity.getValue() API documentation.
 
 ## [0.14.2]
 
@@ -16,7 +18,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 * fix: correct markdown formatting
-
 
 ## [0.14.1]
 

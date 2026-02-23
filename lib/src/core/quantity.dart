@@ -67,14 +67,11 @@ abstract class Quantity<T extends Unit<T>> implements Comparable<Quantity<T>> {
   ///
   /// This method must be implemented by concrete subclasses.
   ///
-  /// For most quantities (e.g., `Length`, `Pressure`), this involves a direct
-  /// multiplication by a conversion factor:
-  /// `convertedValue = this.value * this.unit.factorTo(targetUnit)`.
-  ///
-  /// For quantities with affine conversions (like `Temperature` with Celsius or
-  /// Fahrenheit), subclasses must implement specific conversion formulas that
-  /// account for offsets (e.g., `(value * 9/5) + 32` for Celsius to Fahrenheit).
-  ///
+  /// For most quantities, this involves a direct multiplication by a conversion
+  /// factor obtained from `this.unit.factorTo(targetUnit)`. Subclasses like
+  /// Temperature override this to implement specific conversion formulas
+  /// (e.g., for affine transformations).
+  /// 
   /// - [targetUnit]: The desired unit to which the current quantity's value
   ///   should be converted.
   ///
