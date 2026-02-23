@@ -379,7 +379,7 @@ void main() {
         0.5,
         1.m2,
         0.1.m,
-        const Temperature(10, TemperatureUnit.kelvin),
+        10.kelvinDelta,
       );
       expect(heatRate, isA<Power>());
       expect(heatRate.inWatts, closeTo(50.0, tolerance)); // 0.5 * 1 * 10 / 0.1 = 50.0
@@ -409,7 +409,7 @@ void main() {
       final deltaLength = EngineeringConstants.thermalExpansion(
         10.0.m, // original length
         11.7e-6, // expansion coefficient of steel (1/K)
-        const Temperature(100, TemperatureUnit.kelvin), // temperature change
+        100.kelvinDelta, // temperature change
       );
       expect(deltaLength, isA<Length>());
       // ΔL = L₀αΔT = 10 * 11.7e-6 * 100 = 0.0117 m = 11.7 mm

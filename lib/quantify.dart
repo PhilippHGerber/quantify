@@ -87,6 +87,10 @@ export 'src/units/speed/speed_extensions.dart';
 export 'src/units/speed/speed_unit.dart';
 // Exporting units and their extensions for temperature
 export 'src/units/temperature/temperature.dart';
+export 'src/units/temperature/temperature_delta.dart';
+export 'src/units/temperature/temperature_delta_extensions.dart';
+export 'src/units/temperature/temperature_delta_interop.dart';
+export 'src/units/temperature/temperature_delta_unit.dart';
 export 'src/units/temperature/temperature_extensions.dart';
 export 'src/units/temperature/temperature_unit.dart';
 // Exporting units and their extensions for time

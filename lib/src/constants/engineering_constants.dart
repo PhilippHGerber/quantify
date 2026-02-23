@@ -234,15 +234,26 @@ class EngineeringConstants {
   /// Calculates the thermal expansion of a material.
   ///
   /// Returns the change in length as a [Length] quantity.
-  /// Usage: `final deltaL = EngineeringConstants.thermalExpansion(originalLength, expansionCoeff, tempChange);`
+  ///
+  /// The [temperatureChange] parameter requires a [TemperatureDelta], not an
+  /// absolute [Temperature]. Using an absolute temperature here would introduce
+  /// the Kelvin offset (e.g. 20 °C → 293.15 K), producing a result ~14× too
+  /// large. A [TemperatureDelta] of `20.celsiusDelta` correctly represents a
+  /// 20 K change.
+  ///
+  /// Usage:
+  /// ```dart
+  /// final deltaL = EngineeringConstants.thermalExpansion(
+  ///   length, coeff, 20.celsiusDelta,
+  /// );
+  /// ```
   static Length thermalExpansion(
     Length originalLength,
     double expansionCoefficient,
-    Temperature temperatureChange,
+    TemperatureDelta temperatureChange,
   ) {
     final l0 = originalLength.inM;
-    // Temperature difference is valid regardless of the unit scale, but value must be absolute diff
-    final deltaT = temperatureChange.getValue(TemperatureUnit.kelvin);
+    final deltaT = temperatureChange.getValue(TemperatureDeltaUnit.kelvinDelta);
     final deltaL = l0 * expansionCoefficient * deltaT; // ΔL = L₀αΔT
     return Length(deltaL, LengthUnit.meter);
   }
@@ -250,16 +261,27 @@ class EngineeringConstants {
   /// Calculates the heat transfer rate by conduction through a material.
   ///
   /// Returns the heat transfer rate as a [Power] quantity (in Watts).
-  /// Usage: `final q = EngineeringConstants.conductiveHeatTransfer(k, area, thickness, tempDiff);`
+  ///
+  /// The Fourier heat equation q = kA(ΔT/Δx) requires a temperature
+  /// *difference*, not an absolute temperature. The [temperatureDifference]
+  /// parameter is a [TemperatureDelta] to enforce this distinction and prevent
+  /// the affine-offset bug that would occur with an absolute [Temperature].
+  ///
+  /// Usage:
+  /// ```dart
+  /// final q = EngineeringConstants.conductiveHeatTransfer(
+  ///   k, area, thickness, 10.kelvinDelta,
+  /// );
+  /// ```
   static Power conductiveHeatTransfer(
     double thermalConductivity, // W/(m⋅K)
     Area area,
     Length thickness,
-    Temperature temperatureDifference,
+    TemperatureDelta temperatureDifference,
   ) {
     final A = area.inSquareMeters;
     final dx = thickness.inM;
-    final deltaT = temperatureDifference.getValue(TemperatureUnit.kelvin);
+    final deltaT = temperatureDifference.getValue(TemperatureDeltaUnit.kelvinDelta);
     final heatRateW = thermalConductivity * A * deltaT / dx; // q = kA(ΔT/Δx)
     return Power(heatRateW, PowerUnit.watt);
   }

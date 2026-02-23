@@ -199,74 +199,52 @@ void main() {
       final t50F = 50.0.fahrenheit; // 10 °C
       final t283K = 283.15.kelvin; // 10 °C
 
-      // Operator - (Temperature) -> double (difference)
-      test('operator - calculates temperature difference as double', () {
+      // Operator - (Temperature) -> TemperatureDelta (difference)
+      test('operator - calculates temperature difference as TemperatureDelta', () {
         final diffC = t20C - t10C; // 20°C - 10°C = 10 C°
-        expect(diffC, closeTo(10.0, tolerance));
+        expect(diffC, isA<TemperatureDelta>());
+        expect(diffC.unit, TemperatureDeltaUnit.celsiusDelta);
+        expect(diffC.value, closeTo(10.0, tolerance));
 
         final diffCFromF = t20C - t50F; // 20°C - 10°C = 10 C°
-        expect(diffCFromF, closeTo(10.0, tolerance));
+        expect(diffCFromF.value, closeTo(10.0, tolerance));
 
-        // Corrected from previous state where 'diffF_direct' was not used:
-        // Original operation: t50F - t20C.convertTo(TemperatureUnit.fahrenheit)
-        // This is 50°F - (20°C as °F which is 68°F) = -18 F°
+        // 50°F - (20°C as °F which is 68°F) = -18 F°
         final temp20CAsFahrenheit = t20C.convertTo(TemperatureUnit.fahrenheit);
         final diffF = t50F - temp20CAsFahrenheit;
+        expect(diffF.unit, TemperatureDeltaUnit.fahrenheitDelta);
         expect(
-          diffF,
+          diffF.value,
           closeTo(-18.0, tolerance),
           reason: '50F - 20C (as F) should be -18 F difference',
         );
 
-        final diffkOperation = t283K - t20C; // 283.15K (10°C) - 20°C (converted to K)
+        final diffK = t283K - t20C; // 283.15K (10°C) - 20°C (converted to K)
         // 283.15K - (20 + 273.15)K = 283.15K - 293.15K = -10.0
-        expect(diffkOperation, closeTo(-10.0, tolerance));
-
-        // This was the variable causing the warning. Let's ensure it's used.
-        // It will hold the same value as diffK_operation in this case.
-        final diffkVariable = t283K - t20C;
-        expect(
-          diffkVariable,
-          closeTo(-10.0, tolerance),
-          reason: 'Variable diffK should hold -10.0',
-        );
+        expect(diffK.unit, TemperatureDeltaUnit.kelvinDelta);
+        expect(diffK.value, closeTo(-10.0, tolerance));
 
         final zeroDiff = t10C - t50F; // 10C - 10C (50F)
-        expect(zeroDiff, closeTo(0.0, tolerance));
+        expect(zeroDiff.value, closeTo(0.0, tolerance));
       });
 
-      // Operator / (Temperature) -> double (ratio)
-      test('operator / divides temperature by another, returning double ratio', () {
-        // Note: Ratios of Celsius or Fahrenheit are generally not physically meaningful.
-        // Kelvin should be used for meaningful ratios. Test calculates as per implementation.
-
+      // ratioTo replaces operator /
+      test('ratioTo computes Kelvin-based ratio', () {
         final t200K = 200.0.kelvin;
         final t100K = 100.0.kelvin;
-        final ratioK = t200K / t100K;
-        expect(ratioK, closeTo(2.0, tolerance));
+        expect(t200K.ratioTo(t100K), closeTo(2.0, tolerance));
 
-        final t10CVal = 10.0.celsius; // Not 283.15K
-        final t20CVal = 20.0.celsius; // Not 293.15K
-        // Ratio based on C values: 20/10 = 2.0. If converted to K first, result would be different.
-        // The implementation converts the 'other' to 'this.unit'
-        final ratioC = t20CVal / t10CVal;
-        expect(ratioC, closeTo(2.0, tolerance));
-
-        // 20 C / 50 F => 20 C / 10 C (as 50F is 10C)
-        final ratioCF = t20CVal / 50.0.fahrenheit;
-        expect(ratioCF, closeTo(2.0, tolerance));
+        // Celsius inputs are converted to Kelvin before dividing
+        final t10CVal = 10.0.celsius; // 283.15K
+        final t20CVal = 20.0.celsius; // 293.15K
+        final ratioC = t20CVal.ratioTo(t10CVal);
+        expect(ratioC, closeTo(293.15 / 283.15, tolerance));
 
         expect(
-          () => t20C / 0.0.celsius,
+          () => t20C.ratioTo(0.0.kelvin),
           throwsArgumentError,
-          reason: 'Should throw on division by zero magnitude if dividend is non-zero',
+          reason: 'Should throw on ratio to absolute zero',
         );
-        expect(0.0.celsius / 0.0.celsius, isNaN, reason: '0.0/0.0 should be NaN');
-        expect(0.0.kelvin / 0.0.kelvin, isNaN);
-
-        final tZeroKelvin = 0.0.kelvin;
-        final tNonZeroKelvin = 10.0.kelvin;
-        expect(() => tNonZeroKelvin / tZeroKelvin, throwsArgumentError);
       });
 
       test('operator + is not defined for Temperature + Temperature', () {
@@ -299,10 +277,15 @@ void main() {
         // ignore: avoid_dynamic_calls : Using dynamic to simulate a missing operator
         expect(() => tempA * 2.0, throwsA(anyOf(isA<NoSuchMethodError>(), isA<TypeError>())));
       });
-      test('operator / (scalar) is not defined for Temperature', () {
+      test('operator / is not defined for Temperature', () {
         final dynamic tempA = 10.celsius;
         // ignore: avoid_dynamic_calls : Using dynamic to simulate a missing operator
         expect(() => tempA / 2.0, throwsA(anyOf(isA<NoSuchMethodError>(), isA<TypeError>())));
+        expect(
+          // ignore: avoid_dynamic_calls : Using dynamic to simulate a missing operator
+          () => tempA / 10.celsius,
+          throwsA(anyOf(isA<NoSuchMethodError>(), isA<TypeError>())),
+        );
       });
     });
   });
@@ -408,12 +391,12 @@ void main() {
       final temp2R = 200.0.rankine;
       final diffR = temp2R - temp1R; // 100 degree difference
 
-      final temp1F = temp1R.inFahrenheit;
-      final temp2F = temp2R.inFahrenheit;
+      final temp1F = temp1R.asFahrenheit;
+      final temp2F = temp2R.asFahrenheit;
       final diffF = temp2F - temp1F;
 
-      expect(diffR, closeTo(diffF, tolerance));
-      expect(diffR, closeTo(100.0, tolerance));
+      expect(diffR.value, closeTo(diffF.inRankineDelta, tolerance));
+      expect(diffR.value, closeTo(100.0, tolerance));
     });
 
     test('kelvin to rankine conversion factor', () {
@@ -463,44 +446,47 @@ void main() {
       final temp2 = 600.0.rankine;
 
       final difference = temp2 - temp1;
-      expect(difference, closeTo(100.0, tolerance));
+      expect(difference, isA<TemperatureDelta>());
+      expect(difference.unit, TemperatureDeltaUnit.rankineDelta);
+      expect(difference.value, closeTo(100.0, tolerance));
 
       // Same difference in other units
       final temp1F = temp1.asFahrenheit;
       final temp2F = temp2.asFahrenheit;
       final differenceF = temp2F - temp1F;
-      expect(differenceF, closeTo(100.0, tolerance));
+      expect(differenceF.unit, TemperatureDeltaUnit.fahrenheitDelta);
+      expect(differenceF.value, closeTo(100.0, tolerance));
     });
 
-    test('temperature ratios on absolute scales', () {
+    test('temperature ratios on absolute scales via ratioTo', () {
       final temp1 = 200.0.rankine;
       final temp2 = 400.0.rankine;
 
-      final ratio = temp2 / temp1;
+      final ratio = temp2.ratioTo(temp1);
       expect(ratio, closeTo(2.0, tolerance));
 
       // Same ratio in Kelvin
       final temp1K = temp1.asKelvin;
       final temp2K = temp2.asKelvin;
-      final ratioK = temp2K / temp1K;
+      final ratioK = temp2K.ratioTo(temp1K);
       expect(ratioK, closeTo(2.0, tolerance));
     });
   });
 
   group('Engineering Applications', () {
-    test('thermodynamic cycle calculations', () {
+    test('thermodynamic cycle calculations via ratioTo', () {
       // Simple heat engine with Rankine cycle
       final hotReservoir = 1000.0.rankine; // High temperature
       final coldReservoir = 500.0.rankine; // Low temperature
 
       // Carnot efficiency = 1 - T_cold/T_hot (absolute temperatures)
-      final carnotEfficiency = 1.0 - (coldReservoir / hotReservoir);
+      final carnotEfficiency = 1.0 - coldReservoir.ratioTo(hotReservoir);
       expect(carnotEfficiency, closeTo(0.5, tolerance)); // 50% efficiency
 
       // Same calculation in Kelvin should give same result
       final hotK = hotReservoir.asKelvin;
       final coldK = coldReservoir.asKelvin;
-      final carnotEfficiencyK = 1.0 - (coldK / hotK);
+      final carnotEfficiencyK = 1.0 - coldK.ratioTo(hotK);
       expect(carnotEfficiencyK, closeTo(carnotEfficiency, tolerance));
     });
 
@@ -514,9 +500,8 @@ void main() {
       expect(roomTempR, greaterThan(0.0));
       expect(roomTempK, greaterThan(0.0));
 
-      // Ratio should be the conversion factor
-      final tempRatio = roomTempR / roomTempK;
-      expect(tempRatio, closeTo(1.8, tolerance)); // 9/5
+      // Ratio should be the conversion factor (Rankine/Kelvin = 9/5)
+      expect(roomTempR / roomTempK, closeTo(1.8, tolerance));
     });
   });
 

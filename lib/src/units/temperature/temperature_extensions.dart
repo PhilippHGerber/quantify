@@ -1,4 +1,6 @@
 import 'temperature.dart';
+import 'temperature_delta.dart';
+import 'temperature_delta_unit.dart';
 import 'temperature_unit.dart';
 
 /// Provides convenient access to [Temperature] values in specific units.
@@ -26,6 +28,27 @@ extension TemperatureValueGetters on Temperature {
 
   /// Returns a Temperature representing this temperature in Rankine (°R).
   Temperature get asRankine => convertTo(TemperatureUnit.rankine);
+
+  /// Converts this absolute temperature into a [TemperatureDelta] relative to
+  /// absolute zero.
+  ///
+  /// The returned delta is always in [TemperatureDeltaUnit.kelvinDelta],
+  /// regardless of this temperature's original unit. This is useful when a
+  /// Kelvin-magnitude scalar is required, such as in the ideal gas law
+  /// (PV = nRT) or Boltzmann energy calculations.
+  ///
+  /// Example:
+  /// ```dart
+  /// final temp = 300.kelvin;
+  /// print(temp.asDelta.inKelvinDelta); // 300.0
+  ///
+  /// final tempC = 100.celsius;
+  /// print(tempC.asDelta.inKelvinDelta); // 373.15
+  /// ```
+  TemperatureDelta get asDelta => TemperatureDelta(
+        getValue(TemperatureUnit.kelvin),
+        TemperatureDeltaUnit.kelvinDelta,
+      );
 }
 
 /// Provides convenient factory methods for creating [Temperature] instances from [num].

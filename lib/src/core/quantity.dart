@@ -71,7 +71,7 @@ abstract class Quantity<T extends Unit<T>> implements Comparable<Quantity<T>> {
   /// factor obtained from `this.unit.factorTo(targetUnit)`. Subclasses like
   /// Temperature override this to implement specific conversion formulas
   /// (e.g., for affine transformations).
-  /// 
+  ///
   /// - [targetUnit]: The desired unit to which the current quantity's value
   ///   should be converted.
   ///

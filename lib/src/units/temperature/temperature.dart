@@ -3,6 +3,8 @@
 import 'package:meta/meta.dart';
 
 import '../../core/quantity.dart';
+import 'temperature_delta.dart';
+import 'temperature_delta_unit.dart';
 import 'temperature_unit.dart';
 
 /// Represents a quantity of temperature.
@@ -134,49 +136,102 @@ class Temperature extends Quantity<TemperatureUnit> {
 
   // --- Arithmetic Operators (Specific for Temperature) ---
 
-  /// Subtracts another temperature from this temperature, yielding a temperature difference.
-  /// The [other] temperature is converted to the unit of this temperature before subtraction.
-  /// Returns a [double] representing the difference in the unit of this temperature.
-  /// For example, `20.celsius - 10.celsius` yields `10.0` (a difference of 10 Celsius degrees).
-  double operator -(Temperature other) {
+  /// Subtracts another [Temperature] from this, yielding a [TemperatureDelta].
+  ///
+  /// The result is expressed in the delta unit corresponding to this
+  /// temperature's unit (e.g. celsius → celsiusDelta). The [other] temperature
+  /// is converted to this temperature's unit before subtraction.
+  ///
+  /// Example:
+  /// ```dart
+  /// final delta = 30.celsius - 10.celsius;
+  /// print(delta.inKelvinDelta); // 20.0
+  /// print(delta.unit);          // TemperatureDeltaUnit.celsiusDelta
+  /// ```
+  TemperatureDelta operator -(Temperature other) {
     final otherValueInThisUnit = other.getValue(unit);
-    return value - otherValueInThisUnit;
+    final deltaValue = value - otherValueInThisUnit;
+    return TemperatureDelta(deltaValue, _correspondingDeltaUnit(unit));
+  }
+
+  /// Adds a [TemperatureDelta] to this temperature, returning a new
+  /// [Temperature] in the same unit.
+  ///
+  /// Models heating (positive delta) or cooling (negative delta).
+  ///
+  /// Example:
+  /// ```dart
+  /// final heated = 10.celsius + 20.celsiusDelta;
+  /// print(heated.inCelsius); // 30.0
+  /// ```
+  Temperature operator +(TemperatureDelta delta) {
+    final deltaInThisUnit = delta.getValue(_correspondingDeltaUnit(unit));
+    return Temperature(value + deltaInThisUnit, unit);
+  }
+
+  /// Subtracts a [TemperatureDelta] from this temperature, returning a new
+  /// [Temperature] in the same unit. Models cooling.
+  ///
+  /// This is a named method because `operator -` is already defined for
+  /// `Temperature - Temperature` → `TemperatureDelta`. To cool by a delta,
+  /// use this method or `temp + (-amount).celsiusDelta`.
+  ///
+  /// Example:
+  /// ```dart
+  /// final cooled = 30.celsius.subtract(20.celsiusDelta);
+  /// print(cooled.inCelsius); // 10.0
+  /// ```
+  Temperature subtract(TemperatureDelta delta) {
+    final deltaInThisUnit = delta.getValue(_correspondingDeltaUnit(unit));
+    return Temperature(value - deltaInThisUnit, unit);
   }
 
   // Operator + (Temperature other) is intentionally not implemented as adding
   // absolute temperatures (e.g., 20°C + 10°C) is not physically meaningful.
-  // Use the `operator -` to find a temperature difference.
 
   // Operator * (double scalar) is intentionally not implemented as scaling
-  // absolute temperatures is generally not meaningful, except in specific
-  // thermodynamic contexts where absolute scales (Kelvin/Rankine) are used.
-  // For such cases, it is safer for the user to extract the value and perform the calculation explicitly.
+  // absolute temperatures is generally not meaningful.
 
   // Operator / (double scalar) is intentionally not implemented as it's
   // generally not physically meaningful for absolute temperatures.
 
-  /// Divides this temperature by another temperature.
-  /// The [other] temperature is converted to the unit of this temperature before division.
-  /// Returns a scalar [double] representing the ratio.
-  /// Note: This operation is only meaningful in specific thermodynamic contexts (e.g., Carnot efficiency)
-  /// and should be used with caution. Both temperatures should ideally be on an absolute scale (Kelvin or Rankine)
-  /// for physical meaning, though the calculation will be performed based on converted values.
-  /// Throws [ArgumentError] if the effective value of [other] in this unit is zero.
-  double operator /(Temperature other) {
-    // For ratio calculations, it's often more meaningful if both are converted to Kelvin first,
-    // but to keep consistent with other quantity divisions, we convert to `this.unit`.
-    final otherValueInThisUnit = other.getValue(unit);
-    if (otherValueInThisUnit == 0 && value != 0) {
-      // Avoid 0/0 resulting in NaN without error
-      // A zero temperature on a non-Kelvin scale might not be absolute zero.
-      // However, division by zero magnitude is the primary concern.
-      throw ArgumentError('Cannot divide by a zero temperature if the dividend is non-zero.');
+  /// Computes the thermodynamically valid ratio of this temperature to [other].
+  ///
+  /// Both temperatures are converted to Kelvin before dividing, ensuring the
+  /// result is meaningful regardless of the input scale. This replaces the
+  /// former `operator /`, which was removed because ratios on non-absolute
+  /// scales (e.g. 20 °C / 10 °C) are physically meaningless.
+  ///
+  /// Throws [ArgumentError] if [other] is absolute zero (0 K).
+  ///
+  /// Example:
+  /// ```dart
+  /// // Carnot efficiency: η = 1 − T_cold / T_hot
+  /// final efficiency = 1.0 - coldReservoir.ratioTo(hotReservoir);
+  /// ```
+  double ratioTo(Temperature other) {
+    final thisK = getValue(TemperatureUnit.kelvin);
+    final otherK = other.getValue(TemperatureUnit.kelvin);
+    if (otherK == 0.0) {
+      throw ArgumentError(
+        'Cannot compute ratio: the divisor temperature is absolute zero (0 K).',
+      );
     }
-    // Handle 0.0 / 0.0 case, which results in NaN. Could throw or return as is.
-    // Standard double division handles 0.0/0.0 as NaN.
-    if (value == 0 && otherValueInThisUnit == 0) {
-      return double.nan; // Or throw, depending on desired strictness for 0/0
+    return thisK / otherK;
+  }
+
+  /// Maps an absolute [TemperatureUnit] to its corresponding
+  /// [TemperatureDeltaUnit].
+  static TemperatureDeltaUnit _correspondingDeltaUnit(TemperatureUnit absUnit) {
+    switch (absUnit) {
+      case TemperatureUnit.kelvin:
+        return TemperatureDeltaUnit.kelvinDelta;
+      case TemperatureUnit.celsius:
+        return TemperatureDeltaUnit.celsiusDelta;
+      case TemperatureUnit.fahrenheit:
+        return TemperatureDeltaUnit.fahrenheitDelta;
+      case TemperatureUnit.rankine:
+        return TemperatureDeltaUnit.rankineDelta;
     }
-    return value / otherValueInThisUnit;
   }
 }
