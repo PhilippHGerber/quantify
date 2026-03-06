@@ -10,7 +10,10 @@ repository: https://github.com/PhilippHGerber/quantify
 issue_tracker: https://github.com/PhilippHGerber/quantify/issues
 
 environment:
-  sdk: ">=3.5.0 <4.0.0"
+  sdk: ^3.6.0
+
+workspace:
+  - example
 
 dependencies:
   intl: ">=0.18.1 <0.21.0"
