@@ -380,7 +380,9 @@ void main() {
 
       test('with fractionDigits', () {
         expect(
-          10.0.celsiusDelta.toString(fractionDigits: 2),
+          10.0.celsiusDelta.toString(
+                format: const QuantityFormat(fractionDigits: 2),
+              ),
           '10.00\u00A0°C',
         );
       });

@@ -691,43 +691,46 @@ void main() {
       });
     });
 
-    group('toString() with Locale and NumberFormat', () {
+    group('toString() with QuantityFormat', () {
       test('should use explicit NumberFormat when provided', () {
         final customFormat = NumberFormat('#,##0.00', 'en_US');
         const length = Length(1234.5, LengthUnit.meter);
-        final result = length.toString(numberFormat: customFormat);
+        final result = length.toString(
+          format: QuantityFormat.withNumberFormat(customFormat),
+        );
         expect(result, contains('1,234.50'));
         expect(result, contains('m'));
       });
 
       test('should format with locale and fixed fractionDigits (German)', () {
         const length = Length(1234.567, LengthUnit.meter);
-        final result = length.toString(locale: 'de_DE', fractionDigits: 2);
-        // German locale uses comma for decimal separator and dot for thousands
-        expect(result, contains(',57')); // Should have ,57 or ,56 (rounded)
+        final result = length.toString(
+          format: const QuantityFormat.forLocale('de_DE', fractionDigits: 2),
+        );
+        expect(result, contains(',57'));
         expect(result, contains('m'));
       });
 
       test('should format with locale and fixed fractionDigits (US)', () {
         const length = Length(1234.567, LengthUnit.meter);
-        final result = length.toString(locale: 'en_US', fractionDigits: 2);
-        // US locale uses dot for decimal separator and comma for thousands
-        expect(result, contains('.57')); // Should have .57 or .56 (rounded)
+        final result = length.toString(
+          format: const QuantityFormat(locale: 'en_US', fractionDigits: 2),
+        );
+        expect(result, contains('.57'));
         expect(result, contains('1,234'));
         expect(result, contains('m'));
       });
 
       test('should format with locale-aware default pattern (US)', () {
         const length = Length(1234.5, LengthUnit.meter);
-        final result = length.toString(locale: 'en_US');
+        final result = length.toString(format: QuantityFormat.enUs);
         expect(result, contains('1,234'));
         expect(result, contains('m'));
       });
 
       test('should format with locale-aware default pattern (German)', () {
         const length = Length(1234.5, LengthUnit.meter);
-        final result = length.toString(locale: 'de_DE');
-        // German uses dot for thousands separator
+        final result = length.toString(format: QuantityFormat.de);
         expect(result, contains('234'));
         expect(result, contains('m'));
       });
@@ -736,30 +739,41 @@ void main() {
         const length = Length(1.5, LengthUnit.kilometer);
         final result = length.toString(
           targetUnit: LengthUnit.meter,
-          locale: 'en_US',
-          fractionDigits: 1,
+          format: const QuantityFormat(locale: 'en_US', fractionDigits: 1),
         );
         expect(result, contains('1,500.0'));
         expect(result, contains('m'));
       });
 
-      test('numberFormat should take precedence over locale and fractionDigits', () {
+      test('should use numberFormat over locale in QuantityFormat', () {
         final customFormat = NumberFormat.decimalPattern('fr_FR');
         const length = Length(1234.567, LengthUnit.meter);
         final result = length.toString(
-          numberFormat: customFormat,
-          locale: 'en_US', // This should be ignored
-          fractionDigits: 5, // This should be ignored
+          format: QuantityFormat.withNumberFormat(customFormat),
         );
-        // French format should be applied, not US format
         expect(result, contains('234'));
         expect(result, contains('m'));
       });
 
       test('should handle fractionDigits without locale', () {
         const length = Length(1234.5678, LengthUnit.meter);
-        final result = length.toString(fractionDigits: 2);
-        expect(result, contains('1234.57')); // No thousands separator, dot decimal
+        final result = length.toString(
+          format: const QuantityFormat(fractionDigits: 2),
+        );
+        expect(result, contains('1234.57'));
+        expect(result, contains('m'));
+      });
+
+      test('should omit unit symbol with valueOnly', () {
+        const length = Length(10.0, LengthUnit.meter);
+        final result = length.toString(format: QuantityFormat.valueOnly);
+        expect(result, equals('10.0'));
+      });
+
+      test('invariant format uses Dart-native formatting', () {
+        const length = Length(1234.5, LengthUnit.meter);
+        final result = length.toString();
+        expect(result, contains('1234.5'));
         expect(result, contains('m'));
       });
     });

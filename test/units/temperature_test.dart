@@ -551,12 +551,18 @@ void main() {
       final tempR = 600.0.rankine;
       // Check the Fahrenheit conversion first
       expect(
-        tempR.toString(targetUnit: TemperatureUnit.fahrenheit, fractionDigits: 1),
+        tempR.toString(
+          targetUnit: TemperatureUnit.fahrenheit,
+          format: const QuantityFormat(fractionDigits: 1),
+        ),
         '140.3\u00A0°F', // Use non-breaking space
       );
       // Now check the Celsius conversion with the correct rounded value
       expect(
-        tempR.toString(targetUnit: TemperatureUnit.celsius, fractionDigits: 2),
+        tempR.toString(
+          targetUnit: TemperatureUnit.celsius,
+          format: const QuantityFormat(fractionDigits: 2),
+        ),
         '60.18\u00A0°C', // Corrected value and non-breaking space
       );
     });
