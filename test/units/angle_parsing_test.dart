@@ -165,8 +165,8 @@ void main() {
         );
 
         // Direct quote-symbol units remain supported.
-        expect(Angle.parse('30\'').unit, AngleUnit.arcminute);
-        expect(Angle.parse('30\'').value, 30.0);
+        expect(Angle.parse("30'").unit, AngleUnit.arcminute);
+        expect(Angle.parse("30'").value, 30.0);
         expect(Angle.parse('15"').unit, AngleUnit.arcsecond);
         expect(Angle.parse('15"').value, 15.0);
       });

@@ -343,7 +343,6 @@ void main() {
       });
     });
 
-
     group('Multi-format fallback', () {
       test('tries formats in order', () {
         // "1.234,56 m" fails with invariant (double.tryParse rejects commas),

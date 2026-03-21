@@ -130,14 +130,12 @@ class Information extends Quantity<InformationUnit> {
   /// Adds this information quantity to another.
   ///
   /// [other] is converted to the unit of this quantity before addition.
-  Information operator +(Information other) =>
-      Information(value + other.getValue(unit), unit);
+  Information operator +(Information other) => Information(value + other.getValue(unit), unit);
 
   /// Subtracts another information quantity from this one.
   ///
   /// [other] is converted to the unit of this quantity before subtraction.
-  Information operator -(Information other) =>
-      Information(value - other.getValue(unit), unit);
+  Information operator -(Information other) => Information(value - other.getValue(unit), unit);
 
   /// Multiplies this information quantity by a dimensionless scalar.
   Information operator *(double scalar) => Information(value * scalar, unit);

@@ -127,82 +127,82 @@ void main() {
     const value = 1.5;
 
     test('bit round-trip', () {
-      expect(Information(value, InformationUnit.bit).inBit, closeTo(value, tolerance));
+      expect(const Information(value, InformationUnit.bit).inBit, closeTo(value, tolerance));
     });
 
     test('byte round-trip', () {
       expect(
-        Information(value, InformationUnit.byte).convertTo(InformationUnit.bit).inByte,
+        const Information(value, InformationUnit.byte).convertTo(InformationUnit.bit).inByte,
         closeTo(value, tolerance),
       );
     });
 
     test('kB round-trip', () {
       expect(
-        Information(value, InformationUnit.kilobyte).convertTo(InformationUnit.bit).inKB,
+        const Information(value, InformationUnit.kilobyte).convertTo(InformationUnit.bit).inKB,
         closeTo(value, tolerance),
       );
     });
 
     test('MB round-trip', () {
       expect(
-        Information(value, InformationUnit.megabyte).convertTo(InformationUnit.bit).inMB,
+        const Information(value, InformationUnit.megabyte).convertTo(InformationUnit.bit).inMB,
         closeTo(value, tolerance),
       );
     });
 
     test('GB round-trip', () {
       expect(
-        Information(value, InformationUnit.gigabyte).convertTo(InformationUnit.bit).inGB,
+        const Information(value, InformationUnit.gigabyte).convertTo(InformationUnit.bit).inGB,
         closeTo(value, tolerance),
       );
     });
 
     test('TB round-trip', () {
       expect(
-        Information(value, InformationUnit.terabyte).convertTo(InformationUnit.bit).inTB,
+        const Information(value, InformationUnit.terabyte).convertTo(InformationUnit.bit).inTB,
         closeTo(value, tolerance),
       );
     });
 
     test('PB round-trip', () {
       expect(
-        Information(value, InformationUnit.petabyte).convertTo(InformationUnit.bit).inPB,
+        const Information(value, InformationUnit.petabyte).convertTo(InformationUnit.bit).inPB,
         closeTo(value, tolerance),
       );
     });
 
     test('KiB round-trip', () {
       expect(
-        Information(value, InformationUnit.kibibyte).convertTo(InformationUnit.bit).inKiB,
+        const Information(value, InformationUnit.kibibyte).convertTo(InformationUnit.bit).inKiB,
         closeTo(value, tolerance),
       );
     });
 
     test('MiB round-trip', () {
       expect(
-        Information(value, InformationUnit.mebibyte).convertTo(InformationUnit.bit).inMiB,
+        const Information(value, InformationUnit.mebibyte).convertTo(InformationUnit.bit).inMiB,
         closeTo(value, tolerance),
       );
     });
 
     test('GiB round-trip', () {
       expect(
-        Information(value, InformationUnit.gibibyte).convertTo(InformationUnit.bit).inGiB,
+        const Information(value, InformationUnit.gibibyte).convertTo(InformationUnit.bit).inGiB,
         closeTo(value, tolerance),
       );
     });
 
     test('TiB round-trip', () {
       expect(
-        Information(value, InformationUnit.tebibyte).convertTo(InformationUnit.bit).inTiB,
+        const Information(value, InformationUnit.tebibyte).convertTo(InformationUnit.bit).inTiB,
         closeTo(value, tolerance),
       );
     });
 
     test('PiB round-trip', () {
       expect(
-        Information(value, InformationUnit.pebibyte).convertTo(InformationUnit.bit).inPiB,
+        const Information(value, InformationUnit.pebibyte).convertTo(InformationUnit.bit).inPiB,
         closeTo(value, tolerance),
       );
     });
@@ -274,8 +274,10 @@ void main() {
 
   group('Information — Equality', () {
     test('same value and unit are equal', () {
-      expect(const Information(1.5, InformationUnit.gigabyte),
-          equals(const Information(1.5, InformationUnit.gigabyte)));
+      expect(
+        const Information(1.5, InformationUnit.gigabyte),
+        equals(const Information(1.5, InformationUnit.gigabyte)),
+      );
     });
 
     test('different units are not equal even if physically same', () {
@@ -440,7 +442,7 @@ void main() {
     });
 
     test('asGiB returns Information in gibibytes', () {
-      final result = (1024.0).MiB.asGiB;
+      final result = 1024.0.MiB.asGiB;
       expect(result.unit, InformationUnit.gibibyte);
       expect(result.value, closeTo(1.0, 1e-9));
     });
