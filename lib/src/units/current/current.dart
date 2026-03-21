@@ -1,6 +1,8 @@
 import 'package:meta/meta.dart';
 
 import '../../core/quantity.dart';
+import '../../core/quantity_format.dart';
+import '../../core/quantity_parser.dart';
 import 'current_unit.dart';
 
 /// Represents a quantity of electric current.
@@ -21,6 +23,38 @@ class Current extends Quantity<CurrentUnit> {
   /// final sensorOutput = Current(20.0, CurrentUnit.milliampere);
   /// ```
   const Current(super._value, super._unit);
+
+  /// The parser instance used to convert strings into [Current] objects.
+  ///
+  /// The parser supports both strict symbol aliases and case-insensitive name
+  /// aliases configured in [CurrentUnit].
+  static final QuantityParser<CurrentUnit, Current> parser = QuantityParser<CurrentUnit, Current>(
+    symbolAliases: CurrentUnit.symbolAliases,
+    nameAliases: CurrentUnit.nameAliases,
+    factory: Current.new,
+  );
+
+  /// Parses a string representation of electric current into a [Current]
+  /// object.
+  ///
+  /// The [formats] list controls how the numeric portion is interpreted.
+  static Current parse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) {
+    return parser.parse(input, formats: formats);
+  }
+
+  /// Parses a string representation of electric current into a [Current]
+  /// object, returning `null` when parsing fails.
+  ///
+  /// See [parse] for formatting and matching behavior.
+  static Current? tryParse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) {
+    return parser.tryParse(input, formats: formats);
+  }
 
   /// Converts this electric current's value to the specified [targetUnit].
   ///

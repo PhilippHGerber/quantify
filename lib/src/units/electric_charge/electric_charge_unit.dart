@@ -34,6 +34,9 @@ enum ElectricChargeUnit implements Unit<ElectricChargeUnit> {
   /// Statcoulomb (statC) or Franklin (Fr), the CGS-ESU unit of charge.
   statcoulomb(ElectricChargeFactors.coulombsPerStatcoulomb, 'statC'),
 
+  /// Statcoulomb (statC) or Franklin (Fr), the CGS-ESU unit of charge.
+  franklin(ElectricChargeFactors.coulombsPerStatcoulomb, 'Fr'),
+
   /// Abcoulomb (abC), the CGS-EMU unit of charge.
   abcoulomb(ElectricChargeFactors.coulombsPerAbcoulomb, 'abC');
 
@@ -69,6 +72,76 @@ enum ElectricChargeUnit implements Unit<ElectricChargeUnit> {
   final double _factorToStatcoulomb;
   final double _factorToAbcoulomb;
 
+  /// SI and unit symbols matched **strictly case-sensitive**.
+  ///
+  /// Used by `ElectricCharge.parser`.
+  @internal
+  static const Map<String, ElectricChargeUnit> symbolAliases = {
+    // coulomb
+    'C': ElectricChargeUnit.coulomb,
+    // millicoulomb
+    'mC': ElectricChargeUnit.millicoulomb,
+    // microcoulomb
+    'µC': ElectricChargeUnit.microcoulomb,
+    'uC': ElectricChargeUnit.microcoulomb,
+    // nanocoulomb
+    'nC': ElectricChargeUnit.nanocoulomb,
+    // elementary charge
+    'e': ElectricChargeUnit.elementaryCharge,
+    // ampere-hour
+    'Ah': ElectricChargeUnit.ampereHour,
+    // milliampere-hour
+    'mAh': ElectricChargeUnit.milliampereHour,
+    // statcoulomb
+    'statC': ElectricChargeUnit.statcoulomb,
+    'Fr': ElectricChargeUnit.franklin,
+    // abcoulomb
+    'abC': ElectricChargeUnit.abcoulomb,
+  };
+
+  /// Full word-form names matched **case-insensitively**.
+  ///
+  /// Used by `ElectricCharge.parser`.
+  @internal
+  static const Map<String, ElectricChargeUnit> nameAliases = {
+    // coulomb
+    'coulomb': ElectricChargeUnit.coulomb,
+    'coulombs': ElectricChargeUnit.coulomb,
+    // millicoulomb
+    'millicoulomb': ElectricChargeUnit.millicoulomb,
+    'millicoulombs': ElectricChargeUnit.millicoulomb,
+    // microcoulomb
+    'microcoulomb': ElectricChargeUnit.microcoulomb,
+    'microcoulombs': ElectricChargeUnit.microcoulomb,
+    // nanocoulomb
+    'nanocoulomb': ElectricChargeUnit.nanocoulomb,
+    'nanocoulombs': ElectricChargeUnit.nanocoulomb,
+    // elementary charge
+    'elementary charge': ElectricChargeUnit.elementaryCharge,
+    // ampere-hour
+    'ampere-hour': ElectricChargeUnit.ampereHour,
+    'ampere-hours': ElectricChargeUnit.ampereHour,
+    'ampere hour': ElectricChargeUnit.ampereHour,
+    'ampere hours': ElectricChargeUnit.ampereHour,
+    'ah': ElectricChargeUnit.ampereHour,
+    // milliampere-hour
+    'milliampere-hour': ElectricChargeUnit.milliampereHour,
+    'milliampere-hours': ElectricChargeUnit.milliampereHour,
+    'milliampere hour': ElectricChargeUnit.milliampereHour,
+    'milliampere hours': ElectricChargeUnit.milliampereHour,
+    'mah': ElectricChargeUnit.milliampereHour,
+    // statcoulomb
+    'statcoulomb': ElectricChargeUnit.statcoulomb,
+    'statcoulombs': ElectricChargeUnit.statcoulomb,
+    'franklin': ElectricChargeUnit.statcoulomb,
+    'statc': ElectricChargeUnit.statcoulomb,
+    'fr': ElectricChargeUnit.statcoulomb,
+    // abcoulomb
+    'abcoulomb': ElectricChargeUnit.abcoulomb,
+    'abcoulombs': ElectricChargeUnit.abcoulomb,
+    'abc': ElectricChargeUnit.abcoulomb,
+  };
+
   @override
   @internal
   double factorTo(ElectricChargeUnit targetUnit) {
@@ -88,6 +161,7 @@ enum ElectricChargeUnit implements Unit<ElectricChargeUnit> {
       case ElectricChargeUnit.milliampereHour:
         return _factorToMilliampereHour;
       case ElectricChargeUnit.statcoulomb:
+      case ElectricChargeUnit.franklin:
         return _factorToStatcoulomb;
       case ElectricChargeUnit.abcoulomb:
         return _factorToAbcoulomb;

@@ -31,6 +31,34 @@ enum SpecificEnergyUnit implements Unit<SpecificEnergyUnit> {
         _factorToKilowattHourPerKilogram =
             toJPerKgFactor / SpecificEnergyFactors.kilowattHourPerKilogram;
 
+  /// SI and unit symbols matched **strictly case-sensitive**.
+  static const Map<String, SpecificEnergyUnit> symbolAliases = {
+    'J/kg': joulePerKilogram,
+    'kJ/kg': kilojoulePerKilogram,
+    'Wh/kg': wattHourPerKilogram,
+    'kWh/kg': kilowattHourPerKilogram,
+  };
+
+  /// Full word-form names and non-SI abbreviations matched **case-insensitively**.
+  static const Map<String, SpecificEnergyUnit> nameAliases = {
+    'joule per kilogram': joulePerKilogram,
+    'jouleperkilogram': joulePerKilogram,
+    'j per kg': joulePerKilogram,
+    'jperkg': joulePerKilogram,
+    'kilojoule per kilogram': kilojoulePerKilogram,
+    'kilojouleperkilogram': kilojoulePerKilogram,
+    'kj per kg': kilojoulePerKilogram,
+    'kjperkg': kilojoulePerKilogram,
+    'watt hour per kilogram': wattHourPerKilogram,
+    'watthourperkilogram': wattHourPerKilogram,
+    'wh per kg': wattHourPerKilogram,
+    'whperkg': wattHourPerKilogram,
+    'kilowatt hour per kilogram': kilowattHourPerKilogram,
+    'kilowatthourperkilogram': kilowattHourPerKilogram,
+    'kwh per kg': kilowattHourPerKilogram,
+    'kwhperkg': kilowattHourPerKilogram,
+  };
+
   // ignore: unused_field // Used to store the conversion factor to J/kg.
   final double _toJPerKgFactor;
 

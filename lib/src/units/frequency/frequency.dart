@@ -1,6 +1,8 @@
 import 'package:meta/meta.dart';
 
 import '../../core/quantity.dart';
+import '../../core/quantity_format.dart';
+import '../../core/quantity_parser.dart';
 import '../time/time.dart';
 import '../time/time_extensions.dart';
 import '../time/time_unit.dart';
@@ -35,6 +37,38 @@ class Frequency extends Quantity<FrequencyUnit> {
       throw ArgumentError('Time period cannot be zero when calculating frequency.');
     }
     return Frequency(1.0 / seconds, FrequencyUnit.hertz);
+  }
+
+  /// The parser instance used to convert strings into [Frequency] objects.
+  ///
+  /// The parser supports both strict symbol aliases and case-insensitive name
+  /// aliases configured in [FrequencyUnit].
+  static final QuantityParser<FrequencyUnit, Frequency> parser =
+      QuantityParser<FrequencyUnit, Frequency>(
+    symbolAliases: FrequencyUnit.symbolAliases,
+    nameAliases: FrequencyUnit.nameAliases,
+    factory: Frequency.new,
+  );
+
+  /// Parses a string representation of frequency into a [Frequency] object.
+  ///
+  /// The [formats] list controls how the numeric portion is interpreted.
+  static Frequency parse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) {
+    return parser.parse(input, formats: formats);
+  }
+
+  /// Parses a string representation of frequency into a [Frequency] object,
+  /// returning `null` when parsing fails.
+  ///
+  /// See [parse] for formatting and matching behavior.
+  static Frequency? tryParse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) {
+    return parser.tryParse(input, formats: formats);
   }
 
   /// Calculates the time period for one cycle of this frequency (T = 1/f).

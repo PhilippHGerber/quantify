@@ -1,22 +1,22 @@
-// BEGIN FILE: lib/src/units/mass/mass.dart
 import 'package:meta/meta.dart';
 
 import '../../core/quantity.dart';
+import '../../core/quantity_format.dart';
+import '../../core/quantity_parser.dart';
 import 'mass_unit.dart';
 
-/// Represents a quantity of mass.
+/// Represents a physical quantity of mass.
 ///
-/// Mass is a fundamental physical property of matter. It is a measure of an
-/// object's resistance to acceleration (a change in its state of motion)
-/// when a net force is applied. It also determines the strength of its
-/// mutual gravitational attraction to other bodies. The SI base unit of mass
+/// Mass is a fundamental physical property of matter, measuring an object's
+/// resistance to acceleration when a net force is applied. The SI base unit
 /// is the Kilogram (kg).
 ///
-/// This class provides a type-safe way to handle mass values and conversions
-/// between different units of mass (e.g., kilograms, grams, pounds, ounces).
+/// This class provides a type-safe way to handle mass values, convert between
+/// different units (e.g., kilograms, grams, pounds, ounces), and perform
+/// arithmetic operations.
 @immutable
 class Mass extends Quantity<MassUnit> {
-  /// Creates a new `Mass` quantity with the given numerical [value] and [unit].
+  /// Creates a new [Mass] quantity with the given numerical [value] and [unit].
   ///
   /// Example:
   /// ```dart
@@ -26,42 +26,53 @@ class Mass extends Quantity<MassUnit> {
   /// ```
   const Mass(super._value, super._unit);
 
-  /// Converts this mass's value to the specified [targetUnit].
+  /// The parser instance used to convert strings into [Mass] objects.
   ///
-  /// This method uses pre-calculated direct conversion factors from the `MassUnit`
-  /// enum for efficiency, typically involving a single multiplication.
+  /// The parser supports all standard units and handles both case-sensitive SI
+  /// symbols (like `Mg` vs `mg`) and case-insensitive unit names.
+  ///
+  /// Create isolated parser variants to support custom or localized aliases:
+  /// ```dart
+  /// final customParser = Mass.parser.copyWithAliases(
+  ///   extraNameAliases: {'libra': MassUnit.pound},
+  /// );
+  /// final custom = customParser.parse('50 libra');
+  /// ```
+  static final QuantityParser<MassUnit, Mass> parser = QuantityParser<MassUnit, Mass>(
+    symbolAliases: MassUnit.symbolAliases,
+    nameAliases: MassUnit.nameAliases,
+    factory: Mass.new,
+  );
+
+  /// Converts this mass's value to the specified[targetUnit].
+  ///
+  /// This method uses pre-calculated direct conversion factors from the [MassUnit]
+  /// enum for optimal efficiency.
   ///
   /// Example:
   /// ```dart
   /// final weightInKg = Mass(1.0, MassUnit.kilogram);
-  /// final weightInGramsValue = weightInKg.getValue(MassUnit.gram); // 1000.0
-  ///
-  /// final weightInLbs = Mass(2.20462, MassUnit.pound);
-  /// final weightInKgValue = weightInLbs.getValue(MassUnit.kilogram); // approx 1.0
+  /// final weightInGrams = weightInKg.getValue(MassUnit.gram); // 1000.0
   /// ```
   @override
   double getValue(MassUnit targetUnit) {
-    // If the target unit is the same as the current unit, no conversion is needed.
     if (targetUnit == unit) return value;
-    // Otherwise, multiply by the direct conversion factor.
     return value * unit.factorTo(targetUnit);
   }
 
   /// Creates a new [Mass] instance with the value converted to the [targetUnit].
   ///
   /// This is useful for obtaining a new `Mass` object in a different unit
-  /// while preserving type safety and the immutability of `Quantity` objects.
+  /// without losing type information or immutability.
   ///
   /// Example:
   /// ```dart
   /// final weightInGrams = Mass(1500.0, MassUnit.gram);
-  /// final weightInKilogramsObj = weightInGrams.convertTo(MassUnit.kilogram);
-  /// // weightInKilogramsObj is Mass(1.5, MassUnit.kilogram)
-  /// print(weightInKilogramsObj); // Output: "1.5 kg" (depending on toString formatting)
+  /// final weightInKg = weightInGrams.convertTo(MassUnit.kilogram);
+  /// // weightInKg is Mass(1.5, MassUnit.kilogram)
   /// ```
   @override
   Mass convertTo(MassUnit targetUnit) {
-    // If the target unit is the same, return this instance (immutable optimization).
     if (targetUnit == unit) return this;
     final newValue = getValue(targetUnit);
     return Mass(newValue, targetUnit);
@@ -69,46 +80,69 @@ class Mass extends Quantity<MassUnit> {
 
   /// Compares this [Mass] object to another [Quantity<MassUnit>].
   ///
-  /// Comparison is based on the physical magnitude of the masses.
-  /// For an accurate comparison, this mass's value is converted to the unit
-  /// of the [other] mass before their numerical values are compared.
+  /// Comparison is based on the true physical magnitude of the masses,
+  /// automatically handling unit conversions internally.
   ///
   /// Returns:
   /// - A negative integer if this mass is less than [other].
-  /// - Zero if this mass is equal in magnitude to [other].
+  /// - Zero if this mass is physically equal to[other].
   /// - A positive integer if this mass is greater than [other].
-  ///
-  /// Example:
-  /// ```dart
-  /// final m1 = Mass(1.0, MassUnit.kilogram);    // 1000 g
-  /// final m2 = Mass(1000.0, MassUnit.gram);    // 1000 g
-  /// final m3 = Mass(2.0, MassUnit.pound);     // approx 907.18 g
-  ///
-  /// print(m1.compareTo(m2)); // 0 (equal magnitude)
-  /// print(m1.compareTo(m3)); // 1 (m1 > m3, since 1kg > 2lb)
-  /// print(m3.compareTo(m1)); // -1 (m3 < m1)
-  /// ```
   @override
   int compareTo(Quantity<MassUnit> other) {
-    // Convert this quantity's value to the unit of the 'other' quantity
-    // for a direct numerical comparison of their magnitudes.
     final thisValueInOtherUnit = getValue(other.unit);
     return thisValueInOtherUnit.compareTo(other.value);
   }
+
+  /// Parses a string representation of a mass into a [Mass] object.
+  ///
+  /// The [input] string should follow the format `"<number> <unit>"`, where the
+  /// space between the number and unit is optional.
+  ///
+  /// - **SI Prefixes**: Strictly case-sensitive (`10 mg` is milligrams,
+  ///   `10 Mg` is megagrams).
+  /// - **Imperial/US Units**: Case-insensitive (`180 lbs`, `180 LBS`, and
+  ///   `180 Lbs` all parse correctly).
+  ///
+  /// The [formats] list controls how the numeric portion is interpreted. Formats
+  /// are tried in order; the first that successfully parses the number wins.
+  /// Defaults to [QuantityFormat.invariant] (Dart-native dot-decimal parsing).
+  ///
+  /// Throws a [FormatException] if no format can parse the input.
+  ///
+  /// Example:
+  /// ```dart
+  /// final weight = Mass.parse('180 lbs');
+  /// final de = Mass.parse('1.234,56 kg', formats: [QuantityFormat.de]);
+  /// ```
+  static Mass parse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) =>
+      parser.parse(input, formats: formats);
+
+  /// Parses a string representation of a mass into a [Mass] object,
+  /// returning `null` if the string cannot be parsed.
+  ///
+  /// The [input] string should follow the format `"<number> <unit>"`.
+  /// See [parse] for details on [formats].
+  ///
+  /// Example:
+  /// ```dart
+  /// final weight = Mass.tryParse('180 lbs'); // Mass(180.0, ...)
+  /// final bad = Mass.tryParse('not a mass'); // null
+  /// ```
+  static Mass? tryParse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) =>
+      parser.tryParse(input, formats: formats);
 
   // --- Arithmetic Operators ---
 
   /// Adds this mass to another mass.
   ///
   /// The [other] mass is converted to the unit of this mass before addition.
-  /// The result is a new [Mass] instance with the sum, expressed in the unit of this mass.
-  ///
-  /// Example:
-  /// ```dart
-  /// final item1 = Mass(1.5, MassUnit.kilogram);
-  /// final item2 = Mass(500.0, MassUnit.gram); // 0.5 kg
-  /// final totalMass = item1 + item2; // Result: Mass(2.0, MassUnit.kilogram)
-  /// ```
+  /// Returns a new [Mass] instance.
   Mass operator +(Mass other) {
     final otherValueInThisUnit = other.getValue(unit);
     return Mass(value + otherValueInThisUnit, unit);
@@ -117,50 +151,27 @@ class Mass extends Quantity<MassUnit> {
   /// Subtracts another mass from this mass.
   ///
   /// The [other] mass is converted to the unit of this mass before subtraction.
-  /// The result is a new [Mass] instance with the difference, expressed in the unit of this mass.
-  ///
-  /// Example:
-  /// ```dart
-  /// final containerWithContents = Mass(5.0, MassUnit.kilogram);
-  /// final contents = Mass(1500.0, MassUnit.gram); // 1.5 kg
-  /// final emptyContainer = containerWithContents - contents; // Result: Mass(3.5, MassUnit.kilogram)
-  /// ```
+  /// Returns a new [Mass] instance.
   Mass operator -(Mass other) {
     final otherValueInThisUnit = other.getValue(unit);
     return Mass(value - otherValueInThisUnit, unit);
   }
 
-  /// Multiplies this mass by a scalar value (a dimensionless number).
+  /// Multiplies this mass by a dimensionless scalar value.
   ///
-  /// Returns a new [Mass] instance with the scaled value, in the original unit of this mass.
-  ///
-  /// Example:
-  /// ```dart
-  /// final singleItemMass = Mass(0.25, MassUnit.kilogram);
-  /// final massOfFourItems = singleItemMass * 4.0; // Result: Mass(1.0, MassUnit.kilogram)
-  /// ```
+  /// Returns a new [Mass] instance with the scaled value in the original unit.
   Mass operator *(double scalar) {
     return Mass(value * scalar, unit);
   }
 
-  /// Divides this mass by a scalar value (a dimensionless number).
+  /// Divides this mass by a dimensionless scalar value.
   ///
-  /// Returns a new [Mass] instance with the scaled value, in the original unit of this mass.
-  /// Throws [ArgumentError] if the [scalar] is zero.
-  ///
-  /// Example:
-  /// ```dart
-  /// final totalMass = Mass(10.0, MassUnit.kilogram);
-  /// final massPerPortion = totalMass / 5.0; // Result: Mass(2.0, MassUnit.kilogram)
-  /// ```
+  /// Returns a new[Mass] instance with the scaled value in the original unit.
+  /// Throws an [ArgumentError] if the scalar is zero.
   Mass operator /(double scalar) {
     if (scalar == 0) {
       throw ArgumentError('Cannot divide by zero.');
     }
     return Mass(value / scalar, unit);
   }
-
-  // Potential future enhancement:
-  // Mass / Volume = Density (would require a Density quantity type)
-  // Mass * Acceleration = Force (would require Force and Acceleration types)
 }

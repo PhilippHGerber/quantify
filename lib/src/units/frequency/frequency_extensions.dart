@@ -18,6 +18,9 @@ extension FrequencyValueGetters on Frequency {
   /// Returns the frequency value in Kilohertz (kHz).
   double get inKilohertz => getValue(FrequencyUnit.kilohertz);
 
+  /// Returns the frequency value in Millihertz (mHz).
+  double get inMillihertz => getValue(FrequencyUnit.millihertz);
+
   /// Returns the frequency value in Revolutions per minute (rpm).
   double get inRevolutionsPerMinute => getValue(FrequencyUnit.revolutionsPerMinute);
 
@@ -44,6 +47,9 @@ extension FrequencyValueGetters on Frequency {
 
   /// Returns a new [Frequency] object representing this frequency in Kilohertz (kHz).
   Frequency get asKilohertz => convertTo(FrequencyUnit.kilohertz);
+
+  /// Returns a new [Frequency] object representing this frequency in Millihertz (mHz).
+  Frequency get asMillihertz => convertTo(FrequencyUnit.millihertz);
 
   /// Returns a new [Frequency] object representing this frequency in Revolutions per minute (rpm).
   Frequency get asRevolutionsPerMinute => convertTo(FrequencyUnit.revolutionsPerMinute);
@@ -74,6 +80,9 @@ extension FrequencyCreation on num {
 
   /// Creates a [Frequency] instance from this value in Kilohertz (kHz).
   Frequency get khz => Frequency(toDouble(), FrequencyUnit.kilohertz);
+
+  /// Creates a [Frequency] instance from this value in Millihertz (mHz).
+  Frequency get mHz => Frequency(toDouble(), FrequencyUnit.millihertz);
 
   /// Creates a [Frequency] instance from this value in Revolutions per minute (rpm).
   ///

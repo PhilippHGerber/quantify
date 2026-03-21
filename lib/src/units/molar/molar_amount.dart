@@ -1,6 +1,8 @@
 import 'package:meta/meta.dart';
 
 import '../../core/quantity.dart';
+import '../../core/quantity_format.dart';
+import '../../core/quantity_parser.dart';
 import 'molar_unit.dart';
 
 /// Represents a quantity of amount of substance, typically measured in moles.
@@ -22,6 +24,39 @@ class MolarAmount extends Quantity<MolarUnit> {
   /// final reagentAmount = MolarAmount(25.0, MolarUnit.millimole);
   /// ```
   const MolarAmount(super._value, super._unit);
+
+  /// The parser instance used to convert strings into [MolarAmount] objects.
+  ///
+  /// The parser supports both strict symbol aliases and case-insensitive name
+  /// aliases configured in [MolarUnit].
+  static final QuantityParser<MolarUnit, MolarAmount> parser =
+      QuantityParser<MolarUnit, MolarAmount>(
+    symbolAliases: MolarUnit.symbolAliases,
+    nameAliases: MolarUnit.nameAliases,
+    factory: MolarAmount.new,
+  );
+
+  /// Parses a string representation of amount of substance into a
+  /// [MolarAmount] object.
+  ///
+  /// The [formats] list controls how the numeric portion is interpreted.
+  static MolarAmount parse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) {
+    return parser.parse(input, formats: formats);
+  }
+
+  /// Parses a string representation of amount of substance into a
+  /// [MolarAmount] object, returning `null` when parsing fails.
+  ///
+  /// See [parse] for formatting and matching behavior.
+  static MolarAmount? tryParse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) {
+    return parser.tryParse(input, formats: formats);
+  }
 
   /// Converts this molar amount's value to the specified [targetUnit].
   ///

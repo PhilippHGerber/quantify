@@ -1,6 +1,8 @@
 import 'package:meta/meta.dart';
 
 import '../../core/quantity.dart';
+import '../../core/quantity_format.dart';
+import '../../core/quantity_parser.dart';
 import '../current/current.dart';
 import '../current/current_extensions.dart';
 import '../current/current_unit.dart';
@@ -35,6 +37,40 @@ class ElectricCharge extends Quantity<ElectricChargeUnit> {
     final amperes = current.inAmperes;
     final seconds = time.inSeconds;
     return ElectricCharge(amperes * seconds, ElectricChargeUnit.coulomb);
+  }
+
+  /// The parser instance used to convert strings into [ElectricCharge]
+  /// objects.
+  ///
+  /// The parser supports both strict symbol aliases and case-insensitive name
+  /// aliases configured in [ElectricChargeUnit].
+  static final QuantityParser<ElectricChargeUnit, ElectricCharge> parser =
+      QuantityParser<ElectricChargeUnit, ElectricCharge>(
+    symbolAliases: ElectricChargeUnit.symbolAliases,
+    nameAliases: ElectricChargeUnit.nameAliases,
+    factory: ElectricCharge.new,
+  );
+
+  /// Parses a string representation of electric charge into an
+  /// [ElectricCharge] object.
+  ///
+  /// The [formats] list controls how the numeric portion is interpreted.
+  static ElectricCharge parse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) {
+    return parser.parse(input, formats: formats);
+  }
+
+  /// Parses a string representation of electric charge into an
+  /// [ElectricCharge] object, returning `null` when parsing fails.
+  ///
+  /// See [parse] for formatting and matching behavior.
+  static ElectricCharge? tryParse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) {
+    return parser.tryParse(input, formats: formats);
   }
 
   /// Calculates the `Current` if this charge flows over a given `Time` (I = Q / t).

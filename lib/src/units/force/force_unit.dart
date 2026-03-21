@@ -67,6 +67,74 @@ enum ForceUnit implements Unit<ForceUnit> {
   final double _factorToGramForce;
   final double _factorToPoundal;
 
+  /// SI and unit symbols matched **strictly case-sensitive**.
+  ///
+  /// Used by `Force.parser`.
+  @internal
+  static const Map<String, ForceUnit> symbolAliases = {
+    // newton
+    'N': ForceUnit.newton,
+    // kilonewton
+    'kN': ForceUnit.kilonewton,
+    // meganewton
+    'MN': ForceUnit.meganewton,
+    // millinewton
+    'mN': ForceUnit.millinewton,
+    // pound-force
+    'lbf': ForceUnit.poundForce,
+    // dyne
+    'dyn': ForceUnit.dyne,
+    // kilogram-force
+    'kgf': ForceUnit.kilogramForce,
+    'kp': ForceUnit.kilogramForce,
+    // gram-force
+    'gf': ForceUnit.gramForce,
+    // poundal
+    'pdl': ForceUnit.poundal,
+  };
+
+  /// Full word-form names matched **case-insensitively**.
+  ///
+  /// Used by `Force.parser`.
+  @internal
+  static const Map<String, ForceUnit> nameAliases = {
+    // newton
+    'newton': ForceUnit.newton,
+    'newtons': ForceUnit.newton,
+    // kilonewton
+    'kilonewton': ForceUnit.kilonewton,
+    'kilonewtons': ForceUnit.kilonewton,
+    // meganewton
+    'meganewton': ForceUnit.meganewton,
+    'meganewtons': ForceUnit.meganewton,
+    // millinewton
+    'millinewton': ForceUnit.millinewton,
+    'millinewtons': ForceUnit.millinewton,
+    // pound-force
+    'pound-force': ForceUnit.poundForce,
+    'pounds-force': ForceUnit.poundForce,
+    'pound force': ForceUnit.poundForce,
+    'pounds force': ForceUnit.poundForce,
+    // dyne
+    'dyne': ForceUnit.dyne,
+    'dynes': ForceUnit.dyne,
+    // kilogram-force
+    'kilogram-force': ForceUnit.kilogramForce,
+    'kilograms-force': ForceUnit.kilogramForce,
+    'kilogram force': ForceUnit.kilogramForce,
+    'kilograms force': ForceUnit.kilogramForce,
+    'kilopond': ForceUnit.kilogramForce,
+    'kiloponds': ForceUnit.kilogramForce,
+    // gram-force
+    'gram-force': ForceUnit.gramForce,
+    'grams-force': ForceUnit.gramForce,
+    'gram force': ForceUnit.gramForce,
+    'grams force': ForceUnit.gramForce,
+    // poundal
+    'poundal': ForceUnit.poundal,
+    'poundals': ForceUnit.poundal,
+  };
+
   @override
   @internal
   double factorTo(ForceUnit targetUnit) {

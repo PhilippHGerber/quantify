@@ -35,20 +35,54 @@ enum TemperatureDeltaUnit implements Unit<TemperatureDeltaUnit> {
   /// Rankine delta (°R). Same degree size as Fahrenheit: 5/9 of a Kelvin.
   rankineDelta(5.0 / 9.0, '°R');
 
+  /// Constant constructor for enum members.
+  ///
+  /// [toKelvinFactor] is the multiplicative factor from this delta unit to
+  /// kelvin delta.
   const TemperatureDeltaUnit(double toKelvinFactor, this.symbol)
       : _factorToKelvinDelta = toKelvinFactor / 1.0,
         _factorToCelsiusDelta = toKelvinFactor / 1.0,
         _factorToFahrenheitDelta = toKelvinFactor / (5.0 / 9.0),
         _factorToRankineDelta = toKelvinFactor / (5.0 / 9.0);
 
+  /// SI and unit symbols matched **strictly case-sensitive**.
+  static const Map<String, TemperatureDeltaUnit> symbolAliases = {
+    'K': kelvinDelta,
+    '°C': celsiusDelta,
+    'C': celsiusDelta,
+    '°F': fahrenheitDelta,
+    'F': fahrenheitDelta,
+    '°R': rankineDelta,
+    'R': rankineDelta,
+  };
+
+  /// Full word-form names and non-SI abbreviations matched **case-insensitively**.
+  static const Map<String, TemperatureDeltaUnit> nameAliases = {
+    'kelvin': kelvinDelta,
+    'kelvin delta': kelvinDelta,
+    'kelvindelta': kelvinDelta,
+    'celsius': celsiusDelta,
+    'celsius delta': celsiusDelta,
+    'celsiusdelta': celsiusDelta,
+    'fahrenheit': fahrenheitDelta,
+    'fahrenheit delta': fahrenheitDelta,
+    'fahrenheitdelta': fahrenheitDelta,
+    'rankine': rankineDelta,
+    'rankine delta': rankineDelta,
+    'rankinedelta': rankineDelta,
+  };
+
+  /// The display symbol for this temperature-delta unit.
   @override
   final String symbol;
 
+  // --- Pre-calculated direct conversion factors ---
   final double _factorToKelvinDelta;
   final double _factorToCelsiusDelta;
   final double _factorToFahrenheitDelta;
   final double _factorToRankineDelta;
 
+  /// Returns the direct conversion factor from this unit to [targetUnit].
   @override
   @internal
   double factorTo(TemperatureDeltaUnit targetUnit) {

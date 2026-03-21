@@ -25,6 +25,9 @@ enum FrequencyUnit implements Unit<FrequencyUnit> {
   /// Kilohertz (kHz), a multiple of the Hertz.
   kilohertz(FrequencyFactors.hzPerKilohertz, 'kHz'),
 
+  /// Millihertz (mHz), a sub-multiple of the Hertz.
+  millihertz(FrequencyFactors.hzPerMillihertz, 'mHz'),
+
   /// Revolutions per minute (rpm), a unit of rotational speed.
   revolutionsPerMinute(FrequencyFactors.hzPerRpm, 'rpm'),
 
@@ -45,6 +48,7 @@ enum FrequencyUnit implements Unit<FrequencyUnit> {
         _factorToGigahertz = toHertzFactor / FrequencyFactors.hzPerGigahertz,
         _factorToMegahertz = toHertzFactor / FrequencyFactors.hzPerMegahertz,
         _factorToKilohertz = toHertzFactor / FrequencyFactors.hzPerKilohertz,
+        _factorToMillihertz = toHertzFactor / FrequencyFactors.hzPerMillihertz,
         _factorToRevolutionsPerMinute = toHertzFactor / FrequencyFactors.hzPerRpm,
         _factorToBeatsPerMinute = toHertzFactor / FrequencyFactors.hzPerBpm,
         _factorToRadianPerSecond = toHertzFactor / FrequencyFactors.hzPerRadPerSecond,
@@ -62,10 +66,72 @@ enum FrequencyUnit implements Unit<FrequencyUnit> {
   final double _factorToGigahertz;
   final double _factorToMegahertz;
   final double _factorToKilohertz;
+  final double _factorToMillihertz;
   final double _factorToRevolutionsPerMinute;
   final double _factorToBeatsPerMinute;
   final double _factorToRadianPerSecond;
   final double _factorToDegreePerSecond;
+
+  /// SI and unit symbols matched **strictly case-sensitive**.
+  ///
+  /// Used by `Frequency.parser`.
+  @internal
+  static const Map<String, FrequencyUnit> symbolAliases = {
+    // hertz
+    'Hz': FrequencyUnit.hertz,
+    // terahertz
+    'THz': FrequencyUnit.terahertz,
+    // gigahertz
+    'GHz': FrequencyUnit.gigahertz,
+    // megahertz
+    'MHz': FrequencyUnit.megahertz,
+    // kilohertz
+    'kHz': FrequencyUnit.kilohertz,
+    // millihertz
+    'mHz': FrequencyUnit.millihertz,
+    // revolutions per minute
+    'rpm': FrequencyUnit.revolutionsPerMinute,
+    // beats per minute
+    'bpm': FrequencyUnit.beatsPerMinute,
+    // radian per second
+    'rad/s': FrequencyUnit.radianPerSecond,
+    // degree per second
+    '°/s': FrequencyUnit.degreePerSecond,
+    'deg/s': FrequencyUnit.degreePerSecond,
+  };
+
+  /// Full word-form names matched **case-insensitively**.
+  ///
+  /// Used by `Frequency.parser`.
+  @internal
+  static const Map<String, FrequencyUnit> nameAliases = {
+    // hertz
+    'hertz': FrequencyUnit.hertz,
+    // terahertz
+    'terahertz': FrequencyUnit.terahertz,
+    // gigahertz
+    'gigahertz': FrequencyUnit.gigahertz,
+    // megahertz
+    'megahertz': FrequencyUnit.megahertz,
+    // kilohertz
+    'kilohertz': FrequencyUnit.kilohertz,
+    // millihertz
+    'millihertz': FrequencyUnit.millihertz,
+    // revolutions per minute
+    'revolutions per minute': FrequencyUnit.revolutionsPerMinute,
+    'revolution per minute': FrequencyUnit.revolutionsPerMinute,
+    'rpm': FrequencyUnit.revolutionsPerMinute,
+    // beats per minute
+    'beats per minute': FrequencyUnit.beatsPerMinute,
+    'beat per minute': FrequencyUnit.beatsPerMinute,
+    'bpm': FrequencyUnit.beatsPerMinute,
+    // radian per second
+    'radian per second': FrequencyUnit.radianPerSecond,
+    'radians per second': FrequencyUnit.radianPerSecond,
+    // degree per second
+    'degree per second': FrequencyUnit.degreePerSecond,
+    'degrees per second': FrequencyUnit.degreePerSecond,
+  };
 
   @override
   @internal
@@ -81,6 +147,8 @@ enum FrequencyUnit implements Unit<FrequencyUnit> {
         return _factorToMegahertz;
       case FrequencyUnit.kilohertz:
         return _factorToKilohertz;
+      case FrequencyUnit.millihertz:
+        return _factorToMillihertz;
       case FrequencyUnit.revolutionsPerMinute:
         return _factorToRevolutionsPerMinute;
       case FrequencyUnit.beatsPerMinute:

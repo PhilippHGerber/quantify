@@ -1,6 +1,8 @@
 import 'package:meta/meta.dart';
 
 import '../../../length.dart';
+import '../../core/quantity_format.dart';
+import '../../core/quantity_parser.dart';
 import '../time/time.dart';
 import '../time/time_extensions.dart';
 import 'speed_unit.dart';
@@ -34,6 +36,62 @@ class Speed extends Quantity<SpeedUnit> {
     }
     return Speed(meters / seconds, SpeedUnit.meterPerSecond);
   }
+
+  /// Shared parser instance for [parse] and [tryParse].
+  ///
+  /// Resolves case-sensitive SI/compound symbols (like `m/s` vs `km/h`)
+  /// and case-insensitive unit names.
+  ///
+  /// Create isolated parser variants to support custom or localized aliases:
+  /// ```dart
+  /// final customParser = Speed.parser.copyWithAliases(
+  ///   extraNameAliases: {'velocidad': SpeedUnit.meterPerSecond},
+  /// );
+  /// ```
+  static final QuantityParser<SpeedUnit, Speed> parser = QuantityParser<SpeedUnit, Speed>(
+    symbolAliases: SpeedUnit.symbolAliases,
+    nameAliases: SpeedUnit.nameAliases,
+    factory: Speed.new,
+  );
+
+  /// Parses a string representation of a speed into a [Speed] object.
+  ///
+  /// The [input] string should follow the format `"<number> <unit>"`, where the
+  /// space between the number and unit is optional.
+  ///
+  /// The [formats] list controls how the numeric portion is interpreted. Formats
+  /// are tried in order; the first that successfully parses the number wins.
+  /// Defaults to [QuantityFormat.invariant] (Dart-native dot-decimal parsing).
+  ///
+  /// Throws a [FormatException] if no format can parse the input.
+  ///
+  /// Example:
+  /// ```dart
+  /// final s = Speed.parse('100 km/h');
+  /// final de = Speed.parse('1.234,56 m/s', formats: [QuantityFormat.de]);
+  /// ```
+  static Speed parse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) =>
+      parser.parse(input, formats: formats);
+
+  /// Parses a string representation of a speed into a [Speed] object,
+  /// returning `null` if the string cannot be parsed.
+  ///
+  /// The [input] string should follow the format `"<number> <unit>"`.
+  /// See [parse] for details on [formats].
+  ///
+  /// Example:
+  /// ```dart
+  /// final s = Speed.tryParse('100 km/h'); // Speed(100.0, ...)
+  /// final bad = Speed.tryParse('not a speed'); // null
+  /// ```
+  static Speed? tryParse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) =>
+      parser.tryParse(input, formats: formats);
 
   /// Converts this speed's value to the specified [targetUnit].
   ///

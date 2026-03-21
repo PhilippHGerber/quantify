@@ -29,6 +29,26 @@ enum TemperatureUnit implements Unit<TemperatureUnit> {
   @override
   final String symbol;
 
+  /// SI and unit symbols matched **strictly case-sensitive**.
+  static const Map<String, TemperatureUnit> symbolAliases = {
+    '°C': celsius,
+    'C': celsius,
+    'K': kelvin,
+    '°F': fahrenheit,
+    'F': fahrenheit,
+    '°R': rankine,
+    'R': rankine,
+  };
+
+  /// Full word-form names and non-SI abbreviations matched **case-insensitively**.
+  static const Map<String, TemperatureUnit> nameAliases = {
+    'celsius': celsius,
+    'centigrade': celsius,
+    'kelvin': kelvin,
+    'fahrenheit': fahrenheit,
+    'rankine': rankine,
+  };
+
   /// Throws [UnsupportedError] for temperature units.
   ///
   /// Temperature conversions are affine (involve offsets) and cannot be

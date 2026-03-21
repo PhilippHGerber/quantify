@@ -1,6 +1,10 @@
 import 'package:meta/meta.dart';
 
+import '../../../quantify.dart' show QuantityParseException;
 import '../../core/quantity.dart';
+import '../../core/quantity_format.dart';
+import '../../core/quantity_parse_exception.dart' show QuantityParseException;
+import '../../core/quantity_parser.dart';
 import '../acceleration/acceleration.dart';
 import '../acceleration/acceleration_extensions.dart';
 import '../acceleration/acceleration_unit.dart';
@@ -35,6 +39,46 @@ class Force extends Quantity<ForceUnit> {
     final kg = mass.inKilograms;
     final mpss = acceleration.inMetersPerSecondSquared;
     return Force(kg * mpss, ForceUnit.newton);
+  }
+
+  /// The parser instance used to convert strings into [Force] objects.
+  ///
+  /// The parser supports all standard units including symbols and full names.
+  static final QuantityParser<ForceUnit, Force> parser = QuantityParser<ForceUnit, Force>(
+    symbolAliases: ForceUnit.symbolAliases,
+    nameAliases: ForceUnit.nameAliases,
+    factory: Force.new,
+  );
+
+  /// Parses a string representation of a force into a [Force] object.
+  ///
+  /// Throws [QuantityParseException] if parsing fails.
+  ///
+  /// Example:
+  /// ```dart
+  /// final f1 = Force.parse('100 N');   // 100 newtons
+  /// final f2 = Force.parse('5 kN');    // 5 kilonewtons
+  /// final f3 = Force.parse('50 lbf');  // 50 pounds-force
+  /// ```
+  static Force parse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) {
+    return parser.parse(input, formats: formats);
+  }
+
+  /// Attempts to parse a string representation of force. Returns `null` if parsing fails.
+  ///
+  /// Example:
+  /// ```dart
+  /// final valid = Force.tryParse('10 newtons');  // Force(10.0, ForceUnit.newton)
+  /// final invalid = Force.tryParse('invalid');   // null
+  /// ```
+  static Force? tryParse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) {
+    return parser.tryParse(input, formats: formats);
   }
 
   /// Converts this force's value to the specified [targetUnit].

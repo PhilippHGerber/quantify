@@ -26,6 +26,32 @@ enum DensityUnit implements Unit<DensityUnit> {
         _factorToGramPerCubicCentimeter = toKgPerM3Factor / DensityFactors.gramPerCubicCentimeter,
         _factorToGramPerMilliliter = toKgPerM3Factor / DensityFactors.gramPerMilliliter;
 
+  /// SI and unit symbols matched **strictly case-sensitive**.
+  static const Map<String, DensityUnit> symbolAliases = {
+    'kg/m³': kilogramPerCubicMeter,
+    'g/cm³': gramPerCubicCentimeter,
+    'g/mL': gramPerMilliliter,
+  };
+
+  /// Full word-form names and non-SI abbreviations matched **case-insensitively**.
+  static const Map<String, DensityUnit> nameAliases = {
+    'kilogram per cubic meter': kilogramPerCubicMeter,
+    'kilogram per cubic metre': kilogramPerCubicMeter,
+    'kilogrampercubicmeter': kilogramPerCubicMeter,
+    'kg per m3': kilogramPerCubicMeter,
+    'kgperm3': kilogramPerCubicMeter,
+    'gram per cubic centimeter': gramPerCubicCentimeter,
+    'gram per cubic centimetre': gramPerCubicCentimeter,
+    'grampercubiccentimeter': gramPerCubicCentimeter,
+    'g per cm3': gramPerCubicCentimeter,
+    'gpercm3': gramPerCubicCentimeter,
+    'gram per milliliter': gramPerMilliliter,
+    'gram per millilitre': gramPerMilliliter,
+    'grampermilliliter': gramPerMilliliter,
+    'g per ml': gramPerMilliliter,
+    'gperml': gramPerMilliliter,
+  };
+
   // ignore: unused_field // Used to store the conversion factor to kg/m³.
   final double _toKgPerM3Factor;
 

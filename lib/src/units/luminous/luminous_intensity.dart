@@ -1,6 +1,8 @@
 import 'package:meta/meta.dart';
 
 import '../../core/quantity.dart';
+import '../../core/quantity_format.dart';
+import '../../core/quantity_parser.dart';
 import 'luminous_intensity_unit.dart';
 
 /// Represents a quantity of luminous intensity.
@@ -22,6 +24,40 @@ class LuminousIntensity extends Quantity<LuminousIntensityUnit> {
   /// final headlightIntensity = LuminousIntensity(800.0, LuminousIntensityUnit.candela);
   /// ```
   const LuminousIntensity(super._value, super._unit);
+
+  /// The parser instance used to convert strings into [LuminousIntensity]
+  /// objects.
+  ///
+  /// The parser supports both strict symbol aliases and case-insensitive name
+  /// aliases configured in [LuminousIntensityUnit].
+  static final QuantityParser<LuminousIntensityUnit, LuminousIntensity> parser =
+      QuantityParser<LuminousIntensityUnit, LuminousIntensity>(
+    symbolAliases: LuminousIntensityUnit.symbolAliases,
+    nameAliases: LuminousIntensityUnit.nameAliases,
+    factory: LuminousIntensity.new,
+  );
+
+  /// Parses a string representation of luminous intensity into a
+  /// [LuminousIntensity] object.
+  ///
+  /// The [formats] list controls how the numeric portion is interpreted.
+  static LuminousIntensity parse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) {
+    return parser.parse(input, formats: formats);
+  }
+
+  /// Parses a string representation of luminous intensity into a
+  /// [LuminousIntensity] object, returning `null` when parsing fails.
+  ///
+  /// See [parse] for formatting and matching behavior.
+  static LuminousIntensity? tryParse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) {
+    return parser.tryParse(input, formats: formats);
+  }
 
   /// Converts this luminous intensity's value to the specified [targetUnit].
   ///

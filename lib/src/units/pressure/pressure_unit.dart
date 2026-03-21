@@ -97,6 +97,90 @@ enum PressureUnit implements Unit<PressureUnit> {
   final double _factorToCentimeterOfWater;
   final double _factorToInchOfWater;
 
+  /// SI and unit symbols matched **strictly case-sensitive**.
+  ///
+  /// Used by `Pressure.parser`.
+  @internal
+  static const Map<String, PressureUnit> symbolAliases = {
+    // pascal
+    'Pa': PressureUnit.pascal,
+    // atmosphere
+    'atm': PressureUnit.atmosphere,
+    // bar
+    'bar': PressureUnit.bar,
+    // psi
+    'psi': PressureUnit.psi,
+    // torr
+    'Torr': PressureUnit.torr,
+    // millimeter of mercury
+    'mmHg': PressureUnit.millimeterOfMercury,
+    // inch of mercury
+    'inHg': PressureUnit.inchOfMercury,
+    // megapascal
+    'MPa': PressureUnit.megapascal,
+    // kilopascal
+    'kPa': PressureUnit.kilopascal,
+    // hectopascal
+    'hPa': PressureUnit.hectopascal,
+    // millibar
+    'mbar': PressureUnit.millibar,
+    // centimeter of water
+    'cmH₂O': PressureUnit.centimeterOfWater,
+    'cmH2O': PressureUnit.centimeterOfWater,
+    // inch of water
+    'inH₂O': PressureUnit.inchOfWater,
+    'inH2O': PressureUnit.inchOfWater,
+  };
+
+  /// Full word-form names matched **case-insensitively**.
+  ///
+  /// Used by `Pressure.parser`.
+  @internal
+  static const Map<String, PressureUnit> nameAliases = {
+    // pascal
+    'pascal': PressureUnit.pascal,
+    'pascals': PressureUnit.pascal,
+    // atmosphere
+    'atmosphere': PressureUnit.atmosphere,
+    'atmospheres': PressureUnit.atmosphere,
+    'atm': PressureUnit.atmosphere,
+    // bar
+    'bar': PressureUnit.bar,
+    'bars': PressureUnit.bar,
+    // psi
+    'pound per square inch': PressureUnit.psi,
+    'pounds per square inch': PressureUnit.psi,
+    'psi': PressureUnit.psi,
+    // torr
+    'torr': PressureUnit.torr,
+    // millimeter of mercury
+    'millimeter of mercury': PressureUnit.millimeterOfMercury,
+    'millimeters of mercury': PressureUnit.millimeterOfMercury,
+    'mmhg': PressureUnit.millimeterOfMercury,
+    // inch of mercury
+    'inch of mercury': PressureUnit.inchOfMercury,
+    'inches of mercury': PressureUnit.inchOfMercury,
+    'inhg': PressureUnit.inchOfMercury,
+    // megapascal
+    'megapascal': PressureUnit.megapascal,
+    'megapascals': PressureUnit.megapascal,
+    // kilopascal
+    'kilopascal': PressureUnit.kilopascal,
+    'kilopascals': PressureUnit.kilopascal,
+    // hectopascal
+    'hectopascal': PressureUnit.hectopascal,
+    'hectopascals': PressureUnit.hectopascal,
+    // millibar
+    'millibar': PressureUnit.millibar,
+    'millibars': PressureUnit.millibar,
+    // centimeter of water
+    'centimeter of water': PressureUnit.centimeterOfWater,
+    'centimeters of water': PressureUnit.centimeterOfWater,
+    // inch of water
+    'inch of water': PressureUnit.inchOfWater,
+    'inches of water': PressureUnit.inchOfWater,
+  };
+
   /// Returns the direct conversion factor to convert a value from this [PressureUnit]
   /// to the [targetUnit].
   @override

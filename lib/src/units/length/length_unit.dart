@@ -143,6 +143,184 @@ enum LengthUnit implements Unit<LengthUnit> {
   final double _factorToParsec;
   final double _factorToAngstrom;
 
+  /// SI and unit symbols matched **strictly case-sensitive**.
+  ///
+  /// Keys must be the exact symbol string (e.g. `'Mm'` for megameter, `'mm'`
+  /// for millimeter). No case folding is applied during lookup.
+  ///
+  /// Used by `Length.parser`.
+  @internal
+  static const Map<String, LengthUnit> symbolAliases = {
+    // meter
+    'm': LengthUnit.meter,
+    // kilometer
+    'km': LengthUnit.kilometer,
+    // megameter — capital M distinguishes mega from milli
+    'Mm': LengthUnit.megameter,
+    // gigameter
+    'Gm': LengthUnit.gigameter,
+    // hectometer
+    'hm': LengthUnit.hectometer,
+    // decameter
+    'dam': LengthUnit.decameter,
+    // decimeter
+    'dm': LengthUnit.decimeter,
+    // centimeter
+    'cm': LengthUnit.centimeter,
+    // millimeter — lowercase m distinguishes milli from mega
+    'mm': LengthUnit.millimeter,
+    // micrometer
+    'μm': LengthUnit.micrometer,
+    'um': LengthUnit.micrometer, // ASCII fallback for μm
+    // nanometer
+    'nm': LengthUnit.nanometer,
+    // picometer
+    'pm': LengthUnit.picometer,
+    // femtometer
+    'fm': LengthUnit.femtometer,
+    // inch
+    'in': LengthUnit.inch,
+    '"': LengthUnit.inch,
+    // foot
+    'ft': LengthUnit.foot,
+    "'": LengthUnit.foot,
+    // yard
+    'yd': LengthUnit.yard,
+    // mile
+    'mi': LengthUnit.mile,
+    // nautical mile
+    'nmi': LengthUnit.nauticalMile,
+    // astronomical unit
+    'AU': LengthUnit.astronomicalUnit,
+    'au': LengthUnit.astronomicalUnit,
+    // light year
+    'ly': LengthUnit.lightYear,
+    // parsec
+    'pc': LengthUnit.parsec,
+    // angstrom
+    'Å': LengthUnit.angstrom,
+    'å': LengthUnit.angstrom,
+  };
+
+  /// Full word-form names and non-colliding abbreviations matched
+  /// **case-insensitively** (after `.toLowerCase()` and whitespace normalization).
+  ///
+  /// Used by `Length.parser`.
+  @internal
+  static const Map<String, LengthUnit> nameAliases = {
+    // meter
+    'meter': LengthUnit.meter,
+    'meters': LengthUnit.meter,
+    'metre': LengthUnit.meter,
+    'metres': LengthUnit.meter,
+    // kilometer
+    'kilometer': LengthUnit.kilometer,
+    'kilometers': LengthUnit.kilometer,
+    'kilometre': LengthUnit.kilometer,
+    'kilometres': LengthUnit.kilometer,
+    // megameter
+    'megameter': LengthUnit.megameter,
+    'megameters': LengthUnit.megameter,
+    'megametre': LengthUnit.megameter,
+    'megametres': LengthUnit.megameter,
+    // gigameter
+    'gigameter': LengthUnit.gigameter,
+    'gigameters': LengthUnit.gigameter,
+    'gigametre': LengthUnit.gigameter,
+    'gigametres': LengthUnit.gigameter,
+    // hectometer
+    'hectometer': LengthUnit.hectometer,
+    'hectometers': LengthUnit.hectometer,
+    'hectometre': LengthUnit.hectometer,
+    'hectometres': LengthUnit.hectometer,
+    // decameter
+    'decameter': LengthUnit.decameter,
+    'decameters': LengthUnit.decameter,
+    'decametre': LengthUnit.decameter,
+    'decametres': LengthUnit.decameter,
+    // decimeter
+    'decimeter': LengthUnit.decimeter,
+    'decimeters': LengthUnit.decimeter,
+    'decimetre': LengthUnit.decimeter,
+    'decimetres': LengthUnit.decimeter,
+    // centimeter
+    'centimeter': LengthUnit.centimeter,
+    'centimeters': LengthUnit.centimeter,
+    'centimetre': LengthUnit.centimeter,
+    'centimetres': LengthUnit.centimeter,
+    // millimeter
+    'millimeter': LengthUnit.millimeter,
+    'millimeters': LengthUnit.millimeter,
+    'millimetre': LengthUnit.millimeter,
+    'millimetres': LengthUnit.millimeter,
+    // micrometer
+    'micrometer': LengthUnit.micrometer,
+    'micrometers': LengthUnit.micrometer,
+    'micrometre': LengthUnit.micrometer,
+    'micrometres': LengthUnit.micrometer,
+    'micron': LengthUnit.micrometer,
+    'microns': LengthUnit.micrometer,
+    // nanometer
+    'nanometer': LengthUnit.nanometer,
+    'nanometers': LengthUnit.nanometer,
+    'nanometre': LengthUnit.nanometer,
+    'nanometres': LengthUnit.nanometer,
+    // picometer
+    'picometer': LengthUnit.picometer,
+    'picometers': LengthUnit.picometer,
+    'picometre': LengthUnit.picometer,
+    'picometres': LengthUnit.picometer,
+    // femtometer
+    'femtometer': LengthUnit.femtometer,
+    'femtometers': LengthUnit.femtometer,
+    'femtometre': LengthUnit.femtometer,
+    'femtometres': LengthUnit.femtometer,
+
+    // --- Non-SI / Imperial / Customary Units (Mirrored from symbols for case-insensitivity) ---
+    // inch
+    'in': LengthUnit.inch,
+    'inch': LengthUnit.inch,
+    'inches': LengthUnit.inch,
+    // foot
+    'ft': LengthUnit.foot,
+    'foot': LengthUnit.foot,
+    'feet': LengthUnit.foot,
+    // yard
+    'yd': LengthUnit.yard,
+    'yard': LengthUnit.yard,
+    'yards': LengthUnit.yard,
+    // mile
+    'mi': LengthUnit.mile,
+    'mile': LengthUnit.mile,
+    'miles': LengthUnit.mile,
+    // nautical mile
+    'nmi': LengthUnit.nauticalMile,
+    'nautical mile': LengthUnit.nauticalMile,
+    'nautical miles': LengthUnit.nauticalMile,
+    // astronomical unit
+    'au': LengthUnit.astronomicalUnit,
+    'astronomical unit': LengthUnit.astronomicalUnit,
+    'astronomical units': LengthUnit.astronomicalUnit,
+    // light year
+    'ly': LengthUnit.lightYear,
+    'light year': LengthUnit.lightYear,
+    'light years': LengthUnit.lightYear,
+    'light-year': LengthUnit.lightYear,
+    'light-years': LengthUnit.lightYear,
+    'lightyear': LengthUnit.lightYear,
+    'lightyears': LengthUnit.lightYear,
+    // parsec
+    'pc': LengthUnit.parsec,
+    'parsec': LengthUnit.parsec,
+    'parsecs': LengthUnit.parsec,
+    // angstrom
+    'å': LengthUnit.angstrom,
+    'angstrom': LengthUnit.angstrom,
+    'angstroms': LengthUnit.angstrom,
+    'ångström': LengthUnit.angstrom,
+    'ångströms': LengthUnit.angstrom,
+  };
+
   /// Returns the direct conversion factor to convert a value from this [LengthUnit]
   /// to the [targetUnit].
   @override
@@ -157,7 +335,6 @@ enum LengthUnit implements Unit<LengthUnit> {
         return _factorToMegameter;
       case LengthUnit.gigameter:
         return _factorToGigameter;
-
       case LengthUnit.hectometer:
         return _factorToHectometer;
       case LengthUnit.decameter:

@@ -97,6 +97,133 @@ enum AreaUnit implements Unit<AreaUnit> {
   final double _factorToSquareMile;
   final double _factorToAcre;
 
+  /// SI and unit symbols matched **strictly case-sensitive**.
+  ///
+  /// Used by `Area.parser`.
+  @internal
+  static const Map<String, AreaUnit> symbolAliases = {
+    // square meter
+    'm²': AreaUnit.squareMeter,
+    'm2': AreaUnit.squareMeter,
+    'sq m': AreaUnit.squareMeter,
+    // square decimeter
+    'dm²': AreaUnit.squareDecimeter,
+    'dm2': AreaUnit.squareDecimeter,
+    // square centimeter
+    'cm²': AreaUnit.squareCentimeter,
+    'cm2': AreaUnit.squareCentimeter,
+    // square millimeter
+    'mm²': AreaUnit.squareMillimeter,
+    'mm2': AreaUnit.squareMillimeter,
+    // square micrometer
+    'µm²': AreaUnit.squareMicrometer,
+    'um2': AreaUnit.squareMicrometer,
+    // square decameter
+    'dam²': AreaUnit.squareDecameter,
+    'dam2': AreaUnit.squareDecameter,
+    // square hectometer
+    'hm²': AreaUnit.squareHectometer,
+    'hm2': AreaUnit.squareHectometer,
+    // hectare
+    'ha': AreaUnit.hectare,
+    // square kilometer
+    'km²': AreaUnit.squareKilometer,
+    'km2': AreaUnit.squareKilometer,
+    // square megameter
+    'Mm²': AreaUnit.squareMegameter,
+    'Mm2': AreaUnit.squareMegameter,
+    // square inch
+    'in²': AreaUnit.squareInch,
+    'in2': AreaUnit.squareInch,
+    'sq in': AreaUnit.squareInch,
+    // square foot
+    'ft²': AreaUnit.squareFoot,
+    'ft2': AreaUnit.squareFoot,
+    'sq ft': AreaUnit.squareFoot,
+    // square yard
+    'yd²': AreaUnit.squareYard,
+    'yd2': AreaUnit.squareYard,
+    'sq yd': AreaUnit.squareYard,
+    // square mile
+    'mi²': AreaUnit.squareMile,
+    'mi2': AreaUnit.squareMile,
+    'sq mi': AreaUnit.squareMile,
+    // acre
+    'ac': AreaUnit.acre,
+  };
+
+  /// Full word-form names matched **case-insensitively**.
+  ///
+  /// Used by `Area.parser`.
+  @internal
+  static const Map<String, AreaUnit> nameAliases = {
+    // square meter
+    'square meter': AreaUnit.squareMeter,
+    'square meters': AreaUnit.squareMeter,
+    'square metre': AreaUnit.squareMeter,
+    'square metres': AreaUnit.squareMeter,
+    // square decimeter
+    'square decimeter': AreaUnit.squareDecimeter,
+    'square decimeters': AreaUnit.squareDecimeter,
+    'square decimetre': AreaUnit.squareDecimeter,
+    'square decimetres': AreaUnit.squareDecimeter,
+    // square centimeter
+    'square centimeter': AreaUnit.squareCentimeter,
+    'square centimeters': AreaUnit.squareCentimeter,
+    'square centimetre': AreaUnit.squareCentimeter,
+    'square centimetres': AreaUnit.squareCentimeter,
+    // square millimeter
+    'square millimeter': AreaUnit.squareMillimeter,
+    'square millimeters': AreaUnit.squareMillimeter,
+    'square millimetre': AreaUnit.squareMillimeter,
+    'square millimetres': AreaUnit.squareMillimeter,
+    // square micrometer
+    'square micrometer': AreaUnit.squareMicrometer,
+    'square micrometers': AreaUnit.squareMicrometer,
+    'square micrometre': AreaUnit.squareMicrometer,
+    'square micrometres': AreaUnit.squareMicrometer,
+    // square decameter
+    'square decameter': AreaUnit.squareDecameter,
+    'square decameters': AreaUnit.squareDecameter,
+    'square decametre': AreaUnit.squareDecameter,
+    'square decametres': AreaUnit.squareDecameter,
+    // square hectometer
+    'square hectometer': AreaUnit.squareHectometer,
+    'square hectometers': AreaUnit.squareHectometer,
+    'square hectometre': AreaUnit.squareHectometer,
+    'square hectometres': AreaUnit.squareHectometer,
+    // hectare
+    'hectare': AreaUnit.hectare,
+    'hectares': AreaUnit.hectare,
+    'ha': AreaUnit.hectare,
+    // square kilometer
+    'square kilometer': AreaUnit.squareKilometer,
+    'square kilometers': AreaUnit.squareKilometer,
+    'square kilometre': AreaUnit.squareKilometer,
+    'square kilometres': AreaUnit.squareKilometer,
+    // square megameter
+    'square megameter': AreaUnit.squareMegameter,
+    'square megameters': AreaUnit.squareMegameter,
+    'square megametre': AreaUnit.squareMegameter,
+    'square megametres': AreaUnit.squareMegameter,
+    // square inch
+    'square inch': AreaUnit.squareInch,
+    'square inches': AreaUnit.squareInch,
+    // square foot
+    'square foot': AreaUnit.squareFoot,
+    'square feet': AreaUnit.squareFoot,
+    // square yard
+    'square yard': AreaUnit.squareYard,
+    'square yards': AreaUnit.squareYard,
+    // square mile
+    'square mile': AreaUnit.squareMile,
+    'square miles': AreaUnit.squareMile,
+    // acre
+    'acre': AreaUnit.acre,
+    'acres': AreaUnit.acre,
+    'ac': AreaUnit.acre,
+  };
+
   @override
   @internal
   double factorTo(AreaUnit targetUnit) {

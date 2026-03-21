@@ -87,6 +87,79 @@ enum EnergyUnit implements Unit<EnergyUnit> {
   final double _factorToElectronvolt;
   final double _factorToBtu;
 
+  /// SI and unit symbols matched **strictly case-sensitive**.
+  ///
+  /// Used by `Energy.parser`.
+  @internal
+  static const Map<String, EnergyUnit> symbolAliases = {
+    // joule
+    'J': EnergyUnit.joule,
+    // megajoule
+    'MJ': EnergyUnit.megajoule,
+    // kilojoule
+    'kJ': EnergyUnit.kilojoule,
+    // calorie
+    'cal': EnergyUnit.calorie,
+    // calorie IT
+    'cal_IT': EnergyUnit.calorieIT,
+    // kilocalorie
+    'kcal': EnergyUnit.kilocalorie,
+    'Cal': EnergyUnit.kilocalorie,
+    // kilocalorie IT
+    'kcal_IT': EnergyUnit.kilocalorieIT,
+    // kilowatt-hour
+    'kWh': EnergyUnit.kilowattHour,
+    // electronvolt
+    'eV': EnergyUnit.electronvolt,
+    // BTU
+    'Btu': EnergyUnit.btu,
+    'BTU': EnergyUnit.btu,
+  };
+
+  /// Full word-form names matched **case-insensitively**.
+  ///
+  /// Used by `Energy.parser`.
+  @internal
+  static const Map<String, EnergyUnit> nameAliases = {
+    // joule
+    'joule': EnergyUnit.joule,
+    'joules': EnergyUnit.joule,
+    // megajoule
+    'megajoule': EnergyUnit.megajoule,
+    'megajoules': EnergyUnit.megajoule,
+    // kilojoule
+    'kilojoule': EnergyUnit.kilojoule,
+    'kilojoules': EnergyUnit.kilojoule,
+    // calorie
+    'calorie': EnergyUnit.calorie,
+    'calories': EnergyUnit.calorie,
+    // calorie IT
+    'calorie it': EnergyUnit.calorieIT,
+    'calories it': EnergyUnit.calorieIT,
+    // kilocalorie
+    'kilocalorie': EnergyUnit.kilocalorie,
+    'kilocalories': EnergyUnit.kilocalorie,
+    'food calorie': EnergyUnit.kilocalorie,
+    'food calories': EnergyUnit.kilocalorie,
+    // kilocalorie IT
+    'kilocalorie it': EnergyUnit.kilocalorieIT,
+    'kilocalories it': EnergyUnit.kilocalorieIT,
+    // kilowatt-hour
+    'kilowatt-hour': EnergyUnit.kilowattHour,
+    'kilowatt-hours': EnergyUnit.kilowattHour,
+    'kilowatt hour': EnergyUnit.kilowattHour,
+    'kilowatt hours': EnergyUnit.kilowattHour,
+    // electronvolt
+    'electronvolt': EnergyUnit.electronvolt,
+    'electronvolts': EnergyUnit.electronvolt,
+    'electron volt': EnergyUnit.electronvolt,
+    'electron volts': EnergyUnit.electronvolt,
+    // BTU
+    'btu': EnergyUnit.btu,
+    'british thermal unit': EnergyUnit.btu,
+    'british thermal units': EnergyUnit.btu,
+  };
+
   /// Returns the direct conversion factor to convert a value from this [EnergyUnit]
   /// to the [targetUnit].
   ///

@@ -1,6 +1,8 @@
 import 'package:meta/meta.dart';
 
 import '../../core/quantity.dart';
+import '../../core/quantity_format.dart';
+import '../../core/quantity_parser.dart';
 import 'pressure_unit.dart';
 
 /// Represents a quantity of pressure.
@@ -18,6 +20,38 @@ class Pressure extends Quantity<PressureUnit> {
   /// final tirePressure = Pressure(32.0, PressureUnit.psi);
   /// ```
   const Pressure(super._value, super._unit);
+
+  /// The parser instance used to convert strings into [Pressure] objects.
+  ///
+  /// The parser supports both strict symbol aliases and case-insensitive name
+  /// aliases configured in [PressureUnit].
+  static final QuantityParser<PressureUnit, Pressure> parser =
+      QuantityParser<PressureUnit, Pressure>(
+    symbolAliases: PressureUnit.symbolAliases,
+    nameAliases: PressureUnit.nameAliases,
+    factory: Pressure.new,
+  );
+
+  /// Parses a string representation of pressure into a [Pressure] object.
+  ///
+  /// The [formats] list controls how the numeric portion is interpreted.
+  static Pressure parse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) {
+    return parser.parse(input, formats: formats);
+  }
+
+  /// Parses a string representation of pressure into a [Pressure] object,
+  /// returning `null` when parsing fails.
+  ///
+  /// See [parse] for formatting and matching behavior.
+  static Pressure? tryParse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) {
+    return parser.tryParse(input, formats: formats);
+  }
 
   /// Converts this pressure's value to the specified [targetUnit].
   ///

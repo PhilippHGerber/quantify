@@ -29,6 +29,36 @@ enum AngularVelocityUnit implements Unit<AngularVelocityUnit> {
         _factorToRevolutionPerMinute = toBaseFactor / AngularVelocityFactors.radPSecPerRevPMin,
         _factorToRevolutionPerSecond = toBaseFactor / AngularVelocityFactors.radPSecPerRevPSec;
 
+  /// SI and unit symbols matched **strictly case-sensitive**.
+  static const Map<String, AngularVelocityUnit> symbolAliases = {
+    'rad/s': radianPerSecond,
+    '°/s': degreePerSecond,
+    'rpm': revolutionPerMinute,
+    'rps': revolutionPerSecond,
+  };
+
+  /// Full word-form names and non-SI abbreviations matched **case-insensitively**.
+  static const Map<String, AngularVelocityUnit> nameAliases = {
+    'radian per second': radianPerSecond,
+    'radianpersecond': radianPerSecond,
+    'rad per s': radianPerSecond,
+    'radpers': radianPerSecond,
+    'degree per second': degreePerSecond,
+    'degreepersecond': degreePerSecond,
+    'deg per s': degreePerSecond,
+    'degpers': degreePerSecond,
+    'revolution per minute': revolutionPerMinute,
+    'revolutionperminute': revolutionPerMinute,
+    'rev per min': revolutionPerMinute,
+    'revpermin': revolutionPerMinute,
+    'rpm': revolutionPerMinute,
+    'revolution per second': revolutionPerSecond,
+    'revolutionpersecond': revolutionPerSecond,
+    'rev per s': revolutionPerSecond,
+    'revpers': revolutionPerSecond,
+    'rps': revolutionPerSecond,
+  };
+
   // ignore: unused_field // The factor to convert from this unit to Radian per Second.
   final double _toRadPerSecFactor;
 

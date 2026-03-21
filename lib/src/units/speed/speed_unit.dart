@@ -79,4 +79,50 @@ enum SpeedUnit implements Unit<SpeedUnit> {
         return _factorToFootPerSecond;
     }
   }
+
+  /// Case-sensitive symbol aliases for parsing.
+  ///
+  /// Symbols with slashes (like `m/s`, `km/h`) are included alongside
+  /// common abbreviations without slashes.
+  static const symbolAliases = <String, SpeedUnit>{
+    'm/s': SpeedUnit.meterPerSecond,
+    'km/s': SpeedUnit.kilometerPerSecond,
+    'km/h': SpeedUnit.kilometerPerHour,
+    'kmh': SpeedUnit.kilometerPerHour,
+    'mph': SpeedUnit.milePerHour,
+    'kn': SpeedUnit.knot,
+    'kt': SpeedUnit.knot,
+    'ft/s': SpeedUnit.footPerSecond,
+    'fps': SpeedUnit.footPerSecond,
+  };
+
+  /// Case-insensitive name aliases for parsing (all lowercase).
+  ///
+  /// Includes singular, plural, and regional spelling variants.
+  static const nameAliases = <String, SpeedUnit>{
+    'meter per second': SpeedUnit.meterPerSecond,
+    'meters per second': SpeedUnit.meterPerSecond,
+    'metre per second': SpeedUnit.meterPerSecond,
+    'metres per second': SpeedUnit.meterPerSecond,
+    'kilometer per second': SpeedUnit.kilometerPerSecond,
+    'kilometers per second': SpeedUnit.kilometerPerSecond,
+    'kilometre per second': SpeedUnit.kilometerPerSecond,
+    'kilometres per second': SpeedUnit.kilometerPerSecond,
+    'kilometer per hour': SpeedUnit.kilometerPerHour,
+    'kilometers per hour': SpeedUnit.kilometerPerHour,
+    'kilometre per hour': SpeedUnit.kilometerPerHour,
+    'kilometres per hour': SpeedUnit.kilometerPerHour,
+    'kmh': SpeedUnit.kilometerPerHour,
+    'kph': SpeedUnit.kilometerPerHour,
+    'mph': SpeedUnit.milePerHour,
+    'mile per hour': SpeedUnit.milePerHour,
+    'miles per hour': SpeedUnit.milePerHour,
+    'kn': SpeedUnit.knot,
+    'kt': SpeedUnit.knot,
+    'knot': SpeedUnit.knot,
+    'knots': SpeedUnit.knot,
+    'fps': SpeedUnit.footPerSecond,
+    'foot per second': SpeedUnit.footPerSecond,
+    'feet per second': SpeedUnit.footPerSecond,
+  };
 }

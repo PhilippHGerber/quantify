@@ -140,6 +140,138 @@ enum TimeUnit implements Unit<TimeUnit> {
   final double _factorToDecade;
   final double _factorToCentury;
 
+  /// SI and unit symbols matched **strictly case-sensitive**.
+  ///
+  /// Keys must be the exact symbol string (e.g. `'Ms'` for megasecond, `'ms'`
+  /// for millisecond). No case folding is applied during lookup.
+  ///
+  /// Used by `Time.parser`.
+  @internal
+  static const Map<String, TimeUnit> symbolAliases = {
+    // second
+    's': TimeUnit.second,
+    // microsecond
+    'μs': TimeUnit.microsecond,
+    'us': TimeUnit.microsecond, // ASCII fallback for μs
+    // nanosecond
+    'ns': TimeUnit.nanosecond,
+    // picosecond
+    'ps': TimeUnit.picosecond,
+    // millisecond — lowercase m distinguishes milli from mega
+    'ms': TimeUnit.millisecond,
+    // centisecond
+    'cs': TimeUnit.centisecond,
+    // decisecond
+    'ds': TimeUnit.decisecond,
+    // decasecond
+    'das': TimeUnit.decasecond,
+    // hectosecond
+    'hs': TimeUnit.hectosecond,
+    // kilosecond
+    'ks': TimeUnit.kilosecond,
+    // megasecond — capital M distinguishes mega from milli
+    'Ms': TimeUnit.megasecond,
+    // gigasecond
+    'Gs': TimeUnit.gigasecond,
+    // minute
+    'min': TimeUnit.minute,
+    // hour
+    'h': TimeUnit.hour,
+    'hr': TimeUnit.hour,
+    // day
+    'd': TimeUnit.day,
+    // week
+    'wk': TimeUnit.week,
+    // fortnight
+    'fn': TimeUnit.fortnight,
+    // month
+    'mo': TimeUnit.month,
+    // year
+    'yr': TimeUnit.year,
+    'y': TimeUnit.year,
+    // decade
+    'dec': TimeUnit.decade,
+    // century
+    'c': TimeUnit.century,
+  };
+
+  /// Full word-form names and non-colliding abbreviations matched
+  /// **case-insensitively** (after `.toLowerCase()` and whitespace normalization).
+  ///
+  /// Used by `Time.parser`.
+  @internal
+  static const Map<String, TimeUnit> nameAliases = {
+    // second
+    'second': TimeUnit.second,
+    'seconds': TimeUnit.second,
+    'sec': TimeUnit.second,
+    'secs': TimeUnit.second,
+    // microsecond
+    'microsecond': TimeUnit.microsecond,
+    'microseconds': TimeUnit.microsecond,
+    // nanosecond
+    'nanosecond': TimeUnit.nanosecond,
+    'nanoseconds': TimeUnit.nanosecond,
+    // picosecond
+    'picosecond': TimeUnit.picosecond,
+    'picoseconds': TimeUnit.picosecond,
+    // millisecond
+    'millisecond': TimeUnit.millisecond,
+    'milliseconds': TimeUnit.millisecond,
+    // centisecond
+    'centisecond': TimeUnit.centisecond,
+    'centiseconds': TimeUnit.centisecond,
+    // decisecond
+    'decisecond': TimeUnit.decisecond,
+    'deciseconds': TimeUnit.decisecond,
+    // decasecond
+    'decasecond': TimeUnit.decasecond,
+    'decaseconds': TimeUnit.decasecond,
+    // hectosecond
+    'hectosecond': TimeUnit.hectosecond,
+    'hectoseconds': TimeUnit.hectosecond,
+    // kilosecond
+    'kilosecond': TimeUnit.kilosecond,
+    'kiloseconds': TimeUnit.kilosecond,
+    // megasecond
+    'megasecond': TimeUnit.megasecond,
+    'megaseconds': TimeUnit.megasecond,
+    // gigasecond
+    'gigasecond': TimeUnit.gigasecond,
+    'gigaseconds': TimeUnit.gigasecond,
+    // minute
+    'minute': TimeUnit.minute,
+    'minutes': TimeUnit.minute,
+    'min': TimeUnit.minute,
+    // hour
+    'hour': TimeUnit.hour,
+    'hours': TimeUnit.hour,
+    'hr': TimeUnit.hour,
+    // day
+    'day': TimeUnit.day,
+    'days': TimeUnit.day,
+    // week
+    'week': TimeUnit.week,
+    'weeks': TimeUnit.week,
+    'wk': TimeUnit.week,
+    // fortnight
+    'fortnight': TimeUnit.fortnight,
+    'fortnights': TimeUnit.fortnight,
+    // month
+    'month': TimeUnit.month,
+    'months': TimeUnit.month,
+    'mo': TimeUnit.month,
+    // year
+    'year': TimeUnit.year,
+    'years': TimeUnit.year,
+    // decade
+    'decade': TimeUnit.decade,
+    'decades': TimeUnit.decade,
+    // century
+    'century': TimeUnit.century,
+    'centuries': TimeUnit.century,
+  };
+
   /// Returns the direct conversion factor to convert a value from this [TimeUnit]
   /// to the [targetUnit].
   @override

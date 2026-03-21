@@ -4,6 +4,9 @@ library;
 
 // Exporting core classes for quantities and units
 export 'src/core/quantity.dart';
+export 'src/core/quantity_format.dart';
+export 'src/core/quantity_parse_exception.dart';
+export 'src/core/quantity_parser.dart';
 export 'src/core/unit.dart';
 // Exporting units and their extensions for acceleration
 export 'src/units/acceleration/acceleration.dart';

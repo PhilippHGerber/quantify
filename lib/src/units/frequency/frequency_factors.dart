@@ -21,6 +21,9 @@ class FrequencyFactors {
   /// Hertz per Kilohertz: 1 kHz = 1e3 Hz.
   static const double hzPerKilohertz = 1e3;
 
+  /// Hertz per Millihertz: 1 mHz = 1e-3 Hz.
+  static const double hzPerMillihertz = 1e-3;
+
   // --- Rotational / Event-based Units ---
 
   /// Hertz per Revolution Per Minute (RPM): 1 rev/min = (1/60) rev/s = (1/60) Hz.

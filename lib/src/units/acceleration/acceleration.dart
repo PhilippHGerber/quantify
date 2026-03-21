@@ -1,6 +1,8 @@
 import 'package:meta/meta.dart';
 
 import '../../core/quantity.dart';
+import '../../core/quantity_format.dart';
+import '../../core/quantity_parser.dart';
 import '../speed/speed.dart';
 import '../speed/speed_extensions.dart';
 import '../speed/speed_unit.dart';
@@ -37,6 +39,40 @@ class Acceleration extends Quantity<AccelerationUnit> {
       throw ArgumentError('Time cannot be zero when calculating acceleration.');
     }
     return Acceleration(mps / seconds, AccelerationUnit.meterPerSecondSquared);
+  }
+
+  /// The parser instance used to convert strings into [Acceleration] objects.
+  ///
+  /// The parser supports both strict symbol aliases and case-insensitive name
+  /// aliases configured in [AccelerationUnit].
+  static final QuantityParser<AccelerationUnit, Acceleration> parser =
+      QuantityParser<AccelerationUnit, Acceleration>(
+    symbolAliases: AccelerationUnit.symbolAliases,
+    nameAliases: AccelerationUnit.nameAliases,
+    factory: Acceleration.new,
+  );
+
+  /// Parses a string representation of an acceleration into an [Acceleration]
+  /// object.
+  ///
+  /// The [formats] list controls how the numeric portion is interpreted.
+  /// Formats are tried in order; the first successful parse is returned.
+  static Acceleration parse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) {
+    return parser.parse(input, formats: formats);
+  }
+
+  /// Parses a string representation of an acceleration into an [Acceleration]
+  /// object, returning `null` when parsing fails.
+  ///
+  /// See [parse] for formatting and matching behavior.
+  static Acceleration? tryParse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) {
+    return parser.tryParse(input, formats: formats);
   }
 
   /// Converts this acceleration's value to the specified [targetUnit].

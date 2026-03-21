@@ -66,6 +66,68 @@ enum AngleUnit implements Unit<AngleUnit> {
   final double _factorToArcsecond;
   final double _factorToMilliradian;
 
+  /// SI and unit symbols matched **strictly case-sensitive**.
+  ///
+  /// Used by `Angle.parser`.
+  @internal
+  static const Map<String, AngleUnit> symbolAliases = {
+    // radian
+    'rad': AngleUnit.radian,
+    // degree
+    '°': AngleUnit.degree,
+    'deg': AngleUnit.degree,
+    // gradian
+    'grad': AngleUnit.gradian,
+    'gon': AngleUnit.gradian,
+    // revolution
+    'rev': AngleUnit.revolution,
+    'turn': AngleUnit.revolution,
+    // arcminute
+    "'": AngleUnit.arcminute,
+    'arcmin': AngleUnit.arcminute,
+    // arcsecond
+    '"': AngleUnit.arcsecond,
+    'arcsec': AngleUnit.arcsecond,
+    // milliradian
+    'mrad': AngleUnit.milliradian,
+  };
+
+  /// Full word-form names matched **case-insensitively**.
+  ///
+  /// Used by `Angle.parser`.
+  @internal
+  static const Map<String, AngleUnit> nameAliases = {
+    // radian
+    'radian': AngleUnit.radian,
+    'radians': AngleUnit.radian,
+    'rad': AngleUnit.radian,
+    // degree
+    'degree': AngleUnit.degree,
+    'degrees': AngleUnit.degree,
+    'deg': AngleUnit.degree,
+    // gradian
+    'gradian': AngleUnit.gradian,
+    'gradians': AngleUnit.gradian,
+    'grad': AngleUnit.gradian,
+    'gon': AngleUnit.gradian,
+    // revolution
+    'revolution': AngleUnit.revolution,
+    'revolutions': AngleUnit.revolution,
+    'rev': AngleUnit.revolution,
+    'turn': AngleUnit.revolution,
+    'turns': AngleUnit.revolution,
+    // arcminute
+    'arcminute': AngleUnit.arcminute,
+    'arcminutes': AngleUnit.arcminute,
+    // arcsecond
+    'arcsecond': AngleUnit.arcsecond,
+    'arcseconds': AngleUnit.arcsecond,
+    // milliradian
+    'milliradian': AngleUnit.milliradian,
+    'milliradians': AngleUnit.milliradian,
+    'mrad': AngleUnit.milliradian,
+  };
+
   /// Returns the direct conversion factor to convert a value from this [AngleUnit]
   /// to the [targetUnit].
   @override

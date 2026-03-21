@@ -1,6 +1,6 @@
-import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 
+import 'quantity_format.dart';
 import 'unit.dart';
 
 /// An abstract representation of a physical quantity, encapsulating a numerical
@@ -134,117 +134,60 @@ abstract class Quantity<T extends Unit<T>> implements Comparable<Quantity<T>> {
   @override
   int compareTo(Quantity<T> other);
 
-  /// Returns a string representation of this quantity, with options for
-  /// formatting and unit conversion.
+  /// Returns a string representation of this quantity.
   ///
-  /// By default, it formats as `"[value] [unit_symbol]"` (e.g., "10.5 m"),
-  /// using the quantity's current value and unit symbol, separated by a
-  /// non-breaking space. Number formatting defaults to Dart's `double.toString()`.
+  /// By default, formats as `"[value]\u00A0[unit_symbol]"` (e.g., `"10.5\u00A0m"`),
+  /// using Dart-native number formatting (dot decimal, no thousands separator).
   ///
   /// ## Parameters:
   ///
-  /// - [targetUnit]: (Optional) If provided, the quantity's value will be
-  ///   converted to this unit *before* formatting. The displayed unit symbol
-  ///   will also be that of [targetUnit].
-  ///   Example: `1.km.toString(targetUnit: LengthUnit.meter)` might produce "1000.0 m".
+  /// - [targetUnit]: If provided, the value is converted to this unit before
+  ///   formatting. The displayed symbol will be that of [targetUnit].
   ///
-  /// - [fractionDigits]: (Optional) If provided and [numberFormat] is `null`,
-  ///   the numerical value will be formatted to this fixed number of decimal places.
-  ///   If [locale] is also provided, formatting attempts to respect it for decimal
-  ///   and grouping separators (using `NumberFormat.decimalPatternDigits`).
-  ///   Otherwise, `double.toStringAsFixed()` is used (locale-agnostic, uses '.' as decimal separator).
-  ///   Example: `1.2345.m.toString(fractionDigits: 2)` might produce "1.23 m".
+  /// - [format]: A [QuantityFormat] controlling number formatting, locale,
+  ///   fraction digits, unit symbol visibility, and separator. Defaults to
+  ///   [QuantityFormat.invariant].
   ///
-  /// - [showUnitSymbol]: (Optional) Defaults to `true`. If `false`, only the
-  ///   numerical value (potentially converted and formatted) is returned, without
-  ///   the unit symbol and separator.
-  ///   Example: `10.m.toString(showUnitSymbol: false)` produces "10.0".
+  /// ## Examples:
   ///
-  /// - [unitSymbolSeparator]: (Optional) The string used to separate the formatted
-  ///   numerical value and the unit symbol. Defaults to a non-breaking space (`'\u00A0'`).
-  ///   Example: `10.m.toString(unitSymbolSeparator: "-")` produces "10.0-m".
+  /// ```dart
+  /// 1.km.toString(targetUnit: LengthUnit.meter)
+  /// // "1000.0 m"
   ///
-  /// - [locale]: (Optional) A BCP 47 language tag (e.g., 'en_US', 'de_DE').
-  ///   If provided and [numberFormat] is `null`, this locale is used for number
-  ///   formatting (via `package:intl`). This affects decimal separators, grouping
-  ///   separators, etc. Requires the `intl` package to be available.
-  ///   Example: `1234.56.m.toString(locale: 'de_DE', fractionDigits: 1)` might produce "1234,6 m".
+  /// 1234.56.m.toString(format: QuantityFormat.forLocale('de_DE', fractionDigits: 2))
+  /// // "1.234,56 m"
   ///
-  /// - [numberFormat]: (Optional) An explicit `intl.NumberFormat` instance.
-  ///   If provided, this takes precedence over [fractionDigits] and [locale] for
-  ///   number formatting, offering maximum control. Requires the `intl` package.
-  ///   Example:
-  ///   ```dart
-  ///   final customFormat = NumberFormat("#,##0.000", "en_US");
-  ///   print(1234.5.m.toString(numberFormat: customFormat)); // "1,234.500 m"
-  ///   ```
-  ///
-  /// Returns a string representation of the quantity according to the specified options.
+  /// 10.m.toString(format: QuantityFormat.valueOnly)
+  /// // "10.0"
+  /// ```
   @override
   String toString({
     T? targetUnit,
-    int? fractionDigits,
-    bool showUnitSymbol = true,
-    String unitSymbolSeparator = '\u00A0', // Default: Non-breaking space
-    String? locale,
-    NumberFormat? numberFormat,
+    QuantityFormat format = QuantityFormat.invariant,
   }) {
     var valueToFormat = _value;
     var unitToDisplay = _unit;
 
-    // Step 1: Convert to target unit if specified.
-    // If a target unit is provided and it's different from the current unit,
-    // get the value in the target unit for formatting.
     if (targetUnit != null && targetUnit != _unit) {
       valueToFormat = getValue(targetUnit);
       unitToDisplay = targetUnit;
     }
 
-    // Step 2: Format the numerical value.
     String formattedValue;
+    final nf = format.effectiveNumberFormat;
 
-    if (numberFormat != null) {
-      // If an explicit NumberFormat is provided, use it directly. This offers the most control.
-      formattedValue = numberFormat.format(valueToFormat);
+    if (nf != null) {
+      formattedValue = nf.format(valueToFormat);
+    } else if (format.fractionDigits != null) {
+      formattedValue = valueToFormat.toStringAsFixed(format.fractionDigits!);
     } else {
-      // Otherwise, use fractionDigits and/or locale if provided.
-      if (locale != null) {
-        // A locale is specified.
-        if (fractionDigits != null) {
-          // Both locale and fractionDigits: Use NumberFormat.decimalPatternDigits
-          // for locale-aware fixed fraction digits.
-          final nf = NumberFormat.decimalPatternDigits(
-            locale: locale,
-            decimalDigits: fractionDigits,
-          );
-          formattedValue = nf.format(valueToFormat);
-        } else {
-          // Locale provided, but no specific fractionDigits: Use a default decimal pattern for the locale.
-          final nf = NumberFormat.decimalPattern(locale);
-          formattedValue = nf.format(valueToFormat);
-        }
-      } else {
-        // No locale and no explicit NumberFormat. Use Dart's built-in formatting.
-        if (fractionDigits != null) {
-          // Only fractionDigits provided: Use Dart's toStringAsFixed.
-          // This is NOT locale-aware (always uses '.' as decimal separator).
-          formattedValue = valueToFormat.toStringAsFixed(fractionDigits);
-        } else {
-          // No formatting options: Default double to string conversion.
-          formattedValue = valueToFormat.toString();
-        }
-      }
+      formattedValue = valueToFormat.toString();
     }
 
-    // Step 3: Construct the final string.
-    if (showUnitSymbol) {
-      // Append the unit symbol (from unitToDisplay, which is targetUnit if conversion occurred)
-      // and the specified separator.
-      return '$formattedValue$unitSymbolSeparator${unitToDisplay.symbol}';
-    } else {
-      // Return only the formatted numerical value.
-      return formattedValue;
+    if (format.showUnitSymbol) {
+      return '$formattedValue${format.unitSymbolSeparator}${unitToDisplay.symbol}';
     }
+    return formattedValue;
   }
 
   /// Determines whether this [Quantity] is equal to another [Object].

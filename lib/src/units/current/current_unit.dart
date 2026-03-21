@@ -73,6 +73,61 @@ enum CurrentUnit implements Unit<CurrentUnit> {
   final double _factorToStatampere;
   final double _factorToAbampere;
 
+  /// SI and unit symbols matched **strictly case-sensitive**.
+  ///
+  /// Used by `Current.parser`.
+  @internal
+  static const Map<String, CurrentUnit> symbolAliases = {
+    // ampere
+    'A': CurrentUnit.ampere,
+    // milliampere
+    'mA': CurrentUnit.milliampere,
+    // microampere
+    'µA': CurrentUnit.microampere,
+    'uA': CurrentUnit.microampere,
+    // nanoampere
+    'nA': CurrentUnit.nanoampere,
+    // kiloampere
+    'kA': CurrentUnit.kiloampere,
+    // statampere
+    'statA': CurrentUnit.statampere,
+    // abampere
+    'abA': CurrentUnit.abampere,
+  };
+
+  /// Full word-form names matched **case-insensitively**.
+  ///
+  /// Used by `Current.parser`.
+  @internal
+  static const Map<String, CurrentUnit> nameAliases = {
+    // ampere
+    'ampere': CurrentUnit.ampere,
+    'amperes': CurrentUnit.ampere,
+    'amp': CurrentUnit.ampere,
+    'amps': CurrentUnit.ampere,
+    // milliampere
+    'milliampere': CurrentUnit.milliampere,
+    'milliamperes': CurrentUnit.milliampere,
+    // microampere
+    'microampere': CurrentUnit.microampere,
+    'microamperes': CurrentUnit.microampere,
+    // nanoampere
+    'nanoampere': CurrentUnit.nanoampere,
+    'nanoamperes': CurrentUnit.nanoampere,
+    // kiloampere
+    'kiloampere': CurrentUnit.kiloampere,
+    'kiloamperes': CurrentUnit.kiloampere,
+    // statampere
+    'statampere': CurrentUnit.statampere,
+    'statamperes': CurrentUnit.statampere,
+    'stata': CurrentUnit.statampere,
+    // abampere
+    'abampere': CurrentUnit.abampere,
+    'abamperes': CurrentUnit.abampere,
+    'aba': CurrentUnit.abampere,
+    'biot': CurrentUnit.abampere,
+  };
+
   /// Returns the direct conversion factor to convert a value from this [CurrentUnit]
   /// to the [targetUnit].
   ///

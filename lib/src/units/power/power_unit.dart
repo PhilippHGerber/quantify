@@ -73,6 +73,64 @@ enum PowerUnit implements Unit<PowerUnit> {
   final double _factorToBtuPerHour;
   final double _factorToErgPerSecond;
 
+  /// SI and unit symbols matched **strictly case-sensitive**.
+  ///
+  /// Used by `Power.parser`.
+  @internal
+  static const Map<String, PowerUnit> symbolAliases = {
+    // watt
+    'W': PowerUnit.watt,
+    // milliwatt
+    'mW': PowerUnit.milliwatt,
+    // kilowatt
+    'kW': PowerUnit.kilowatt,
+    // megawatt
+    'MW': PowerUnit.megawatt,
+    // gigawatt
+    'GW': PowerUnit.gigawatt,
+    // horsepower
+    'hp': PowerUnit.horsepower,
+    // metric horsepower
+    'PS': PowerUnit.metricHorsepower,
+    // BTU per hour
+    'Btu/h': PowerUnit.btuPerHour,
+    'BTU/h': PowerUnit.btuPerHour,
+    // erg per second
+    'erg/s': PowerUnit.ergPerSecond,
+  };
+
+  /// Full word-form names matched **case-insensitively**.
+  ///
+  /// Used by `Power.parser`.
+  @internal
+  static const Map<String, PowerUnit> nameAliases = {
+    // watt
+    'watt': PowerUnit.watt,
+    'watts': PowerUnit.watt,
+    // milliwatt
+    'milliwatt': PowerUnit.milliwatt,
+    'milliwatts': PowerUnit.milliwatt,
+    // kilowatt
+    'kilowatt': PowerUnit.kilowatt,
+    'kilowatts': PowerUnit.kilowatt,
+    // megawatt
+    'megawatt': PowerUnit.megawatt,
+    'megawatts': PowerUnit.megawatt,
+    // gigawatt
+    'gigawatt': PowerUnit.gigawatt,
+    'gigawatts': PowerUnit.gigawatt,
+    // horsepower
+    'horsepower': PowerUnit.horsepower,
+    // metric horsepower
+    'metric horsepower': PowerUnit.metricHorsepower,
+    // BTU per hour
+    'btu/h': PowerUnit.btuPerHour,
+    'btu per hour': PowerUnit.btuPerHour,
+    // erg per second
+    'erg/s': PowerUnit.ergPerSecond,
+    'erg per second': PowerUnit.ergPerSecond,
+  };
+
   /// Returns the direct conversion factor to convert a value from this [PowerUnit]
   /// to the [targetUnit].
   @override

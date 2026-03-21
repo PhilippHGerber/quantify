@@ -45,6 +45,62 @@ enum AccelerationUnit implements Unit<AccelerationUnit> {
         _factorToFootPerSecondSquared = toMpssFactor / AccelerationFactors.mpssPerFpsSquared,
         _factorToCentimeterPerSecondSquared = toMpssFactor / AccelerationFactors.mpssPerCmpss;
 
+  /// SI and unit symbols matched **strictly case-sensitive**.
+  static const Map<String, AccelerationUnit> symbolAliases = {
+    'm/s²': meterPerSecondSquared,
+    'g': standardGravity,
+    'km/h/s': kilometerPerHourPerSecond,
+    'mph/s': milePerHourPerSecond,
+    'kn/s': knotPerSecond,
+    'ft/s²': footPerSecondSquared,
+    'cm/s²': centimeterPerSecondSquared,
+  };
+
+  /// Full word-form names and non-SI abbreviations matched **case-insensitively**.
+  static const Map<String, AccelerationUnit> nameAliases = {
+    'meter per second squared': meterPerSecondSquared,
+    'metre per second squared': meterPerSecondSquared,
+    'meterperseconsquared': meterPerSecondSquared,
+    'm per s2': meterPerSecondSquared,
+    'mpers2': meterPerSecondSquared,
+    'standard gravity': standardGravity,
+    'standardgravity': standardGravity,
+    'g': standardGravity,
+    'grav': standardGravity,
+    'kilometer per hour per second': kilometerPerHourPerSecond,
+    'kilometre per hour per second': kilometerPerHourPerSecond,
+    'kilometerperhouerpersecond': kilometerPerHourPerSecond,
+    'km per h per s': kilometerPerHourPerSecond,
+    'kmperhrpers': kilometerPerHourPerSecond,
+    'kmh per s': kilometerPerHourPerSecond,
+    'kmhpers': kilometerPerHourPerSecond,
+    'km/h/s': kilometerPerHourPerSecond,
+    'mile per hour per second': milePerHourPerSecond,
+    'mileperhoerpersecond': milePerHourPerSecond,
+    'mi per h per s': milePerHourPerSecond,
+    'miperhrpers': milePerHourPerSecond,
+    'mph per s': milePerHourPerSecond,
+    'mphpers': milePerHourPerSecond,
+    'mph/s': milePerHourPerSecond,
+    'knot per second': knotPerSecond,
+    'knotpersecond': knotPerSecond,
+    'kn per s': knotPerSecond,
+    'knpers': knotPerSecond,
+    'kn/s': knotPerSecond,
+    'foot per second squared': footPerSecondSquared,
+    'feet per second squared': footPerSecondSquared,
+    'footperseconsquared': footPerSecondSquared,
+    'ft per s2': footPerSecondSquared,
+    'ftpers2': footPerSecondSquared,
+    'centimeter per second squared': centimeterPerSecondSquared,
+    'centimetre per second squared': centimeterPerSecondSquared,
+    'centimeterperseconsquared': centimeterPerSecondSquared,
+    'cm per s2': centimeterPerSecondSquared,
+    'cmpers2': centimeterPerSecondSquared,
+    'gal': centimeterPerSecondSquared,
+    'galileo': centimeterPerSecondSquared,
+  };
+
   // ignore: unused_field // Used to store the conversion factor to Meter per Second Squared (m/s²).
   final double _toMpssFactor;
 

@@ -147,6 +147,168 @@ enum VolumeUnit implements Unit<VolumeUnit> {
   final double _factorToTablespoon;
   final double _factorToTeaspoon;
 
+  /// SI and unit symbols matched **strictly case-sensitive**.
+  ///
+  /// Used by `Volume.parser`.
+  @internal
+  static const Map<String, VolumeUnit> symbolAliases = {
+    // cubic meter
+    'm³': VolumeUnit.cubicMeter,
+    'm3': VolumeUnit.cubicMeter,
+    // cubic kilometer
+    'km³': VolumeUnit.cubicKilometer,
+    'km3': VolumeUnit.cubicKilometer,
+    // cubic centimeter
+    'cm³': VolumeUnit.cubicCentimeter,
+    'cm3': VolumeUnit.cubicCentimeter,
+    'cc': VolumeUnit.cubicCentimeter,
+    // cubic millimeter
+    'mm³': VolumeUnit.cubicMillimeter,
+    'mm3': VolumeUnit.cubicMillimeter,
+    // liter
+    'L': VolumeUnit.litre,
+    'l': VolumeUnit.litre,
+    // milliliter
+    'mL': VolumeUnit.milliliter,
+    'ml': VolumeUnit.milliliter,
+    // centiliter
+    'cL': VolumeUnit.centiliter,
+    'cl': VolumeUnit.centiliter,
+    // microliter
+    'µL': VolumeUnit.microliter,
+    'uL': VolumeUnit.microliter,
+    // kiloliter
+    'kL': VolumeUnit.kiloliter,
+    'kl': VolumeUnit.kiloliter,
+    // megaliter (capital M)
+    'ML': VolumeUnit.megaliter,
+    'Ml': VolumeUnit.megaliter,
+    // gigaliter
+    'GL': VolumeUnit.gigaliter,
+    'Gl': VolumeUnit.gigaliter,
+    // teraliter
+    'TL': VolumeUnit.teraliter,
+    'Tl': VolumeUnit.teraliter,
+    // cubic inch
+    'in³': VolumeUnit.cubicInch,
+    'in3': VolumeUnit.cubicInch,
+    // cubic foot
+    'ft³': VolumeUnit.cubicFoot,
+    'ft3': VolumeUnit.cubicFoot,
+    // cubic mile
+    'mi³': VolumeUnit.cubicMile,
+    'mi3': VolumeUnit.cubicMile,
+    // gallon
+    'gal': VolumeUnit.gallon,
+    // quart
+    'qt': VolumeUnit.quart,
+    // pint
+    'pt': VolumeUnit.pint,
+    // fluid ounce
+    'fl-oz': VolumeUnit.fluidOunce,
+    'fl oz': VolumeUnit.fluidOunce,
+    // tablespoon
+    'tbsp': VolumeUnit.tablespoon,
+    'T': VolumeUnit.tablespoon,
+    // teaspoon
+    'tsp': VolumeUnit.teaspoon,
+    't': VolumeUnit.teaspoon,
+  };
+
+  /// Full word-form names matched **case-insensitively**.
+  ///
+  /// Used by `Volume.parser`.
+  @internal
+  static const Map<String, VolumeUnit> nameAliases = {
+    // cubic meter
+    'cubic meter': VolumeUnit.cubicMeter,
+    'cubic meters': VolumeUnit.cubicMeter,
+    'cubic metre': VolumeUnit.cubicMeter,
+    'cubic metres': VolumeUnit.cubicMeter,
+    // cubic kilometer
+    'cubic kilometer': VolumeUnit.cubicKilometer,
+    'cubic kilometers': VolumeUnit.cubicKilometer,
+    'cubic kilometre': VolumeUnit.cubicKilometer,
+    'cubic kilometres': VolumeUnit.cubicKilometer,
+    // cubic centimeter
+    'cubic centimeter': VolumeUnit.cubicCentimeter,
+    'cubic centimeters': VolumeUnit.cubicCentimeter,
+    'cubic centimetre': VolumeUnit.cubicCentimeter,
+    'cubic centimetres': VolumeUnit.cubicCentimeter,
+    // cubic millimeter
+    'cubic millimeter': VolumeUnit.cubicMillimeter,
+    'cubic millimeters': VolumeUnit.cubicMillimeter,
+    'cubic millimetre': VolumeUnit.cubicMillimeter,
+    'cubic millimetres': VolumeUnit.cubicMillimeter,
+    // liter
+    'liter': VolumeUnit.litre,
+    'liters': VolumeUnit.litre,
+    'litre': VolumeUnit.litre,
+    'litres': VolumeUnit.litre,
+    // milliliter
+    'milliliter': VolumeUnit.milliliter,
+    'milliliters': VolumeUnit.milliliter,
+    'millilitre': VolumeUnit.milliliter,
+    'millilitres': VolumeUnit.milliliter,
+    // centiliter
+    'centiliter': VolumeUnit.centiliter,
+    'centiliters': VolumeUnit.centiliter,
+    'centilitre': VolumeUnit.centiliter,
+    'centilitres': VolumeUnit.centiliter,
+    // microliter
+    'microliter': VolumeUnit.microliter,
+    'microliters': VolumeUnit.microliter,
+    'microlitre': VolumeUnit.microliter,
+    'microlitres': VolumeUnit.microliter,
+    // kiloliter
+    'kiloliter': VolumeUnit.kiloliter,
+    'kiloliters': VolumeUnit.kiloliter,
+    'kilolitre': VolumeUnit.kiloliter,
+    'kilolitres': VolumeUnit.kiloliter,
+    // megaliter
+    'megaliter': VolumeUnit.megaliter,
+    'megaliters': VolumeUnit.megaliter,
+    'megalitre': VolumeUnit.megaliter,
+    'megalitres': VolumeUnit.megaliter,
+    // gigaliter
+    'gigaliter': VolumeUnit.gigaliter,
+    'gigaliters': VolumeUnit.gigaliter,
+    'gigalitre': VolumeUnit.gigaliter,
+    'gigalitres': VolumeUnit.gigaliter,
+    // teraliter
+    'teraliter': VolumeUnit.teraliter,
+    'teraliters': VolumeUnit.teraliter,
+    'teralitre': VolumeUnit.teraliter,
+    'teralitres': VolumeUnit.teraliter,
+    // cubic inch
+    'cubic inch': VolumeUnit.cubicInch,
+    'cubic inches': VolumeUnit.cubicInch,
+    // cubic foot
+    'cubic foot': VolumeUnit.cubicFoot,
+    'cubic feet': VolumeUnit.cubicFoot,
+    // cubic mile
+    'cubic mile': VolumeUnit.cubicMile,
+    'cubic miles': VolumeUnit.cubicMile,
+    // gallon
+    'gallon': VolumeUnit.gallon,
+    'gallons': VolumeUnit.gallon,
+    // quart
+    'quart': VolumeUnit.quart,
+    'quarts': VolumeUnit.quart,
+    // pint
+    'pint': VolumeUnit.pint,
+    'pints': VolumeUnit.pint,
+    // fluid ounce
+    'fluid ounce': VolumeUnit.fluidOunce,
+    'fluid ounces': VolumeUnit.fluidOunce,
+    // tablespoon
+    'tablespoon': VolumeUnit.tablespoon,
+    'tablespoons': VolumeUnit.tablespoon,
+    // teaspoon
+    'teaspoon': VolumeUnit.teaspoon,
+    'teaspoons': VolumeUnit.teaspoon,
+  };
+
   @override
   @internal
   double factorTo(VolumeUnit targetUnit) {

@@ -1,6 +1,8 @@
 import 'package:meta/meta.dart';
 
 import '../../core/quantity.dart';
+import '../../core/quantity_format.dart';
+import '../../core/quantity_parser.dart';
 import '../energy/energy.dart';
 import '../energy/energy_extensions.dart';
 import '../energy/energy_unit.dart';
@@ -30,6 +32,40 @@ class SpecificEnergy extends Quantity<SpecificEnergyUnit> {
       throw ArgumentError('Mass cannot be zero when calculating specific energy.');
     }
     return SpecificEnergy(joules / kilograms, SpecificEnergyUnit.joulePerKilogram);
+  }
+
+  /// The parser instance used to convert strings into [SpecificEnergy]
+  /// objects.
+  ///
+  /// The parser supports both strict symbol aliases and case-insensitive name
+  /// aliases configured in [SpecificEnergyUnit].
+  static final QuantityParser<SpecificEnergyUnit, SpecificEnergy> parser =
+      QuantityParser<SpecificEnergyUnit, SpecificEnergy>(
+    symbolAliases: SpecificEnergyUnit.symbolAliases,
+    nameAliases: SpecificEnergyUnit.nameAliases,
+    factory: SpecificEnergy.new,
+  );
+
+  /// Parses a string representation of specific energy into a
+  /// [SpecificEnergy] object.
+  ///
+  /// The [formats] list controls how the numeric portion is interpreted.
+  static SpecificEnergy parse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) {
+    return parser.parse(input, formats: formats);
+  }
+
+  /// Parses a string representation of specific energy into a
+  /// [SpecificEnergy] object, returning `null` when parsing fails.
+  ///
+  /// See [parse] for formatting and matching behavior.
+  static SpecificEnergy? tryParse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) {
+    return parser.tryParse(input, formats: formats);
   }
 
   /// Converts this specific energy's value to the specified [targetUnit].

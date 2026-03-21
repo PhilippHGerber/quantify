@@ -139,11 +139,145 @@ enum MassUnit implements Unit<MassUnit> {
   final double _factorToAtomicMassUnit;
   final double _factorToCarat;
 
+  /// SI and unit symbols matched **strictly case-sensitive**.
+  ///
+  /// Keys must be the exact symbol string (e.g. `'Mg'` for megagram, `'mg'`
+  /// for milligram). No case folding is applied during lookup.
+  ///
+  /// Used by `Mass.parser`.
+  @internal
+  static const Map<String, MassUnit> symbolAliases = {
+    // kilogram
+    'kg': MassUnit.kilogram,
+    // hectogram
+    'hg': MassUnit.hectogram,
+    // decagram
+    'dag': MassUnit.decagram,
+    // gram
+    'g': MassUnit.gram,
+    // decigram
+    'dg': MassUnit.decigram,
+    // centigram
+    'cg': MassUnit.centigram,
+    // milligram — lowercase m distinguishes milli from mega
+    'mg': MassUnit.milligram,
+    // microgram
+    'μg': MassUnit.microgram,
+    'ug': MassUnit.microgram, // ASCII fallback for μg
+    // nanogram
+    'ng': MassUnit.nanogram,
+    // megagram — capital M distinguishes mega from milli
+    'Mg': MassUnit.megagram,
+    // gigagram
+    'Gg': MassUnit.gigagram,
+    // tonne
+    't': MassUnit.tonne,
+    // pound
+    'lb': MassUnit.pound,
+    'lbs': MassUnit.pound,
+    // ounce
+    'oz': MassUnit.ounce,
+    // stone
+    'st': MassUnit.stone,
+    // slug (symbol equals the word; also in nameAliases for case-insensitive match)
+    'slug': MassUnit.slug,
+    // atomic mass unit
+    'u': MassUnit.atomicMassUnit,
+    // carat
+    'ct': MassUnit.carat,
+  };
+
+  /// Full word-form names and non-colliding abbreviations matched
+  /// **case-insensitively** (after `.toLowerCase()` and whitespace normalization).
+  ///
+  /// Used by `Mass.parser`.
+  @internal
+  static const Map<String, MassUnit> nameAliases = {
+    // kilogram
+    'kilogram': MassUnit.kilogram,
+    'kilograms': MassUnit.kilogram,
+    'kilogramme': MassUnit.kilogram,
+    'kilogrammes': MassUnit.kilogram,
+    'kilo': MassUnit.kilogram,
+    'kilos': MassUnit.kilogram,
+    // hectogram
+    'hectogram': MassUnit.hectogram,
+    'hectograms': MassUnit.hectogram,
+    // decagram
+    'decagram': MassUnit.decagram,
+    'decagrams': MassUnit.decagram,
+    // gram
+    'gram': MassUnit.gram,
+    'grams': MassUnit.gram,
+    'gramme': MassUnit.gram,
+    'grammes': MassUnit.gram,
+    // decigram
+    'decigram': MassUnit.decigram,
+    'decigrams': MassUnit.decigram,
+    // centigram
+    'centigram': MassUnit.centigram,
+    'centigrams': MassUnit.centigram,
+    // milligram
+    'milligram': MassUnit.milligram,
+    'milligrams': MassUnit.milligram,
+    // microgram
+    'microgram': MassUnit.microgram,
+    'micrograms': MassUnit.microgram,
+    'mcg': MassUnit.microgram, // common medical notation
+    // nanogram
+    'nanogram': MassUnit.nanogram,
+    'nanograms': MassUnit.nanogram,
+    // megagram
+    'megagram': MassUnit.megagram,
+    'megagrams': MassUnit.megagram,
+    // gigagram
+    'gigagram': MassUnit.gigagram,
+    'gigagrams': MassUnit.gigagram,
+
+    // --- Non-SI / Imperial / Customary Units (Mirrored from symbols for case-insensitivity) ---
+
+    // tonne
+    'tonne': MassUnit.tonne,
+    'tonnes': MassUnit.tonne,
+    'metric ton': MassUnit.tonne,
+    'metric tons': MassUnit.tonne,
+    'ton': MassUnit.tonne,
+    'tons': MassUnit.tonne,
+    // pound
+    'pound': MassUnit.pound,
+    'pounds': MassUnit.pound,
+    'lb': MassUnit.pound,
+    'lbs': MassUnit.pound,
+    // ounce
+    'ounce': MassUnit.ounce,
+    'ounces': MassUnit.ounce,
+    'oz': MassUnit.ounce,
+    // stone
+    'stone': MassUnit.stone,
+    'stones': MassUnit.stone,
+    'st': MassUnit.stone,
+    // slug
+    'slug': MassUnit.slug,
+    'slugs': MassUnit.slug,
+    // short ton (multi-word — whitespace normalization handles extra spaces)
+    'short ton': MassUnit.shortTon,
+    'short tons': MassUnit.shortTon,
+    // long ton
+    'long ton': MassUnit.longTon,
+    'long tons': MassUnit.longTon,
+    // atomic mass unit
+    'amu': MassUnit.atomicMassUnit,
+    'atomic mass unit': MassUnit.atomicMassUnit,
+    'atomic mass units': MassUnit.atomicMassUnit,
+    'u': MassUnit.atomicMassUnit,
+    // carat
+    'carat': MassUnit.carat,
+    'carats': MassUnit.carat,
+    'ct': MassUnit.carat,
+  };
+
   /// Returns the direct conversion factor to convert a value from this [MassUnit]
   /// to the [targetUnit].
-  ///
-  /// This method is marked as `@internal` and is primarily used by the `Mass`
-  /// class for conversions.
   @override
   @internal
   double factorTo(MassUnit targetUnit) {

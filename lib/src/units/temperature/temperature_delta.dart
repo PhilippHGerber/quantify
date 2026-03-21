@@ -1,6 +1,8 @@
 import 'package:meta/meta.dart';
 
 import '../../core/quantity.dart';
+import '../../core/quantity_format.dart';
+import '../../core/quantity_parser.dart';
 import 'temperature_delta_unit.dart';
 
 /// A temperature change (interval), distinct from an absolute 'Temperature'.
@@ -47,6 +49,40 @@ class TemperatureDelta extends Quantity<TemperatureDeltaUnit> {
   /// final drop = TemperatureDelta(-5.0, TemperatureDeltaUnit.kelvinDelta);
   /// ```
   const TemperatureDelta(super._value, super._unit);
+
+  /// The parser instance used to convert strings into [TemperatureDelta]
+  /// objects.
+  ///
+  /// The parser supports both strict symbol aliases and case-insensitive name
+  /// aliases configured in [TemperatureDeltaUnit].
+  static final QuantityParser<TemperatureDeltaUnit, TemperatureDelta> parser =
+      QuantityParser<TemperatureDeltaUnit, TemperatureDelta>(
+    symbolAliases: TemperatureDeltaUnit.symbolAliases,
+    nameAliases: TemperatureDeltaUnit.nameAliases,
+    factory: TemperatureDelta.new,
+  );
+
+  /// Parses a string representation of a temperature interval into a
+  /// [TemperatureDelta] object.
+  ///
+  /// The [formats] list controls how the numeric portion is interpreted.
+  static TemperatureDelta parse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) {
+    return parser.parse(input, formats: formats);
+  }
+
+  /// Parses a string representation of a temperature interval into a
+  /// [TemperatureDelta] object, returning `null` when parsing fails.
+  ///
+  /// See [parse] for formatting and matching behavior.
+  static TemperatureDelta? tryParse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) {
+    return parser.tryParse(input, formats: formats);
+  }
 
   /// Returns this delta's value converted to [targetUnit].
   @override

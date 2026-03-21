@@ -26,6 +26,23 @@ enum SolidAngleUnit implements Unit<SolidAngleUnit> {
         _factorToSquareDegree = toSteradianFactor / SolidAngleFactors.steradiansPerSquareDegree,
         _factorToSpat = toSteradianFactor / SolidAngleFactors.steradiansPerSpat;
 
+  /// SI and unit symbols matched **strictly case-sensitive**.
+  static const Map<String, SolidAngleUnit> symbolAliases = {
+    'sr': steradian,
+    'deg²': squareDegree,
+    'sp': spat,
+  };
+
+  /// Full word-form names and non-SI abbreviations matched **case-insensitively**.
+  static const Map<String, SolidAngleUnit> nameAliases = {
+    'steradian': steradian,
+    'square degree': squareDegree,
+    'squaredegree': squareDegree,
+    'deg2': squareDegree,
+    'spat': spat,
+    'sp': spat,
+  };
+
   // ignore: unused_field // The factor to convert this unit to Steradian (sr).
   final double _toSteradianFactor;
 

@@ -26,11 +26,6 @@ enum LuminousIntensityUnit implements Unit<LuminousIntensityUnit> {
   /// like searchlights or lighthouses.
   kilocandela(LuminousIntensityFactors.candelasPerKilocandela, 'kcd');
 
-  // If Hefnerkerze were to be added:
-  // /// Hefnerkerze (HK) or Hefner candle, an old German unit.
-  // /// 1 HK ≈ 0.903 cd.
-  // hefnerCandle(LuminousIntensityFactors.candelasPerHefnerCandle, 'HK');
-
   /// Constant constructor for enum members.
   ///
   /// [_toCandelaFactor] is the factor to convert from this unit to the base unit (Candela).
@@ -45,6 +40,28 @@ enum LuminousIntensityUnit implements Unit<LuminousIntensityUnit> {
         _factorToCandela = toCandelaFactor / 1.0, // Base unit factor for candela is 1.0
         _factorToMillicandela = toCandelaFactor / LuminousIntensityFactors.candelasPerMillicandela,
         _factorToKilocandela = toCandelaFactor / LuminousIntensityFactors.candelasPerKilocandela;
+
+  /// SI and unit symbols matched **strictly case-sensitive**.
+  static const Map<String, LuminousIntensityUnit> symbolAliases = {
+    'cd': candela,
+    'mcd': millicandela,
+    'kcd': kilocandela,
+  };
+
+  /// Full word-form names and non-SI abbreviations matched **case-insensitively**.
+  static const Map<String, LuminousIntensityUnit> nameAliases = {
+    'candela': candela,
+    'millicandela': millicandela,
+    'milli candela': millicandela,
+    'kilocandela': kilocandela,
+    'kilo candela': kilocandela,
+  };
+
+  // If Hefnerkerze were to be added:
+  // /// Hefnerkerze (HK) or Hefner candle, an old German unit.
+  // /// 1 HK ≈ 0.903 cd.
+  // hefnerCandle(LuminousIntensityFactors.candelasPerHefnerCandle, 'HK');
+
   // If hefnerCandle were added:
   // _factorToHefnerCandle = toCandelaFactor / LuminousIntensityFactors.candelasPerHefnerCandle;
 

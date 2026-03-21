@@ -3,6 +3,8 @@
 import 'package:meta/meta.dart';
 
 import '../../core/quantity.dart';
+import '../../core/quantity_format.dart';
+import '../../core/quantity_parser.dart';
 import 'temperature_delta.dart';
 import 'temperature_delta_unit.dart';
 import 'temperature_unit.dart';
@@ -22,6 +24,39 @@ class Temperature extends Quantity<TemperatureUnit> {
   /// final absoluteZero = Temperature(0.0, TemperatureUnit.kelvin);
   /// ```
   const Temperature(super._value, super._unit);
+
+  /// The parser instance used to convert strings into [Temperature] objects.
+  ///
+  /// The parser supports both strict symbol aliases and case-insensitive name
+  /// aliases configured in [TemperatureUnit].
+  static final QuantityParser<TemperatureUnit, Temperature> parser =
+      QuantityParser<TemperatureUnit, Temperature>(
+    symbolAliases: TemperatureUnit.symbolAliases,
+    nameAliases: TemperatureUnit.nameAliases,
+    factory: Temperature.new,
+  );
+
+  /// Parses a string representation of absolute temperature into a
+  /// [Temperature] object.
+  ///
+  /// The [formats] list controls how the numeric portion is interpreted.
+  static Temperature parse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) {
+    return parser.parse(input, formats: formats);
+  }
+
+  /// Parses a string representation of absolute temperature into a
+  /// [Temperature] object, returning `null` when parsing fails.
+  ///
+  /// See [parse] for formatting and matching behavior.
+  static Temperature? tryParse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) {
+    return parser.tryParse(input, formats: formats);
+  }
 
   // --- Conversion Constants ---
   // These could also be in a separate TemperatureFactors class if they grew more complex

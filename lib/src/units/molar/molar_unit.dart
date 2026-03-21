@@ -29,11 +29,6 @@ enum MolarUnit implements Unit<MolarUnit> {
   /// Kilomole (kmol), equal to 1000 moles.
   kilomole(MolarFactors.molesPerKilomole, 'kmol');
 
-  // If pound-mole were to be added:
-  // /// Pound-mole (lb-mol), an imperial unit for amount of substance.
-  // /// 1 lb-mol ≈ 453.59237 mol.
-  // poundMole(MolarFactors.molesPerPoundMole, 'lb-mol');
-
   /// Constant constructor for enum members.
   ///
   /// [_toMoleFactor] is the factor to convert from this unit to the base unit (Mole).
@@ -53,6 +48,37 @@ enum MolarUnit implements Unit<MolarUnit> {
         _factorToNanomole = toMoleFactor / MolarFactors.molesPerNanomole,
         _factorToPicomole = toMoleFactor / MolarFactors.molesPerPicomole,
         _factorToKilomole = toMoleFactor / MolarFactors.molesPerKilomole;
+
+  /// SI and unit symbols matched **strictly case-sensitive**.
+  static const Map<String, MolarUnit> symbolAliases = {
+    'mol': mole,
+    'mmol': millimole,
+    'µmol': micromole,
+    'nmol': nanomole,
+    'pmol': picomole,
+    'kmol': kilomole,
+  };
+
+  /// Full word-form names and non-SI abbreviations matched **case-insensitively**.
+  static const Map<String, MolarUnit> nameAliases = {
+    'mole': mole,
+    'millimole': millimole,
+    'milli mole': millimole,
+    'micromole': micromole,
+    'micro mole': micromole,
+    'nanomole': nanomole,
+    'nano mole': nanomole,
+    'picomole': picomole,
+    'pico mole': picomole,
+    'kilomole': kilomole,
+    'kilo mole': kilomole,
+  };
+
+  // If pound-mole were to be added:
+  // /// Pound-mole (lb-mol), an imperial unit for amount of substance.
+  // /// 1 lb-mol ≈ 453.59237 mol.
+  // poundMole(MolarFactors.molesPerPoundMole, 'lb-mol');
+
   // If poundMole were added:
   // _factorToPoundMole = toMoleFactor / MolarFactors.molesPerPoundMole;
 

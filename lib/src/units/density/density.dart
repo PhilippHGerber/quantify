@@ -1,6 +1,8 @@
 import 'package:meta/meta.dart';
 
 import '../../core/quantity.dart';
+import '../../core/quantity_format.dart';
+import '../../core/quantity_parser.dart';
 import '../mass/mass.dart';
 import '../mass/mass_extensions.dart';
 import '../mass/mass_unit.dart';
@@ -37,6 +39,37 @@ class Density extends Quantity<DensityUnit> {
       throw ArgumentError('Volume cannot be zero when calculating density.');
     }
     return Density(kilograms / cubicMeters, DensityUnit.kilogramPerCubicMeter);
+  }
+
+  /// The parser instance used to convert strings into [Density] objects.
+  ///
+  /// The parser supports both strict symbol aliases and case-insensitive name
+  /// aliases configured in [DensityUnit].
+  static final QuantityParser<DensityUnit, Density> parser = QuantityParser<DensityUnit, Density>(
+    symbolAliases: DensityUnit.symbolAliases,
+    nameAliases: DensityUnit.nameAliases,
+    factory: Density.new,
+  );
+
+  /// Parses a string representation of density into a [Density] object.
+  ///
+  /// The [formats] list controls how the numeric portion is interpreted.
+  static Density parse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) {
+    return parser.parse(input, formats: formats);
+  }
+
+  /// Parses a string representation of density into a [Density] object,
+  /// returning `null` when parsing fails.
+  ///
+  /// See [parse] for formatting and matching behavior.
+  static Density? tryParse(
+    String input, {
+    List<QuantityFormat> formats = const [QuantityFormat.invariant],
+  }) {
+    return parser.tryParse(input, formats: formats);
   }
 
   /// Converts this density's value to the specified [targetUnit].
