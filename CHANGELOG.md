@@ -5,6 +5,24 @@ All notable changes to the `quantify` package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Next Release
+
+### Changed — Breaking
+
+* **Eliminated `toString()` Parameter Sprawl**: The `Quantity.toString()` method has been completely refactored to reduce API debt. The five overlapping optional parameters (`locale`, `fractionDigits`, `numberFormat`, `showUnitSymbol`, and `unitSymbolSeparator`) have been **removed**. They are replaced by a single `format` parameter.
+  * **Migration:**
+    * Replace `toString(fractionDigits: 2)` with `toString(format: const QuantityFormat(fractionDigits: 2))`
+    * Replace `toString(locale: 'de_DE', fractionDigits: 2)` with `toString(format: const QuantityFormat.forLocale('de_DE', fractionDigits: 2))`
+    * Replace `toString(showUnitSymbol: false)` with `toString(format: QuantityFormat.valueOnly)`
+    * Replace `toString(numberFormat: myNf)` with `toString(format: QuantityFormat.withNumberFormat(myNf))`
+
+### Added
+
+* **`QuantityFormat`**: A new, immutable configuration class that unifies formatting and parsing rules. It ensures perfect symmetry between converting a quantity to a string and parsing it back.
+* **Predefined Format Constants**: Added convenient, out-of-the-box formats like `QuantityFormat.invariant`, `QuantityFormat.valueOnly`, `QuantityFormat.enUs`, `QuantityFormat.de`, and `QuantityFormat.compact` to eliminate boilerplate.
+* **Multi-Format Parsing**: Added `static parse()` and `static tryParse()` methods to all concrete `Quantity` subclasses (e.g., `Length`, `Mass`, `Time`, `Temperature`, etc.). These methods accept a prioritized `List<QuantityFormat>`, allowing the parser to gracefully fall back through multiple expected locales or formats (e.g., trying US format, then German format).
+* **`QuantityParseException`**: A new, detailed exception thrown when `parse()` fails. It provides rich diagnostics, including the attempted string and the number of formats tried.
+
 ## [0.15.0]
 
 2026-02-23
@@ -49,7 +67,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 * `thermalExpansion` and `conductiveHeatTransfer` no longer misinterpret a temperature difference as an absolute temperature, eliminating a silent calculation error where `20.celsius` was internally treated as 293.15 K.
-
 
 ## [0.14.2]
 
