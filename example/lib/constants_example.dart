@@ -37,7 +37,7 @@ void main() {
   final redLightWavelength = 650.nm;
   final photonEnergy = PhysicalConstants.photonEnergy(redLightWavelength);
   print(
-    'Energy of a 650 nm photon: ${photonEnergy.toString(targetUnit: EnergyUnit.electronvolt, fractionDigits: 2)}',
+    'Energy of a 650 nm photon: ${photonEnergy.toString(targetUnit: EnergyUnit.electronvolt, format: const QuantityFormat(fractionDigits: 2))}',
   );
 
   // Example B: Calculate the escape velocity from the Moon's surface.
@@ -46,7 +46,7 @@ void main() {
     AstronomicalConstants.moonRadius,
   );
   print(
-    'Escape velocity from the Moon: ${moonEscapeVelocity.asKilometersPerSecond.toString(fractionDigits: 2)}',
+    'Escape velocity from the Moon: ${moonEscapeVelocity.asKilometersPerSecond.toString(format: const QuantityFormat(fractionDigits: 2))}',
   );
 
   // Example C: Compare material strengths.
@@ -55,8 +55,8 @@ void main() {
   final isSteelStronger = steelStrength > aluminumModulus;
 
   print(
-    "Is steel's tensile strength (${steelStrength.toString(fractionDigits: 0)})"
-    " greater than aluminum's stiffness (${aluminumModulus.toString(fractionDigits: 0)})?",
+    "Is steel's tensile strength (${steelStrength.toString(format: const QuantityFormat(fractionDigits: 0))})"
+    " greater than aluminum's stiffness (${aluminumModulus.toString(format: const QuantityFormat(fractionDigits: 0))})?",
   );
   print('Answer: $isSteelStronger');
 
@@ -76,6 +76,6 @@ void main() {
 
   // Default US-style formatting with thousands separators.
   print(
-    'Distance to Alpha Centauri: ${alphaCentauriDistance.toString(targetUnit: LengthUnit.kilometer, fractionDigits: 0, locale: 'en_US')}',
+    'Distance to Alpha Centauri: ${alphaCentauriDistance.toString(targetUnit: LengthUnit.kilometer, format: const QuantityFormat.forLocale('en_US', fractionDigits: 0))}',
   );
 }

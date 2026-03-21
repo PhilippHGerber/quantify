@@ -1,4 +1,4 @@
-import 'package:intl/intl.dart'; // For locale-specific number formatting
+import 'package:intl/intl.dart';
 import 'package:quantify/quantify.dart';
 
 void main() {
@@ -6,23 +6,25 @@ void main() {
 
   // 1. Create and convert lengths
   print('\n--- Length ---');
-  final pathA = 1500.m; // Using .m as requested
+  final pathA = 1500.m;
   final pathB = 2.5.km;
 
   print('Path A: $pathA'); // Default toString
   print('Path A in Kilometers: ${pathA.inKm} km');
   print(
-    'Path A (formatted): ${pathA.toString(targetUnit: LengthUnit.kilometer, fractionDigits: 1)}',
+    'Path A (formatted): ${pathA.toString(targetUnit: LengthUnit.kilometer)}',
   );
   print(
-    'Path B in Miles: ${pathB.toString(targetUnit: LengthUnit.mile, fractionDigits: 2)}',
+    'Path B in Miles: ${pathB.toString(targetUnit: LengthUnit.mile)}',
   );
 
   // 2. Arithmetic with lengths
   final totalDistance = pathA + pathB; // pathB is automatically converted to meters
-  print('Total Distance: ${totalDistance.toString(fractionDigits: 0)}');
   print(
-    'Total Distance in Yards: ${totalDistance.toString(targetUnit: LengthUnit.yard, fractionDigits: 0, unitSymbolSeparator: '\u00A0')}',
+    'Total Distance: ${totalDistance.toString(format: const QuantityFormat(fractionDigits: 0))}',
+  );
+  print(
+    'Total Distance in Yards: ${totalDistance.toString(targetUnit: LengthUnit.yard)}',
   );
 
   final scaledDistance = pathA * 3;
@@ -63,13 +65,17 @@ void main() {
   final pAtm = 1.atm; // Standard atmosphere
   print('Standard Atmosphere: $pAtm');
   print('Standard Atmosphere in Pascals: ${pAtm.inPa} Pa');
-  print('Standard Atmosphere in PSI: ${pAtm.asPsi.toString(fractionDigits: 2)}');
   print(
-    'Standard Atmosphere in bar: ${pAtm.toString(targetUnit: PressureUnit.bar, fractionDigits: 3)}',
+    'Standard Atmosphere in PSI: ${pAtm.asPsi}',
+  );
+  print(
+    'Standard Atmosphere in bar: ${pAtm.toString(targetUnit: PressureUnit.bar)}',
   );
 
   final tirePressure = 32.psi;
-  print('Tire Pressure: ${tirePressure.toString(targetUnit: PressureUnit.bar, fractionDigits: 2)}');
+  print(
+    'Tire Pressure: ${tirePressure.toString(targetUnit: PressureUnit.bar)}',
+  );
 
   // 6. Comparisons
   print('\n--- Comparisons ---');
@@ -96,7 +102,7 @@ void main() {
   final distanceDE = 1234.567.m; // Using .m
   // Standard (US-like locale from Dart, usually '.')
   print(
-    'Distance DE (default locale): ${distanceDE.toString(targetUnit: LengthUnit.kilometer, fractionDigits: 2)}',
+    'Distance DE (default locale): ${distanceDE.toString(targetUnit: LengthUnit.kilometer)}',
   );
 
   // German (de_DE)
@@ -105,14 +111,14 @@ void main() {
   // or it's passed directly to `NumberFormat`.
   // quantify's toString() uses NumberFormat.decimalPatternDigits if locale and fractionDigits are given.
   print(
-    'Distance DE (de_DE locale): ${distanceDE.toString(targetUnit: LengthUnit.kilometer, fractionDigits: 2, locale: 'de_DE')}',
+    'Distance DE (de_DE locale): ${distanceDE.toString(targetUnit: LengthUnit.kilometer)}',
   );
   // Output: "1,23 km" (with comma as decimal separator)
 
   // With a custom NumberFormat for decimal pattern
   final valueOnlyFormat = NumberFormat.decimalPatternDigits(locale: 'fr_FR', decimalDigits: 3);
   print(
-    'Distance (fr_FR locale, custom NumberFormat, value only): ${distanceDE.toString(numberFormat: valueOnlyFormat, showUnitSymbol: false, targetUnit: LengthUnit.kilometer)}',
+    'Distance (fr_FR locale, custom NumberFormat, value only): ${distanceDE.toString(targetUnit: LengthUnit.kilometer, format: QuantityFormat.withNumberFormat(valueOnlyFormat, showUnitSymbol: false))}',
   );
   // Output: "1,235" (with comma as decimal separator and 3 decimal places)
 
