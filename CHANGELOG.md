@@ -22,6 +22,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **Predefined Format Constants**: Added convenient, out-of-the-box formats like `QuantityFormat.invariant`, `QuantityFormat.valueOnly`, `QuantityFormat.enUs`, `QuantityFormat.de`, and `QuantityFormat.compact` to eliminate boilerplate.
 * **Multi-Format Parsing**: Added `static parse()` and `static tryParse()` methods to all concrete `Quantity` subclasses (e.g., `Length`, `Mass`, `Time`, `Temperature`, etc.). These methods accept a prioritized `List<QuantityFormat>`, allowing the parser to gracefully fall back through multiple expected locales or formats (e.g., trying US format, then German format).
 * **`QuantityParseException`**: A new, detailed exception thrown when `parse()` fails. It provides rich diagnostics, including the attempted string and the number of formats tried.
+* **New Quantity: `Information`** — digital storage and transfer sizes with full SI (decimal) and IEC (binary) unit support.
+  * `InformationUnit` enum with 12 units:
+    * **SI / decimal:** `bit`, `byte` (`B`), `kilobyte` (`kB`), `megabyte` (`MB`), `gigabyte` (`GB`), `terabyte` (`TB`), `petabyte` (`PB`).
+    * **IEC / binary:** `kibibyte` (`KiB`), `mebibyte` (`MiB`), `gibibyte` (`GiB`), `tebibyte` (`TiB`), `pebibyte` (`PiB`).
+  * Symbol parsing is strictly case-sensitive: `'b'` → bit, `'B'` → byte, `'kB'` → kilobyte (SI, 1 000 bytes), `'KiB'` → kibibyte (IEC, 1 024 bytes). The legacy `'KB'` resolves to SI kilobyte.
+  * `static Information parse(String, {List<QuantityFormat>})` and `static Information? tryParse(...)` with full locale-aware number parsing.
+  * Extension sugar on `num`: `.bit`, `.byte`, `.kB`, `.MB`, `.GB`, `.TB`, `.PB`, `.KiB`, `.MiB`, `.GiB`, `.TiB`, `.PiB`.
+  * Value getters on `Information`: `.inBit`, `.inByte`, `.inKB`, `.inMB`, `.inGB`, `.inTB`, `.inPB`, `.inKiB`, `.inMiB`, `.inGiB`, `.inTiB`, `.inPiB` (and `as*` conversion variants).
+  * Full arithmetic: `Information + Information`, `- Information`, `* scalar`, `/ scalar`.
+  * Available via `package:quantify/quantify.dart` or the new granular `package:quantify/information.dart`.
 
 ## [0.15.0]
 

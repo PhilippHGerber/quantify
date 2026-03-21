@@ -52,6 +52,10 @@ export 'src/units/frequency/frequency.dart';
 export 'src/units/frequency/frequency_extensions.dart' hide FrequencyCreationRpm;
 export 'src/units/frequency/frequency_interop.dart';
 export 'src/units/frequency/frequency_unit.dart';
+// Exporting units and their extensions for information
+export 'src/units/information/information.dart';
+export 'src/units/information/information_extensions.dart';
+export 'src/units/information/information_unit.dart';
 // Exporting units and their extensions for length
 export 'src/units/length/length.dart';
 export 'src/units/length/length_extensions.dart';
