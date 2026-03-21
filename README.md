@@ -15,6 +15,7 @@
 * **Precise & Performant:** Uses `double` and direct conversion factors for speed and to minimize rounding errors.
 * **Immutable:** `Quantity` objects are immutable for safer, more predictable code.
 * **Configurable Output:** Highly flexible `toString()` for customized formatting with locale support.
+* **Robust Parsing:** Built-in string parsing with locale handling and custom alias support.
 * **Lightweight:** Minimal dependencies - just `intl` and `meta`.
 
 Whether you're building a fitness tracker that converts between miles and kilometers, an IoT dashboard displaying sensor readings in multiple units, an engineering calculator, or a scientific application requiring precise measurements, `quantify` provides the robust foundation you need.
@@ -23,8 +24,6 @@ Whether you're building a fitness tracker that converts between miles and kilome
 
 ```dart
 import 'package:quantify/quantify.dart';
-// For locale-specific number formatting, add 'intl' to your pubspec.yaml
-// and import 'package:intl/intl.dart';
 
 void main() {
   // Create quantities
@@ -36,24 +35,25 @@ void main() {
   final pathAsKm = pathA.asKm;
 
   // Convert and print
-  print(pathA.toString(targetUnit: LengthUnit.kilometer, fractionDigits: 1));  // Output: "1.5 km"
-  print(pathB.toString(targetUnit: LengthUnit.mile, fractionDigits: 2));  // Output: "1.55 mi" (approx.)
+  print(pathA.toString(targetUnit: LengthUnit.kilometer));
+  // Output: "1.5 km"
+  print(pathB.toString(targetUnit: LengthUnit.mile));
+  // Output: "1.55 mi" (approx.)
 
   // Arithmetic
   final distance = pathA + pathB; // pathB is converted to meters
-  print(distance.toString(fractionDigits: 0));  // Output: "4000 m"
-  print(distance.toString(
-    targetUnit: LengthUnit.yard,
-    fractionDigits: 0,
-  ));  // Output: "4374 yd" (approx., with non-breaking space)
+  print(distance.toString());  // Output: "4000 m"
+  print(distance.toString(targetUnit: LengthUnit.yard));
+  // Output: "4374 yd" (approx., with non-breaking space)
 
-  // Locale-specific example (if 'intl' is used)
+  // Locale-specific example
   final distanceDE = 1234.567.m;
-  print(distanceDE.toString(
-    targetUnit: LengthUnit.kilometer,
-    fractionDigits: 2,
-    locale: 'de_DE',
-  ));  // Output: "1,23 km"
+  print(distanceDE.toString(targetUnit: LengthUnit.kilometer));
+  // Output: "1,23 km"
+
+  // Parsing
+  final parsed = Length.parse('10.5 km');
+  print(parsed.inM); // 10500.0
 }
 ```
 
@@ -94,6 +94,8 @@ The library supports a comprehensive range of physical quantities, including all
 | **Solid Angle**         | ✅     | **`sr`**, `deg²` (Square Degree), `sp` (Spat)                                                                                          | Derived SI: dimensionless                               |
 | **Energy / Work**       | ✅     | **`J`** (Joule), `kJ`, `MJ`, `kWh`, `cal`, `kcal`, `eV`, `Btu`                                                                         | Derived SI: N·m                                         |
 | **Power**               | ✅     | **`W`** (Watt), `mW`, `kW`, `MW`, `GW`, `hp`, `PS` (metric hp), `Btu/h`, `erg/s`                                                       | Derived SI: J/s                                         |
+| **Density**             | ✅     | **`kg/m³`** (kilogram per cubic meter), `g/cm³`, `g/mL`                                                                             | Derived SI: kg/m³                                       |
+| **Specific Energy**     | ✅     | **`J/kg`** (joule per kilogram), `kJ/kg`, `Wh/kg`, `kWh/kg`                                                                        | Derived SI: J/kg                                        |
 
 ## Detailed Usage
 
@@ -173,13 +175,71 @@ final myDistance = 1578.345.m;
 print(myDistance.toString()); // "1578.345 m"
 
 // Convert to kilometers, 2 fraction digits
-print(myDistance.toString(targetUnit: LengthUnit.kilometer, fractionDigits: 2));
+print(myDistance.toString(targetUnit: LengthUnit.kilometer));
 // Output: "1.58 km"
 
 // Scientific notation with micrometers
 final smallLength = 0.000523.m;
-print(smallLength.toString(targetUnit: LengthUnit.micrometer, fractionDigits: 0));
+print(smallLength.toString(targetUnit: LengthUnit.micrometer));
 // Output: "523 μm"
+```
+
+### Parsing Strings & Custom Aliases
+
+`quantify` provides a robust, extensible parsing engine to convert user input back into `Quantity` objects.
+
+```dart
+final dist = Length.parse('10.5 km');
+final weight = Mass.tryParse('180 lbs'); // Returns null if parsing fails
+```
+
+**Case Sensitivity & SI Prefixes:**
+To prevent collisions, SI unit prefixes are **strictly case-sensitive** (`10 mm` parses as millimeters, `10 Mm` parses as megameters). However, Non-SI and Imperial units (like `lb`, `ft`, `mi`) are **case-insensitive** (`180 LBS` and `180 lbs` both work perfectly).
+
+**Locale & Number Formatting:**
+By default, the parser gracefully handles both periods (`.`) and commas (`,`) as decimal separators. For advanced localized inputs (like thousands separators), pass a `QuantityFormat` with the appropriate locale:
+
+```dart
+// Using a predefined locale format
+final length = Length.parse('1.234,56 km', formats: [QuantityFormat.de]);
+
+// Or with a custom NumberFormat from 'intl':
+final format = NumberFormat.decimalPattern('de_DE');
+final length2 = Length.parse('1.234,56 km', formats: [QuantityFormat.withNumberFormat(format)]);
+```
+
+*(Note: Compound imperial units like `6'2"` are not natively supported by a single `.parse()` call. They should be parsed and added individually: `Length.parse("6'") + Length.parse("2\"")`)*
+
+**Custom Localization & Isolated Parsers (Aliases):**
+`QuantityParser` is fully immutable. To add custom unit names or abbreviations, use `copyWithAliases` to derive a new parser — the original is never modified.
+
+```dart
+// Create a Spanish-language parser derived from the standard one
+final spanishLengthParser = Length.parser.copyWithAliases(
+  extraNameAliases: {
+    'pulgada': LengthUnit.inch,
+    'pulgadas': LengthUnit.inch,
+  },
+  extraSymbolAliases: {'myKM': LengthUnit.kilometer},
+);
+
+// Parses successfully using the isolated parser
+final tvSize = spanishLengthParser.parse('55 pulgada');
+
+// The global default remains strictly standard
+// Length.parse('55 pulgada'); // Throws QuantityParseException
+```
+
+For app-wide custom aliases, derive your parser once at startup and inject it where needed:
+
+```dart
+// main.dart (or your DI setup)
+final appLengthParser = Length.parser.copyWithAliases(
+  extraNameAliases: {'pulgada': LengthUnit.inch},
+);
+
+// Anywhere in your app:
+final dist = appLengthParser.parse('55 pulgada');
 ```
 
 ### Arithmetic Operations
