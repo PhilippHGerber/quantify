@@ -502,14 +502,14 @@ void main() {
       const tolerance = 1e-9;
 
       test('megameter conversions', () {
-        final oneMegameter = 1.0.megaM;
+        final oneMegameter = 1.0.Mm;
         expect(oneMegameter.inM, closeTo(1e6, tolerance));
         expect(oneMegameter.inKm, closeTo(1000.0, tolerance));
         expect(oneMegameter.inGigaM, closeTo(0.001, tolerance));
       });
 
       test('gigameter conversions', () {
-        final oneGigameter = 1.0.gigaM;
+        final oneGigameter = 1.0.Gm;
         expect(oneGigameter.inM, closeTo(1e9, tolerance));
         expect(oneGigameter.inKm, closeTo(1e6, tolerance));
         expect(oneGigameter.inMegaM, closeTo(1000.0, tolerance));
@@ -517,11 +517,11 @@ void main() {
 
       test('astronomical scale examples', () {
         // Earth's diameter is about 12.742 Mm
-        final earthDiameter = 12.742.megaM;
+        final earthDiameter = 12.742.Mm;
         expect(earthDiameter.inKm, closeTo(12742.0, tolerance));
 
         // Sun's diameter is about 1.3927 Gm
-        final sunDiameter = 1.3927.gigaM;
+        final sunDiameter = 1.3927.Gm;
         expect(sunDiameter.inMegaM, closeTo(1392.7, tolerance));
         expect(sunDiameter.inKm, closeTo(1392700.0, tolerance));
 
@@ -879,13 +879,13 @@ void main() {
 
     group('Comprehensive Extension Coverage - All Units', () {
       test('SI large unit extensions (Mm, Gm)', () {
-        final megaM = 5.megaM;
+        final megaM = 5.Mm;
         expect(megaM.value, 5.0);
         expect(megaM.unit, LengthUnit.megameter);
         expect(megaM.inKm, closeTo(5000.0, tolerance));
         expect(megaM.asKm.unit, LengthUnit.kilometer);
 
-        final gigaM = 2.gigaM;
+        final gigaM = 2.Gm;
         expect(gigaM.value, 2.0);
         expect(gigaM.unit, LengthUnit.gigameter);
         expect(gigaM.inMegaM, closeTo(2000.0, tolerance));

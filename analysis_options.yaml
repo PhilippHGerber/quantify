@@ -38,3 +38,4 @@ linter:
     require_trailing_commas: true
     # Use enums rather than classes that behave like enums.
     use_enums: true
+    remove_deprecations_in_breaking_versions: false

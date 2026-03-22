@@ -505,17 +505,17 @@ void main() {
       });
 
       test('deca-, hecto-, and kiloseconds', () {
-        final oneKilosecond = 1.0.kiloS;
+        final oneKilosecond = 1.0.ks;
         expect(oneKilosecond.inSeconds, closeTo(1000.0, tolerance));
         expect(oneKilosecond.inHectoseconds, closeTo(10.0, tolerance));
         expect(oneKilosecond.inDecaseconds, closeTo(100.0, tolerance));
       });
 
       test('mega- and gigaseconds', () {
-        final oneMegasecond = 1.0.megaS; // 1 million seconds
+        final oneMegasecond = 1.0.Ms; // 1 million seconds
         expect(oneMegasecond.inDays, closeTo(1e6 / 86400, 1e-9)); // ~11.57 days
 
-        final oneGigasecond = 1.0.gigaS; // 1 billion seconds
+        final oneGigasecond = 1.0.Gs; // 1 billion seconds
         expect(oneGigasecond.inYears, closeTo(1e9 / 31557600.0, 1e-9)); // ~31.7 years
       });
     });
@@ -695,11 +695,11 @@ void main() {
         expect(asKs.unit, TimeUnit.kilosecond);
         expect(asKs.value, closeTo(0.001, tolerance));
 
-        final asMegaS = 1.0.megaS.asMegaseconds;
+        final asMegaS = 1.0.Ms.asMegaseconds;
         expect(asMegaS.unit, TimeUnit.megasecond);
         expect(asMegaS.value, closeTo(1.0, tolerance));
 
-        final asGigaS = 1.0.gigaS.asGigaseconds;
+        final asGigaS = 1.0.Gs.asGigaseconds;
         expect(asGigaS.unit, TimeUnit.gigasecond);
         expect(asGigaS.value, closeTo(1.0, tolerance));
 

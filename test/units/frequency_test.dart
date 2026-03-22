@@ -27,7 +27,7 @@ void main() {
 
     group('Constructors and Getters', () {
       test('should create from num extensions and retrieve values', () {
-        final freq = 100.mhz;
+        final freq = 100.MHz;
         expect(freq.value, 100.0);
         expect(freq.unit, FrequencyUnit.megahertz);
         expect(freq.inHertz, closeTo(1e8, tolerance));
@@ -45,7 +45,7 @@ void main() {
 
     group('Conversions', () {
       test('Hertz to other units', () {
-        final oneHertz = 1.0.hz;
+        final oneHertz = 1.0.Hz;
         expect(oneHertz.inKilohertz, closeTo(0.001, tolerance));
         expect(oneHertz.inMegahertz, closeTo(1e-6, tolerance));
         expect(oneHertz.inGigahertz, closeTo(1e-9, tolerance));
@@ -54,13 +54,13 @@ void main() {
       });
 
       test('Terahertz to other SI units', () {
-        final opticalFreq = 1.5.thz;
+        final opticalFreq = 1.5.THz;
         expect(opticalFreq.inGigahertz, closeTo(1500.0, tolerance));
         expect(opticalFreq.inHertz, closeTo(1.5e12, tolerance));
       });
 
       test('Kilohertz to Hertz', () {
-        final radioFreq = 88.5.khz;
+        final radioFreq = 88.5.kHz;
         expect(radioFreq.inHertz, closeTo(88500.0, tolerance));
       });
 
@@ -72,9 +72,9 @@ void main() {
 
     group('Comparison', () {
       test('should correctly compare different units', () {
-        final f1 = 100.mhz;
-        final f2 = 0.1.ghz;
-        final f3 = 99.mhz;
+        final f1 = 100.MHz;
+        final f2 = 0.1.GHz;
+        final f3 = 99.MHz;
 
         expect(f1.compareTo(f2), 0);
         expect(f1.compareTo(f3), greaterThan(0));
@@ -84,16 +84,16 @@ void main() {
 
     group('Arithmetic', () {
       test('should perform addition and subtraction', () {
-        final sum = 1.ghz + 200.mhz; // 1000 MHz + 200 MHz = 1200 MHz
+        final sum = 1.GHz + 200.MHz; // 1000 MHz + 200 MHz = 1200 MHz
         expect(sum.inGigahertz, closeTo(1.2, tolerance));
         expect(sum.unit, FrequencyUnit.gigahertz); // Left operand's unit
 
-        final diff = 100.hz - 3000.rpm; // 100 Hz - 50 Hz = 50 Hz
+        final diff = 100.Hz - 3000.rpm; // 100 Hz - 50 Hz = 50 Hz
         expect(diff.inHertz, closeTo(50.0, tolerance));
       });
 
       test('should perform scalar multiplication and division', () {
-        final freq = 50.hz;
+        final freq = 50.Hz;
         expect((freq * 2.5).inHertz, closeTo(125.0, tolerance));
         expect((freq / 2.0).inHertz, closeTo(25.0, tolerance));
         expect((freq / 0).value, double.infinity);
@@ -116,17 +116,17 @@ void main() {
 
       test('frequency.period calculates correct time duration', () {
         // 50 Hz -> 20 ms period
-        final freq = 50.hz;
+        final freq = 50.Hz;
         final period = freq.period;
         expect(period.inMilliseconds, closeTo(20.0, tolerance));
 
         // 4.2 GHz CPU -> ~0.238 ns period
-        final cpuFreq = 4.2.ghz;
+        final cpuFreq = 4.2.GHz;
         final cycleTime = cpuFreq.period;
         expect(cycleTime.inNanoseconds, closeTo(1 / 4.2, tolerance));
         expect(cycleTime.unit, TimeUnit.second); // Always returns in base unit
 
-        expect(() => 0.hz.period, throwsUnsupportedError);
+        expect(() => 0.Hz.period, throwsUnsupportedError);
       });
     });
 
@@ -148,48 +148,48 @@ void main() {
       });
 
       test('all in* value getters', () {
-        final f = 1.0.hz;
+        final f = 1.0.Hz;
         expect(f.inRadiansPerSecond, closeTo(2 * 3.141592653589793, tolerance));
         expect(f.inDegreesPerSecond, closeTo(360.0, tolerance));
       });
 
       test('all as* conversion getters', () {
         const twoPi = 2 * 3.141592653589793;
-        final f = 1.0.ghz;
+        final f = 1.0.GHz;
 
         final asHz = f.asHertz;
         expect(asHz.unit, FrequencyUnit.hertz);
         expect(asHz.value, closeTo(1e9, tolerance));
 
-        final asThz = 1e12.hz.asTerahertz;
+        final asThz = 1e12.Hz.asTerahertz;
         expect(asThz.unit, FrequencyUnit.terahertz);
         expect(asThz.value, closeTo(1.0, tolerance));
 
-        final asGhz = 1e9.hz.asGigahertz;
+        final asGhz = 1e9.Hz.asGigahertz;
         expect(asGhz.unit, FrequencyUnit.gigahertz);
         expect(asGhz.value, closeTo(1.0, tolerance));
 
-        final asMhz = 1e6.hz.asMegahertz;
+        final asMhz = 1e6.Hz.asMegahertz;
         expect(asMhz.unit, FrequencyUnit.megahertz);
         expect(asMhz.value, closeTo(1.0, tolerance));
 
-        final asKhz = 1000.hz.asKilohertz;
+        final asKhz = 1000.Hz.asKilohertz;
         expect(asKhz.unit, FrequencyUnit.kilohertz);
         expect(asKhz.value, closeTo(1.0, tolerance));
 
-        final asRpm = 1.0.hz.asRevolutionsPerMinute;
+        final asRpm = 1.0.Hz.asRevolutionsPerMinute;
         expect(asRpm.unit, FrequencyUnit.revolutionsPerMinute);
         expect(asRpm.value, closeTo(60.0, tolerance));
 
-        final asBpm = 1.0.hz.asBeatsPerMinute;
+        final asBpm = 1.0.Hz.asBeatsPerMinute;
         expect(asBpm.unit, FrequencyUnit.beatsPerMinute);
         expect(asBpm.value, closeTo(60.0, tolerance));
 
-        final asRadPerSec = 1.0.hz.asRadiansPerSecond;
+        final asRadPerSec = 1.0.Hz.asRadiansPerSecond;
         expect(asRadPerSec.unit, FrequencyUnit.radianPerSecond);
         expect(asRadPerSec.value, closeTo(twoPi, tolerance));
 
-        final asDegPerSec = 1.0.hz.asDegreesPerSecond;
+        final asDegPerSec = 1.0.Hz.asDegreesPerSecond;
         expect(asDegPerSec.unit, FrequencyUnit.degreePerSecond);
         expect(asDegPerSec.value, closeTo(360.0, tolerance));
       });
@@ -197,8 +197,8 @@ void main() {
 
     group('Practical Examples', () {
       test('AC Power Frequency', () {
-        final usPower = 60.hz;
-        final euPower = 50.hz;
+        final usPower = 60.Hz;
+        final euPower = 50.Hz;
         expect(usPower.compareTo(euPower), greaterThan(0));
         expect(usPower.period.inMilliseconds, closeTo(16.666, 1e-3));
         expect(euPower.period.inMilliseconds, closeTo(20.0, tolerance));

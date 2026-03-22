@@ -1,6 +1,12 @@
 import 'mass.dart';
 import 'mass_unit.dart';
 
+// SI/IEC unit symbols use uppercase letters by international standard
+// (e.g., 'Mg' for megagram, 'Gg' for gigagram).
+// Dart's lowerCamelCase rule is intentionally overridden here to preserve
+// domain correctness and discoverability for scientists and engineers.
+// ignore_for_file: non_constant_identifier_names
+
 /// Provides convenient access to [Mass] values in specific units
 /// using getter properties.
 ///
@@ -180,9 +186,36 @@ extension MassCreation on num {
   Mass get nanograms => Mass(toDouble(), MassUnit.nanogram);
 
   /// Creates a [Mass] instance representing this numerical value in Megagrams (Mg).
-  Mass get megaG => Mass(toDouble(), MassUnit.megagram);
+  ///
+  /// The SI symbol for megagram is 'Mg' (capital M = mega prefix).
+  /// Note: 1 Mg = 1 tonne. Use `.t` or `.tonnes` if the tonne is more
+  /// natural for your domain.
+  Mass get Mg => Mass(toDouble(), MassUnit.megagram);
+
+  /// Creates a [Mass] instance representing this numerical value in Megagrams (Mg).
+  /// Dart-idiomatic alias for the SI symbol [Mg].
+  /// Note: 1 Mg = 1 tonne.
+  Mass get megagrams => Mass(toDouble(), MassUnit.megagram);
 
   /// Creates a [Mass] instance representing this numerical value in Gigagrams (Gg).
+  ///
+  /// The SI symbol for gigagram is 'Gg' (capital G = giga prefix).
+  Mass get Gg => Mass(toDouble(), MassUnit.gigagram);
+
+  /// Creates a [Mass] instance representing this numerical value in Gigagrams (Gg).
+  /// Dart-idiomatic alias for the SI symbol [Gg].
+  Mass get gigagrams => Mass(toDouble(), MassUnit.gigagram);
+
+  /// Creates a [Mass] instance in Megagrams.
+  /// Deprecated: Use [Mg] or [megagrams] instead.
+  @Deprecated('Use Mg (SI symbol) or megagrams (full word) instead. '
+      'Will be removed in v1.0.0.')
+  Mass get megaG => Mass(toDouble(), MassUnit.megagram);
+
+  /// Creates a [Mass] instance in Gigagrams.
+  /// Deprecated: Use [Gg] or [gigagrams] instead.
+  @Deprecated('Use Gg (SI symbol) or gigagrams (full word) instead. '
+      'Will be removed in v1.0.0.')
   Mass get gigaG => Mass(toDouble(), MassUnit.gigagram);
 
   /// Creates a [Mass] instance representing this numerical value in Tonnes (t, metric tons).

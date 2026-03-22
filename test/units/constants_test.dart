@@ -372,7 +372,7 @@ void main() {
 
       // mechanicalStrain
       final strain = EngineeringConstants.mechanicalStrain(
-        200.megaPascals,
+        200.MPa,
         EngineeringConstants.steelYoungsModulus,
       );
       expect(strain, isA<double>());
@@ -433,7 +433,7 @@ void main() {
     test("mechanicalStrain throws on zero Young's modulus", () {
       expect(
         () => EngineeringConstants.mechanicalStrain(
-          100.megaPascals,
+          100.MPa,
           const Pressure(0, PressureUnit.pascal),
         ),
         throwsArgumentError,

@@ -30,7 +30,13 @@ class AreaFactors {
   static const double km2 = 1000000.0;
 
   /// Square Meters per Square Megameter: 1 Mm² = 1e12 m².
-  static const double squareMegameter = 1000000000000.0;
+  /// SI symbol for square megameter is 'Mm²'.
+  // ignore: constant_identifier_names
+  static const double Mm2 = 1000000000000.0;
+
+  /// Square Meters per Square Megameter: 1 Mm² = 1e12 m².
+  @Deprecated('Use Mm2 instead. Will be removed in v1.0.0.')
+  static const double squareMegameter = Mm2;
 
   /// Square Meters per Square Inch: 1 in² = 0.00064516 m².
   static const double in2 = 0.00064516;

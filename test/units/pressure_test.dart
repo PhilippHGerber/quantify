@@ -312,7 +312,7 @@ void main() {
 
     group('Untested Extension Getters', () {
       test('inMegaPascals value getter', () {
-        final p = 2.0.megaPascals; // 2 MPa = 2,000,000 Pa
+        final p = 2.0.MPa; // 2 MPa = 2,000,000 Pa
         expect(p.inMegaPascals, closeTo(2.0, tolerance));
         expect(p.inPa, closeTo(2000000.0, tolerance));
         expect(1000000.0.pa.inMegaPascals, closeTo(1.0, tolerance));
@@ -326,8 +326,8 @@ void main() {
       });
 
       test('megaPascals and mpa creation extensions', () {
-        final fromMegaPascals = 5.0.megaPascals;
-        final fromMpa = 5.0.mpa;
+        final fromMegaPascals = 5.0.MPa;
+        final fromMpa = 5.0.MPa;
         expect(fromMegaPascals.unit, PressureUnit.megapascal);
         expect(fromMpa.unit, PressureUnit.megapascal);
         expect(fromMegaPascals.value, fromMpa.value);
@@ -335,7 +335,7 @@ void main() {
       });
 
       test('kiloPascals creation extension (vs kPa alias)', () {
-        final fromKiloPascals = 100.0.kiloPascals;
+        final fromKiloPascals = 100.0.kPa;
         final fromKPa = 100.0.kPa;
         expect(fromKiloPascals.unit, PressureUnit.kilopascal);
         expect(fromKPa.unit, PressureUnit.kilopascal);

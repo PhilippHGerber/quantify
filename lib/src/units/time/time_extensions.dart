@@ -1,6 +1,12 @@
 import 'time.dart';
 import 'time_unit.dart';
 
+// SI/IEC unit symbols use uppercase letters by international standard
+// (e.g., 'ks' for kilosecond, 'Ms' for megasecond, 'Gs' for gigasecond).
+// Dart's lowerCamelCase rule is intentionally overridden here to preserve
+// domain correctness and discoverability for scientists and engineers.
+// ignore_for_file: non_constant_identifier_names
+
 /// Provides convenient access to [Time] values in specific units.
 extension TimeValueGetters on Time {
   /// Returns the time value in Seconds (s).
@@ -160,12 +166,51 @@ extension TimeCreation on num {
   Time get hs => Time(toDouble(), TimeUnit.hectosecond);
 
   /// Creates a [Time] instance from this numerical value in Kiloseconds (ks).
+  ///
+  /// The SI symbol for kilosecond is 'ks'.
+  Time get ks => Time(toDouble(), TimeUnit.kilosecond);
+
+  /// Creates a [Time] instance from this numerical value in Kiloseconds (ks).
+  /// Dart-idiomatic alias for the SI symbol [ks].
+  Time get kiloseconds => Time(toDouble(), TimeUnit.kilosecond);
+
+  /// Creates a [Time] instance from this numerical value in Megaseconds (Ms).
+  ///
+  /// The SI symbol for megasecond is 'Ms' (capital M = mega prefix).
+  Time get Ms => Time(toDouble(), TimeUnit.megasecond);
+
+  /// Creates a [Time] instance from this numerical value in Megaseconds (Ms).
+  /// Dart-idiomatic alias for the SI symbol [Ms].
+  Time get megaseconds => Time(toDouble(), TimeUnit.megasecond);
+
+  /// Creates a [Time] instance from this numerical value in Gigaseconds (Gs).
+  ///
+  /// The SI symbol for gigasecond is 'Gs' (capital G = giga prefix).
+  Time get Gs => Time(toDouble(), TimeUnit.gigasecond);
+
+  /// Creates a [Time] instance from this numerical value in Gigaseconds (Gs).
+  /// Dart-idiomatic alias for the SI symbol [Gs].
+  Time get gigaseconds => Time(toDouble(), TimeUnit.gigasecond);
+
+  /// Creates a [Time] instance from this numerical value in Kiloseconds (ks).
+  ///
+  /// Deprecated: Use [ks] (SI symbol) or [kiloseconds] (full word) instead.
+  @Deprecated('Use ks (SI symbol) or kiloseconds (full word) instead. '
+      'Will be removed in v1.0.0.')
   Time get kiloS => Time(toDouble(), TimeUnit.kilosecond);
 
   /// Creates a [Time] instance from this numerical value in Megaseconds (Ms).
+  ///
+  /// Deprecated: Use [Ms] (SI symbol) or [megaseconds] (full word) instead.
+  @Deprecated('Use Ms (SI symbol) or megaseconds (full word) instead. '
+      'Will be removed in v1.0.0.')
   Time get megaS => Time(toDouble(), TimeUnit.megasecond);
 
   /// Creates a [Time] instance from this numerical value in Gigaseconds (Gs).
+  ///
+  /// Deprecated: Use [Gs] (SI symbol) or [gigaseconds] (full word) instead.
+  @Deprecated('Use Gs (SI symbol) or gigaseconds (full word) instead. '
+      'Will be removed in v1.0.0.')
   Time get gigaS => Time(toDouble(), TimeUnit.gigasecond);
 
   /// Creates a [Time] instance representing this numerical value in Minutes (min).

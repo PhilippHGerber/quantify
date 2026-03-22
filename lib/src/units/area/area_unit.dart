@@ -38,7 +38,7 @@ enum AreaUnit implements Unit<AreaUnit> {
   squareKilometer(AreaFactors.km2, 'km²'),
 
   /// Square Megameter (Mm²).
-  squareMegameter(AreaFactors.squareMegameter, 'Mm²'),
+  squareMegameter(AreaFactors.Mm2, 'Mm²'),
 
   /// Square Inch (in²).
   squareInch(AreaFactors.in2, 'in²'),
@@ -67,7 +67,7 @@ enum AreaUnit implements Unit<AreaUnit> {
         _factorToSquareHectometer = toSquareMeterFactor / AreaFactors.hm2,
         _factorToHectare = toSquareMeterFactor / AreaFactors.hm2,
         _factorToSquareKilometer = toSquareMeterFactor / AreaFactors.km2,
-        _factorToSquareMegameter = toSquareMeterFactor / AreaFactors.squareMegameter,
+        _factorToSquareMegameter = toSquareMeterFactor / AreaFactors.Mm2,
         _factorToSquareInch = toSquareMeterFactor / AreaFactors.in2,
         _factorToSquareFoot = toSquareMeterFactor / AreaFactors.ft2,
         _factorToSquareYard = toSquareMeterFactor / AreaFactors.yd2,

@@ -47,7 +47,7 @@ void main() {
         expect(avRpm.unit, AngularVelocityUnit.revolutionPerMinute);
         expect(avRpm.inRps, closeTo(1.0, tolerance));
 
-        final freqHz = 50.hz; // Represents 50 cycles/revolutions per second
+        final freqHz = 50.Hz; // Represents 50 cycles/revolutions per second
         final avRps = freqHz.asAngularVelocity;
         expect(avRps, isA<AngularVelocity>());
         expect(avRps.value, 50.0);
@@ -57,8 +57,8 @@ void main() {
 
       test('should throw UnsupportedError for non-rotational units', () {
         final heartRate = 120.bpm;
-        final radioWave = 88.5.mhz;
-        final cpuClock = 4.2.ghz;
+        final radioWave = 88.5.MHz;
+        final cpuClock = 4.2.GHz;
 
         expect(
           () => heartRate.asAngularVelocity,

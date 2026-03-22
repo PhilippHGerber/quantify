@@ -3,6 +3,12 @@
 import 'power.dart';
 import 'power_unit.dart';
 
+// SI/IEC unit symbols use uppercase letters by international standard
+// (e.g., 'MW' for megawatt, 'GW' for gigawatt).
+// Dart's lowerCamelCase rule is intentionally overridden here to preserve
+// domain correctness and discoverability for scientists and engineers.
+// ignore_for_file: non_constant_identifier_names
+
 /// Provides convenient access to [Power] values in specific units
 /// using getter properties.
 extension PowerValueGetters on Power {
@@ -88,15 +94,21 @@ extension PowerCreation on num {
   Power get kilowatts => Power(toDouble(), PowerUnit.kilowatt);
 
   /// Creates a [Power] instance from this value in Megawatts (MW).
-  Power get megaW => Power(toDouble(), PowerUnit.megawatt);
+  ///
+  /// The SI symbol for megawatt is 'MW' (capital M = mega prefix).
+  Power get MW => Power(toDouble(), PowerUnit.megawatt);
 
   /// Creates a [Power] instance from this value in Megawatts (MW).
+  /// Dart-idiomatic alias for the SI symbol [MW].
   Power get megawatts => Power(toDouble(), PowerUnit.megawatt);
 
   /// Creates a [Power] instance from this value in Gigawatts (GW).
-  Power get gigaW => Power(toDouble(), PowerUnit.gigawatt);
+  ///
+  /// The SI symbol for gigawatt is 'GW' (capital G = giga prefix).
+  Power get GW => Power(toDouble(), PowerUnit.gigawatt);
 
   /// Creates a [Power] instance from this value in Gigawatts (GW).
+  /// Dart-idiomatic alias for the SI symbol [GW].
   Power get gigawatts => Power(toDouble(), PowerUnit.gigawatt);
 
   // --- Engineering / Common Units ---
@@ -114,4 +126,20 @@ extension PowerCreation on num {
 
   /// Creates a [Power] instance from this value in Ergs per second (erg/s).
   Power get ergPerSecond => Power(toDouble(), PowerUnit.ergPerSecond);
+
+  /// Creates a [Power] instance from this value in Megawatts (MW).
+  ///
+  /// Deprecated: Use [MW] (SI symbol) or [megawatts] (full word) instead.
+  /// Will be removed in v1.0.0.
+  @Deprecated('Use MW (SI symbol) or megawatts (full word) instead. '
+      'Will be removed in v1.0.0.')
+  Power get megaW => Power(toDouble(), PowerUnit.megawatt);
+
+  /// Creates a [Power] instance from this value in Gigawatts (GW).
+  ///
+  /// Deprecated: Use [GW] (SI symbol) or [gigawatts] (full word) instead.
+  /// Will be removed in v1.0.0.
+  @Deprecated('Use GW (SI symbol) or gigawatts (full word) instead. '
+      'Will be removed in v1.0.0.')
+  Power get gigaW => Power(toDouble(), PowerUnit.gigawatt);
 }

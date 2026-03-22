@@ -127,7 +127,7 @@ void main() {
         expect(5.kN.unit, ForceUnit.kilonewton);
         expect(5.kilonewtons.unit, ForceUnit.kilonewton);
         expect(5.kilonewtons.inNewtons, closeTo(5000.0, tolerance));
-        expect(2.megaN.unit, ForceUnit.meganewton);
+        expect(2.MN.unit, ForceUnit.meganewton);
         expect(2.meganewtons.unit, ForceUnit.meganewton);
         expect(500.mN.unit, ForceUnit.millinewton);
         expect(500.millinewtons.unit, ForceUnit.millinewton);

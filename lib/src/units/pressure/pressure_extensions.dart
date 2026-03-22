@@ -1,6 +1,12 @@
 import 'pressure.dart';
 import 'pressure_unit.dart';
 
+// SI/IEC unit symbols use uppercase letters by international standard
+// (e.g., 'MPa' for megapascal).
+// Dart's lowerCamelCase rule is intentionally overridden here to preserve
+// domain correctness and discoverability for scientists and engineers.
+// ignore_for_file: non_constant_identifier_names
+
 /// Provides convenient access to [Pressure] values in specific units
 /// using shortened unit names where appropriate.
 extension PressureValueGetters on Pressure {
@@ -111,18 +117,20 @@ extension PressureCreation on num {
   Pressure get inHg => Pressure(toDouble(), PressureUnit.inchOfMercury);
 
   /// Creates a [Pressure] instance representing this numerical value in Megapascals (MPa).
-  Pressure get megaPascals => Pressure(toDouble(), PressureUnit.megapascal);
+  ///
+  /// The SI symbol for megapascal is 'MPa' (capital M = mega prefix).
+  Pressure get MPa => Pressure(toDouble(), PressureUnit.megapascal);
 
   /// Creates a [Pressure] instance representing this numerical value in Megapascals (MPa).
-  /// Alias for `megaPascals`.
-  Pressure get mpa => Pressure(toDouble(), PressureUnit.megapascal);
+  /// Dart-idiomatic alias for the SI symbol [MPa].
+  Pressure get megapascals => Pressure(toDouble(), PressureUnit.megapascal);
 
   /// Creates a [Pressure] instance representing this numerical value in Kilopascals (kPa).
-  Pressure get kiloPascals => Pressure(toDouble(), PressureUnit.kilopascal);
-
-  /// Creates a [Pressure] instance representing this numerical value in Kilopascals (kPa).
-  /// Alias for `kiloPascals`.
   Pressure get kPa => Pressure(toDouble(), PressureUnit.kilopascal);
+
+  /// Creates a [Pressure] instance representing this numerical value in Kilopascals (kPa).
+  /// Dart-idiomatic alias for the SI symbol [kPa].
+  Pressure get kilopascals => Pressure(toDouble(), PressureUnit.kilopascal);
 
   /// Creates a [Pressure] instance representing this numerical value in Hectopascals (hPa).
   Pressure get hPa => Pressure(toDouble(), PressureUnit.hectopascal);
@@ -135,4 +143,30 @@ extension PressureCreation on num {
 
   /// Creates a [Pressure] instance representing this numerical value in Inches of Water (inH₂O) at 4°C.
   Pressure get inH2O => Pressure(toDouble(), PressureUnit.inchOfWater);
+
+  /// Creates a [Pressure] instance representing this numerical value in Megapascals (MPa).
+  ///
+  /// Deprecated: Use [MPa] (SI symbol) or [megapascals] (full word) instead.
+  /// Will be removed in v1.0.0.
+  @Deprecated('Use MPa (SI symbol) or megapascals (full word) instead. '
+      'Will be removed in v1.0.0.')
+  Pressure get megaPascals => Pressure(toDouble(), PressureUnit.megapascal);
+
+  /// Creates a [Pressure] instance representing this numerical value in Megapascals (MPa).
+  ///
+  /// Deprecated: Use [MPa] (SI symbol) or [megapascals] (full word) instead.
+  /// Lowercase mpa is ambiguous (m = milli in SI).
+  /// Will be removed in v1.0.0.
+  @Deprecated('Use MPa (SI symbol) or megapascals (full word) instead. '
+      'Lowercase mpa is ambiguous (m = milli in SI). '
+      'Will be removed in v1.0.0.')
+  Pressure get mpa => Pressure(toDouble(), PressureUnit.megapascal);
+
+  /// Creates a [Pressure] instance representing this numerical value in Kilopascals (kPa).
+  ///
+  /// Deprecated: Use [kPa] (SI symbol) or [kilopascals] (full word) instead.
+  /// Will be removed in v1.0.0.
+  @Deprecated('Use kPa (SI symbol) or kilopascals (full word) instead. '
+      'Will be removed in v1.0.0.')
+  Pressure get kiloPascals => Pressure(toDouble(), PressureUnit.kilopascal);
 }

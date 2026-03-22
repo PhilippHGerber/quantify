@@ -156,7 +156,7 @@ void main() {
     group('Comprehensive Extension Coverage', () {
       test('all creation extension aliases', () {
         expect(100.joules.unit, EnergyUnit.joule);
-        expect(1.megaJ.unit, EnergyUnit.megajoule);
+        expect(1.MJ.unit, EnergyUnit.megajoule);
         expect(1.megajoules.unit, EnergyUnit.megajoule);
         expect(5.kilojoules.unit, EnergyUnit.kilojoule);
         expect(250.calories.unit, EnergyUnit.calorie);

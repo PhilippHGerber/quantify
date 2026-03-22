@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+* **`MolarUnit.poundMole` (`lb-mol`)** — adds the imperial pound-mole unit to `MolarAmount`. 1 lb-mol = 453.59237 mol (exact, from the pound-to-gram definition). Includes:
+  * `num.lbmol` / `num.poundMoles` creation extensions.
+  * `MolarAmount.inPoundMoles` value getter and `MolarAmount.asPoundMoles` conversion getter.
+  * Symbol alias `'lb-mol'` (case-sensitive) and name aliases `'pound-mole'`, `'pound mole'`, `'poundmole'` (case-insensitive) for `parse()` / `tryParse()`.
+
 ### Changed — Breaking
 
 * **Eliminated `toString()` Parameter Sprawl**: The `Quantity.toString()` method has been completely refactored to reduce API debt. The five overlapping optional parameters (`locale`, `fractionDigits`, `numberFormat`, `showUnitSymbol`, and `unitSymbolSeparator`) have been **removed**. They are replaced by a single `format` parameter.
@@ -15,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     * Replace `toString(locale: 'de_DE', fractionDigits: 2)` with `toString(format: const QuantityFormat.forLocale('de_DE', fractionDigits: 2))`
     * Replace `toString(showUnitSymbol: false)` with `toString(format: QuantityFormat.valueOnly)`
     * Replace `toString(numberFormat: myNf)` with `toString(format: QuantityFormat.withNumberFormat(myNf))`
-* **`operator /` by zero now returns `Infinity`** — dividing any linear quantity by `0` (e.g. `10.m / 0`) previously threw `ArgumentError`. It now returns a quantity whose `value` is `double.infinity`, consistent with IEEE 754 double arithmetic. Affected types: all 22 linear quantities (`Length`, `Mass`, `Speed`, `Time`, `Area`, `Volume`, `Angle`, `AngularVelocity`, `Acceleration`, `Force`, `Energy`, `Power`, `Pressure`, `Frequency`, `Current`, `ElectricCharge`, `Density`, `SpecificEnergy`, `SolidAngle`, `LuminousIntensity`, `MolarAmount`, `Information`, `TemperatureDelta`). `Temperature.ratioTo()` is also now consistent — see below.
+* **`operator /` by zero now follows IEEE 754 semantics — dividing any linear quantity by `0` (e.g. `10.m / 0`) previously threw `ArgumentError`. It now returns a quantity whose `value` is `double.infinity`, `double.negativeInfinity`, or `double.nan` depending on the numerator, consistent with standard Dart double arithmetic. Affected types: all 22 linear quantities (`Length`,`Mass`,`Speed`,`Time`,`Area`,`Volume`,`Angle`,`AngularVelocity`,`Acceleration`,`Force`,`Energy`,`Power`,`Pressure`,`Frequency`,`Current`,`ElectricCharge`,`Density`,`SpecificEnergy`,`SolidAngle`,`LuminousIntensity`,`MolarAmount`,`Information`,`TemperatureDelta`).`Temperature.ratioTo()` is also now consistent — see below.
 
 * **`Temperature.ratioTo()` now returns `Infinity` on absolute zero** — previously threw `ArgumentError` when the divisor was 0 K. It now returns `double.infinity`, consistent with IEEE 754 semantics and all other division-by-zero behaviour in the library. Code that caught `ArgumentError` from this method must be updated.
 
@@ -65,7 +72,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed — Non-Breaking
 
-* **`Area` extension: `squareMegameter` renamed to `Mm2`** — the `num.squareMegameter` creation getter is renamed to `num.Mm2` to follow the established `{prefix}m2` naming convention used by every other SI area unit (`m2`, `km2`, `hm2`, `dam2`, `dm2`, `cm2`, `mm2`, `um2`). The old `squareMegameter` getter is retained but marked `@Deprecated` and will be removed in the next major version.
+* **Standardized API Naming — Dual API (SI Symbol + Full Word):**
+  * Every `num` creation getter with an uppercase SI/IEC symbol now has exactly two variants: the official **SI symbol** (primary) and a **Dart-idiomatic full English word** (alias).
+  * **New SI symbol getters (28 total):** `Mm`, `Gm` (Length); `Mg`, `Gg` (Mass); `ks`, `Ms`, `Gs` (Time); `Mm2` (Area); `Ml`, `Gl`, `Tl` (Volume); `MJ` (Energy); `MW`, `GW` (Power); `MN` (Force); `Hz`, `kHz`, `MHz`, `GHz`, `THz` (Frequency); `MPa` (Pressure).
+  * **New full-word getters (13 total):** `megameters`, `gigameters`, `megagrams`, `gigagrams`, `kiloseconds`, `megaseconds`, `gigaseconds`, `megapascals`, `kilopascals`, `hertz`, `kilohertz`, `megahertz`, `gigahertz`, `terahertz`.
+  * **Deprecated hybrid forms (13 total):** `megaM`, `gigaM`, `megaG`, `gigaG`, `kiloS`, `megaS`, `gigaS`, `megaJ`, `megaW`, `gigaW`, `megaN`, `megaPascals`, `kiloPascals` — these invented notations have no basis in SI and will be removed in v2.0.0.
+  * **Fixed SI-incorrect Frequency getters:** `hz`, `khz`, `mhz`, `ghz`, `thz` violated SI naming rules (Hertz requires capital H). Replaced with correct `Hz`, `kHz`, `MHz`, `GHz`, `THz`. Old lowercase forms are deprecated.
+  * **Fixed `mpa` ambiguity:** lowercase `m` means milli in SI, making `mpa` read as "millipascal". Replaced with correct `MPa`. Old form is deprecated.
+  * **All affected files now include file-level lint suppression** with reviewer-facing comment explaining SI symbol justification.
+  * **Round-trip consistency:** Both creation getters create identical instances; the choice between SI symbol and full word is purely stylistic (`10.Mm` and `10.megameters` are equivalent).
+  * Migration path: Replace all deprecated getters with their SI symbol or full-word equivalent (both listed in deprecation messages). No code logic changes required.
 
 * **`Information` lowercase extension aliases** — added linter-friendly all-lowercase creation getters. The IEC binary aliases are unchanged. Note: `.kb/.mb/.gb/.tb/.pb` were remapped to bit-based units in this release (see breaking changes above).
   * Bit-based (SI): `.kb` (kilobit), `.mb` (megabit), `.gb` (gigabit), `.tb` (terabit), `.pb` (petabit)

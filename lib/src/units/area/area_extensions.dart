@@ -1,6 +1,12 @@
 import 'area.dart';
 import 'area_unit.dart';
 
+// SI/IEC unit symbols use uppercase letters by international standard
+// (e.g., 'Mm2' for square megameter).
+// Dart's lowerCamelCase rule is intentionally overridden here to preserve
+// domain correctness and discoverability for scientists and engineers.
+// ignore_for_file: non_constant_identifier_names
+
 /// Provides convenient access to [Area] values in specific units
 /// using getter properties.
 extension AreaValueGetters on Area {
@@ -130,8 +136,7 @@ extension AreaCreation on num {
 
   /// Creates an [Area] instance representing this numerical value in Square Megameters (Mm²).
   ///
-  /// Follows the same `{prefix}m2` naming convention as `km2`, `hm2`, `dam2`, etc.
-  // ignore: non_constant_identifier_names
+  /// The SI symbol for square megameter is 'Mm2' (capital M = mega prefix).
   Area get Mm2 => Area(toDouble(), AreaUnit.squareMegameter);
 
   /// Creates an [Area] instance representing this numerical value in Square Inches (in²).

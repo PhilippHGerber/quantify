@@ -1,6 +1,12 @@
 import 'frequency.dart';
 import 'frequency_unit.dart';
 
+// SI/IEC unit symbols use uppercase letters by international standard
+// (e.g., 'Hz' for hertz, named after Heinrich Hertz).
+// Dart's lowerCamelCase rule is intentionally overridden here to preserve
+// domain correctness and discoverability for scientists and engineers.
+// ignore_for_file: non_constant_identifier_names
+
 /// Provides convenient access to [Frequency] values in specific units.
 extension FrequencyValueGetters on Frequency {
   /// Returns the frequency value in Hertz (Hz).
@@ -67,19 +73,47 @@ extension FrequencyValueGetters on Frequency {
 /// Provides convenient factory methods for creating [Frequency] instances from [num].
 extension FrequencyCreation on num {
   /// Creates a [Frequency] instance from this value in Hertz (Hz).
-  Frequency get hz => Frequency(toDouble(), FrequencyUnit.hertz);
+  ///
+  /// The SI symbol for hertz is 'Hz' (capital H — named after Heinrich Hertz).
+  Frequency get Hz => Frequency(toDouble(), FrequencyUnit.hertz);
 
-  /// Creates a [Frequency] instance from this value in Terahertz (THz).
-  Frequency get thz => Frequency(toDouble(), FrequencyUnit.terahertz);
-
-  /// Creates a [Frequency] instance from this value in Gigahertz (GHz).
-  Frequency get ghz => Frequency(toDouble(), FrequencyUnit.gigahertz);
-
-  /// Creates a [Frequency] instance from this value in Megahertz (MHz).
-  Frequency get mhz => Frequency(toDouble(), FrequencyUnit.megahertz);
+  /// Creates a [Frequency] instance from this value in Hertz (Hz).
+  /// Dart-idiomatic alias for the SI symbol [Hz].
+  Frequency get hertz => Frequency(toDouble(), FrequencyUnit.hertz);
 
   /// Creates a [Frequency] instance from this value in Kilohertz (kHz).
-  Frequency get khz => Frequency(toDouble(), FrequencyUnit.kilohertz);
+  Frequency get kHz => Frequency(toDouble(), FrequencyUnit.kilohertz);
+
+  /// Creates a [Frequency] instance from this value in Kilohertz (kHz).
+  /// Dart-idiomatic alias for the SI symbol [kHz].
+  Frequency get kilohertz => Frequency(toDouble(), FrequencyUnit.kilohertz);
+
+  /// Creates a [Frequency] instance from this value in Megahertz (MHz).
+  ///
+  /// The SI symbol for megahertz is 'MHz' (capital M = mega, capital H = Hertz).
+  Frequency get MHz => Frequency(toDouble(), FrequencyUnit.megahertz);
+
+  /// Creates a [Frequency] instance from this value in Megahertz (MHz).
+  /// Dart-idiomatic alias for the SI symbol [MHz].
+  Frequency get megahertz => Frequency(toDouble(), FrequencyUnit.megahertz);
+
+  /// Creates a [Frequency] instance from this value in Gigahertz (GHz).
+  ///
+  /// The SI symbol for gigahertz is 'GHz' (capital G = giga, capital H = Hertz).
+  Frequency get GHz => Frequency(toDouble(), FrequencyUnit.gigahertz);
+
+  /// Creates a [Frequency] instance from this value in Gigahertz (GHz).
+  /// Dart-idiomatic alias for the SI symbol [GHz].
+  Frequency get gigahertz => Frequency(toDouble(), FrequencyUnit.gigahertz);
+
+  /// Creates a [Frequency] instance from this value in Terahertz (THz).
+  ///
+  /// The SI symbol for terahertz is 'THz' (capital T = tera, capital H = Hertz).
+  Frequency get THz => Frequency(toDouble(), FrequencyUnit.terahertz);
+
+  /// Creates a [Frequency] instance from this value in Terahertz (THz).
+  /// Dart-idiomatic alias for the SI symbol [THz].
+  Frequency get terahertz => Frequency(toDouble(), FrequencyUnit.terahertz);
 
   /// Creates a [Frequency] instance from this value in Millihertz (mHz).
   Frequency get mHz => Frequency(toDouble(), FrequencyUnit.millihertz);
@@ -98,6 +132,48 @@ extension FrequencyCreation on num {
 
   /// Creates a [Frequency] instance from this value in Degrees per second (°/s).
   Frequency get degPerSec => Frequency(toDouble(), FrequencyUnit.degreePerSecond);
+
+  /// Creates a [Frequency] instance from this value in Hertz (Hz).
+  ///
+  /// Deprecated: Use [Hz] (SI symbol) or [hertz] (full word) instead.
+  /// SI mandates capital H for Hertz (named after Heinrich Hertz).
+  /// Will be removed in v1.0.0.
+  @Deprecated('Use Hz (SI symbol) or hertz (full word) instead. '
+      'SI mandates capital H for Hertz (named after Heinrich Hertz). '
+      'Will be removed in v1.0.0.')
+  Frequency get hz => Frequency(toDouble(), FrequencyUnit.hertz);
+
+  /// Creates a [Frequency] instance from this value in Kilohertz (kHz).
+  ///
+  /// Deprecated: Use [kHz] (SI symbol) or [kilohertz] (full word) instead.
+  /// Will be removed in v1.0.0.
+  @Deprecated('Use kHz (SI symbol) or kilohertz (full word) instead. '
+      'Will be removed in v1.0.0.')
+  Frequency get khz => Frequency(toDouble(), FrequencyUnit.kilohertz);
+
+  /// Creates a [Frequency] instance from this value in Megahertz (MHz).
+  ///
+  /// Deprecated: Use [MHz] (SI symbol) or [megahertz] (full word) instead.
+  /// Will be removed in v1.0.0.
+  @Deprecated('Use MHz (SI symbol) or megahertz (full word) instead. '
+      'Will be removed in v1.0.0.')
+  Frequency get mhz => Frequency(toDouble(), FrequencyUnit.megahertz);
+
+  /// Creates a [Frequency] instance from this value in Gigahertz (GHz).
+  ///
+  /// Deprecated: Use [GHz] (SI symbol) or [gigahertz] (full word) instead.
+  /// Will be removed in v1.0.0.
+  @Deprecated('Use GHz (SI symbol) or gigahertz (full word) instead. '
+      'Will be removed in v1.0.0.')
+  Frequency get ghz => Frequency(toDouble(), FrequencyUnit.gigahertz);
+
+  /// Creates a [Frequency] instance from this value in Terahertz (THz).
+  ///
+  /// Deprecated: Use [THz] (SI symbol) or [terahertz] (full word) instead.
+  /// Will be removed in v1.0.0.
+  @Deprecated('Use THz (SI symbol) or terahertz (full word) instead. '
+      'Will be removed in v1.0.0.')
+  Frequency get thz => Frequency(toDouble(), FrequencyUnit.terahertz);
 }
 
 /// Provides an alias for the `rpm` extension on `num` for creating [Frequency] instances.

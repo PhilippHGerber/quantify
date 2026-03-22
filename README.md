@@ -78,7 +78,7 @@ The library supports a comprehensive range of physical quantities, including all
 | **Electric Current**    | ✅     | **`A`** (ampere), `mA`, `μA`, `nA`, `kA`                                                                                               | SI Base: Ampere (A)                                     |
 | **Temperature**         | ✅     | **`K`** (kelvin), `°C` (celsius), `°F` (fahrenheit), `°R` (rankine)                                                                    | SI Base: Kelvin (K). Affine conversions.                |
 | **TemperatureDelta**    | ✅     | **`K`** (kelvinDelta), `°C` (celsiusDelta), `°F` (fahrenheitDelta), `°R` (rankineDelta)                                                | Linear. Represents a temperature *change*, not a point. |
-| **Amount of Substance** | ✅     | **`mol`** (mole), `mmol`, `μmol`, `nmol`, `pmol`, `kmol`                                                                               | SI Base: Mole (mol)                                     |
+| **Amount of Substance** | ✅     | **`mol`** (mole), `mmol`, `μmol`, `nmol`, `pmol`, `kmol`, `lb-mol` (pound-mole)                                                        | SI Base: Mole (mol)                                     |
 | **Luminous Intensity**  | ✅     | **`cd`** (candela), `mcd`, `kcd`                                                                                                       | SI Base: Candela (cd)                                   |
 | *Derived*               |        |                                                                                                                                        |                                                         |
 | **Angle**               | ✅     | **`rad`** (radian), `°` (degree), `grad`, `rev`, `arcmin` ('), `arcsec` ("), `mrad`                                                    | Derived SI: dimensionless                               |
@@ -116,6 +116,34 @@ Or use the constructor of the specific `Quantity` class:
 ```dart
 final specificLength = Length(5.0, LengthUnit.yard);
 ```
+
+#### Dual API: SI Symbols vs. Full-Word Getters
+
+For units with uppercase SI/IEC symbols, `quantify` provides **two equivalent ways** to create quantities — choose whichever reads better in your code:
+
+```dart
+// SI symbols (primary): uppercase for international standard compliance
+final distance1 = 5.Mm;        // megameters (SI symbol)
+final distance2 = 5.megameters; // megameters (Dart-idiomatic full word)
+// Both are equivalent: distance1 == distance2
+
+// More examples
+final mass1 = 2.Mg;            // megagrams (SI: capital M = mega)
+final mass2 = 2.megagrams;     // Same thing, different style
+
+final freq1 = 100.MHz;         // megahertz (SI requires capital H)
+final freq2 = 100.megahertz;   // Same, but maybe more readable in context
+
+final energy1 = 50.MJ;         // megajoules
+final energy2 = 50.megajoules; // Same quantity
+```
+
+This **dual API** ensures:
+
+* **International compliance:** SI symbols (`Mm`, `Hz`, `MJ`, etc.) follow official standards
+* **Code readability:** Full-word getters (`megameters`, `hertz`, `megajoules`) read naturally in English
+* **Consistency:** All 23 quantities follow the same pattern
+* **No performance cost:** Both compile to identical bytecode
 
 ### Converting and Retrieving Values
 

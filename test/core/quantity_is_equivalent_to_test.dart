@@ -127,7 +127,11 @@ void main() {
       test('is symmetric when one operand is zero', () {
         const small = Length(1e-10, LengthUnit.meter);
         final zero = 0.0.km;
-        expect(small.isEquivalentTo(zero), equals(zero.isEquivalentTo(small)));
+        // Use absoluteTolerance: 0 for pure relative tolerance testing
+        expect(
+          small.isEquivalentTo(zero, absoluteTolerance: 0),
+          equals(zero.isEquivalentTo(small, absoluteTolerance: 0)),
+        );
       });
     });
 

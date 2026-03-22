@@ -38,10 +38,10 @@ void main() {
       });
 
       test('should create from all new units', () {
-        final pMw = 500.mW;
-        expect(pMw.inWatts, closeTo(0.5, strictTolerance));
+        final pMw = 500.MW;
+        expect(pMw.inWatts, closeTo(500e6, strictTolerance));
 
-        final pGw = 1.2.gigaW;
+        final pGw = 1.2.GW;
         expect(pGw.inMegawatts, closeTo(1200.0, strictTolerance));
 
         final pMetricHp = 100.0.metricHp;
@@ -77,7 +77,7 @@ void main() {
     group('Comparison', () {
       test('should correctly compare different units', () {
         final p1 = 100.kW;
-        final p2 = 0.1.megaW;
+        final p2 = 0.1.MW;
         final p3 = 134.hp; // approx 99.9 kW
 
         expect(p1.compareTo(p2), 0);
@@ -131,9 +131,9 @@ void main() {
         expect(50.W.unit, PowerUnit.watt);
         expect(50.watts.unit, PowerUnit.watt);
         expect(100.kilowatts.unit, PowerUnit.kilowatt);
-        expect(5.megaW.unit, PowerUnit.megawatt);
+        expect(5.MW.unit, PowerUnit.megawatt);
         expect(5.megawatts.unit, PowerUnit.megawatt);
-        expect(1.gigaW.unit, PowerUnit.gigawatt);
+        expect(1.GW.unit, PowerUnit.gigawatt);
         expect(1.gigawatts.unit, PowerUnit.gigawatt);
         expect(500.milliwatts.unit, PowerUnit.milliwatt);
         expect(500.milliwatts.inWatts, closeTo(0.5, defaultTolerance));
@@ -154,13 +154,13 @@ void main() {
         expect(asKw.unit, PowerUnit.kilowatt);
         expect(asKw.value, closeTo(1.0, defaultTolerance));
 
-        final asMegaW = p.asMegawatts;
-        expect(asMegaW.unit, PowerUnit.megawatt);
-        expect(asMegaW.value, closeTo(0.001, defaultTolerance));
+        final asMW = p.asMegawatts;
+        expect(asMW.unit, PowerUnit.megawatt);
+        expect(asMW.value, closeTo(0.001, defaultTolerance));
 
-        final asGw = p.asGigawatts;
-        expect(asGw.unit, PowerUnit.gigawatt);
-        expect(asGw.value, closeTo(1e-6, defaultTolerance));
+        final asGW = p.asGigawatts;
+        expect(asGW.unit, PowerUnit.gigawatt);
+        expect(asGW.value, closeTo(1e-6, defaultTolerance));
 
         final asHp = p.asHorsepower;
         expect(asHp.unit, PowerUnit.horsepower);

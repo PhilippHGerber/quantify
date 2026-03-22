@@ -588,7 +588,7 @@ void main() {
 
       test('megagram conversions and equivalence with tonne', () {
         // Use the new explicit extension `megaG`
-        final oneMegagram = 1.0.megaG;
+        final oneMegagram = 1.0.Mg;
         expect(oneMegagram.inKilograms, closeTo(1000.0, tolerance));
         expect(oneMegagram.inGrams, closeTo(1e6, tolerance));
 
@@ -600,31 +600,31 @@ void main() {
 
       test('gigagram conversions', () {
         // Use the new explicit extension `gigaG`
-        final oneGigagram = 1.0.gigaG;
+        final oneGigagram = 1.0.Gg;
         expect(oneGigagram.inKilograms, closeTo(1e6, tolerance));
-        // Use the new explicit getter `inMegaG`
+        // Use the existing getter `inMegaG`
         expect(oneGigagram.inMegaG, closeTo(1000.0, tolerance));
         expect(oneGigagram.inTonnes, closeTo(1000.0, tolerance));
       });
 
       test('large scale mass examples', () {
         // Mass of a large bridge might be in gigagrams
-        final bridgeMass = 50.0.gigaG; // 50,000 tonnes
+        final bridgeMass = 50.0.Gg; // 50,000 tonnes
         expect(bridgeMass.inTonnes, closeTo(50000.0, tolerance));
 
         // Compare with a space shuttle mass (~2 Gg)
-        final shuttleMass = 2.0.gigaG;
+        final shuttleMass = 2.0.Gg;
         expect(bridgeMass.compareTo(shuttleMass), greaterThan(0));
       });
 
       test('round trip conversions for mega and giga', () {
         const testValue = 123.456;
         // Test round trip via kilograms
-        final originalMega = testValue.megaG;
+        final originalMega = testValue.Mg;
         final roundTripMega = originalMega.asKilograms.asMegaG;
         expect(roundTripMega.value, closeTo(testValue, tolerance));
 
-        final originalGiga = testValue.gigaG;
+        final originalGiga = testValue.Gg;
         final roundTripGiga = originalGiga.asKilograms.asGigaG;
         expect(roundTripGiga.value, closeTo(testValue, tolerance));
       });

@@ -1,6 +1,12 @@
 import 'length.dart';
 import 'length_unit.dart';
 
+// SI/IEC unit symbols use uppercase letters by international standard
+// (e.g., 'Mm' for megameter, 'Gm' for gigameter).
+// Dart's lowerCamelCase rule is intentionally overridden here to preserve
+// domain correctness and discoverability for scientists and engineers.
+// ignore_for_file: non_constant_identifier_names
+
 /// Provides convenient access to [Length] values in specific units
 /// using shortened unit names where appropriate.
 extension LengthValueGetters on Length {
@@ -150,9 +156,33 @@ extension LengthCreation on num {
   Length get km => Length(toDouble(), LengthUnit.kilometer);
 
   /// Creates a [Length] instance representing this numerical value in Megameters (Mm).
-  Length get megaM => Length(toDouble(), LengthUnit.megameter);
+  ///
+  /// The SI symbol for megameter is 'Mm' (capital M = mega prefix).
+  Length get Mm => Length(toDouble(), LengthUnit.megameter);
+
+  /// Creates a [Length] instance representing this numerical value in Megameters (Mm).
+  /// Dart-idiomatic alias for the SI symbol [Mm].
+  Length get megameters => Length(toDouble(), LengthUnit.megameter);
 
   /// Creates a [Length] instance representing this numerical value in Gigameters (Gm).
+  ///
+  /// The SI symbol for gigameter is 'Gm' (capital G = giga prefix).
+  Length get Gm => Length(toDouble(), LengthUnit.gigameter);
+
+  /// Creates a [Length] instance representing this numerical value in Gigameters (Gm).
+  /// Dart-idiomatic alias for the SI symbol [Gm].
+  Length get gigameters => Length(toDouble(), LengthUnit.gigameter);
+
+  /// Creates a [Length] instance in Megameters.
+  /// Deprecated: Use [Mm] or [megameters] instead.
+  @Deprecated('Use Mm (SI symbol) or megameters (full word) instead. '
+      'Will be removed in v1.0.0.')
+  Length get megaM => Length(toDouble(), LengthUnit.megameter);
+
+  /// Creates a [Length] instance in Gigameters.
+  /// Deprecated: Use [Gm] or [gigameters] instead.
+  @Deprecated('Use Gm (SI symbol) or gigameters (full word) instead. '
+      'Will be removed in v1.0.0.')
   Length get gigaM => Length(toDouble(), LengthUnit.gigameter);
 
   /// Creates a [Length] instance representing this numerical value in Hectometers (hm).
@@ -198,7 +228,6 @@ extension LengthCreation on num {
   Length get nmi => Length(toDouble(), LengthUnit.nauticalMile);
 
   /// Creates a [Length] instance representing this numerical value in Astronomical Units (AU).
-  // ignore: non_constant_identifier_names
   Length get AU => Length(toDouble(), LengthUnit.astronomicalUnit);
 
   /// Creates a [Length] instance representing this numerical value in Light Years (ly).

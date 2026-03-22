@@ -34,8 +34,14 @@ class VolumeFactors {
 
   // --- Imperial / US Customary Units (relative to Cubic Millimeter) ---
   // A single definition from a precise constant (25.4 mm in an inch).
+
   /// Cubic Millimeters per Cubic Inch: 1 in³ = (25.4)³ mm³.
-  static const double in3 = 16387.064; // 25.4 * 25.4 * 25.4 is exact
+  ///
+  /// Note: 25.4³ is exactly 16387.064 in base-10 mathematics. We use the
+  /// literal scalar here to guarantee the closest possible IEEE 754 binary64
+  /// representation, avoiding intermediate floating-point multiplication drift.
+  /// 25.4 * 25.4 * 25.4 would yield a slightly different value (16387.064000000002) due to rounding.
+  static const double in3 = 16387.064;
 
   /// Cubic Millimeters per Cubic Foot: 1 ft³ = 1728 in³.
   static const double ft3 = in3 * 1728.0;

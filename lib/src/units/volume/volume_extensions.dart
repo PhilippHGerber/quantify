@@ -1,6 +1,12 @@
 import 'volume.dart';
 import 'volume_unit.dart';
 
+// SI/IEC unit symbols use uppercase letters by international standard
+// (e.g., 'Ml' for megaliter, 'Gl' for gigaliter, 'Tl' for teraliter).
+// Dart's lowerCamelCase rule is intentionally overridden here to preserve
+// domain correctness and discoverability for scientists and engineers.
+// ignore_for_file: non_constant_identifier_names
+
 /// Provides convenient access to [Volume] values in specific units
 /// using getter properties.
 extension VolumeValueGetters on Volume {
@@ -209,18 +215,36 @@ extension VolumeCreation on num {
   Volume get dam3 => Volume(toDouble(), VolumeUnit.cubicDecameter);
 
   /// Creates a [Volume] instance from this value in Megaliters (Ml).
+  ///
+  /// The SI symbol for megaliter is 'Ml' (capital M = mega prefix).
+  Volume get Ml => Volume(toDouble(), VolumeUnit.megaliter);
+
+  /// Creates a [Volume] instance from this value in Megaliters (Ml).
+  /// Dart-idiomatic alias for the SI symbol [Ml].
   Volume get megaliter => Volume(toDouble(), VolumeUnit.megaliter);
 
   /// Creates a [Volume] instance from this value in Cubic Hectometers (hm³).
   Volume get hm3 => Volume(toDouble(), VolumeUnit.cubicHectometer);
 
   /// Creates a [Volume] instance from this value in Gigaliters (Gl).
+  ///
+  /// The SI symbol for gigaliter is 'Gl' (capital G = giga prefix).
+  Volume get Gl => Volume(toDouble(), VolumeUnit.gigaliter);
+
+  /// Creates a [Volume] instance from this value in Gigaliters (Gl).
+  /// Dart-idiomatic alias for the SI symbol [Gl].
   Volume get gigaliter => Volume(toDouble(), VolumeUnit.gigaliter);
 
   /// Creates a [Volume] instance from this value in Cubic Kilometers (km³).
   Volume get km3 => Volume(toDouble(), VolumeUnit.cubicKilometer);
 
   /// Creates a [Volume] instance from this value in Teraliters (Tl).
+  ///
+  /// The SI symbol for teraliter is 'Tl' (capital T = tera prefix).
+  Volume get Tl => Volume(toDouble(), VolumeUnit.teraliter);
+
+  /// Creates a [Volume] instance from this value in Teraliters (Tl).
+  /// Dart-idiomatic alias for the SI symbol [Tl].
   Volume get teraliter => Volume(toDouble(), VolumeUnit.teraliter);
 
   // --- Imperial / US Customary ---

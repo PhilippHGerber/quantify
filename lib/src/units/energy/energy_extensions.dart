@@ -1,6 +1,12 @@
 import 'energy.dart';
 import 'energy_unit.dart';
 
+// SI/IEC unit symbols use uppercase letters by international standard
+// (e.g., 'MJ' for megajoule).
+// Dart's lowerCamelCase rule is intentionally overridden here to preserve
+// domain correctness and discoverability for scientists and engineers.
+// ignore_for_file: non_constant_identifier_names
+
 /// Provides convenient access to [Energy] values in specific units
 /// using getter properties.
 ///
@@ -83,9 +89,12 @@ extension EnergyCreation on num {
   Energy get joules => Energy(toDouble(), EnergyUnit.joule);
 
   /// Creates an [Energy] instance from this value in Megajoules (MJ).
-  Energy get megaJ => Energy(toDouble(), EnergyUnit.megajoule);
+  ///
+  /// The SI symbol for megajoule is 'MJ' (capital M = mega prefix).
+  Energy get MJ => Energy(toDouble(), EnergyUnit.megajoule);
 
   /// Creates an [Energy] instance from this value in Megajoules (MJ).
+  /// Dart-idiomatic alias for the SI symbol [MJ].
   Energy get megajoules => Energy(toDouble(), EnergyUnit.megajoule);
 
   /// Creates an [Energy] instance from this value in Kilojoules (kJ).
@@ -132,4 +141,12 @@ extension EnergyCreation on num {
 
   /// Creates an [Energy] instance from this value in British Thermal Units (Btu).
   Energy get btu => Energy(toDouble(), EnergyUnit.btu);
+
+  /// Creates an [Energy] instance from this value in Megajoules (MJ).
+  ///
+  /// Deprecated: Use [MJ] (SI symbol) or [megajoules] (full word) instead.
+  /// Will be removed in v1.0.0.
+  @Deprecated('Use MJ (SI symbol) or megajoules (full word) instead. '
+      'Will be removed in v1.0.0.')
+  Energy get megaJ => Energy(toDouble(), EnergyUnit.megajoule);
 }
