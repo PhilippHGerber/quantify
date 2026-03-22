@@ -105,23 +105,29 @@ void main() {
     });
 
     // -------------------------------------------------------------------------
-    // Zero operand — absolute fallback
+    // Zero operand — pure relative tolerance (symmetric)
     // -------------------------------------------------------------------------
-    group('Zero operand (absolute threshold fallback)', () {
+    group('Zero operand (pure relative tolerance)', () {
       test('both zero → true', () {
         expect(0.0.m.isEquivalentTo(0.0.m), isTrue);
       });
 
-      test('zero vs small value within tolerance → true', () {
-        expect(0.0.m.isEquivalentTo(const Length(1e-10, LengthUnit.meter)), isTrue);
+      test('zero in different units: 0 m vs 0 km → true', () {
+        expect(0.0.m.isEquivalentTo(const Length(0, LengthUnit.kilometer)), isTrue);
       });
 
-      test('zero vs value outside tolerance → false', () {
+      // Pure relative tolerance collapses to zero when one operand is 0,
+      // so zero is only equivalent to exactly zero — not to any small value.
+      test('zero vs any non-zero value → false (relative tolerance collapses)', () {
+        expect(0.0.m.isEquivalentTo(const Length(1e-10, LengthUnit.meter)), isFalse);
         expect(0.0.m.isEquivalentTo(const Length(1e-8, LengthUnit.meter)), isFalse);
       });
 
-      test('zero in different units: 0 m vs 0 km → true', () {
-        expect(0.0.m.isEquivalentTo(const Length(0, LengthUnit.kilometer)), isTrue);
+      // Symmetry: a.isEquivalentTo(b) == b.isEquivalentTo(a) when one operand is zero.
+      test('is symmetric when one operand is zero', () {
+        const small = Length(1e-10, LengthUnit.meter);
+        final zero = 0.0.km;
+        expect(small.isEquivalentTo(zero), equals(zero.isEquivalentTo(small)));
       });
     });
 
