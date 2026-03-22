@@ -590,6 +590,43 @@ void main() {
         // … but isEquivalentTo absorbs the drift with relative tolerance.
         expect(sum.isEquivalentTo(0.3.m), isTrue);
       });
+
+      test('is symmetric: a.isEquivalentTo(b) == b.isEquivalentTo(a)', () {
+        expect(oneMeter.isEquivalentTo(hundredCm), equals(hundredCm.isEquivalentTo(oneMeter)));
+        expect(oneMeter.isEquivalentTo(twoMeters), equals(twoMeters.isEquivalentTo(oneMeter)));
+      });
+
+      test('is symmetric when one operand is zero', () {
+        final tiny = 1e-8.m;
+        final zero = 0.km;
+        expect(tiny.isEquivalentTo(zero), equals(zero.isEquivalentTo(tiny)));
+      });
+
+      test('two zero values are equivalent regardless of unit', () {
+        expect(0.m.isEquivalentTo(0.km), isTrue);
+      });
+    });
+
+    group('ratioTo', () {
+      test('returns correct ratio for same unit', () {
+        expect(10.m.ratioTo(2.m), closeTo(5.0, 1e-9));
+      });
+
+      test('returns correct ratio across different units', () {
+        expect(10.km.ratioTo(2.m), closeTo(5000.0, 1e-9));
+      });
+
+      test('returns 1.0 for identical quantities', () {
+        expect(5.m.ratioTo(5.m), closeTo(1.0, 1e-9));
+      });
+
+      test('returns double.infinity when divisor is zero', () {
+        expect(5.m.ratioTo(0.m), equals(double.infinity));
+      });
+
+      test('returns double.nan when both are zero', () {
+        expect(0.m.ratioTo(0.m), isNaN);
+      });
     });
 
     group('Relational Operators (>, <, >=, <=)', () {

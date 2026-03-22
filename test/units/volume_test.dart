@@ -327,8 +327,10 @@ void main() {
 
       test('mixed units: area in cm², depth in m', () {
         // 10000 cm² = 1 m²; × 2 m = 2 m³
-        expect(Volume.fromArea(const Area(10000, AreaUnit.squareCentimeter), 2.m).inCubicMeters,
-            closeTo(2.0, highTolerance),);
+        expect(
+          Volume.fromArea(const Area(10000, AreaUnit.squareCentimeter), 2.m).inCubicMeters,
+          closeTo(2.0, highTolerance),
+        );
       });
     });
   });
