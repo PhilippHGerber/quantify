@@ -277,7 +277,8 @@ abstract class Quantity<T extends Unit<T>> implements Comparable<Quantity<T>> {
   ///
   /// Both quantities are converted to a common unit before dividing, so the
   /// result is independent of the units chosen. Follows IEEE 754 semantics:
-  /// returns [double.infinity] when [other] is zero, and [double.nan] when
+  /// returns[double.infinity] or [double.negativeInfinity] when [other] is
+  /// zero (depending on the sign of this quantity), and [double.nan] when
   /// both are zero.
   ///
   /// ```dart

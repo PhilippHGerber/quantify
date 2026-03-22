@@ -72,6 +72,7 @@ abstract class LinearQuantity<T extends Unit<T>, Q extends LinearQuantity<T, Q>>
   /// Divides this quantity by a dimensionless [scalar].
   ///
   /// Returns a new [Q] with the scaled value in the original unit.
-  /// Returns `Q(double.infinity, unit)` if [scalar] is zero (IEEE 754 semantics).
+  /// Follows IEEE 754 semantics if [scalar] is zero, returning
+  /// `Infinity`, `-Infinity`, or `NaN` depending on this quantity's value.
   Q operator /(double scalar) => create(value / scalar, unit);
 }
