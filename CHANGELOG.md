@@ -35,6 +35,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   * Available via `package:quantify/quantify.dart` or the new granular `package:quantify/information.dart`.
 * **`LinearQuantity<T, Q>`** — a new public abstract class that all linear (non-affine) quantity types now extend. Consumers who create custom `Quantity` subclasses can extend `LinearQuantity` instead of `Quantity` to inherit `convertTo`, `+`, `-`, `*`, and `/` automatically; the only method to implement is the factory hook `Q create(double value, T unit)`.
 
+* **IEEE 754-safe `isEquivalentTo({double tolerance = 1e-9})`** — `isEquivalentTo` now accepts an optional `tolerance` parameter and uses a **relative tolerance** comparison instead of strict `double` equality. The acceptable error margin scales with the magnitude of the values, making it reliable across the full numeric range — from picometers to astronomical units. Behaviour summary:
+  * Floating-point accumulated drift is absorbed: `(0.1.m + 0.2.m).isEquivalentTo(0.3.m)` returns `true`.
+  * When one operand is exactly `0.0`, tolerance acts as an **absolute** threshold (avoids divide-by-zero degeneration).
+  * Equal infinities (`+∞ == +∞`) → `true`; mixed finite/infinite → `false`; any `NaN` → `false`.
+  * Pass `tolerance: 1e-12` for tighter round-trip checks, or `tolerance: 1e-6` for noisy sensor data.
+
 ## [0.15.0]
 
 2026-02-23

@@ -324,9 +324,9 @@ print(oneKm >= thousandMeters);  // true
 
 #### Equality Checks (`isEquivalentTo()` vs. `==`)
 
-It's important to understand the two types of equality checks available:
+There are two types of equality checks available:
 
-1. **Magnitude Equality (`isEquivalentTo`)**: Checks if two quantities represent the **same physical amount**.
+1. **Magnitude Equality (`isEquivalentTo`)**: Checks if two quantities represent the **same physical amount**, with IEEE 754-safe relative tolerance.
 2. **Strict Equality (`==`)**: Checks if two quantities have the **exact same value AND unit**.
 
 ```dart
@@ -342,6 +342,31 @@ print(oneMeter == 1.m);                    // true (same value and unit)
 ```
 
 This distinction is crucial when working with collections like `Set`s or `Map`s, where the strict equality of `==` is typically the desired behavior.
+
+#### IEEE 754-Safe Comparisons
+
+`isEquivalentTo` uses a **relative tolerance** (default `1e-9`) that scales with the magnitude of the values. This means it is equally reliable across the full numeric range — from subatomic particles to astronomical distances — without any manual tuning:
+
+```dart
+// Floating-point arithmetic that would fail strict equality:
+(0.1.m + 0.2.m).isEquivalentTo(0.3.m);  // true  ✓
+
+// Astronomical scale (AU → metres):
+1.au.isEquivalentTo(149597870700.m);      // true  ✓
+
+// Tighter or looser tolerance when you need it:
+a.isEquivalentTo(b, tolerance: 1e-12);   // stricter
+a.isEquivalentTo(b, tolerance: 1e-6);    // looser (e.g. sensor measurements)
+
+// When one operand is zero, tolerance acts as an absolute threshold:
+0.0.m.isEquivalentTo(1e-10.m);           // true  (within 1e-9 absolute)
+0.0.m.isEquivalentTo(1e-8.m);            // false
+
+// IEEE 754 edge cases are handled correctly:
+double.infinity.m.isEquivalentTo(1e300.m); // false — finite ≠ infinite
+```
+
+This makes `quantify` suitable for engineering apps, physics simulations, and calculator engines where accumulated floating-point drift is unavoidable.
 
 #### Sorting
 

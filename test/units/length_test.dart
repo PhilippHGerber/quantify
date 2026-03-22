@@ -580,16 +580,15 @@ void main() {
         expect(oneMeter.isEquivalentTo(twoMeters), isFalse);
       });
 
-      test('floating point inaccuracy showcase', () {
-        // As documented, direct float arithmetic can lead to non-equivalence.
+      test('floating point drift is absorbed by default tolerance', () {
         final l1 = 0.1.m;
         final l2 = 0.2.m;
-        final sum = l1 + l2; // Internally, this is 0.1 + 0.2
-        final l3 = 0.3.m;
+        final sum = l1 + l2; // 0.1 + 0.2 in binary floating point
 
-        // 0.1 + 0.2 is famously not exactly 0.3 in binary floating point.
+        // The raw double value is still not exactly 0.3 …
         expect(sum.value, isNot(equals(0.3)));
-        expect(sum.isEquivalentTo(l3), isFalse);
+        // … but isEquivalentTo absorbs the drift with relative tolerance.
+        expect(sum.isEquivalentTo(0.3.m), isTrue);
       });
     });
 

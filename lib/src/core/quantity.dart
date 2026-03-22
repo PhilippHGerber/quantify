@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:meta/meta.dart';
 
 import 'quantity_format.dart';
@@ -215,20 +217,52 @@ abstract class Quantity<T extends Unit<T>> implements Comparable<Quantity<T>> {
         _unit == other._unit;
   }
 
-  /// Checks if this quantity has the same physical magnitude as another.
+  /// Checks if this quantity has the same physical magnitude as another,
+  /// accounting for IEEE 754 floating-point rounding inaccuracies.
   ///
-  /// This method performs a unit-agnostic comparison. For example,
-  /// `1.m.isEquivalentTo(100.cm)` will return `true`.
+  /// Unlike strict [operator ==], this method converts both values to the same
+  /// unit before comparing — so `1.m.isEquivalentTo(100.cm)` returns `true`.
   ///
-  /// Internally, this is equivalent to `this.compareTo(other) == 0` and relies on
-  /// standard `double` equality. This means it can be sensitive to minute
-  /// floating-point inaccuracies that may arise from arithmetic operations.
+  /// The comparison uses a **relative tolerance**, meaning the acceptable error
+  /// margin scales with the magnitude of the values. This is correct across the
+  /// full numeric range — from subatomic (picometers) to astronomical (AU).
   ///
-  /// For example, `(0.1.m + 0.2.m).isEquivalentTo(0.3.m)` might return `false`
-  /// due to the nature of floating-point representation.
+  /// When one operand is exactly `0.0`, relative tolerance degenerates to zero,
+  /// so [tolerance] is applied as an **absolute** threshold instead.
   ///
-  /// Returns `true` if the physical magnitudes are exactly equal, `false` otherwise.
-  bool isEquivalentTo(Quantity<T> other) => compareTo(other) == 0;
+  /// Infinities and `NaN` follow IEEE 754 semantics:
+  /// - Equal infinities (`+∞` and `+∞`, or `-∞` and `-∞`) → `true`.
+  /// - Mixed finite/infinite → `false`.
+  /// - Any `NaN` operand → `false`.
+  ///
+  /// - [tolerance]: Maximum relative difference. Defaults to `1e-9`
+  ///   (one part per billion).
+  ///
+  /// ```dart
+  /// (0.1.m + 0.2.m).isEquivalentTo(0.3.m);              // true
+  /// 1.au.isEquivalentTo(149597870700.m);                  // true
+  /// double.infinity.m.isEquivalentTo(1e300.m);           // false
+  /// ```
+  bool isEquivalentTo(Quantity<T> other, {double tolerance = 1e-9}) {
+    assert(tolerance >= 0.0, 'tolerance must be non-negative');
+    final a = getValue(other.unit);
+    final b = other.value;
+
+    // Exact equality: handles identical infinities and avoids subtraction cost.
+    if (a == b) return true;
+
+    // Distinct infinities or mixed finite/infinite are never equivalent.
+    if (a.isInfinite || b.isInfinite) return false;
+
+    final diff = (a - b).abs();
+
+    // Zero fallback: relative tolerance degenerates when one operand is 0,
+    // so tolerance is applied as an absolute threshold instead.
+    if (a == 0.0 || b == 0.0) return diff <= tolerance;
+
+    // Standard relative tolerance: scales safely with the magnitude.
+    return diff <= math.max(a.abs(), b.abs()) * tolerance;
+  }
 
   /// Checks if this quantity's magnitude is greater than another's.
   ///
