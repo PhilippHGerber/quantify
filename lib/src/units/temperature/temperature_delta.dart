@@ -52,8 +52,7 @@ class TemperatureDelta extends LinearQuantity<TemperatureDeltaUnit, TemperatureD
 
   @override
   @protected
-  TemperatureDelta create(double value, TemperatureDeltaUnit unit) =>
-      TemperatureDelta(value, unit);
+  TemperatureDelta create(double value, TemperatureDeltaUnit unit) => TemperatureDelta(value, unit);
 
   /// The parser instance used to convert strings into [TemperatureDelta]
   /// objects.
