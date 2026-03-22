@@ -226,9 +226,8 @@ abstract class Quantity<T extends Unit<T>> implements Comparable<Quantity<T>> {
   /// The comparison uses a **relative tolerance**, meaning the acceptable error
   /// margin scales with the magnitude of the values. This is correct across the
   /// full numeric range — from subatomic (picometers) to astronomical (AU).
-  ///
-  /// When one operand is exactly `0.0`, relative tolerance degenerates to zero,
-  /// so [tolerance] is applied as an **absolute** threshold instead.
+  /// Both operands are evaluated in the same unit, so the result is symmetric:
+  /// `a.isEquivalentTo(b) == b.isEquivalentTo(a)` always holds.
   ///
   /// Infinities and `NaN` follow IEEE 754 semantics:
   /// - Equal infinities (`+∞` and `+∞`, or `-∞` and `-∞`) → `true`.
@@ -245,8 +244,11 @@ abstract class Quantity<T extends Unit<T>> implements Comparable<Quantity<T>> {
   /// ```
   bool isEquivalentTo(Quantity<T> other, {double tolerance = 1e-9}) {
     assert(tolerance >= 0.0, 'tolerance must be non-negative');
-    final a = getValue(other.unit);
-    final b = other.value;
+
+    // Evaluate both values in this.unit to guarantee symmetry:
+    // a.isEquivalentTo(b) == b.isEquivalentTo(a) for all inputs.
+    final a = value;
+    final b = other.getValue(unit);
 
     // Exact equality: handles identical infinities and avoids subtraction cost.
     if (a == b) return true;
@@ -256,13 +258,23 @@ abstract class Quantity<T extends Unit<T>> implements Comparable<Quantity<T>> {
 
     final diff = (a - b).abs();
 
-    // Zero fallback: relative tolerance degenerates when one operand is 0,
-    // so tolerance is applied as an absolute threshold instead.
-    if (a == 0.0 || b == 0.0) return diff <= tolerance;
-
-    // Standard relative tolerance: scales safely with the magnitude.
+    // Pure relative tolerance — symmetric by construction.
+    // The a == b short-circuit above handles the 0 == 0 case correctly.
     return diff <= math.max(a.abs(), b.abs()) * tolerance;
   }
+
+  /// Computes the dimensionless ratio of this quantity to [other].
+  ///
+  /// Both quantities are converted to a common unit before dividing, so the
+  /// result is independent of the units chosen. Follows IEEE 754 semantics:
+  /// returns [double.infinity] when [other] is zero, and [double.nan] when
+  /// both are zero.
+  ///
+  /// ```dart
+  /// 10.km.ratioTo(2.m);  // 5000.0
+  /// 5.m.ratioTo(0.m);    // double.infinity
+  /// ```
+  double ratioTo(Quantity<T> other) => value / other.getValue(unit);
 
   /// Checks if this quantity's magnitude is greater than another's.
   ///

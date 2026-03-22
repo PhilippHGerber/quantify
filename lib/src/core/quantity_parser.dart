@@ -103,21 +103,39 @@ int _countOccurrences(String text, String needle) {
 
 /// Ensures the string is strictly valid for the given [NumberFormat] to prevent
 /// the `intl` package from silently truncating unrecognised strings.
-bool _isStrictlyValidForNumberFormat(String normalizedNumeric, NumberFormat nf) {
+///
+/// Accepts pre-computed string statistics ([hasDot], [hasComma], [dotCount],
+/// [commaCount], [lastDotIndex], [lastCommaIndex]) so that when multiple formats
+/// are tried for the same input, the string is scanned only once.
+bool _isStrictlyValidForNumberFormat(
+  String normalizedNumeric,
+  NumberFormat nf, {
+  required bool hasDot,
+  required bool hasComma,
+  required int dotCount,
+  required int commaCount,
+  required int lastDotIndex,
+  required int lastCommaIndex,
+}) {
   final decimalSep = nf.symbols.DECIMAL_SEP;
   final groupSep = nf.symbols.GROUP_SEP;
 
   // 1. ALIEN CHARACTER CHECK (Prevents intl silent truncation bug)
   // If the string contains a dot, comma, or Arabic decimal that the current locale
   // does not recognize as either a decimal or group separator, reject it immediately.
-  if (normalizedNumeric.contains('.') && decimalSep != '.' && groupSep != '.') return false;
-  if (normalizedNumeric.contains(',') && decimalSep != ',' && groupSep != ',') return false;
+  if (hasDot && decimalSep != '.' && groupSep != '.') return false;
+  if (hasComma && decimalSep != ',' && groupSep != ',') return false;
   if (normalizedNumeric.contains('\u066B') && decimalSep != '\u066B' && groupSep != '\u066B') {
     return false;
   }
 
   // 2. Prevent multiple decimal separators
-  final decimalCount = _countOccurrences(normalizedNumeric, decimalSep);
+  // Use pre-computed counts for the common separators; fall back to a scan for exotic ones.
+  final decimalCount = decimalSep == '.'
+      ? dotCount
+      : decimalSep == ','
+          ? commaCount
+          : _countOccurrences(normalizedNumeric, decimalSep);
   if (decimalCount > 1) return false;
 
   // 3. Prevent grouping separators appearing after the decimal separator
@@ -131,16 +149,13 @@ bool _isStrictlyValidForNumberFormat(String normalizedNumeric, NumberFormat nf) 
   }
 
   // 4. Reject ambiguous mixed dot/comma placements under the current format.
-  final hasDot = normalizedNumeric.contains('.');
-  final hasComma = normalizedNumeric.contains(',');
-
   if (hasDot && hasComma) {
     if (decimalSep == '.' && groupSep == ',') {
-      if (normalizedNumeric.lastIndexOf('.') < normalizedNumeric.lastIndexOf(',')) {
+      if (lastDotIndex < lastCommaIndex) {
         return false; // e.g. "1.234,56" under en_US is structurally invalid
       }
     } else if (decimalSep == ',' && groupSep == '.') {
-      if (normalizedNumeric.lastIndexOf(',') < normalizedNumeric.lastIndexOf('.')) {
+      if (lastCommaIndex < lastDotIndex) {
         return false; // e.g. "1,234.56" under de_DE is structurally invalid
       }
     } else {
@@ -271,11 +286,28 @@ class QuantityParser<T extends Unit<T>, Q extends Quantity<T>> {
       '',
     );
 
+    // Pre-compute string statistics once to avoid redundant scans per format.
+    final hasDot = normalizedNumeric.contains('.');
+    final hasComma = normalizedNumeric.contains(',');
+    final dotCount = hasDot ? _countOccurrences(normalizedNumeric, '.') : 0;
+    final commaCount = hasComma ? _countOccurrences(normalizedNumeric, ',') : 0;
+    final lastDotIndex = hasDot ? normalizedNumeric.lastIndexOf('.') : -1;
+    final lastCommaIndex = hasComma ? normalizedNumeric.lastIndexOf(',') : -1;
+
     // Try formats in order to parse the number.
     for (final format in formatsToTry) {
       final nf = format.effectiveNumberFormat;
       if (nf != null) {
-        if (!_isStrictlyValidForNumberFormat(normalizedNumeric, nf)) {
+        if (!_isStrictlyValidForNumberFormat(
+          normalizedNumeric,
+          nf,
+          hasDot: hasDot,
+          hasComma: hasComma,
+          dotCount: dotCount,
+          commaCount: commaCount,
+          lastDotIndex: lastDotIndex,
+          lastCommaIndex: lastCommaIndex,
+        )) {
           continue;
         }
 
