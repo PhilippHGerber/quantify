@@ -9,8 +9,9 @@ import 'information_factors.dart';
 /// and a display [symbol] for each information unit.
 /// All conversion factors are pre-calculated in the constructor relative to Bit.
 ///
-/// Two distinct tracks are supported:
-/// - **SI / decimal** (`kB`, `MB`, `GB`, …) — powers of 10³.
+/// Three distinct tracks are supported:
+/// - **SI bit** (`kbit`, `Mbit`, `Gbit`, `Tbit`) — powers of 10³, counting bits.
+/// - **SI / decimal byte** (`kB`, `MB`, `GB`, …) — powers of 10³, counting bytes.
 /// - **IEC / binary** (`KiB`, `MiB`, `GiB`, …) — powers of 2¹⁰ (1 024).
 enum InformationUnit implements Unit<InformationUnit> {
   /// Bit (bit), the fundamental unit of digital information.
@@ -19,7 +20,21 @@ enum InformationUnit implements Unit<InformationUnit> {
   /// Byte (B), equal to 8 bits.
   byte(InformationFactors.bitsPerByte, 'B'),
 
-  // --- SI / Decimal ---
+  // --- SI / Decimal bit units ---
+
+  /// Kilobit (kbit), SI decimal unit equal to 1 000 bits.
+  kilobit(InformationFactors.bitsPerKilobit, 'kbit'),
+
+  /// Megabit (Mbit), SI decimal unit equal to 10⁶ bits.
+  megabit(InformationFactors.bitsPerMegabit, 'Mbit'),
+
+  /// Gigabit (Gbit), SI decimal unit equal to 10⁹ bits.
+  gigabit(InformationFactors.bitsPerGigabit, 'Gbit'),
+
+  /// Terabit (Tbit), SI decimal unit equal to 10¹² bits.
+  terabit(InformationFactors.bitsPerTerabit, 'Tbit'),
+
+  // --- SI / Decimal byte units ---
 
   /// Kilobyte (kB), SI decimal unit equal to 1 000 bytes (8 000 bits).
   kilobyte(InformationFactors.bitsPerKilobyte, 'kB'),
@@ -65,11 +80,18 @@ enum InformationUnit implements Unit<InformationUnit> {
       : _toBitFactor = toBaseFactor,
         _factorToBit = toBaseFactor / 1,
         _factorToByte = toBaseFactor / InformationFactors.bitsPerByte,
+        // SI bit units
+        _factorToKilobit = toBaseFactor / InformationFactors.bitsPerKilobit,
+        _factorToMegabit = toBaseFactor / InformationFactors.bitsPerMegabit,
+        _factorToGigabit = toBaseFactor / InformationFactors.bitsPerGigabit,
+        _factorToTerabit = toBaseFactor / InformationFactors.bitsPerTerabit,
+        // SI byte units
         _factorToKilobyte = toBaseFactor / InformationFactors.bitsPerKilobyte,
         _factorToMegabyte = toBaseFactor / InformationFactors.bitsPerMegabyte,
         _factorToGigabyte = toBaseFactor / InformationFactors.bitsPerGigabyte,
         _factorToTerabyte = toBaseFactor / InformationFactors.bitsPerTerabyte,
         _factorToPetabyte = toBaseFactor / InformationFactors.bitsPerPetabyte,
+        // IEC binary units
         _factorToKibibyte = toBaseFactor / InformationFactors.bitsPerKibibyte,
         _factorToMebibyte = toBaseFactor / InformationFactors.bitsPerMebibyte,
         _factorToGibibyte = toBaseFactor / InformationFactors.bitsPerGibibyte,
@@ -87,11 +109,18 @@ enum InformationUnit implements Unit<InformationUnit> {
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToBit;
   final double _factorToByte;
+  // SI bit units
+  final double _factorToKilobit;
+  final double _factorToMegabit;
+  final double _factorToGigabit;
+  final double _factorToTerabit;
+  // SI byte units
   final double _factorToKilobyte;
   final double _factorToMegabyte;
   final double _factorToGigabyte;
   final double _factorToTerabyte;
   final double _factorToPetabyte;
+  // IEC binary units
   final double _factorToKibibyte;
   final double _factorToMebibyte;
   final double _factorToGibibyte;
@@ -111,7 +140,12 @@ enum InformationUnit implements Unit<InformationUnit> {
     'b': InformationUnit.bit, // lowercase b = bit
     // byte
     'B': InformationUnit.byte, // uppercase B = byte
-    // SI / decimal
+    // SI bit units
+    'kbit': InformationUnit.kilobit,
+    'Mbit': InformationUnit.megabit,
+    'Gbit': InformationUnit.gigabit,
+    'Tbit': InformationUnit.terabit,
+    // SI / decimal byte units
     'kB': InformationUnit.kilobyte,
     // 'KB' is an ambiguous legacy form — resolves to SI kilobyte (kB).
     // Use 'KiB' for the IEC binary kibibyte.
@@ -140,7 +174,16 @@ enum InformationUnit implements Unit<InformationUnit> {
     // byte
     'byte': InformationUnit.byte,
     'bytes': InformationUnit.byte,
-    // SI / decimal
+    // SI bit units
+    'kilobit': InformationUnit.kilobit,
+    'kilobits': InformationUnit.kilobit,
+    'megabit': InformationUnit.megabit,
+    'megabits': InformationUnit.megabit,
+    'gigabit': InformationUnit.gigabit,
+    'gigabits': InformationUnit.gigabit,
+    'terabit': InformationUnit.terabit,
+    'terabits': InformationUnit.terabit,
+    // SI / decimal byte units
     'kilobyte': InformationUnit.kilobyte,
     'kilobytes': InformationUnit.kilobyte,
     'megabyte': InformationUnit.megabyte,
@@ -174,6 +217,16 @@ enum InformationUnit implements Unit<InformationUnit> {
         return _factorToBit;
       case InformationUnit.byte:
         return _factorToByte;
+      // SI bit units
+      case InformationUnit.kilobit:
+        return _factorToKilobit;
+      case InformationUnit.megabit:
+        return _factorToMegabit;
+      case InformationUnit.gigabit:
+        return _factorToGigabit;
+      case InformationUnit.terabit:
+        return _factorToTerabit;
+      // SI byte units
       case InformationUnit.kilobyte:
         return _factorToKilobyte;
       case InformationUnit.megabyte:
@@ -184,6 +237,7 @@ enum InformationUnit implements Unit<InformationUnit> {
         return _factorToTerabyte;
       case InformationUnit.petabyte:
         return _factorToPetabyte;
+      // IEC binary units
       case InformationUnit.kibibyte:
         return _factorToKibibyte;
       case InformationUnit.mebibyte:

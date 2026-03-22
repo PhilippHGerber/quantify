@@ -447,4 +447,87 @@ void main() {
       expect(result.value, closeTo(1.0, 1e-9));
     });
   });
+
+  group('Information — Bit units (SI)', () {
+    test('1 kbit == 1 000 bits', () {
+      expect(1.kbit.inBit, closeTo(1000.0, 1e-9));
+    });
+
+    test('1 Mbit == 1 000 000 bits', () {
+      expect(1.Mbit.inBit, closeTo(1e6, 1e-9));
+    });
+
+    test('1 Gbit == 1 000 000 000 bits', () {
+      expect(1.Gbit.inBit, closeTo(1e9, 1e-9));
+    });
+
+    test('1 Tbit == 1 000 000 000 000 bits', () {
+      expect(1.Tbit.inBit, closeTo(1e12, 1e-9));
+    });
+
+    test('100 Mbit in Gbit == 0.1', () {
+      expect(100.Mbit.inGbit, closeTo(0.1, 1e-9));
+    });
+
+    test('1 Gbit in Mbit == 1 000', () {
+      expect(1.Gbit.inMbit, closeTo(1000.0, 1e-9));
+    });
+
+    test('1 Tbit in Gbit == 1 000', () {
+      expect(1.Tbit.inGbit, closeTo(1000.0, 1e-9));
+    });
+
+    test('round-trip Gbit → kbit → Gbit', () {
+      expect(1.Gbit.asKbit.asGbit.inGbit, closeTo(1.0, 1e-9));
+    });
+
+    test('cross-track: 1 GB == 8 Gbit', () {
+      expect(1.GB.inGbit, closeTo(8.0, 1e-9));
+    });
+
+    test('cross-track: 1 Gbit == 0.125 GB', () {
+      expect(1.Gbit.inGB, closeTo(0.125, 1e-9));
+    });
+
+    test('extension sugar — kbit unit', () {
+      expect(1.kbit.unit, InformationUnit.kilobit);
+    });
+
+    test('extension sugar — Mbit unit', () {
+      expect(1.Mbit.unit, InformationUnit.megabit);
+    });
+
+    test('extension sugar — Gbit unit', () {
+      expect(1.Gbit.unit, InformationUnit.gigabit);
+    });
+
+    test('extension sugar — Tbit unit', () {
+      expect(1.Tbit.unit, InformationUnit.terabit);
+    });
+
+    test('toString contains Gbit symbol', () {
+      expect(1.Gbit.toString(), contains('Gbit'));
+    });
+
+    test('parse Mbit from symbol string', () {
+      final result = Information.parse('100\u00A0Mbit');
+      expect(result.unit, InformationUnit.megabit);
+      expect(result.value, closeTo(100.0, 1e-9));
+    });
+
+    test('parse gigabit from name string', () {
+      final result = Information.parse('2\u00A0gigabit');
+      expect(result.unit, InformationUnit.gigabit);
+      expect(result.value, closeTo(2.0, 1e-9));
+    });
+
+    test('asKbit returns Information in kilobits', () {
+      expect(1.Mbit.asKbit.value, closeTo(1000.0, 1e-9));
+      expect(1.Mbit.asKbit.unit, InformationUnit.kilobit);
+    });
+
+    test('asGbit returns Information in gigabits', () {
+      expect(1000.Mbit.asGbit.value, closeTo(1.0, 1e-9));
+    });
+  });
 }

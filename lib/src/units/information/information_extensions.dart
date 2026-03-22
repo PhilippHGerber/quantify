@@ -11,7 +11,21 @@ extension InformationValueGetters on Information {
   /// Returns the information value in Bytes (B).
   double get inByte => getValue(InformationUnit.byte);
 
-  // SI / decimal
+  // SI bit units
+
+  /// Returns the information value in Kilobits (kbit, SI: 1 000 bits).
+  double get inKbit => getValue(InformationUnit.kilobit);
+
+  /// Returns the information value in Megabits (Mbit, SI: 10⁶ bits).
+  double get inMbit => getValue(InformationUnit.megabit);
+
+  /// Returns the information value in Gigabits (Gbit, SI: 10⁹ bits).
+  double get inGbit => getValue(InformationUnit.gigabit);
+
+  /// Returns the information value in Terabits (Tbit, SI: 10¹² bits).
+  double get inTbit => getValue(InformationUnit.terabit);
+
+  // SI / decimal byte units
 
   /// Returns the information value in Kilobytes (kB, SI: 1 000 bytes).
   double get inKB => getValue(InformationUnit.kilobyte);
@@ -53,7 +67,21 @@ extension InformationValueGetters on Information {
   /// Returns an [Information] representing this quantity in Bytes (B).
   Information get asByte => convertTo(InformationUnit.byte);
 
-  // SI / decimal
+  // SI bit units
+
+  /// Returns an [Information] representing this quantity in Kilobits (kbit).
+  Information get asKbit => convertTo(InformationUnit.kilobit);
+
+  /// Returns an [Information] representing this quantity in Megabits (Mbit).
+  Information get asMbit => convertTo(InformationUnit.megabit);
+
+  /// Returns an [Information] representing this quantity in Gigabits (Gbit).
+  Information get asGbit => convertTo(InformationUnit.gigabit);
+
+  /// Returns an [Information] representing this quantity in Terabits (Tbit).
+  Information get asTbit => convertTo(InformationUnit.terabit);
+
+  // SI / decimal byte units
 
   /// Returns an [Information] representing this quantity in Kilobytes (kB).
   Information get asKB => convertTo(InformationUnit.kilobyte);
@@ -96,7 +124,24 @@ extension InformationCreation on num {
   /// Creates an [Information] instance representing this value in Bytes (B).
   Information get byte => Information(toDouble(), InformationUnit.byte);
 
-  // SI / decimal
+  // SI bit units
+
+  /// Creates an [Information] instance representing this value in Kilobits (kbit, SI: 1 000 bits).
+  Information get kbit => Information(toDouble(), InformationUnit.kilobit);
+
+  /// Creates an [Information] instance representing this value in Megabits (Mbit, SI: 10⁶ bits).
+  // ignore: non_constant_identifier_names
+  Information get Mbit => Information(toDouble(), InformationUnit.megabit);
+
+  /// Creates an [Information] instance representing this value in Gigabits (Gbit, SI: 10⁹ bits).
+  // ignore: non_constant_identifier_names
+  Information get Gbit => Information(toDouble(), InformationUnit.gigabit);
+
+  /// Creates an [Information] instance representing this value in Terabits (Tbit, SI: 10¹² bits).
+  // ignore: non_constant_identifier_names
+  Information get Tbit => Information(toDouble(), InformationUnit.terabit);
+
+  // SI / decimal byte units
 
   /// Creates an [Information] instance representing this value in Kilobytes (kB, SI: 1 000 bytes).
   Information get kB => Information(toDouble(), InformationUnit.kilobyte);

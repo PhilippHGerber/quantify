@@ -7,7 +7,21 @@ class InformationFactors {
   // The base unit for internal calculations is Bit.
   // Factors represent: 1 [Unit] = X [Bits]
 
-  // --- SI / Decimal units ---
+  // --- SI / Decimal bit units ---
+
+  /// Bits per Kilobit (SI): 1 kbit = 1 000 bits.
+  static const double bitsPerKilobit = 1e3;
+
+  /// Bits per Megabit (SI): 1 Mbit = 10⁶ bits.
+  static const double bitsPerMegabit = 1e6;
+
+  /// Bits per Gigabit (SI): 1 Gbit = 10⁹ bits.
+  static const double bitsPerGigabit = 1e9;
+
+  /// Bits per Terabit (SI): 1 Tbit = 10¹² bits.
+  static const double bitsPerTerabit = 1e12;
+
+  // --- SI / Decimal byte units ---
 
   /// Bits per Byte: 1 byte = 8 bits (exact).
   static const double bitsPerByte = 8.0;
