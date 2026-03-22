@@ -1,4 +1,6 @@
 import 'package:quantify/energy.dart';
+import 'package:quantify/power.dart';
+import 'package:quantify/time.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -258,6 +260,32 @@ void main() {
         // 41840 J / 4186.8 J/kcal_IT = 9.993312314894428 kcal_IT
         expect(itEquivalent, closeTo(9.993312314894428, highTolerance));
       });
+    });
+  });
+
+  group('Dimensional Analysis (Energy.from)', () {
+    test('E = P × t: 1 kW × 1 h = 3 600 000 J', () {
+      expect(Energy.from(1.kW, 1.hours).inJoules, closeTo(3600000.0, 1e-3));
+    });
+
+    test('result unit is joule', () {
+      expect(Energy.from(1.kW, 1.hours).unit, EnergyUnit.joule);
+    });
+
+    test('E = P × t with watts and seconds', () {
+      // 10 W × 10 s = 100 J
+      expect(
+        Energy.from(const Power(10, PowerUnit.watt), const Time(10, TimeUnit.second)).inJoules,
+        closeTo(100.0, 1e-9),
+      );
+    });
+
+    test('inverse of Power.from: Energy.from(Power.from(e, t), t) ≈ e', () {
+      const original = Energy(7200, EnergyUnit.joule);
+      const duration = Time(60, TimeUnit.second);
+      final power = Power.from(original, duration);
+      final recovered = Energy.from(power, duration);
+      expect(recovered.inJoules, closeTo(7200.0, 1e-9));
     });
   });
 }

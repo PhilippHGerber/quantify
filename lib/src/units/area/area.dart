@@ -5,6 +5,8 @@ import '../../core/linear_quantity.dart';
 import '../../core/quantity_format.dart';
 import '../../core/quantity_parse_exception.dart' show QuantityParseException;
 import '../../core/quantity_parser.dart';
+import '../length/length.dart';
+import '../length/length_extensions.dart';
 import 'area_unit.dart';
 
 /// Represents a quantity of area.
@@ -21,6 +23,17 @@ class Area extends LinearQuantity<AreaUnit, Area> {
   /// final landArea = Area(2.5, AreaUnit.hectare);
   /// ```
   const Area(super._value, super._unit);
+
+  /// Creates an [Area] from two [Length] values representing width and height (A = l × w).
+  ///
+  /// Both lengths are converted to meters before multiplying, so mixed units
+  /// work correctly.
+  ///
+  /// ```dart
+  /// final room = Area.from(5.m, 4.m);     // 20.0 m²
+  /// final plot = Area.from(1.km, 500.m);  // 500000.0 m²
+  /// ```
+  factory Area.from(Length l, Length w) => Area(l.inM * w.inM, AreaUnit.squareMeter);
 
   @override
   @protected

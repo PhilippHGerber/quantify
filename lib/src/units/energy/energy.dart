@@ -5,6 +5,10 @@ import '../../core/linear_quantity.dart';
 import '../../core/quantity_format.dart';
 import '../../core/quantity_parse_exception.dart' show QuantityParseException;
 import '../../core/quantity_parser.dart';
+import '../power/power.dart';
+import '../power/power_extensions.dart';
+import '../time/time.dart';
+import '../time/time_extensions.dart';
 import 'energy_unit.dart';
 
 /// Represents a quantity of energy.
@@ -24,6 +28,19 @@ class Energy extends LinearQuantity<EnergyUnit, Energy> {
   /// final electricityUsed = Energy(1.2, EnergyUnit.kilowattHour);
   /// ```
   const Energy(super._value, super._unit);
+
+  /// Creates an [Energy] quantity from [Power] and [Time] (E = P × t).
+  ///
+  /// Both inputs are converted to SI base units (watts and seconds) before
+  /// multiplying. The result is returned in joules.
+  ///
+  /// ```dart
+  /// final power    = 1.kW;
+  /// final duration = 1.hours;
+  /// final energy   = Energy.from(power, duration); // 3600000.0 J (1 kWh)
+  /// ```
+  factory Energy.from(Power power, Time duration) =>
+      Energy(power.inWatts * duration.inSeconds, EnergyUnit.joule);
 
   @override
   @protected

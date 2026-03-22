@@ -5,6 +5,10 @@ import '../../core/linear_quantity.dart';
 import '../../core/quantity_format.dart';
 import '../../core/quantity_parse_exception.dart' show QuantityParseException;
 import '../../core/quantity_parser.dart';
+import '../area/area.dart';
+import '../area/area_extensions.dart';
+import '../length/length.dart';
+import '../length/length_extensions.dart';
 import 'volume_unit.dart';
 
 /// Represents a quantity of volume.
@@ -15,6 +19,30 @@ import 'volume_unit.dart';
 class Volume extends LinearQuantity<VolumeUnit, Volume> {
   /// Creates a new `Volume` quantity with the given numerical [value] and [unit].
   const Volume(super._value, super._unit);
+
+  /// Creates a [Volume] from three [Length] values (V = l × w × h).
+  ///
+  /// All lengths are converted to meters before multiplying, so mixed units
+  /// work correctly. The result is in cubic meters.
+  ///
+  /// ```dart
+  /// final box = Volume.from(2.m, 3.m, 4.m);       // 24.0 m³
+  /// final pool = Volume.from(25.m, 10.m, 2.m);    // 500.0 m³
+  /// ```
+  factory Volume.from(Length l, Length w, Length h) =>
+      Volume(l.inM * w.inM * h.inM, VolumeUnit.cubicMeter);
+
+  /// Creates a [Volume] by extending an [Area] by a [Length] depth (V = A × d).
+  ///
+  /// Useful when you already have a cross-sectional [Area] and want to extrude
+  /// it by a depth. Mixed units are handled automatically.
+  ///
+  /// ```dart
+  /// final floor = Area.from(5.m, 4.m);            // 20 m²
+  /// final room  = Volume.fromArea(floor, 2.5.m);  // 50.0 m³
+  /// ```
+  factory Volume.fromArea(Area area, Length depth) =>
+      Volume(area.inSquareMeters * depth.inM, VolumeUnit.cubicMeter);
 
   @override
   @protected

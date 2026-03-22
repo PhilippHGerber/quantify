@@ -3,6 +3,10 @@ import 'package:meta/meta.dart';
 import '../../core/linear_quantity.dart';
 import '../../core/quantity_format.dart';
 import '../../core/quantity_parser.dart';
+import '../area/area.dart';
+import '../area/area_extensions.dart';
+import '../force/force.dart';
+import '../force/force_extensions.dart';
 import 'pressure_unit.dart';
 
 /// Represents a quantity of pressure.
@@ -20,6 +24,19 @@ class Pressure extends LinearQuantity<PressureUnit, Pressure> {
   /// final tirePressure = Pressure(32.0, PressureUnit.psi);
   /// ```
   const Pressure(super._value, super._unit);
+
+  /// Creates a [Pressure] quantity from [Force] and [Area] (P = F / A).
+  ///
+  /// Both inputs are converted to SI base units (newtons and square meters)
+  /// before dividing. The result is returned in pascals.
+  ///
+  /// ```dart
+  /// final force = 100.N;
+  /// final area  = 0.5.m2;
+  /// final pressure = Pressure.from(force, area); // 200.0 Pa
+  /// ```
+  factory Pressure.from(Force force, Area area) =>
+      Pressure(force.inNewtons / area.inSquareMeters, PressureUnit.pascal);
 
   @override
   @protected

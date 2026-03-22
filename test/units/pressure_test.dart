@@ -437,4 +437,28 @@ void main() {
       });
     });
   });
+
+  group('Dimensional Analysis (Pressure.from)', () {
+    test('P = F / A: 1 000 N over 10 m² = 100 Pa', () {
+      expect(Pressure.from(1000.N, 10.m2).inPa, closeTo(100.0, tolerance));
+    });
+
+    test('result unit is pascal', () {
+      expect(Pressure.from(1000.N, 10.m2).unit, PressureUnit.pascal);
+    });
+
+    test('halving area doubles pressure', () {
+      final p1 = Pressure.from(500.N, 10.m2);
+      final p2 = Pressure.from(500.N, 5.m2);
+      expect(p2.inPa, closeTo(p1.inPa * 2, tolerance));
+    });
+
+    test('inverse of Force.fromPressure: Pressure.from(Force.fromPressure(p, a), a) ≈ p', () {
+      const original = Pressure(200, PressureUnit.pascal);
+      final area = 5.m2;
+      final force = Force.fromPressure(original, area);
+      final recovered = Pressure.from(force, area);
+      expect(recovered.inPa, closeTo(200.0, tolerance));
+    });
+  });
 }

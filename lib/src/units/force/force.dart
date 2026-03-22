@@ -8,9 +8,13 @@ import '../../core/quantity_parser.dart';
 import '../acceleration/acceleration.dart';
 import '../acceleration/acceleration_extensions.dart';
 import '../acceleration/acceleration_unit.dart';
+import '../area/area.dart';
+import '../area/area_extensions.dart';
 import '../mass/mass.dart';
 import '../mass/mass_extensions.dart';
 import '../mass/mass_unit.dart';
+import '../pressure/pressure.dart';
+import '../pressure/pressure_extensions.dart';
 import 'force_unit.dart';
 
 /// Represents a quantity of force.
@@ -40,6 +44,20 @@ class Force extends LinearQuantity<ForceUnit, Force> {
     final mpss = acceleration.inMetersPerSecondSquared;
     return Force(kg * mpss, ForceUnit.newton);
   }
+
+  /// Creates a [Force] quantity from [Pressure] and [Area] (F = P × A).
+  ///
+  /// Both inputs are converted to SI base units (pascals and square meters)
+  /// before multiplying. The result is returned in newtons. This is the
+  /// inverse of [Pressure.from].
+  ///
+  /// ```dart
+  /// final pressure = 200.Pa;
+  /// final area     = 0.5.m2;
+  /// final force    = Force.fromPressure(pressure, area); // 100.0 N
+  /// ```
+  factory Force.fromPressure(Pressure pressure, Area area) =>
+      Force(pressure.inPa * area.inSquareMeters, ForceUnit.newton);
 
   @override
   @protected

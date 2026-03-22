@@ -1,6 +1,8 @@
 // test/units/power_test.dart
 
+import 'package:quantify/energy.dart';
 import 'package:quantify/power.dart';
+import 'package:quantify/time.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -176,6 +178,34 @@ void main() {
         expect(asErg.unit, PowerUnit.ergPerSecond);
         expect(asErg.value, closeTo(1e10, defaultTolerance));
       });
+    });
+  });
+
+  group('Dimensional Analysis (Power.from)', () {
+    const tolerance = 1e-9;
+
+    test('P = E / t: 3 600 000 J over 1 h = 1 000 W', () {
+      expect(Power.from(1.kWh, 1.hours).inWatts, closeTo(1000.0, tolerance));
+    });
+
+    test('result unit is watt', () {
+      expect(Power.from(1.kWh, 1.hours).unit, PowerUnit.watt);
+    });
+
+    test('P = E / t with seconds', () {
+      // 100 J / 10 s = 10 W
+      expect(
+        Power.from(const Energy(100, EnergyUnit.joule), const Time(10, TimeUnit.second)).inWatts,
+        closeTo(10.0, tolerance),
+      );
+    });
+
+    test('inverse of Energy.from: Power.from(Energy.from(p, t), t) ≈ p', () {
+      const original = Power(500, PowerUnit.watt);
+      const duration = Time(60, TimeUnit.second);
+      final energy = Energy.from(original, duration);
+      final recovered = Power.from(energy, duration);
+      expect(recovered.inWatts, closeTo(500.0, tolerance));
     });
   });
 }

@@ -261,6 +261,33 @@ final smallMass = 250.g; // grams
 final combined = bigMass + smallMass; // Result: 5.00025 t
 ```
 
+### Dimensional Analysis
+
+`quantify` provides factory constructors that **derive one physical quantity from two others**, keeping your calculations within the type-safe ecosystem rather than dropping to raw `double`s.
+
+```dart
+// Area = Length × Length
+final room = Area.from(5.m, 4.m);           // 20.0 m²
+final plot = Area.from(1.km, 500.m);        // 500 000.0 m²
+
+// Volume = Length × Length × Length
+final box = Volume.from(2.m, 3.m, 4.m);    // 24.0 m³
+
+// Volume = Area × depth
+final floor = Area.from(10.m, 5.m);
+final pool  = Volume.fromArea(floor, 2.m); // 100.0 m³
+
+// Power = Energy / Time  ↔  Energy = Power × Time
+final power  = Power.from(1.kWh, 1.hours);       // 1 000.0 W
+final energy = Energy.from(1.kW, 1.hours);        // 3 600 000.0 J
+
+// Pressure = Force / Area  ↔  Force = Pressure × Area
+final pressure = Pressure.from(1000.N, 10.m2);   // 100.0 Pa
+final force    = Force.fromPressure(pressure, 10.m2); // 1 000.0 N
+```
+
+All inputs are converted to SI base units before calculation, so **mixed units work correctly without any manual conversion**. Each pair of factories is a symmetric inverse of the other.
+
 ### Temperature & TemperatureDelta
 
 `Temperature` is an **affine** quantity—absolute temperatures are points on a scale, not linear vectors. This means you cannot add two temperatures (20 °C + 20 °C is not 40 °C), and ratios between Celsius or Fahrenheit values are physically meaningless.

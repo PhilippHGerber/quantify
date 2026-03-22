@@ -41,6 +41,13 @@ class VolumeFactors {
   static const double ft3 = in3 * 1728.0;
 
   /// Cubic Millimeters per Cubic Mile: 1 mi³ = (5280)³ ft³.
+  ///
+  /// **Precision Note:** A 64-bit IEEE 754 double (53-bit mantissa) cannot
+  /// losslessly represent this factor as an exact integer. Conversions spanning
+  /// directly from cubic miles to cubic millimeters will incur an unavoidable
+  /// rounding error of approximately ±500 mm³ per cubic mile (~3.7 × 10⁻¹⁰
+  /// relative error). For sub-millimeter accuracy at planetary scales, use an
+  /// arbitrary-precision library.
   static const double mi3 = ft3 * 147197952000.0;
 
   // --- US Customary Liquid Units (relative to Cubic Millimeter) ---

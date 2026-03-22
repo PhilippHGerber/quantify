@@ -530,4 +530,56 @@ void main() {
       expect(1000.Mbit.asGbit.value, closeTo(1.0, 1e-9));
     });
   });
+
+  group('Lowercase extension aliases (§5)', () {
+    test('kb == kB (kilobyte)', () {
+      expect(1.kb.unit, InformationUnit.kilobyte);
+      expect(1.kb.isEquivalentTo(1.kB), isTrue);
+    });
+
+    test('mb == MB (megabyte)', () {
+      expect(1.mb.unit, InformationUnit.megabyte);
+      expect(1.mb.isEquivalentTo(1.MB), isTrue);
+    });
+
+    test('gb == GB (gigabyte)', () {
+      expect(1.gb.unit, InformationUnit.gigabyte);
+      expect(1.gb.isEquivalentTo(1.GB), isTrue);
+    });
+
+    test('tb == TB (terabyte)', () {
+      expect(1.tb.unit, InformationUnit.terabyte);
+      expect(1.tb.isEquivalentTo(1.TB), isTrue);
+    });
+
+    test('pb == PB (petabyte)', () {
+      expect(1.pb.unit, InformationUnit.petabyte);
+      expect(1.pb.isEquivalentTo(1.PB), isTrue);
+    });
+
+    test('kib == KiB (kibibyte)', () {
+      expect(1.kib.unit, InformationUnit.kibibyte);
+      expect(1.kib.isEquivalentTo(1.KiB), isTrue);
+    });
+
+    test('mib == MiB (mebibyte)', () {
+      expect(1.mib.unit, InformationUnit.mebibyte);
+      expect(1.mib.isEquivalentTo(1.MiB), isTrue);
+    });
+
+    test('gib == GiB (gibibyte)', () {
+      expect(1.gib.unit, InformationUnit.gibibyte);
+      expect(1.gib.isEquivalentTo(1.GiB), isTrue);
+    });
+
+    test('tib == TiB (tebibyte)', () {
+      expect(1.tib.unit, InformationUnit.tebibyte);
+      expect(1.tib.isEquivalentTo(1.TiB), isTrue);
+    });
+
+    test('pib == PiB (pebibyte)', () {
+      expect(1.pib.unit, InformationUnit.pebibyte);
+      expect(1.pib.isEquivalentTo(1.PiB), isTrue);
+    });
+  });
 }

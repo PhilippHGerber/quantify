@@ -1,6 +1,8 @@
 import 'package:quantify/acceleration.dart';
+import 'package:quantify/area.dart';
 import 'package:quantify/force.dart';
 import 'package:quantify/mass.dart';
+import 'package:quantify/pressure.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -186,6 +188,37 @@ void main() {
         expect(personWeight.inNewtons, closeTo(735.5, 1e-1));
         expect(personWeight.inKilogramsForce, closeTo(75.0, 1e-5));
         expect(personWeight.inPoundsForce, closeTo(165.3, 1e-1));
+      });
+    });
+
+    group('Force.fromPressure (F = P × A)', () {
+      test('100 Pa × 10 m² = 1 000 N', () {
+        expect(
+          Force.fromPressure(const Pressure(100, PressureUnit.pascal), 10.m2).inNewtons,
+          closeTo(1000.0, highTolerance),
+        );
+      });
+
+      test('result unit is newton', () {
+        expect(
+          Force.fromPressure(const Pressure(100, PressureUnit.pascal), 1.m2).unit,
+          ForceUnit.newton,
+        );
+      });
+
+      test('doubling area doubles force', () {
+        const p = Pressure(50, PressureUnit.pascal);
+        final f1 = Force.fromPressure(p, 2.m2);
+        final f2 = Force.fromPressure(p, 4.m2);
+        expect(f2.inNewtons, closeTo(f1.inNewtons * 2, highTolerance));
+      });
+
+      test('inverse of Pressure.from: Force.fromPressure(Pressure.from(f, a), a) ≈ f', () {
+        const original = Force(800, ForceUnit.newton);
+        final area = 4.m2;
+        final pressure = Pressure.from(original, area);
+        final recovered = Force.fromPressure(pressure, area);
+        expect(recovered.inNewtons, closeTo(800.0, highTolerance));
       });
     });
   });

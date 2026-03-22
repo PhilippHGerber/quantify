@@ -183,4 +183,38 @@ extension InformationCreation on num {
   /// Creates an [Information] instance representing this value in Pebibytes (PiB, IEC: 2⁵⁰ bytes).
   // ignore: non_constant_identifier_names
   Information get PiB => Information(toDouble(), InformationUnit.pebibyte);
+
+  // --- Lowercase linter-friendly aliases ---
+  // Some teams enforce all-lowercase identifiers (camelCase without caps).
+  // These aliases resolve to the same units as their uppercase counterparts.
+
+  /// Lowercase alias for [kB] — kilobytes (SI: 1 000 bytes).
+  Information get kb => Information(toDouble(), InformationUnit.kilobyte);
+
+  /// Lowercase alias for [MB] — megabytes (SI: 10⁶ bytes).
+  Information get mb => Information(toDouble(), InformationUnit.megabyte);
+
+  /// Lowercase alias for [GB] — gigabytes (SI: 10⁹ bytes).
+  Information get gb => Information(toDouble(), InformationUnit.gigabyte);
+
+  /// Lowercase alias for [TB] — terabytes (SI: 10¹² bytes).
+  Information get tb => Information(toDouble(), InformationUnit.terabyte);
+
+  /// Lowercase alias for [PB] — petabytes (SI: 10¹⁵ bytes).
+  Information get pb => Information(toDouble(), InformationUnit.petabyte);
+
+  /// Lowercase alias for [KiB] — kibibytes (IEC: 1 024 bytes).
+  Information get kib => Information(toDouble(), InformationUnit.kibibyte);
+
+  /// Lowercase alias for [MiB] — mebibytes (IEC: 2²⁰ bytes).
+  Information get mib => Information(toDouble(), InformationUnit.mebibyte);
+
+  /// Lowercase alias for [GiB] — gibibytes (IEC: 2³⁰ bytes).
+  Information get gib => Information(toDouble(), InformationUnit.gibibyte);
+
+  /// Lowercase alias for [TiB] — tebibytes (IEC: 2⁴⁰ bytes).
+  Information get tib => Information(toDouble(), InformationUnit.tebibyte);
+
+  /// Lowercase alias for [PiB] — pebibytes (IEC: 2⁵⁰ bytes).
+  Information get pib => Information(toDouble(), InformationUnit.pebibyte);
 }

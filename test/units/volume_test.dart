@@ -1,3 +1,5 @@
+import 'package:quantify/area.dart';
+import 'package:quantify/length.dart';
 import 'package:quantify/volume.dart';
 import 'package:test/test.dart';
 
@@ -284,6 +286,49 @@ void main() {
         final pintOrig = testValue.pints;
         final pintRoundTrip = pintOrig.asQuarts.asPints;
         expect(pintRoundTrip.value, closeTo(testValue, tolerance));
+      });
+    });
+  });
+
+  group('Dimensional Analysis', () {
+    group('Volume.from (l × w × h)', () {
+      test('integer dimensions', () {
+        expect(Volume.from(2.m, 3.m, 4.m).inCubicMeters, closeTo(24.0, tolerance));
+      });
+
+      test('result unit is cubicMeter', () {
+        expect(Volume.from(1.m, 1.m, 1.m).unit, VolumeUnit.cubicMeter);
+      });
+
+      test('mixed units: 1 km × 1 m × 1 m = 1000 m³', () {
+        expect(Volume.from(1.km, 1.m, 1.m).inCubicMeters, closeTo(1000.0, tolerance));
+      });
+
+      test('pool example: 25 m × 10 m × 2 m = 500 m³', () {
+        expect(Volume.from(25.m, 10.m, 2.m).inCubicMeters, closeTo(500.0, tolerance));
+      });
+    });
+
+    group('Volume.fromArea (area × depth)', () {
+      test('floor 5 m × 4 m extruded 2.5 m = 50 m³', () {
+        final floor = Area.from(5.m, 4.m);
+        expect(Volume.fromArea(floor, 2.5.m).inCubicMeters, closeTo(50.0, tolerance));
+      });
+
+      test('result unit is cubicMeter', () {
+        expect(Volume.fromArea(Area.from(1.m, 1.m), 1.m).unit, VolumeUnit.cubicMeter);
+      });
+
+      test('consistent with Volume.from', () {
+        final via3 = Volume.from(3.m, 4.m, 5.m);
+        final viaArea = Volume.fromArea(Area.from(3.m, 4.m), 5.m);
+        expect(via3.isEquivalentTo(viaArea), isTrue);
+      });
+
+      test('mixed units: area in cm², depth in m', () {
+        // 10000 cm² = 1 m²; × 2 m = 2 m³
+        expect(Volume.fromArea(const Area(10000, AreaUnit.squareCentimeter), 2.m).inCubicMeters,
+            closeTo(2.0, highTolerance),);
       });
     });
   });

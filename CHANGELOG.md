@@ -41,6 +41,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   * Equal infinities (`+∞ == +∞`) → `true`; mixed finite/infinite → `false`; any `NaN` → `false`.
   * Pass `tolerance: 1e-12` for tighter round-trip checks, or `tolerance: 1e-6` for noisy sensor data.
 
+* **Dimensional bridges** — factory constructors that derive one physical quantity from two others, keeping calculations entirely within the type-safe `quantify` ecosystem:
+
+  | Factory                                     | Formula       | Example                                    |
+  | ------------------------------------------- | ------------- | ------------------------------------------ |
+  | `Area.from(Length l, Length w)`             | A = l × w     | `Area.from(5.m, 4.m)` → 20 m²              |
+  | `Volume.from(Length l, Length w, Length h)` | V = l × w × h | `Volume.from(2.m, 3.m, 4.m)` → 24 m³       |
+  | `Volume.fromArea(Area a, Length depth)`     | V = A × d     | `Volume.fromArea(floor, 2.5.m)`            |
+  | `Power.from(Energy e, Time t)`              | P = E / t     | `Power.from(1.kWh, 1.hours)` → 1 000 W     |
+  | `Energy.from(Power p, Time t)`              | E = P × t     | `Energy.from(1.kW, 1.hours)` → 3 600 000 J |
+  | `Pressure.from(Force f, Area a)`            | P = F / A     | `Pressure.from(1000.N, 10.m2)` → 100 Pa    |
+  | `Force.fromPressure(Pressure p, Area a)`    | F = P × A     | `Force.fromPressure(p, 5.m2)`              |
+
+  All inputs are automatically converted to SI base units before the calculation. Mixed units work correctly (`Area.from(1.km, 500.m)` gives 500 000 m²). These factories are the symmetric complements of each other — `Power.from` is the inverse of `Energy.from`, and `Pressure.from` is the inverse of `Force.fromPressure`.
+
+### Changed — Non-Breaking
+
+* **`Area` extension: `squareMegameter` renamed to `Mm2`** — the `num.squareMegameter` creation getter is renamed to `num.Mm2` to follow the established `{prefix}m2` naming convention used by every other SI area unit (`m2`, `km2`, `hm2`, `dam2`, `dm2`, `cm2`, `mm2`, `um2`). The old `squareMegameter` getter is retained but marked `@Deprecated` and will be removed in the next major version.
+
+* **`Information` lowercase extension aliases** — added linter-friendly all-lowercase creation getters as aliases for teams that enforce `lowerCamelCase` identifiers. The existing SI-cased getters (`kB`, `MB`, `GB`, etc.) remain the primary and are not deprecated:
+  * SI: `.kb`, `.mb`, `.gb`, `.tb`, `.pb`
+  * IEC: `.kib`, `.mib`, `.gib`, `.tib`, `.pib`
+
+* **`VolumeFactors.mi3` precision note** — added a doc comment on the cubic-mile constant documenting the unavoidable ~±500 mm³ IEEE 754 rounding error that occurs on direct mi³ → mm³ conversions (relative error ~3.7 × 10⁻¹⁰).
+
 ## [0.15.0]
 
 2026-02-23

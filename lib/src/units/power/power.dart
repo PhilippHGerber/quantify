@@ -5,6 +5,10 @@ import '../../core/linear_quantity.dart';
 import '../../core/quantity_format.dart';
 import '../../core/quantity_parse_exception.dart' show QuantityParseException;
 import '../../core/quantity_parser.dart';
+import '../energy/energy.dart';
+import '../energy/energy_extensions.dart';
+import '../time/time.dart';
+import '../time/time_extensions.dart';
 import 'power_unit.dart';
 
 /// Represents a quantity of power.
@@ -24,6 +28,19 @@ class Power extends LinearQuantity<PowerUnit, Power> {
   /// final nuclearPlantOutput = Power(1.2, PowerUnit.gigawatt);
   /// ```
   const Power(super._value, super._unit);
+
+  /// Creates a [Power] quantity from [Energy] and [Time] (P = E / t).
+  ///
+  /// Both inputs are converted to SI base units (joules and seconds) before
+  /// dividing. The result is returned in watts.
+  ///
+  /// ```dart
+  /// final energy   = 3600.kJ;
+  /// final duration = 1.hours;
+  /// final power    = Power.from(energy, duration); // 1000.0 W (1 kW)
+  /// ```
+  factory Power.from(Energy energy, Time duration) =>
+      Power(energy.inJoules / duration.inSeconds, PowerUnit.watt);
 
   @override
   @protected

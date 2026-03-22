@@ -400,6 +400,53 @@ void main() {
         expect(base.asSquareMile.unit, AreaUnit.squareMile);
         expect(base.asAcre.unit, AreaUnit.acre);
       });
+
+      group('Mm2 extension (§5 naming fix)', () {
+        test('Mm2 getter creates squareMegameter area', () {
+          final a = 3.Mm2;
+          expect(a.unit, AreaUnit.squareMegameter);
+          expect(a.value, 3.0);
+        });
+
+        test('Mm2 is equivalent to deprecated squareMegameter', () {
+          // Intentionally testing the deprecated getter still resolves correctly.
+          // ignore: deprecated_member_use_from_same_package
+          expect(3.Mm2.isEquivalentTo(3.squareMegameter), isTrue);
+        });
+
+        test('1 Mm² = 1e12 m²', () {
+          expect(1.Mm2.inSquareMeters, closeTo(1e12, 1e3));
+        });
+      });
+    });
+  });
+
+  group('Dimensional Analysis (Area.from)', () {
+    test('same-unit multiplication', () {
+      expect(Area.from(5.m, 4.m).inSquareMeters, closeTo(20.0, tolerance));
+    });
+
+    test('mixed units: 1 km × 500 m = 500 000 m²', () {
+      expect(Area.from(1.km, 500.m).inSquareMeters, closeTo(500000.0, tolerance));
+    });
+
+    test('result is always in squareMeter unit', () {
+      expect(Area.from(3.m, 3.m).unit, AreaUnit.squareMeter);
+    });
+
+    test('centimeters: 100 cm × 200 cm = 2 m²', () {
+      expect(Area.from(100.cm, 200.cm).inSquareMeters, closeTo(2.0, tolerance));
+    });
+
+    test('square: 7.5 m × 7.5 m = 56.25 m²', () {
+      expect(Area.from(7.5.m, 7.5.m).inSquareMeters, closeTo(56.25, tolerance));
+    });
+
+    test('symmetric: Area.from(a, b) == Area.from(b, a)', () {
+      expect(
+        Area.from(3.m, 5.m).isEquivalentTo(Area.from(5.m, 3.m)),
+        isTrue,
+      );
     });
   });
 }
