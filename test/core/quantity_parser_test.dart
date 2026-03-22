@@ -698,8 +698,7 @@ void main() {
           formats: [QuantityFormat.enUs, QuantityFormat.de],
         ),
         throwsA(
-          isA<QuantityParseException>()
-              .having((e) => e.formatsAttempted, 'formatsAttempted', 2),
+          isA<QuantityParseException>().having((e) => e.formatsAttempted, 'formatsAttempted', 2),
         ),
       );
     });
@@ -712,8 +711,7 @@ void main() {
           formats: [QuantityFormat.invariant, QuantityFormat.enUs, fmt3],
         ),
         throwsA(
-          isA<QuantityParseException>()
-              .having((e) => e.formatsAttempted, 'formatsAttempted', 3),
+          isA<QuantityParseException>().having((e) => e.formatsAttempted, 'formatsAttempted', 3),
         ),
       );
     });
