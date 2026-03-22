@@ -181,31 +181,39 @@ enum InformationUnit implements Unit<InformationUnit> {
 
   /// SI and IEC symbols matched **strictly case-sensitive**.
   ///
-  /// This is critical: `'b'` (bit) ≠ `'B'` (byte), `'kB'` (kilobyte) ≠ `'KiB'` (kibibyte).
-  /// No case folding is applied during lookup.
+  /// This is critical: `'b'` (bit) ≠ `'B'` (byte), `'mb'` (megabit) ≠ `'MB'` (megabyte).
+  /// No case folding is applied during lookup to prevent silent 8x magnitude errors.
+  /// Mixed-case typos like 'mB' or 'Mb' will be safely rejected.
   ///
   /// Used by `Information.parser`.
   @internal
   static const Map<String, InformationUnit> symbolAliases = {
-    // bit
+    // --- Base Units ---
     'bit': InformationUnit.bit,
-    'b': InformationUnit.bit, // lowercase b = bit
-    // byte
-    'B': InformationUnit.byte, // uppercase B = byte
-    // SI bit units
+    'b': InformationUnit.bit, // strict lowercase b = bit
+    'B': InformationUnit.byte, // strict uppercase B = byte
+
+    // --- SI Bit Units (powers of 1000) ---
     'kbit': InformationUnit.kilobit,
+    'kb': InformationUnit.kilobit,
     'Mbit': InformationUnit.megabit,
+    'mb': InformationUnit.megabit,
     'Gbit': InformationUnit.gigabit,
+    'gb': InformationUnit.gigabit,
     'Tbit': InformationUnit.terabit,
+    'tb': InformationUnit.terabit,
     'Pbit': InformationUnit.petabit,
+    'pb': InformationUnit.petabit,
     'Ebit': InformationUnit.exabit,
+    'eb': InformationUnit.exabit,
     'Zbit': InformationUnit.zettabit,
+    'zb': InformationUnit.zettabit,
     'Ybit': InformationUnit.yottabit,
-    // SI / decimal byte units
+    'yb': InformationUnit.yottabit,
+
+    // --- SI / Decimal Byte Units (powers of 1000) ---
     'kB': InformationUnit.kilobyte,
-    // 'KB' is an ambiguous legacy form — resolves to SI kilobyte (kB).
-    // Use 'KiB' for the IEC binary kibibyte.
-    'KB': InformationUnit.kilobyte,
+    'KB': InformationUnit.kilobyte, // Legacy abbreviation, mapped to SI kilobyte
     'MB': InformationUnit.megabyte,
     'GB': InformationUnit.gigabyte,
     'TB': InformationUnit.terabyte,
@@ -213,7 +221,8 @@ enum InformationUnit implements Unit<InformationUnit> {
     'EB': InformationUnit.exabyte,
     'ZB': InformationUnit.zettabyte,
     'YB': InformationUnit.yottabyte,
-    // IEC / binary
+
+    // --- IEC Binary Byte Units (powers of 1024) ---
     'KiB': InformationUnit.kibibyte,
     'MiB': InformationUnit.mebibyte,
     'GiB': InformationUnit.gibibyte,
@@ -222,21 +231,35 @@ enum InformationUnit implements Unit<InformationUnit> {
     'EiB': InformationUnit.exbibyte,
     'ZiB': InformationUnit.zebibyte,
     'YiB': InformationUnit.yobibyte,
+
+    // --- IEC Binary Byte Units (lowercase linter-friendly aliases) ---
+    'kib': InformationUnit.kibibyte,
+    'mib': InformationUnit.mebibyte,
+    'gib': InformationUnit.gibibyte,
+    'tib': InformationUnit.tebibyte,
+    'pib': InformationUnit.pebibyte,
+    'eib': InformationUnit.exbibyte,
+    'zib': InformationUnit.zebibyte,
+    'yib': InformationUnit.yobibyte,
   };
 
   /// Full word-form names matched **case-insensitively**
   /// (after `.toLowerCase()` and whitespace normalization).
   ///
+  /// Note: Absolutely NO short symbols (like 'kb' or 'mb') are included here.
+  /// If they were, an ambiguous string like "Mb" would fall back to this map,
+  /// be converted to "mb", and silently match megabit.
+  ///
   /// Used by `Information.parser`.
   @internal
   static const Map<String, InformationUnit> nameAliases = {
-    // bit
+    // --- Base Units ---
     'bit': InformationUnit.bit,
     'bits': InformationUnit.bit,
-    // byte
     'byte': InformationUnit.byte,
     'bytes': InformationUnit.byte,
-    // SI bit units
+
+    // --- SI Bit Units ---
     'kilobit': InformationUnit.kilobit,
     'kilobits': InformationUnit.kilobit,
     'megabit': InformationUnit.megabit,
@@ -253,7 +276,8 @@ enum InformationUnit implements Unit<InformationUnit> {
     'zettabits': InformationUnit.zettabit,
     'yottabit': InformationUnit.yottabit,
     'yottabits': InformationUnit.yottabit,
-    // SI / decimal byte units
+
+    // --- SI / Decimal Byte Units ---
     'kilobyte': InformationUnit.kilobyte,
     'kilobytes': InformationUnit.kilobyte,
     'megabyte': InformationUnit.megabyte,
@@ -270,7 +294,8 @@ enum InformationUnit implements Unit<InformationUnit> {
     'zettabytes': InformationUnit.zettabyte,
     'yottabyte': InformationUnit.yottabyte,
     'yottabytes': InformationUnit.yottabyte,
-    // IEC / binary
+
+    // --- IEC / Binary Byte Units ---
     'kibibyte': InformationUnit.kibibyte,
     'kibibytes': InformationUnit.kibibyte,
     'mebibyte': InformationUnit.mebibyte,
