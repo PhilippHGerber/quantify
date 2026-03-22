@@ -139,4 +139,10 @@ class QuantityFormat {
 
   /// German locale (comma decimal, dot thousands).
   static const QuantityFormat de = QuantityFormat(locale: 'de_DE');
+
+  /// Compact notation (e.g. "1.5K", "3.4M", "2.1G").
+  ///
+  /// Uses [NumberFormat.compact()] from the `intl` package. Useful for
+  /// displaying large quantities in tight UI spaces.
+  static final QuantityFormat compact = QuantityFormat.withNumberFormat(NumberFormat.compact());
 }
