@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../core/quantity.dart';
+import '../../core/linear_quantity.dart';
 import '../../core/quantity_format.dart';
 import '../../core/quantity_parser.dart';
 import 'mass_unit.dart';
@@ -15,7 +15,7 @@ import 'mass_unit.dart';
 /// different units (e.g., kilograms, grams, pounds, ounces), and perform
 /// arithmetic operations.
 @immutable
-class Mass extends Quantity<MassUnit> {
+class Mass extends LinearQuantity<MassUnit, Mass> {
   /// Creates a new [Mass] quantity with the given numerical [value] and [unit].
   ///
   /// Example:
@@ -25,6 +25,10 @@ class Mass extends Quantity<MassUnit> {
   /// final packageWeightLbs = Mass(5.0, MassUnit.pound);
   /// ```
   const Mass(super._value, super._unit);
+
+  @override
+  @protected
+  Mass create(double value, MassUnit unit) => Mass(value, unit);
 
   /// The parser instance used to convert strings into [Mass] objects.
   ///
@@ -43,55 +47,6 @@ class Mass extends Quantity<MassUnit> {
     nameAliases: MassUnit.nameAliases,
     factory: Mass.new,
   );
-
-  /// Converts this mass's value to the specified[targetUnit].
-  ///
-  /// This method uses pre-calculated direct conversion factors from the [MassUnit]
-  /// enum for optimal efficiency.
-  ///
-  /// Example:
-  /// ```dart
-  /// final weightInKg = Mass(1.0, MassUnit.kilogram);
-  /// final weightInGrams = weightInKg.getValue(MassUnit.gram); // 1000.0
-  /// ```
-  @override
-  double getValue(MassUnit targetUnit) {
-    if (targetUnit == unit) return value;
-    return value * unit.factorTo(targetUnit);
-  }
-
-  /// Creates a new [Mass] instance with the value converted to the [targetUnit].
-  ///
-  /// This is useful for obtaining a new `Mass` object in a different unit
-  /// without losing type information or immutability.
-  ///
-  /// Example:
-  /// ```dart
-  /// final weightInGrams = Mass(1500.0, MassUnit.gram);
-  /// final weightInKg = weightInGrams.convertTo(MassUnit.kilogram);
-  /// // weightInKg is Mass(1.5, MassUnit.kilogram)
-  /// ```
-  @override
-  Mass convertTo(MassUnit targetUnit) {
-    if (targetUnit == unit) return this;
-    final newValue = getValue(targetUnit);
-    return Mass(newValue, targetUnit);
-  }
-
-  /// Compares this [Mass] object to another [Quantity<MassUnit>].
-  ///
-  /// Comparison is based on the true physical magnitude of the masses,
-  /// automatically handling unit conversions internally.
-  ///
-  /// Returns:
-  /// - A negative integer if this mass is less than [other].
-  /// - Zero if this mass is physically equal to[other].
-  /// - A positive integer if this mass is greater than [other].
-  @override
-  int compareTo(Quantity<MassUnit> other) {
-    final thisValueInOtherUnit = getValue(other.unit);
-    return thisValueInOtherUnit.compareTo(other.value);
-  }
 
   /// Parses a string representation of a mass into a [Mass] object.
   ///
@@ -136,42 +91,4 @@ class Mass extends Quantity<MassUnit> {
     List<QuantityFormat> formats = const [QuantityFormat.invariant],
   }) =>
       parser.tryParse(input, formats: formats);
-
-  // --- Arithmetic Operators ---
-
-  /// Adds this mass to another mass.
-  ///
-  /// The [other] mass is converted to the unit of this mass before addition.
-  /// Returns a new [Mass] instance.
-  Mass operator +(Mass other) {
-    final otherValueInThisUnit = other.getValue(unit);
-    return Mass(value + otherValueInThisUnit, unit);
-  }
-
-  /// Subtracts another mass from this mass.
-  ///
-  /// The [other] mass is converted to the unit of this mass before subtraction.
-  /// Returns a new [Mass] instance.
-  Mass operator -(Mass other) {
-    final otherValueInThisUnit = other.getValue(unit);
-    return Mass(value - otherValueInThisUnit, unit);
-  }
-
-  /// Multiplies this mass by a dimensionless scalar value.
-  ///
-  /// Returns a new [Mass] instance with the scaled value in the original unit.
-  Mass operator *(double scalar) {
-    return Mass(value * scalar, unit);
-  }
-
-  /// Divides this mass by a dimensionless scalar value.
-  ///
-  /// Returns a new[Mass] instance with the scaled value in the original unit.
-  /// Throws an [ArgumentError] if the scalar is zero.
-  Mass operator /(double scalar) {
-    if (scalar == 0) {
-      throw ArgumentError('Cannot divide by zero.');
-    }
-    return Mass(value / scalar, unit);
-  }
 }

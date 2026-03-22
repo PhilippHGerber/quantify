@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../core/quantity.dart';
+import '../../core/linear_quantity.dart';
 import '../../core/quantity_format.dart';
 import '../../core/quantity_parser.dart';
 import '../speed/speed.dart';
@@ -15,7 +15,7 @@ import 'acceleration_unit.dart';
 /// Acceleration is a derived quantity representing the rate of change of
 /// velocity over time. The SI derived unit is Meter per Second Squared (m/s²).
 @immutable
-class Acceleration extends Quantity<AccelerationUnit> {
+class Acceleration extends LinearQuantity<AccelerationUnit, Acceleration> {
   /// Creates a new `Acceleration` with a given [value] and [unit].
   const Acceleration(super._value, super._unit);
 
@@ -40,6 +40,10 @@ class Acceleration extends Quantity<AccelerationUnit> {
     }
     return Acceleration(mps / seconds, AccelerationUnit.meterPerSecondSquared);
   }
+
+  @override
+  @protected
+  Acceleration create(double value, AccelerationUnit unit) => Acceleration(value, unit);
 
   /// The parser instance used to convert strings into [Acceleration] objects.
   ///
@@ -73,138 +77,6 @@ class Acceleration extends Quantity<AccelerationUnit> {
     List<QuantityFormat> formats = const [QuantityFormat.invariant],
   }) {
     return parser.tryParse(input, formats: formats);
-  }
-
-  /// Converts this acceleration's value to the specified [targetUnit].
-  ///
-  /// This method uses pre-calculated direct conversion factors from the `AccelerationUnit`
-  /// enum for efficiency, typically involving a single multiplication.
-  ///
-  /// Example:
-  /// ```dart
-  /// final a = Acceleration(9.80665, AccelerationUnit.meterPerSecondSquared); // 1 g
-  /// final inG = a.getValue(AccelerationUnit.standardGravity); // 1.0
-  ///
-  /// final a2 = Acceleration(2.0, AccelerationUnit.standardGravity);
-  /// final inMpss = a2.getValue(AccelerationUnit.meterPerSecondSquared); // ~19.613
-  /// ```
-  @override
-  double getValue(AccelerationUnit targetUnit) {
-    // If the target unit is the same as the current unit, no conversion is needed.
-    if (targetUnit == unit) return value;
-    // Otherwise, multiply by the direct conversion factor.
-    return value * unit.factorTo(targetUnit);
-  }
-
-  /// Creates a new [Acceleration] instance with the value converted to the [targetUnit].
-  ///
-  /// This is useful for obtaining a new `Acceleration` object in a different unit
-  /// while preserving type safety and the immutability of `Quantity` objects.
-  ///
-  /// Example:
-  /// ```dart
-  /// final a = Acceleration(9.80665, AccelerationUnit.meterPerSecondSquared);
-  /// final inG = a.convertTo(AccelerationUnit.standardGravity);
-  /// // inG is Acceleration(1.0, AccelerationUnit.standardGravity)
-  /// print(inG); // Output: "1.0 g" (depending on toString formatting)
-  /// ```
-  @override
-  Acceleration convertTo(AccelerationUnit targetUnit) {
-    // If the target unit is the same, return this instance (immutable optimization).
-    if (targetUnit == unit) return this;
-    final newValue = getValue(targetUnit);
-    return Acceleration(newValue, targetUnit);
-  }
-
-  /// Compares this [Acceleration] object to another [Quantity<AccelerationUnit>].
-  ///
-  /// Comparison is based on the physical magnitude of the accelerations.
-  /// For an accurate comparison, this acceleration's value is converted to the unit
-  /// of the [other] acceleration before their numerical values are compared.
-  ///
-  /// Returns:
-  /// - A negative integer if this acceleration is less than [other].
-  /// - Zero if this acceleration is equal in magnitude to [other].
-  /// - A positive integer if this acceleration is greater than [other].
-  ///
-  /// Example:
-  /// ```dart
-  /// final a1 = Acceleration(9.80665, AccelerationUnit.meterPerSecondSquared); // 1 g
-  /// final a2 = Acceleration(1.0, AccelerationUnit.standardGravity);           // 1 g
-  /// final a3 = Acceleration(5.0, AccelerationUnit.meterPerSecondSquared);
-  ///
-  /// print(a1.compareTo(a2)); // 0 (equal magnitude)
-  /// print(a1.compareTo(a3)); // 1 (a1 > a3)
-  /// print(a3.compareTo(a1)); // -1 (a3 < a1)
-  /// ```
-  @override
-  int compareTo(Quantity<AccelerationUnit> other) {
-    final thisValueInOtherUnit = getValue(other.unit);
-    return thisValueInOtherUnit.compareTo(other.value);
-  }
-
-  // --- Arithmetic Operators ---
-
-  /// Adds this acceleration to another.
-  ///
-  /// The [other] acceleration is converted to the unit of this acceleration before addition.
-  /// The result is a new [Acceleration] instance with the sum, expressed in the unit of this acceleration.
-  ///
-  /// Example:
-  /// ```dart
-  /// final a1 = Acceleration(5.0, AccelerationUnit.meterPerSecondSquared);
-  /// final a2 = Acceleration(1.0, AccelerationUnit.standardGravity); // ~9.80665 m/s²
-  /// final total = a1 + a2; // Result: Acceleration(~14.807, AccelerationUnit.meterPerSecondSquared)
-  /// ```
-  Acceleration operator +(Acceleration other) {
-    final otherValueInThisUnit = other.getValue(unit);
-    return Acceleration(value + otherValueInThisUnit, unit);
-  }
-
-  /// Subtracts another acceleration from this acceleration.
-  ///
-  /// The [other] acceleration is converted to the unit of this acceleration before subtraction.
-  /// The result is a new [Acceleration] instance with the difference, expressed in the unit of this acceleration.
-  ///
-  /// Example:
-  /// ```dart
-  /// final a1 = Acceleration(20.0, AccelerationUnit.meterPerSecondSquared);
-  /// final a2 = Acceleration(1.0, AccelerationUnit.standardGravity); // ~9.80665 m/s²
-  /// final net = a1 - a2; // Result: Acceleration(~10.19, AccelerationUnit.meterPerSecondSquared)
-  /// ```
-  Acceleration operator -(Acceleration other) {
-    final otherValueInThisUnit = other.getValue(unit);
-    return Acceleration(value - otherValueInThisUnit, unit);
-  }
-
-  /// Multiplies this acceleration by a scalar value (a dimensionless number).
-  ///
-  /// Returns a new [Acceleration] instance with the scaled value, in the original unit of this acceleration.
-  ///
-  /// Example:
-  /// ```dart
-  /// final a = Acceleration(3.0, AccelerationUnit.meterPerSecondSquared);
-  /// final doubled = a * 2.0; // Result: Acceleration(6.0, AccelerationUnit.meterPerSecondSquared)
-  /// ```
-  Acceleration operator *(double scalar) {
-    return Acceleration(value * scalar, unit);
-  }
-
-  /// Divides this acceleration by a scalar value (a dimensionless number).
-  ///
-  /// Returns a new [Acceleration] instance with the scaled value, in the original unit of this acceleration.
-  /// Throws [ArgumentError] if the [scalar] is zero.
-  ///
-  /// Example:
-  /// ```dart
-  /// final a = Acceleration(6.0, AccelerationUnit.meterPerSecondSquared);
-  /// final scaled = a / 3.0; // Result: Acceleration(2.0, AccelerationUnit.meterPerSecondSquared)
-  /// ```
-  Acceleration operator /(double scalar) {
-    if (scalar == 0) {
-      throw ArgumentError('Cannot divide by zero.');
-    }
-    return Acceleration(value / scalar, unit);
   }
 
   // --- Dimensional Analysis ---

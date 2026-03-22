@@ -245,7 +245,7 @@ void main() {
         expect(scaled1.value, closeTo(50.0, defaultTolerance));
         expect(scaled1.unit, LuminousIntensityUnit.candela);
 
-        expect(() => li100cd / 0.0, throwsArgumentError);
+        expect((li100cd / 0.0).value, double.infinity);
       });
 
       test('operator chaining preserves immutability', () {

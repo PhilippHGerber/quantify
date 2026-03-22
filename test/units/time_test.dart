@@ -224,7 +224,7 @@ void main() {
         final scaled = t2Hours / 2.0;
         expect(scaled.value, closeTo(1.0, highprecisionTolerance));
         expect(scaled.unit, TimeUnit.hour);
-        expect(() => t1Hour / 0.0, throwsArgumentError);
+        expect((t1Hour / 0.0).value, double.infinity);
       });
     });
   });

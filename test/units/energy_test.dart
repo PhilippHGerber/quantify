@@ -115,7 +115,7 @@ void main() {
         final scaledDown = e1 / 2.0;
         expect(scaledDown.inKilowattHours, closeTo(0.5, defaultTolerance));
 
-        expect(() => e1 / 0.0, throwsArgumentError);
+        expect((e1 / 0.0).value, double.infinity);
       });
     });
 

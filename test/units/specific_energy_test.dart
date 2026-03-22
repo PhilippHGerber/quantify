@@ -91,8 +91,8 @@ void main() {
         expect(scaled.unit, SpecificEnergyUnit.kilojoulePerKilogram);
       });
 
-      test('operator / throws ArgumentError for zero divisor', () {
-        expect(() => 100.jPerKg / 0.0, throwsArgumentError);
+      test('operator / by zero returns infinity', () {
+        expect((100.jPerKg / 0.0).value, double.infinity);
       });
     });
 

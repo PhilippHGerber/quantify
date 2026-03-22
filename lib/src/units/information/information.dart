@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../core/quantity.dart';
+import '../../core/linear_quantity.dart';
 import '../../core/quantity_format.dart';
 import '../../core/quantity_parser.dart';
 import 'information_unit.dart';
@@ -16,7 +16,7 @@ import 'information_unit.dart';
 /// print(total.inGiB);            // ~1.3969838619232178
 /// ```
 @immutable
-class Information extends Quantity<InformationUnit> {
+class Information extends LinearQuantity<InformationUnit, Information> {
   /// Creates a new [Information] quantity with the given numerical [value] and [unit].
   ///
   /// Example:
@@ -25,6 +25,10 @@ class Information extends Quantity<InformationUnit> {
   /// final capacity = Information(512, InformationUnit.kibibyte);
   /// ```
   const Information(super._value, super._unit);
+
+  @override
+  @protected
+  Information create(double value, InformationUnit unit) => Information(value, unit);
 
   /// The parser instance used to convert strings into [Information] objects.
   ///
@@ -44,43 +48,6 @@ class Information extends Quantity<InformationUnit> {
     nameAliases: InformationUnit.nameAliases,
     factory: Information.new,
   );
-
-  /// Converts this information quantity's value to the specified [targetUnit].
-  ///
-  /// Example:
-  /// ```dart
-  /// final size = Information(1, InformationUnit.gigabyte);
-  /// final inMB = size.getValue(InformationUnit.megabyte); // 1000.0
-  /// final inGiB = size.getValue(InformationUnit.gibibyte); // ~0.9313225746154785
-  /// ```
-  @override
-  double getValue(InformationUnit targetUnit) {
-    if (targetUnit == unit) return value;
-    return value * unit.factorTo(targetUnit);
-  }
-
-  /// Creates a new [Information] instance with the value converted to the [targetUnit].
-  ///
-  /// Example:
-  /// ```dart
-  /// final oneGB = Information(1, InformationUnit.gigabyte);
-  /// final inMB = oneGB.convertTo(InformationUnit.megabyte); // Information(1000.0, ...)
-  /// ```
-  @override
-  Information convertTo(InformationUnit targetUnit) {
-    if (targetUnit == unit) return this;
-    return Information(getValue(targetUnit), targetUnit);
-  }
-
-  /// Compares this [Information] object to another [Quantity<InformationUnit>].
-  ///
-  /// Comparison is based on the true physical magnitude, automatically handling
-  /// unit conversions (e.g., comparing SI gigabytes to IEC gibibytes).
-  @override
-  int compareTo(Quantity<InformationUnit> other) {
-    final thisValueInOtherUnit = getValue(other.unit);
-    return thisValueInOtherUnit.compareTo(other.value);
-  }
 
   /// Parses a string representation of an information quantity into an [Information] object.
   ///
@@ -124,27 +91,4 @@ class Information extends Quantity<InformationUnit> {
     List<QuantityFormat> formats = const [QuantityFormat.invariant],
   }) =>
       parser.tryParse(input, formats: formats);
-
-  // --- Arithmetic Operators ---
-
-  /// Adds this information quantity to another.
-  ///
-  /// [other] is converted to the unit of this quantity before addition.
-  Information operator +(Information other) => Information(value + other.getValue(unit), unit);
-
-  /// Subtracts another information quantity from this one.
-  ///
-  /// [other] is converted to the unit of this quantity before subtraction.
-  Information operator -(Information other) => Information(value - other.getValue(unit), unit);
-
-  /// Multiplies this information quantity by a dimensionless scalar.
-  Information operator *(double scalar) => Information(value * scalar, unit);
-
-  /// Divides this information quantity by a dimensionless scalar.
-  ///
-  /// Throws an [ArgumentError] if [scalar] is zero.
-  Information operator /(double scalar) {
-    if (scalar == 0) throw ArgumentError('Cannot divide by zero.');
-    return Information(value / scalar, unit);
-  }
 }

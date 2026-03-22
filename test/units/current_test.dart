@@ -264,7 +264,7 @@ void main() {
         expect(scaled2.value, closeTo(50.0, defaultTolerance));
         expect(scaled2.unit, CurrentUnit.ampere);
 
-        expect(() => c1A / 0.0, throwsArgumentError, reason: 'Division by zero should throw');
+        expect((c1A / 0.0).value, double.infinity);
       });
 
       test('operator chaining preserves immutability', () {

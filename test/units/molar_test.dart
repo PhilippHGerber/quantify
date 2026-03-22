@@ -267,7 +267,7 @@ void main() {
         expect(scaled2.value, closeTo(100.0, defaultTolerance));
         expect(scaled2.unit, MolarUnit.mole);
 
-        expect(() => ma1mol / 0.0, throwsArgumentError, reason: 'Division by zero should throw');
+        expect((ma1mol / 0.0).value, double.infinity);
       });
 
       test('operator chaining preserves immutability', () {

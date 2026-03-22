@@ -70,7 +70,7 @@ void main() {
         final acc = 0.5.gravity;
         expect((acc * 2.0).inStandardGravity, closeTo(1.0, tolerance));
         expect((acc / 2.0).inStandardGravity, closeTo(0.25, tolerance));
-        expect(() => acc / 0, throwsArgumentError);
+        expect((acc / 0).value, double.infinity);
       });
     });
 

@@ -89,7 +89,7 @@ void main() {
         final angle = math.pi.sr;
         expect((angle * 2.0).inSteradians, closeTo(2 * math.pi, tolerance));
         expect((angle / 4.0).inSteradians, closeTo(math.pi / 4, tolerance));
-        expect(() => angle / 0, throwsArgumentError);
+        expect((angle / 0).value, double.infinity);
       });
     });
 

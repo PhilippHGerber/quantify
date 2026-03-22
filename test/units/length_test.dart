@@ -249,7 +249,7 @@ void main() {
         expect(scaled.value, closeTo(1.0, tolerance));
         expect(scaled.unit, LengthUnit.meter);
 
-        expect(() => l1Meter / 0.0, throwsArgumentError);
+        expect((l1Meter / 0.0).value, double.infinity);
       });
 
       test('operator chaining preserves immutability', () {

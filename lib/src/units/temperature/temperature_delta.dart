@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../../core/quantity.dart';
+import '../../core/linear_quantity.dart';
 import '../../core/quantity_format.dart';
 import '../../core/quantity_parser.dart';
 import 'temperature_delta_unit.dart';
@@ -40,7 +40,7 @@ import 'temperature_delta_unit.dart';
 /// print(rise.inFahrenheitDelta); // 36.0
 /// ```
 @immutable
-class TemperatureDelta extends Quantity<TemperatureDeltaUnit> {
+class TemperatureDelta extends LinearQuantity<TemperatureDeltaUnit, TemperatureDelta> {
   /// Creates a [TemperatureDelta] with the given [value] and [unit].
   ///
   /// Example:
@@ -49,6 +49,11 @@ class TemperatureDelta extends Quantity<TemperatureDeltaUnit> {
   /// final drop = TemperatureDelta(-5.0, TemperatureDeltaUnit.kelvinDelta);
   /// ```
   const TemperatureDelta(super._value, super._unit);
+
+  @override
+  @protected
+  TemperatureDelta create(double value, TemperatureDeltaUnit unit) =>
+      TemperatureDelta(value, unit);
 
   /// The parser instance used to convert strings into [TemperatureDelta]
   /// objects.
@@ -82,51 +87,5 @@ class TemperatureDelta extends Quantity<TemperatureDeltaUnit> {
     List<QuantityFormat> formats = const [QuantityFormat.invariant],
   }) {
     return parser.tryParse(input, formats: formats);
-  }
-
-  /// Returns this delta's value converted to [targetUnit].
-  @override
-  double getValue(TemperatureDeltaUnit targetUnit) {
-    if (targetUnit == unit) return value;
-    return value * unit.factorTo(targetUnit);
-  }
-
-  /// Returns a new [TemperatureDelta] with the value converted to [targetUnit].
-  @override
-  TemperatureDelta convertTo(TemperatureDeltaUnit targetUnit) {
-    if (targetUnit == unit) return this;
-    return TemperatureDelta(getValue(targetUnit), targetUnit);
-  }
-
-  @override
-  int compareTo(Quantity<TemperatureDeltaUnit> other) {
-    final thisValueInOtherUnit = getValue(other.unit);
-    return thisValueInOtherUnit.compareTo(other.value);
-  }
-
-  // --- Arithmetic ---
-
-  /// Adds two temperature deltas. The result is in the unit of `this`.
-  TemperatureDelta operator +(TemperatureDelta other) {
-    return TemperatureDelta(value + other.getValue(unit), unit);
-  }
-
-  /// Subtracts a temperature delta from this delta. The result is in the
-  /// unit of `this`.
-  TemperatureDelta operator -(TemperatureDelta other) {
-    return TemperatureDelta(value - other.getValue(unit), unit);
-  }
-
-  /// Scales this temperature delta by a dimensionless [scalar].
-  TemperatureDelta operator *(double scalar) {
-    return TemperatureDelta(value * scalar, unit);
-  }
-
-  /// Divides this temperature delta by a dimensionless [scalar].
-  ///
-  /// Throws [ArgumentError] if [scalar] is zero.
-  TemperatureDelta operator /(double scalar) {
-    if (scalar == 0) throw ArgumentError('Cannot divide by zero.');
-    return TemperatureDelta(value / scalar, unit);
   }
 }

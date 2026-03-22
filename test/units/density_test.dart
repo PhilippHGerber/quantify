@@ -88,8 +88,8 @@ void main() {
         expect(scaled.unit, DensityUnit.gramPerCubicCentimeter);
       });
 
-      test('operator / throws ArgumentError for zero divisor', () {
-        expect(() => 1000.kgPerM3 / 0.0, throwsArgumentError);
+      test('operator / by zero returns infinity', () {
+        expect((1000.kgPerM3 / 0.0).value, double.infinity);
       });
     });
 

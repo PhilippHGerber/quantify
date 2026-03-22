@@ -150,7 +150,7 @@ void main() {
         final angle = 30.0.degrees;
         expect((angle * 3.0).inDegrees, closeTo(90.0, tolerance));
         expect((angle / 2.0).inDegrees, closeTo(15.0, tolerance));
-        expect(() => angle / 0.0, throwsArgumentError);
+        expect((angle / 0.0).value, double.infinity);
       });
     });
 

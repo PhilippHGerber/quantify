@@ -102,7 +102,7 @@ void main() {
         final charge = 2.5.ah;
         expect((charge * 2.0).inAmpereHours, closeTo(5.0, tolerance));
         expect((charge / 5.0).inAmpereHours, closeTo(0.5, tolerance));
-        expect(() => charge / 0, throwsArgumentError);
+        expect((charge / 0).value, double.infinity);
       });
     });
 

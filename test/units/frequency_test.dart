@@ -96,7 +96,7 @@ void main() {
         final freq = 50.hz;
         expect((freq * 2.5).inHertz, closeTo(125.0, tolerance));
         expect((freq / 2.0).inHertz, closeTo(25.0, tolerance));
-        expect(() => freq / 0, throwsArgumentError);
+        expect((freq / 0).value, double.infinity);
       });
     });
 

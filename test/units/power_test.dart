@@ -95,7 +95,7 @@ void main() {
         final power = 20.hp;
         expect((power * 3.0).inHorsepower, closeTo(60.0, defaultTolerance));
         expect((power / 2.0).inHorsepower, closeTo(10.0, defaultTolerance));
-        expect(() => power / 0, throwsArgumentError);
+        expect((power / 0).value, double.infinity);
       });
     });
 

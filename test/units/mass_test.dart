@@ -298,7 +298,7 @@ void main() {
         expect(scaled2.value, closeTo(10.0, tolerance));
         expect(scaled2.unit, MassUnit.kilogram);
 
-        expect(() => m1kg / 0.0, throwsArgumentError, reason: 'Division by zero should throw');
+        expect((m1kg / 0.0).value, double.infinity);
       });
 
       test('operator chaining preserves immutability', () {

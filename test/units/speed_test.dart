@@ -62,7 +62,7 @@ void main() {
         final speed = 50.0.kmh;
         expect((speed * 2.0).inKmh, closeTo(100.0, tolerance));
         expect((speed / 5.0).inKmh, closeTo(10.0, tolerance));
-        expect(() => speed / 0, throwsArgumentError);
+        expect((speed / 0).value, double.infinity);
       });
     });
 

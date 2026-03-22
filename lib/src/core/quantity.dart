@@ -65,12 +65,10 @@ abstract class Quantity<T extends Unit<T>> implements Comparable<Quantity<T>> {
   /// Converts this quantity's [value] to the specified [targetUnit] and
   /// returns the numerical result of this conversion.
   ///
-  /// This method must be implemented by concrete subclasses.
-  ///
-  /// For most quantities, this involves a direct multiplication by a conversion
-  /// factor obtained from `this.unit.factorTo(targetUnit)`. Subclasses like
-  /// Temperature override this to implement specific conversion formulas
-  /// (e.g., for affine transformations).
+  /// The default implementation uses a direct linear multiplication via
+  /// `this.unit.factorTo(targetUnit)`, which is correct for all linear
+  /// (non-affine) quantities. Non-linear quantities (e.g., `Temperature`)
+  /// override this with their specific conversion formulas.
   ///
   /// - [targetUnit]: The desired unit to which the current quantity's value
   ///   should be converted.
@@ -85,7 +83,10 @@ abstract class Quantity<T extends Unit<T>> implements Comparable<Quantity<T>> {
   /// final tempInCelsius = Temperature(0.0, TemperatureUnit.celsius);
   /// double fahrenheit = tempInCelsius.getValue(TemperatureUnit.fahrenheit); // fahrenheit will be 32.0
   /// ```
-  double getValue(T targetUnit);
+  double getValue(T targetUnit) {
+    if (targetUnit == _unit) return _value;
+    return _value * _unit.factorTo(targetUnit);
+  }
 
   /// Creates a new `Quantity` instance of the same type, with its value
   /// converted to the specified [targetUnit].
@@ -132,7 +133,7 @@ abstract class Quantity<T extends Unit<T>> implements Comparable<Quantity<T>> {
   ///
   /// This method is essential for sorting collections of `Quantity` objects.
   @override
-  int compareTo(Quantity<T> other);
+  int compareTo(Quantity<T> other) => getValue(other.unit).compareTo(other.value);
 
   /// Returns a string representation of this quantity.
   ///

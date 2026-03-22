@@ -218,9 +218,9 @@ void main() {
         }
       });
 
-      test('Division by zero', () {
+      test('Division by zero returns infinity', () {
         final a = 10.m2;
-        expect(() => a / 0.0, throwsArgumentError);
+        expect((a / 0.0).value, double.infinity);
       });
     });
 
@@ -276,7 +276,7 @@ void main() {
         expect(scaled.value, closeTo(1.0, tolerance));
         expect(scaled.unit, AreaUnit.squareMeter);
 
-        expect(() => a1Meter / 0.0, throwsArgumentError);
+        expect((a1Meter / 0.0).value, double.infinity);
       });
 
       test('operator chaining preserves immutability', () {

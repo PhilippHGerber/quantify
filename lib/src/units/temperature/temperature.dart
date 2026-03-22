@@ -157,18 +157,6 @@ class Temperature extends Quantity<TemperatureUnit> {
     return Temperature(newValue, targetUnit);
   }
 
-  /// Compares this [Temperature] object to another [Quantity<TemperatureUnit>].
-  ///
-  /// Comparison is based on the physical magnitude of the temperatures.
-  /// For comparison, this temperature is converted to the unit of the [other] temperature.
-  @override
-  int compareTo(Quantity<TemperatureUnit> other) {
-    // Convert this quantity's value to the unit of the 'other' quantity
-    // for a direct numerical comparison.
-    final thisValueInOtherUnit = getValue(other.unit);
-    return thisValueInOtherUnit.compareTo(other.value);
-  }
-
   // --- Arithmetic Operators (Specific for Temperature) ---
 
   /// Subtracts another [Temperature] from this, yielding a [TemperatureDelta].

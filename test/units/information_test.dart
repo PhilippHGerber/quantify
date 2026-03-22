@@ -229,8 +229,8 @@ void main() {
       expect(result.inGB, closeTo(3.0, 1e-9));
     });
 
-    test('division by zero throws ArgumentError', () {
-      expect(() => 1.GB / 0, throwsArgumentError);
+    test('division by zero returns infinity', () {
+      expect((1.GB / 0).value, double.infinity);
     });
 
     test('result unit matches left operand unit for +', () {

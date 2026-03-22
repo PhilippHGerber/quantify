@@ -306,7 +306,7 @@ void main() {
         final scaled = p2Bar / 4.0;
         expect(scaled.value, closeTo(0.5, tolerance));
         expect(scaled.unit, PressureUnit.bar);
-        expect(() => p1Bar / 0.0, throwsArgumentError);
+        expect((p1Bar / 0.0).value, double.infinity);
       });
     });
 

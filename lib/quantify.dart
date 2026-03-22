@@ -3,6 +3,7 @@
 library;
 
 // Exporting core classes for quantities and units
+export 'src/core/linear_quantity.dart';
 export 'src/core/quantity.dart';
 export 'src/core/quantity_format.dart';
 export 'src/core/quantity_parse_exception.dart';

@@ -155,8 +155,8 @@ void main() {
         expect(result.unit, TemperatureDeltaUnit.kelvinDelta);
       });
 
-      test('TemperatureDelta / zero throws ArgumentError', () {
-        expect(() => 10.celsiusDelta / 0, throwsArgumentError);
+      test('TemperatureDelta / zero returns infinity', () {
+        expect((10.celsiusDelta / 0).value, double.infinity);
       });
     });
 

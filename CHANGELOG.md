@@ -5,7 +5,7 @@ All notable changes to the `quantify` package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Next Release
+## [Unreleased]
 
 ### Changed — Breaking
 
@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     * Replace `toString(locale: 'de_DE', fractionDigits: 2)` with `toString(format: const QuantityFormat.forLocale('de_DE', fractionDigits: 2))`
     * Replace `toString(showUnitSymbol: false)` with `toString(format: QuantityFormat.valueOnly)`
     * Replace `toString(numberFormat: myNf)` with `toString(format: QuantityFormat.withNumberFormat(myNf))`
+* **`operator /` by zero now returns `Infinity`** — dividing any linear quantity by `0` (e.g. `10.m / 0`) previously threw `ArgumentError`. It now returns a quantity whose `value` is `double.infinity`, consistent with IEEE 754 double arithmetic. Affected types: all 22 linear quantities (`Length`, `Mass`, `Speed`, `Time`, `Area`, `Volume`, `Angle`, `AngularVelocity`, `Acceleration`, `Force`, `Energy`, `Power`, `Pressure`, `Frequency`, `Current`, `ElectricCharge`, `Density`, `SpecificEnergy`, `SolidAngle`, `LuminousIntensity`, `MolarAmount`, `Information`, `TemperatureDelta`). `Temperature.ratioTo()` still throws `ArgumentError` for an absolute-zero divisor.
 
 ### Added
 
@@ -32,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   * Value getters on `Information`: `.inBit`, `.inByte`, `.inKB`, `.inMB`, `.inGB`, `.inTB`, `.inPB`, `.inKiB`, `.inMiB`, `.inGiB`, `.inTiB`, `.inPiB` (and `as*` conversion variants).
   * Full arithmetic: `Information + Information`, `- Information`, `* scalar`, `/ scalar`.
   * Available via `package:quantify/quantify.dart` or the new granular `package:quantify/information.dart`.
+* **`LinearQuantity<T, Q>`** — a new public abstract class that all linear (non-affine) quantity types now extend. Consumers who create custom `Quantity` subclasses can extend `LinearQuantity` instead of `Quantity` to inherit `convertTo`, `+`, `-`, `*`, and `/` automatically; the only method to implement is the factory hook `Q create(double value, T unit)`.
 
 ## [0.15.0]
 

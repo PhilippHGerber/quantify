@@ -73,7 +73,7 @@ void main() {
         final force = 20.N;
         expect((force * 2.5).inNewtons, closeTo(50.0, tolerance));
         expect((force / 4.0).inNewtons, closeTo(5.0, tolerance));
-        expect(() => force / 0, throwsArgumentError);
+        expect((force / 0).value, double.infinity);
       });
     });
 
