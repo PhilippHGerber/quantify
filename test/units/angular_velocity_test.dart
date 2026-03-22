@@ -121,5 +121,31 @@ void main() {
         expect(angleTurned.inRevolutions, closeTo(7000.0 / 60.0 * 0.1, tolerance));
       });
     });
+
+    group('AngularVelocity.from(Angle, Time) factory', () {
+      test('1 revolution over 1 minute → 1 rpm', () {
+        final av = AngularVelocity.from(1.0.revolutions, 1.0.minutes);
+        expect(av.inRpm, closeTo(1.0, tolerance));
+      });
+
+      test('2π radians over 1 second → 2π rad/s', () {
+        final av = AngularVelocity.from((2 * math.pi).radians, 1.0.seconds);
+        expect(av.inRadiansPerSecond, closeTo(2 * math.pi, tolerance));
+      });
+
+      test('is inverse of totalAngleOver', () {
+        final original = 3000.0.rpm;
+        final angle = original.totalAngleOver(2.0.seconds);
+        final recovered = AngularVelocity.from(angle, 2.0.seconds);
+        expect(recovered.inRpm, closeTo(original.inRpm, tolerance));
+      });
+
+      test('throws ArgumentError when time is zero', () {
+        expect(
+          () => AngularVelocity.from(1.0.revolutions, 0.0.seconds),
+          throwsArgumentError,
+        );
+      });
+    });
   });
 }

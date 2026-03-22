@@ -7,6 +7,7 @@ import '../angle/angle.dart';
 import '../angle/angle_unit.dart';
 import '../time/time.dart';
 import '../time/time_extensions.dart';
+import '../time/time_unit.dart';
 import 'angular_velocity_unit.dart';
 
 /// Represents a quantity of angular velocity (or rotational speed).
@@ -17,6 +18,28 @@ import 'angular_velocity_unit.dart';
 class AngularVelocity extends LinearQuantity<AngularVelocityUnit, AngularVelocity> {
   /// Creates a new `AngularVelocity` with a given [value] and [unit].
   const AngularVelocity(super._value, super._unit);
+
+  /// Creates an [AngularVelocity] from an [Angle] traversed over a [Time].
+  ///
+  /// `Angular Velocity = Angle / Time`
+  ///
+  /// The inverse of [totalAngleOver]. Throws [ArgumentError] if [time] is zero.
+  ///
+  /// Example:
+  /// ```dart
+  /// final av = AngularVelocity.from(1.0.revolutions, 1.0.minutes);
+  /// print(av.inRpm); // 1.0
+  /// ```
+  factory AngularVelocity.from(Angle angle, Time time) {
+    final seconds = time.getValue(TimeUnit.second);
+    if (seconds == 0) {
+      throw ArgumentError('Time cannot be zero when calculating angular velocity.');
+    }
+    return AngularVelocity(
+      angle.getValue(AngleUnit.radian) / seconds,
+      AngularVelocityUnit.radianPerSecond,
+    );
+  }
 
   @override
   @protected
