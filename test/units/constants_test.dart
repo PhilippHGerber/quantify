@@ -256,7 +256,11 @@ void main() {
       expect(AstronomicalConstants.milkyWayMass.inKilograms, closeTo(2.98e42, 1e39));
       expect(AstronomicalConstants.galacticCenterDistance, isA<Length>());
       expect(AstronomicalConstants.galacticCenterDistance.inM, closeTo(2.615e20, 1e17));
-      expect(AstronomicalConstants.criticalDensity, closeTo(9.47e-27, 1e-29));
+      expect(AstronomicalConstants.criticalDensity, isA<Density>());
+      expect(
+        AstronomicalConstants.criticalDensity.getValue(DensityUnit.kilogramPerCubicMeter),
+        closeTo(9.47e-27, 1e-29),
+      );
       expect(AstronomicalConstants.observableUniverseRadius, isA<Length>());
       expect(AstronomicalConstants.observableUniverseRadius.inM, closeTo(4.40e26, 1e23));
     });
@@ -449,18 +453,39 @@ void main() {
       expect(EngineeringConstants.bodyTemperature.inCelsius, closeTo(37.0, tolerance));
     });
 
-    test('material double constants have correct values', () {
-      expect(EngineeringConstants.waterDensityMax, closeTo(999.97, 0.01));
-      expect(EngineeringConstants.airDensitySTP, closeTo(1.225, 0.001));
+    test('material typed constants have correct values', () {
+      expect(EngineeringConstants.waterDensityMax, isA<Density>());
+      expect(
+        EngineeringConstants.waterDensityMax.getValue(DensityUnit.kilogramPerCubicMeter),
+        closeTo(999.97, 0.01),
+      );
+      expect(EngineeringConstants.airDensitySTP, isA<Density>());
+      expect(
+        EngineeringConstants.airDensitySTP.getValue(DensityUnit.kilogramPerCubicMeter),
+        closeTo(1.225, 0.001),
+      );
+      expect(EngineeringConstants.waterLatentHeatVaporization, isA<SpecificEnergy>());
+      expect(
+        EngineeringConstants.waterLatentHeatVaporization
+            .getValue(SpecificEnergyUnit.joulePerKilogram),
+        closeTo(2.26e6, 1e3),
+      );
+      expect(EngineeringConstants.waterLatentHeatFusion, isA<SpecificEnergy>());
+      expect(
+        EngineeringConstants.waterLatentHeatFusion.getValue(SpecificEnergyUnit.joulePerKilogram),
+        closeTo(3.34e5, 100),
+      );
+      expect(EngineeringConstants.methaneHeatingValue, isA<SpecificEnergy>());
+      expect(
+        EngineeringConstants.methaneHeatingValue.getValue(SpecificEnergyUnit.joulePerKilogram),
+        closeTo(5.0e7, 1e4),
+      );
       expect(EngineeringConstants.waterViscosity20C, closeTo(1.002e-3, 1e-6));
       expect(EngineeringConstants.airViscosity20C, closeTo(1.81e-5, 1e-7));
       expect(EngineeringConstants.copperThermalConductivity, closeTo(401, 1));
       expect(EngineeringConstants.waterSpecificHeat, closeTo(4184, 1));
-      expect(EngineeringConstants.waterLatentHeatVaporization, closeTo(2.26e6, 1e3));
-      expect(EngineeringConstants.waterLatentHeatFusion, closeTo(3.34e5, 100));
       expect(EngineeringConstants.copperResistivity, closeTo(1.68e-8, 1e-10));
       expect(EngineeringConstants.steelThermalExpansion, closeTo(1.2e-5, 1e-7));
-      expect(EngineeringConstants.methaneHeatingValue, closeTo(5.0e7, 1e4));
       expect(EngineeringConstants.gasolineAirFuelRatio, closeTo(14.7, 0.1));
       expect(EngineeringConstants.steelPoissonsRatio, closeTo(0.29, 0.01));
       expect(EngineeringConstants.aluminumPoissonsRatio, closeTo(0.33, 0.01));

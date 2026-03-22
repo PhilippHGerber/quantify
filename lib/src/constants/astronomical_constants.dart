@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import '../../acceleration.dart';
+import '../../density.dart';
 import '../../frequency.dart';
 import '../../length.dart';
 import '../../mass.dart';
@@ -192,8 +193,7 @@ class AstronomicalConstants {
   /// Value: 9.47×10⁻²⁷ kg/m³.
   ///
   /// The mass-energy density required for a flat universe geometry.
-  /// Note: This would ideally be a `Density` quantity.
-  static const double criticalDensity = 9.47e-27; // kg/m³
+  static const Density criticalDensity = Density(9.47e-27, DensityUnit.kilogramPerCubicMeter);
 
   /// Observable universe radius.
   /// Value: 4.40×10²⁶ m ≈ 46.5 billion ly.

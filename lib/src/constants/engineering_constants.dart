@@ -1,10 +1,12 @@
 import '../../area.dart';
+import '../../density.dart';
 import '../../energy.dart';
 import '../../force.dart';
 import '../../length.dart';
 import '../../mass.dart';
 import '../../power.dart';
 import '../../pressure.dart';
+import '../../specific_energy.dart';
 import '../../speed.dart';
 import '../../temperature.dart';
 
@@ -57,13 +59,11 @@ class EngineeringConstants {
 
   /// Density of water at 4°C (maximum density).
   /// Value: 999.97 kg/m³.
-  /// Note: This would ideally be a `Density` quantity.
-  static const double waterDensityMax = 999.97; // kg/m³
+  static const Density waterDensityMax = Density(999.97, DensityUnit.kilogramPerCubicMeter);
 
   /// Density of air at STP (standard atmospheric conditions).
   /// Value: 1.225 kg/m³.
-  /// Note: This would ideally be a `Density` quantity.
-  static const double airDensitySTP = 1.225; // kg/m³
+  static const Density airDensitySTP = Density(1.225, DensityUnit.kilogramPerCubicMeter);
 
   /// Speed of sound in dry air at 20°C.
   /// Value: 343.2 m/s.
@@ -100,13 +100,13 @@ class EngineeringConstants {
 
   /// Latent heat of vaporization of water at 100°C.
   /// Value: 2.26×10⁶ J/kg.
-  /// Note: This would ideally be a `SpecificEnergy` quantity.
-  static const double waterLatentHeatVaporization = 2260000; // J/kg
+  static const SpecificEnergy waterLatentHeatVaporization =
+      SpecificEnergy(2260000, SpecificEnergyUnit.joulePerKilogram);
 
   /// Latent heat of fusion of water at 0°C.
   /// Value: 3.34×10⁵ J/kg.
-  /// Note: This would ideally be a `SpecificEnergy` quantity.
-  static const double waterLatentHeatFusion = 334000; // J/kg
+  static const SpecificEnergy waterLatentHeatFusion =
+      SpecificEnergy(334000, SpecificEnergyUnit.joulePerKilogram);
 
   // === ELECTRICAL PROPERTIES ===
 
@@ -166,8 +166,8 @@ class EngineeringConstants {
 
   /// Lower heating value (LHV) of natural gas (methane).
   /// Value: 5.0×10⁷ J/kg.
-  /// Note: This would ideally be a `SpecificEnergy` quantity.
-  static const double methaneHeatingValue = 50000000; // J/kg
+  static const SpecificEnergy methaneHeatingValue =
+      SpecificEnergy(50000000, SpecificEnergyUnit.joulePerKilogram);
 
   /// Stoichiometric air-fuel mass ratio for gasoline.
   /// Value: 14.7.
