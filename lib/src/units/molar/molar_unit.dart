@@ -27,7 +27,11 @@ enum MolarUnit implements Unit<MolarUnit> {
   picomole(MolarFactors.molesPerPicomole, 'pmol'),
 
   /// Kilomole (kmol), equal to 1000 moles.
-  kilomole(MolarFactors.molesPerKilomole, 'kmol');
+  kilomole(MolarFactors.molesPerKilomole, 'kmol'),
+
+  /// Pound-mole (lb-mol), an imperial unit used in chemical engineering.
+  /// 1 lb-mol = 453.59237 mol (exact, from the pound-to-gram definition).
+  poundMole(MolarFactors.molesPerPoundMole, 'lb-mol');
 
   /// Constant constructor for enum members.
   ///
@@ -47,7 +51,8 @@ enum MolarUnit implements Unit<MolarUnit> {
         _factorToMicromole = toMoleFactor / MolarFactors.molesPerMicromole,
         _factorToNanomole = toMoleFactor / MolarFactors.molesPerNanomole,
         _factorToPicomole = toMoleFactor / MolarFactors.molesPerPicomole,
-        _factorToKilomole = toMoleFactor / MolarFactors.molesPerKilomole;
+        _factorToKilomole = toMoleFactor / MolarFactors.molesPerKilomole,
+        _factorToPoundMole = toMoleFactor / MolarFactors.molesPerPoundMole;
 
   /// SI and unit symbols matched **strictly case-sensitive**.
   static const Map<String, MolarUnit> symbolAliases = {
@@ -57,6 +62,7 @@ enum MolarUnit implements Unit<MolarUnit> {
     'nmol': nanomole,
     'pmol': picomole,
     'kmol': kilomole,
+    'lb-mol': poundMole,
   };
 
   /// Full word-form names and non-SI abbreviations matched **case-insensitively**.
@@ -72,15 +78,10 @@ enum MolarUnit implements Unit<MolarUnit> {
     'pico mole': picomole,
     'kilomole': kilomole,
     'kilo mole': kilomole,
+    'pound-mole': poundMole,
+    'pound mole': poundMole,
+    'poundmole': poundMole,
   };
-
-  // If pound-mole were to be added:
-  // /// Pound-mole (lb-mol), an imperial unit for amount of substance.
-  // /// 1 lb-mol ≈ 453.59237 mol.
-  // poundMole(MolarFactors.molesPerPoundMole, 'lb-mol');
-
-  // If poundMole were added:
-  // _factorToPoundMole = toMoleFactor / MolarFactors.molesPerPoundMole;
 
   /// The factor to convert a value from this unit to the base unit (Mole).
   /// Example: For Millimole, this is 0.001 (meaning 1 mmol = 0.001 mol).
@@ -102,8 +103,7 @@ enum MolarUnit implements Unit<MolarUnit> {
   final double _factorToNanomole;
   final double _factorToPicomole;
   final double _factorToKilomole;
-  // If poundMole were added:
-  // final double _factorToPoundMole;
+  final double _factorToPoundMole;
 
   /// Returns the direct conversion factor to convert a value from this [MolarUnit]
   /// to the [targetUnit].
@@ -133,9 +133,8 @@ enum MolarUnit implements Unit<MolarUnit> {
         return _factorToPicomole;
       case MolarUnit.kilomole:
         return _factorToKilomole;
-      // If poundMole were added:
-      // case MolarUnit.poundMole:
-      //   return _factorToPoundMole;
+      case MolarUnit.poundMole:
+        return _factorToPoundMole;
     }
   }
 }

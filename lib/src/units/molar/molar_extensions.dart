@@ -25,6 +25,9 @@ extension MolarAmountValueGetters on MolarAmount {
   /// Returns the molar amount value in Kilomoles (kmol).
   double get inKilomoles => getValue(MolarUnit.kilomole);
 
+  /// Returns the molar amount value in Pound-moles (lb-mol).
+  double get inPoundMoles => getValue(MolarUnit.poundMole);
+
   // --- "As" Getters for new MolarAmount objects ---
 
   /// Returns a new [MolarAmount] object representing this amount in Moles (mol).
@@ -44,6 +47,9 @@ extension MolarAmountValueGetters on MolarAmount {
 
   /// Returns a new [MolarAmount] object representing this amount in Kilomoles (kmol).
   MolarAmount get asKilomoles => convertTo(MolarUnit.kilomole);
+
+  /// Returns a new [MolarAmount] object representing this amount in Pound-moles (lb-mol).
+  MolarAmount get asPoundMoles => convertTo(MolarUnit.poundMole);
 }
 
 /// Provides convenient factory methods for creating [MolarAmount] instances from [num]
@@ -93,5 +99,12 @@ extension MolarAmountCreation on num {
   /// Creates a [MolarAmount] instance representing this numerical value in Kilomoles (kmol).
   /// Alias for `kmol`.
   MolarAmount get kilomoles => MolarAmount(toDouble(), MolarUnit.kilomole);
+
+  /// Creates a [MolarAmount] instance representing this numerical value in Pound-moles (lb-mol).
+  MolarAmount get lbmol => MolarAmount(toDouble(), MolarUnit.poundMole);
+
+  /// Creates a [MolarAmount] instance representing this numerical value in Pound-moles (lb-mol).
+  /// Alias for `lbmol`.
+  MolarAmount get poundMoles => MolarAmount(toDouble(), MolarUnit.poundMole);
 }
 // END FILE: lib/src/units/molar/molar_extensions.dart

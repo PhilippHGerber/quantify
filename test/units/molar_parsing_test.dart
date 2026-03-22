@@ -27,6 +27,14 @@ void main() {
       test('parses kilomole', () {
         expect(MolarAmount.parse('2 kmol'), const MolarAmount(2, MolarUnit.kilomole));
       });
+
+      test('parses pound-mole by symbol', () {
+        expect(MolarAmount.parse('1 lb-mol'), const MolarAmount(1, MolarUnit.poundMole));
+      });
+
+      test('parses pound-mole by full name', () {
+        expect(MolarAmount.parse('1 pound-mole'), const MolarAmount(1, MolarUnit.poundMole));
+      });
     });
 
     group('Spacing tolerance', () {
@@ -95,6 +103,12 @@ void main() {
           final roundTrip = MolarAmount.parse(original.toString());
           expect(roundTrip, equals(original));
         }
+      });
+
+      test('pound-mole round-trip: parse(toString())', () {
+        const original = MolarAmount(2.5, MolarUnit.poundMole);
+        final roundTrip = MolarAmount.parse(original.toString());
+        expect(roundTrip, equals(original));
       });
     });
   });

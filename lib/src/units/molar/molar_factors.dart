@@ -23,14 +23,12 @@ class MolarFactors {
   /// Moles per Kilomole: 1 kilomole (kmol) = 1000 moles (mol).
   static const double molesPerKilomole = 1000.0;
 
-  // --- Other potential units (less common for direct amount of substance,
-  //      but could be relevant in specific contexts or conversions) ---
+  // --- Imperial / chemical-engineering units ---
 
-  // Example: Pound-mole (lb-mol) - an imperial unit occasionally used in chemical engineering.
-  // 1 lb-mol is the amount of a substance whose mass in pounds is numerically equal
-  // to its molar mass in g/mol.
-  // 1 lb-mol ≈ 453.59237 mol (since 1 lb ≈ 453.59237 g)
-  // static const double molesPerPoundMole = 453.592370000104; // Derived from lb to g conversion.
-  // Using a more direct reference or if precision is critical, this might need verification.
-  // For now, focusing on SI prefixed units.
+  /// Moles per Pound-mole: 1 lb-mol = 453.59237 mol.
+  ///
+  /// A pound-mole is the amount of substance whose mass in pounds equals its
+  /// molar mass in g/mol.  Derived directly from the exact pound-to-gram
+  /// conversion: 1 lb = 453.59237 g (exact, by definition since 1959).
+  static const double molesPerPoundMole = 453.59237;
 }

@@ -68,6 +68,15 @@ void main() {
         expect(oneKiloMole.inMoles, closeTo(1000.0, tolerance));
       });
 
+      final onePoundMole = 1.0.lbmol;
+      test('1 Pound-mole to moles', () {
+        expect(onePoundMole.inMoles, closeTo(453.59237, 1e-9));
+      });
+
+      test('1 Mole to pound-moles', () {
+        expect(oneMole.inPoundMoles, closeTo(1.0 / 453.59237, 1e-12));
+      });
+
       final oneMilliMole = 1.0.mmol;
       test('1 Millimole to micromoles and moles', () {
         expect(oneMilliMole.inMicromoles, closeTo(1000.0, tolerance));
@@ -305,6 +314,8 @@ void main() {
         expect(1.0.picomoles.unit, MolarUnit.picomole);
         expect(1.0.kmol.unit, MolarUnit.kilomole);
         expect(1.0.kilomoles.unit, MolarUnit.kilomole);
+        expect(1.0.lbmol.unit, MolarUnit.poundMole);
+        expect(1.0.poundMoles.unit, MolarUnit.poundMole);
         expect(5.0.moles.value, 5.0);
         expect(500.0.mmol.inMoles, closeTo(0.5, tolerance));
       });
@@ -335,6 +346,10 @@ void main() {
         final asKmol = base.asKilomoles;
         expect(asKmol.unit, MolarUnit.kilomole);
         expect(asKmol.value, closeTo(0.001, tolerance));
+
+        final asLbmol = base.asPoundMoles;
+        expect(asLbmol.unit, MolarUnit.poundMole);
+        expect(asLbmol.value, closeTo(1.0 / 453.59237, 1e-12));
       });
     });
   });
