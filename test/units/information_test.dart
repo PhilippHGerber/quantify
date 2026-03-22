@@ -548,29 +548,37 @@ void main() {
   });
 
   group('Lowercase extension aliases (§5)', () {
-    test('kb == kB (kilobyte)', () {
-      expect(1.kb.unit, InformationUnit.kilobyte);
-      expect(1.kb.isEquivalentTo(1.kB), isTrue);
+    // NOTE: lowercase aliases map to BIT-based units (industry convention:
+    // 'b' = bit, 'B' = byte). Use .kB/.MB/.GB/.TB/.PB for byte-based units.
+
+    test('kb == kbit (kilobit, NOT kilobyte)', () {
+      expect(1.kb.unit, InformationUnit.kilobit);
+      expect(1.kb.inKbit, closeTo(1.0, 1e-9));
+      expect(1.kb.isEquivalentTo(1.kB), isFalse); // kB = kilobyte = 8× larger
     });
 
-    test('mb == MB (megabyte)', () {
-      expect(1.mb.unit, InformationUnit.megabyte);
-      expect(1.mb.isEquivalentTo(1.MB), isTrue);
+    test('mb == Mbit (megabit, NOT megabyte)', () {
+      expect(1.mb.unit, InformationUnit.megabit);
+      expect(1.mb.inMbit, closeTo(1.0, 1e-9));
+      expect(1.mb.isEquivalentTo(1.MB), isFalse); // MB = megabyte = 8× larger
     });
 
-    test('gb == GB (gigabyte)', () {
-      expect(1.gb.unit, InformationUnit.gigabyte);
-      expect(1.gb.isEquivalentTo(1.GB), isTrue);
+    test('gb == Gbit (gigabit, NOT gigabyte)', () {
+      expect(1.gb.unit, InformationUnit.gigabit);
+      expect(1.gb.inGbit, closeTo(1.0, 1e-9));
+      expect(1.gb.isEquivalentTo(1.GB), isFalse); // GB = gigabyte = 8× larger
     });
 
-    test('tb == TB (terabyte)', () {
-      expect(1.tb.unit, InformationUnit.terabyte);
-      expect(1.tb.isEquivalentTo(1.TB), isTrue);
+    test('tb == Tbit (terabit, NOT terabyte)', () {
+      expect(1.tb.unit, InformationUnit.terabit);
+      expect(1.tb.inTbit, closeTo(1.0, 1e-9));
+      expect(1.tb.isEquivalentTo(1.TB), isFalse); // TB = terabyte = 8× larger
     });
 
-    test('pb == PB (petabyte)', () {
-      expect(1.pb.unit, InformationUnit.petabyte);
-      expect(1.pb.isEquivalentTo(1.PB), isTrue);
+    test('pb == Pbit (petabit, NOT petabyte)', () {
+      expect(1.pb.unit, InformationUnit.petabit);
+      expect(1.pb.inPbit, closeTo(1.0, 1e-9));
+      expect(1.pb.isEquivalentTo(1.PB), isFalse); // PB = petabyte = 8× larger
     });
 
     test('kib == KiB (kibibyte)', () {

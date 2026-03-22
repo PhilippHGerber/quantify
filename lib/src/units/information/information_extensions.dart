@@ -286,22 +286,26 @@ extension InformationCreation on num {
 
   // --- Lowercase linter-friendly aliases ---
   // Some teams enforce all-lowercase identifiers (camelCase without caps).
-  // These aliases resolve to the same units as their uppercase counterparts.
+  // NOTE: In computing and telecommunications, casing is semantically significant:
+  // 'b' = bit, 'B' = byte. Accordingly, lowercase aliases map to BIT-based units
+  // (consistent with industry usage, e.g. "100 mbps" = megabits per second).
+  // Use [kB], [MB], [GB], [TB], [PB] or the full-word forms (.kilobytes, .megabytes,
+  // etc.) when you need byte-based units.
 
-  /// Lowercase alias for [kB] — kilobytes (SI: 1 000 bytes).
-  Information get kb => Information(toDouble(), InformationUnit.kilobyte);
+  /// Lowercase alias — kilobits (SI: 10³ bits). Use [kB] or `.kilobytes` for kilobytes.
+  Information get kb => Information(toDouble(), InformationUnit.kilobit);
 
-  /// Lowercase alias for [MB] — megabytes (SI: 10⁶ bytes).
-  Information get mb => Information(toDouble(), InformationUnit.megabyte);
+  /// Lowercase alias — megabits (SI: 10⁶ bits). Use [MB] or `.megabytes` for megabytes.
+  Information get mb => Information(toDouble(), InformationUnit.megabit);
 
-  /// Lowercase alias for [GB] — gigabytes (SI: 10⁹ bytes).
-  Information get gb => Information(toDouble(), InformationUnit.gigabyte);
+  /// Lowercase alias — gigabits (SI: 10⁹ bits). Use [GB] or `.gigabytes` for gigabytes.
+  Information get gb => Information(toDouble(), InformationUnit.gigabit);
 
-  /// Lowercase alias for [TB] — terabytes (SI: 10¹² bytes).
-  Information get tb => Information(toDouble(), InformationUnit.terabyte);
+  /// Lowercase alias — terabits (SI: 10¹² bits). Use [TB] or `.terabytes` for terabytes.
+  Information get tb => Information(toDouble(), InformationUnit.terabit);
 
-  /// Lowercase alias for [PB] — petabytes (SI: 10¹⁵ bytes).
-  Information get pb => Information(toDouble(), InformationUnit.petabyte);
+  /// Lowercase alias — petabits (SI: 10¹⁵ bits). Use [PB] or `.petabytes` for petabytes.
+  Information get pb => Information(toDouble(), InformationUnit.petabit);
 
   /// Lowercase alias for [KiB] — kibibytes (IEC: 1 024 bytes).
   Information get kib => Information(toDouble(), InformationUnit.kibibyte);
