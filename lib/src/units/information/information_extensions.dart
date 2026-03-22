@@ -25,6 +25,18 @@ extension InformationValueGetters on Information {
   /// Returns the information value in Terabits (Tbit, SI: 10¹² bits).
   double get inTbit => getValue(InformationUnit.terabit);
 
+  /// Returns the information value in Petabits (Pbit, SI: 10¹⁵ bits).
+  double get inPbit => getValue(InformationUnit.petabit);
+
+  /// Returns the information value in Exabits (Ebit, SI: 10¹⁸ bits).
+  double get inEbit => getValue(InformationUnit.exabit);
+
+  /// Returns the information value in Zettabits (Zbit, SI: 10²¹ bits).
+  double get inZbit => getValue(InformationUnit.zettabit);
+
+  /// Returns the information value in Yottabits (Ybit, SI: 10²⁴ bits).
+  double get inYbit => getValue(InformationUnit.yottabit);
+
   // SI / decimal byte units
 
   /// Returns the information value in Kilobytes (kB, SI: 1 000 bytes).
@@ -42,6 +54,15 @@ extension InformationValueGetters on Information {
   /// Returns the information value in Petabytes (PB, SI: 10¹⁵ bytes).
   double get inPB => getValue(InformationUnit.petabyte);
 
+  /// Returns the information value in Exabytes (EB, SI: 10¹⁸ bytes).
+  double get inEB => getValue(InformationUnit.exabyte);
+
+  /// Returns the information value in Zettabytes (ZB, SI: 10²¹ bytes).
+  double get inZB => getValue(InformationUnit.zettabyte);
+
+  /// Returns the information value in Yottabytes (YB, SI: 10²⁴ bytes).
+  double get inYB => getValue(InformationUnit.yottabyte);
+
   // IEC / binary
 
   /// Returns the information value in Kibibytes (KiB, IEC: 1 024 bytes).
@@ -58,6 +79,15 @@ extension InformationValueGetters on Information {
 
   /// Returns the information value in Pebibytes (PiB, IEC: 2⁵⁰ bytes).
   double get inPiB => getValue(InformationUnit.pebibyte);
+
+  /// Returns the information value in Exbibytes (EiB, IEC: 2⁶⁰ bytes).
+  double get inEiB => getValue(InformationUnit.exbibyte);
+
+  /// Returns the information value in Zebibytes (ZiB, IEC: 2⁷⁰ bytes).
+  double get inZiB => getValue(InformationUnit.zebibyte);
+
+  /// Returns the information value in Yobibytes (YiB, IEC: 2⁸⁰ bytes).
+  double get inYiB => getValue(InformationUnit.yobibyte);
 
   // --- Information instance getters ---
 
@@ -81,6 +111,18 @@ extension InformationValueGetters on Information {
   /// Returns an [Information] representing this quantity in Terabits (Tbit).
   Information get asTbit => convertTo(InformationUnit.terabit);
 
+  /// Returns an [Information] representing this quantity in Petabits (Pbit).
+  Information get asPbit => convertTo(InformationUnit.petabit);
+
+  /// Returns an [Information] representing this quantity in Exabits (Ebit).
+  Information get asEbit => convertTo(InformationUnit.exabit);
+
+  /// Returns an [Information] representing this quantity in Zettabits (Zbit).
+  Information get asZbit => convertTo(InformationUnit.zettabit);
+
+  /// Returns an [Information] representing this quantity in Yottabits (Ybit).
+  Information get asYbit => convertTo(InformationUnit.yottabit);
+
   // SI / decimal byte units
 
   /// Returns an [Information] representing this quantity in Kilobytes (kB).
@@ -98,6 +140,15 @@ extension InformationValueGetters on Information {
   /// Returns an [Information] representing this quantity in Petabytes (PB).
   Information get asPB => convertTo(InformationUnit.petabyte);
 
+  /// Returns an [Information] representing this quantity in Exabytes (EB).
+  Information get asEB => convertTo(InformationUnit.exabyte);
+
+  /// Returns an [Information] representing this quantity in Zettabytes (ZB).
+  Information get asZB => convertTo(InformationUnit.zettabyte);
+
+  /// Returns an [Information] representing this quantity in Yottabytes (YB).
+  Information get asYB => convertTo(InformationUnit.yottabyte);
+
   // IEC / binary
 
   /// Returns an [Information] representing this quantity in Kibibytes (KiB).
@@ -114,6 +165,15 @@ extension InformationValueGetters on Information {
 
   /// Returns an [Information] representing this quantity in Pebibytes (PiB).
   Information get asPiB => convertTo(InformationUnit.pebibyte);
+
+  /// Returns an [Information] representing this quantity in Exbibytes (EiB).
+  Information get asEiB => convertTo(InformationUnit.exbibyte);
+
+  /// Returns an [Information] representing this quantity in Zebibytes (ZiB).
+  Information get asZiB => convertTo(InformationUnit.zebibyte);
+
+  /// Returns an [Information] representing this quantity in Yobibytes (YiB).
+  Information get asYiB => convertTo(InformationUnit.yobibyte);
 }
 
 /// Provides convenient factory methods for creating [Information] instances from [num].
@@ -141,6 +201,22 @@ extension InformationCreation on num {
   // ignore: non_constant_identifier_names
   Information get Tbit => Information(toDouble(), InformationUnit.terabit);
 
+  /// Creates an [Information] instance representing this value in Petabits (Pbit, SI: 10¹⁵ bits).
+  // ignore: non_constant_identifier_names
+  Information get Pbit => Information(toDouble(), InformationUnit.petabit);
+
+  /// Creates an [Information] instance representing this value in Exabits (Ebit, SI: 10¹⁸ bits).
+  // ignore: non_constant_identifier_names
+  Information get Ebit => Information(toDouble(), InformationUnit.exabit);
+
+  /// Creates an [Information] instance representing this value in Zettabits (Zbit, SI: 10²¹ bits).
+  // ignore: non_constant_identifier_names
+  Information get Zbit => Information(toDouble(), InformationUnit.zettabit);
+
+  /// Creates an [Information] instance representing this value in Yottabits (Ybit, SI: 10²⁴ bits).
+  // ignore: non_constant_identifier_names
+  Information get Ybit => Information(toDouble(), InformationUnit.yottabit);
+
   // SI / decimal byte units
 
   /// Creates an [Information] instance representing this value in Kilobytes (kB, SI: 1 000 bytes).
@@ -161,6 +237,18 @@ extension InformationCreation on num {
   /// Creates an [Information] instance representing this value in Petabytes (PB, SI: 10¹⁵ bytes).
   // ignore: non_constant_identifier_names
   Information get PB => Information(toDouble(), InformationUnit.petabyte);
+
+  /// Creates an [Information] instance representing this value in Exabytes (EB, SI: 10¹⁸ bytes).
+  // ignore: non_constant_identifier_names
+  Information get EB => Information(toDouble(), InformationUnit.exabyte);
+
+  /// Creates an [Information] instance representing this value in Zettabytes (ZB, SI: 10²¹ bytes).
+  // ignore: non_constant_identifier_names
+  Information get ZB => Information(toDouble(), InformationUnit.zettabyte);
+
+  /// Creates an [Information] instance representing this value in Yottabytes (YB, SI: 10²⁴ bytes).
+  // ignore: non_constant_identifier_names
+  Information get YB => Information(toDouble(), InformationUnit.yottabyte);
 
   // IEC / binary
 
@@ -183,6 +271,18 @@ extension InformationCreation on num {
   /// Creates an [Information] instance representing this value in Pebibytes (PiB, IEC: 2⁵⁰ bytes).
   // ignore: non_constant_identifier_names
   Information get PiB => Information(toDouble(), InformationUnit.pebibyte);
+
+  /// Creates an [Information] instance representing this value in Exbibytes (EiB, IEC: 2⁶⁰ bytes).
+  // ignore: non_constant_identifier_names
+  Information get EiB => Information(toDouble(), InformationUnit.exbibyte);
+
+  /// Creates an [Information] instance representing this value in Zebibytes (ZiB, IEC: 2⁷⁰ bytes).
+  // ignore: non_constant_identifier_names
+  Information get ZiB => Information(toDouble(), InformationUnit.zebibyte);
+
+  /// Creates an [Information] instance representing this value in Yobibytes (YiB, IEC: 2⁸⁰ bytes).
+  // ignore: non_constant_identifier_names
+  Information get YiB => Information(toDouble(), InformationUnit.yobibyte);
 
   // --- Lowercase linter-friendly aliases ---
   // Some teams enforce all-lowercase identifiers (camelCase without caps).
@@ -217,4 +317,22 @@ extension InformationCreation on num {
 
   /// Lowercase alias for [PiB] — pebibytes (IEC: 2⁵⁰ bytes).
   Information get pib => Information(toDouble(), InformationUnit.pebibyte);
+
+  /// Lowercase alias for [EB] — exabytes (SI: 10¹⁸ bytes).
+  Information get eb => Information(toDouble(), InformationUnit.exabyte);
+
+  /// Lowercase alias for [ZB] — zettabytes (SI: 10²¹ bytes).
+  Information get zb => Information(toDouble(), InformationUnit.zettabyte);
+
+  /// Lowercase alias for [YB] — yottabytes (SI: 10²⁴ bytes).
+  Information get yb => Information(toDouble(), InformationUnit.yottabyte);
+
+  /// Lowercase alias for [EiB] — exbibytes (IEC: 2⁶⁰ bytes).
+  Information get eib => Information(toDouble(), InformationUnit.exbibyte);
+
+  /// Lowercase alias for [ZiB] — zebibytes (IEC: 2⁷⁰ bytes).
+  Information get zib => Information(toDouble(), InformationUnit.zebibyte);
+
+  /// Lowercase alias for [YiB] — yobibytes (IEC: 2⁸⁰ bytes).
+  Information get yib => Information(toDouble(), InformationUnit.yobibyte);
 }

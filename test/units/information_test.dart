@@ -388,6 +388,10 @@ void main() {
       expect(Information.parse('1 KiB').unit, InformationUnit.kibibyte);
     });
 
+    test('legacy KB alias resolves to SI kilobyte', () {
+      expect(Information.parse('1 KB').unit, InformationUnit.kilobyte);
+    });
+
     test('parse name "gigabyte" (SI)', () {
       expect(Information.parse('1 gigabyte').unit, InformationUnit.gigabyte);
     });
@@ -509,10 +513,22 @@ void main() {
       expect(1.Gbit.toString(), contains('Gbit'));
     });
 
+    test('parse kbit from symbol string', () {
+      expect(Information.parse('1 kbit').unit, InformationUnit.kilobit);
+    });
+
     test('parse Mbit from symbol string', () {
       final result = Information.parse('100\u00A0Mbit');
       expect(result.unit, InformationUnit.megabit);
       expect(result.value, closeTo(100.0, 1e-9));
+    });
+
+    test('parse Gbit from symbol string', () {
+      expect(Information.parse('1 Gbit').unit, InformationUnit.gigabit);
+    });
+
+    test('parse Tbit from symbol string', () {
+      expect(Information.parse('1 Tbit').unit, InformationUnit.terabit);
     });
 
     test('parse gigabit from name string', () {
@@ -580,6 +596,269 @@ void main() {
     test('pib == PiB (pebibyte)', () {
       expect(1.pib.unit, InformationUnit.pebibyte);
       expect(1.pib.isEquivalentTo(1.PiB), isTrue);
+    });
+
+    test('eb == EB (exabyte)', () {
+      expect(1.eb.unit, InformationUnit.exabyte);
+      expect(1.eb.isEquivalentTo(1.EB), isTrue);
+    });
+
+    test('zb == ZB (zettabyte)', () {
+      expect(1.zb.unit, InformationUnit.zettabyte);
+      expect(1.zb.isEquivalentTo(1.ZB), isTrue);
+    });
+
+    test('yb == YB (yottabyte)', () {
+      expect(1.yb.unit, InformationUnit.yottabyte);
+      expect(1.yb.isEquivalentTo(1.YB), isTrue);
+    });
+
+    test('eib == EiB (exbibyte)', () {
+      expect(1.eib.unit, InformationUnit.exbibyte);
+      expect(1.eib.isEquivalentTo(1.EiB), isTrue);
+    });
+
+    test('zib == ZiB (zebibyte)', () {
+      expect(1.zib.unit, InformationUnit.zebibyte);
+      expect(1.zib.isEquivalentTo(1.ZiB), isTrue);
+    });
+
+    test('yib == YiB (yobibyte)', () {
+      expect(1.yib.unit, InformationUnit.yobibyte);
+      expect(1.yib.isEquivalentTo(1.YiB), isTrue);
+    });
+  });
+
+  group('Information — SI Bit units (extended)', () {
+    test('1 Pbit == 10¹⁵ bits', () {
+      expect(1.Pbit.inBit, closeTo(1e15, 1e6));
+    });
+
+    test('1 Ebit == 10¹⁸ bits', () {
+      expect(1.Ebit.inBit, closeTo(1e18, 1e9));
+    });
+
+    test('1 Zbit == 10²¹ bits', () {
+      expect(1.Zbit.inBit, closeTo(1e21, 1e12));
+    });
+
+    test('1 Ybit == 10²⁴ bits', () {
+      expect(1.Ybit.inBit, closeTo(1e24, 1e15));
+    });
+
+    test('1 Ebit == 1 000 Pbit', () {
+      expect(1.Ebit.inPbit, closeTo(1000.0, 1e-6));
+    });
+
+    test('round-trip Pbit → bit → Pbit', () {
+      expect(1.Pbit.asBit.asPbit.inPbit, closeTo(1.0, 1e-6));
+    });
+
+    test('round-trip Ebit → Pbit → Ebit', () {
+      expect(1.Ebit.asPbit.asEbit.inEbit, closeTo(1.0, 1e-6));
+    });
+
+    test('cross-track: 1 EB == 8 Ebit', () {
+      expect(1.EB.inEbit, closeTo(8.0, 1e-6));
+    });
+
+    test('extension sugar — Pbit unit', () {
+      expect(1.Pbit.unit, InformationUnit.petabit);
+    });
+
+    test('extension sugar — Ebit unit', () {
+      expect(1.Ebit.unit, InformationUnit.exabit);
+    });
+
+    test('extension sugar — Zbit unit', () {
+      expect(1.Zbit.unit, InformationUnit.zettabit);
+    });
+
+    test('extension sugar — Ybit unit', () {
+      expect(1.Ybit.unit, InformationUnit.yottabit);
+    });
+
+    test('toString contains Pbit symbol', () {
+      expect(1.Pbit.toString(), contains('Pbit'));
+    });
+
+    test('parse Pbit from symbol string', () {
+      expect(Information.parse('1 Pbit').unit, InformationUnit.petabit);
+    });
+
+    test('parse Ebit from symbol string', () {
+      expect(Information.parse('1 Ebit').unit, InformationUnit.exabit);
+    });
+
+    test('parse Zbit from symbol string', () {
+      expect(Information.parse('1 Zbit').unit, InformationUnit.zettabit);
+    });
+
+    test('parse Ybit from symbol string', () {
+      expect(Information.parse('1 Ybit').unit, InformationUnit.yottabit);
+    });
+
+    test('parse petabit from name', () {
+      expect(Information.parse('2 petabits').unit, InformationUnit.petabit);
+    });
+
+    test('asPbit returns Information in petabits', () {
+      expect(1.Ebit.asPbit.value, closeTo(1000.0, 1e-6));
+      expect(1.Ebit.asPbit.unit, InformationUnit.petabit);
+    });
+  });
+
+  group('Information — SI Byte units (extended)', () {
+    test('1 EB == 10¹⁸ bytes', () {
+      expect(1.EB.inByte, closeTo(1e18, 1e9));
+    });
+
+    test('1 ZB == 10²¹ bytes', () {
+      expect(1.ZB.inByte, closeTo(1e21, 1e12));
+    });
+
+    test('1 YB == 10²⁴ bytes', () {
+      expect(1.YB.inByte, closeTo(1e24, 1e15));
+    });
+
+    test('1 ZB == 1 000 EB', () {
+      expect(1.ZB.inEB, closeTo(1000.0, 1e-6));
+    });
+
+    test('1 YB == 1 000 ZB', () {
+      expect(1.YB.inZB, closeTo(1000.0, 1e-6));
+    });
+
+    test('round-trip EB → PB → EB', () {
+      expect(1.EB.asPB.asEB.inEB, closeTo(1.0, 1e-6));
+    });
+
+    test('round-trip ZB → EB → ZB', () {
+      expect(1.ZB.asEB.asZB.inZB, closeTo(1.0, 1e-6));
+    });
+
+    test('extension sugar — EB unit', () {
+      expect(1.EB.unit, InformationUnit.exabyte);
+    });
+
+    test('extension sugar — ZB unit', () {
+      expect(1.ZB.unit, InformationUnit.zettabyte);
+    });
+
+    test('extension sugar — YB unit', () {
+      expect(1.YB.unit, InformationUnit.yottabyte);
+    });
+
+    test('toString contains EB symbol', () {
+      expect(1.EB.toString(), contains('EB'));
+    });
+
+    test('parse EB from symbol string', () {
+      expect(Information.parse('1 EB').unit, InformationUnit.exabyte);
+    });
+
+    test('parse ZB from symbol string', () {
+      expect(Information.parse('1 ZB').unit, InformationUnit.zettabyte);
+    });
+
+    test('parse YB from symbol string', () {
+      expect(Information.parse('1 YB').unit, InformationUnit.yottabyte);
+    });
+
+    test('parse exabyte from name', () {
+      expect(Information.parse('2 exabytes').unit, InformationUnit.exabyte);
+    });
+
+    test('parse zettabyte from name', () {
+      expect(Information.parse('1 zettabyte').unit, InformationUnit.zettabyte);
+    });
+
+    test('parse yottabyte from name', () {
+      expect(Information.parse('1 yottabytes').unit, InformationUnit.yottabyte);
+    });
+
+    test('asEB returns Information in exabytes', () {
+      expect(1.ZB.asEB.value, closeTo(1000.0, 1e-6));
+      expect(1.ZB.asEB.unit, InformationUnit.exabyte);
+    });
+
+    test('SI vs IEC distinction: 1 EB != 1 EiB', () {
+      expect(1.EB.inBit, isNot(closeTo(1.EiB.inBit, 1e10)));
+    });
+  });
+
+  group('Information — IEC Binary units (extended)', () {
+    test('1 EiB == 2⁶⁰ bytes', () {
+      expect(1.EiB.inByte, closeTo(1.152921504606847e18, 1e9));
+    });
+
+    test('1 EiB == 1 024 PiB', () {
+      expect(1.EiB.inPiB, closeTo(1024.0, 1e-6));
+    });
+
+    test('1 ZiB == 1 024 EiB', () {
+      expect(1.ZiB.inEiB, closeTo(1024.0, 1e-6));
+    });
+
+    test('1 YiB == 1 024 ZiB', () {
+      expect(1.YiB.inZiB, closeTo(1024.0, 1e-6));
+    });
+
+    test('round-trip EiB → PiB → EiB', () {
+      expect(1.EiB.asPiB.asEiB.inEiB, closeTo(1.0, 1e-6));
+    });
+
+    test('round-trip ZiB → EiB → ZiB', () {
+      expect(1.ZiB.asEiB.asZiB.inZiB, closeTo(1.0, 1e-6));
+    });
+
+    test('round-trip YiB → ZiB → YiB', () {
+      expect(1.YiB.asZiB.asYiB.inYiB, closeTo(1.0, 1e-6));
+    });
+
+    test('extension sugar — EiB unit', () {
+      expect(1.EiB.unit, InformationUnit.exbibyte);
+    });
+
+    test('extension sugar — ZiB unit', () {
+      expect(1.ZiB.unit, InformationUnit.zebibyte);
+    });
+
+    test('extension sugar — YiB unit', () {
+      expect(1.YiB.unit, InformationUnit.yobibyte);
+    });
+
+    test('toString contains EiB symbol', () {
+      expect(1.EiB.toString(), contains('EiB'));
+    });
+
+    test('parse EiB from symbol string', () {
+      expect(Information.parse('1 EiB').unit, InformationUnit.exbibyte);
+    });
+
+    test('parse ZiB from symbol string', () {
+      expect(Information.parse('1 ZiB').unit, InformationUnit.zebibyte);
+    });
+
+    test('parse YiB from symbol string', () {
+      expect(Information.parse('1 YiB').unit, InformationUnit.yobibyte);
+    });
+
+    test('parse exbibyte from name', () {
+      expect(Information.parse('2 exbibytes').unit, InformationUnit.exbibyte);
+    });
+
+    test('parse zebibyte from name', () {
+      expect(Information.parse('1 zebibyte').unit, InformationUnit.zebibyte);
+    });
+
+    test('parse yobibyte from name', () {
+      expect(Information.parse('1 yobibytes').unit, InformationUnit.yobibyte);
+    });
+
+    test('asEiB returns Information in exbibytes', () {
+      expect(1024.0.PiB.asEiB.value, closeTo(1.0, 1e-6));
+      expect(1024.0.PiB.asEiB.unit, InformationUnit.exbibyte);
     });
   });
 }

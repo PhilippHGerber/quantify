@@ -10,9 +10,9 @@ import 'information_factors.dart';
 /// All conversion factors are pre-calculated in the constructor relative to Bit.
 ///
 /// Three distinct tracks are supported:
-/// - **SI bit** (`kbit`, `Mbit`, `Gbit`, `Tbit`) — powers of 10³, counting bits.
-/// - **SI / decimal byte** (`kB`, `MB`, `GB`, …) — powers of 10³, counting bytes.
-/// - **IEC / binary** (`KiB`, `MiB`, `GiB`, …) — powers of 2¹⁰ (1 024).
+/// - **SI bit** (`kbit`, `Mbit`, `Gbit`, `Tbit`, `Pbit`, `Ebit`, `Zbit`, `Ybit`) — powers of 10³, counting bits.
+/// - **SI / decimal byte** (`kB`, `MB`, `GB`, `TB`, `PB`, `EB`, `ZB`, `YB`) — powers of 10³, counting bytes.
+/// - **IEC / binary** (`KiB`, `MiB`, `GiB`, `TiB`, `PiB`, `EiB`, `ZiB`, `YiB`) — powers of 2¹⁰ (1 024).
 enum InformationUnit implements Unit<InformationUnit> {
   /// Bit (bit), the fundamental unit of digital information.
   bit(1, 'bit'),
@@ -34,6 +34,18 @@ enum InformationUnit implements Unit<InformationUnit> {
   /// Terabit (Tbit), SI decimal unit equal to 10¹² bits.
   terabit(InformationFactors.bitsPerTerabit, 'Tbit'),
 
+  /// Petabit (Pbit), SI decimal unit equal to 10¹⁵ bits.
+  petabit(InformationFactors.bitsPerPetabit, 'Pbit'),
+
+  /// Exabit (Ebit), SI decimal unit equal to 10¹⁸ bits.
+  exabit(InformationFactors.bitsPerExabit, 'Ebit'),
+
+  /// Zettabit (Zbit), SI decimal unit equal to 10²¹ bits.
+  zettabit(InformationFactors.bitsPerZettabit, 'Zbit'),
+
+  /// Yottabit (Ybit), SI decimal unit equal to 10²⁴ bits.
+  yottabit(InformationFactors.bitsPerYottabit, 'Ybit'),
+
   // --- SI / Decimal byte units ---
 
   /// Kilobyte (kB), SI decimal unit equal to 1 000 bytes (8 000 bits).
@@ -51,6 +63,15 @@ enum InformationUnit implements Unit<InformationUnit> {
   /// Petabyte (PB), SI decimal unit equal to 10¹⁵ bytes.
   petabyte(InformationFactors.bitsPerPetabyte, 'PB'),
 
+  /// Exabyte (EB), SI decimal unit equal to 10¹⁸ bytes.
+  exabyte(InformationFactors.bitsPerExabyte, 'EB'),
+
+  /// Zettabyte (ZB), SI decimal unit equal to 10²¹ bytes.
+  zettabyte(InformationFactors.bitsPerZettabyte, 'ZB'),
+
+  /// Yottabyte (YB), SI decimal unit equal to 10²⁴ bytes.
+  yottabyte(InformationFactors.bitsPerYottabyte, 'YB'),
+
   // --- IEC / Binary ---
 
   /// Kibibyte (KiB), IEC binary unit equal to 2¹⁰ bytes (1 024 bytes).
@@ -66,7 +87,16 @@ enum InformationUnit implements Unit<InformationUnit> {
   tebibyte(InformationFactors.bitsPerTebibyte, 'TiB'),
 
   /// Pebibyte (PiB), IEC binary unit equal to 2⁵⁰ bytes.
-  pebibyte(InformationFactors.bitsPerPebibyte, 'PiB');
+  pebibyte(InformationFactors.bitsPerPebibyte, 'PiB'),
+
+  /// Exbibyte (EiB), IEC binary unit equal to 2⁶⁰ bytes.
+  exbibyte(InformationFactors.bitsPerExbibyte, 'EiB'),
+
+  /// Zebibyte (ZiB), IEC binary unit equal to 2⁷⁰ bytes.
+  zebibyte(InformationFactors.bitsPerZebibyte, 'ZiB'),
+
+  /// Yobibyte (YiB), IEC binary unit equal to 2⁸⁰ bytes.
+  yobibyte(InformationFactors.bitsPerYobibyte, 'YiB');
 
   /// Constant constructor for enum members.
   ///
@@ -91,12 +121,23 @@ enum InformationUnit implements Unit<InformationUnit> {
         _factorToGigabyte = toBaseFactor / InformationFactors.bitsPerGigabyte,
         _factorToTerabyte = toBaseFactor / InformationFactors.bitsPerTerabyte,
         _factorToPetabyte = toBaseFactor / InformationFactors.bitsPerPetabyte,
+        _factorToExabyte = toBaseFactor / InformationFactors.bitsPerExabyte,
+        _factorToZettabyte = toBaseFactor / InformationFactors.bitsPerZettabyte,
+        _factorToYottabyte = toBaseFactor / InformationFactors.bitsPerYottabyte,
+        // SI bit units (extended)
+        _factorToPetabit = toBaseFactor / InformationFactors.bitsPerPetabit,
+        _factorToExabit = toBaseFactor / InformationFactors.bitsPerExabit,
+        _factorToZettabit = toBaseFactor / InformationFactors.bitsPerZettabit,
+        _factorToYottabit = toBaseFactor / InformationFactors.bitsPerYottabit,
         // IEC binary units
         _factorToKibibyte = toBaseFactor / InformationFactors.bitsPerKibibyte,
         _factorToMebibyte = toBaseFactor / InformationFactors.bitsPerMebibyte,
         _factorToGibibyte = toBaseFactor / InformationFactors.bitsPerGibibyte,
         _factorToTebibyte = toBaseFactor / InformationFactors.bitsPerTebibyte,
-        _factorToPebibyte = toBaseFactor / InformationFactors.bitsPerPebibyte;
+        _factorToPebibyte = toBaseFactor / InformationFactors.bitsPerPebibyte,
+        _factorToExbibyte = toBaseFactor / InformationFactors.bitsPerExbibyte,
+        _factorToZebibyte = toBaseFactor / InformationFactors.bitsPerZebibyte,
+        _factorToYobibyte = toBaseFactor / InformationFactors.bitsPerYobibyte;
 
   /// The factor to convert a value from this unit to the base unit (Bit).
   // ignore: unused_field
@@ -114,18 +155,29 @@ enum InformationUnit implements Unit<InformationUnit> {
   final double _factorToMegabit;
   final double _factorToGigabit;
   final double _factorToTerabit;
+  // SI bit units (extended)
+  final double _factorToPetabit;
+  final double _factorToExabit;
+  final double _factorToZettabit;
+  final double _factorToYottabit;
   // SI byte units
   final double _factorToKilobyte;
   final double _factorToMegabyte;
   final double _factorToGigabyte;
   final double _factorToTerabyte;
   final double _factorToPetabyte;
+  final double _factorToExabyte;
+  final double _factorToZettabyte;
+  final double _factorToYottabyte;
   // IEC binary units
   final double _factorToKibibyte;
   final double _factorToMebibyte;
   final double _factorToGibibyte;
   final double _factorToTebibyte;
   final double _factorToPebibyte;
+  final double _factorToExbibyte;
+  final double _factorToZebibyte;
+  final double _factorToYobibyte;
 
   /// SI and IEC symbols matched **strictly case-sensitive**.
   ///
@@ -145,6 +197,10 @@ enum InformationUnit implements Unit<InformationUnit> {
     'Mbit': InformationUnit.megabit,
     'Gbit': InformationUnit.gigabit,
     'Tbit': InformationUnit.terabit,
+    'Pbit': InformationUnit.petabit,
+    'Ebit': InformationUnit.exabit,
+    'Zbit': InformationUnit.zettabit,
+    'Ybit': InformationUnit.yottabit,
     // SI / decimal byte units
     'kB': InformationUnit.kilobyte,
     // 'KB' is an ambiguous legacy form — resolves to SI kilobyte (kB).
@@ -154,12 +210,18 @@ enum InformationUnit implements Unit<InformationUnit> {
     'GB': InformationUnit.gigabyte,
     'TB': InformationUnit.terabyte,
     'PB': InformationUnit.petabyte,
+    'EB': InformationUnit.exabyte,
+    'ZB': InformationUnit.zettabyte,
+    'YB': InformationUnit.yottabyte,
     // IEC / binary
     'KiB': InformationUnit.kibibyte,
     'MiB': InformationUnit.mebibyte,
     'GiB': InformationUnit.gibibyte,
     'TiB': InformationUnit.tebibyte,
     'PiB': InformationUnit.pebibyte,
+    'EiB': InformationUnit.exbibyte,
+    'ZiB': InformationUnit.zebibyte,
+    'YiB': InformationUnit.yobibyte,
   };
 
   /// Full word-form names matched **case-insensitively**
@@ -183,6 +245,14 @@ enum InformationUnit implements Unit<InformationUnit> {
     'gigabits': InformationUnit.gigabit,
     'terabit': InformationUnit.terabit,
     'terabits': InformationUnit.terabit,
+    'petabit': InformationUnit.petabit,
+    'petabits': InformationUnit.petabit,
+    'exabit': InformationUnit.exabit,
+    'exabits': InformationUnit.exabit,
+    'zettabit': InformationUnit.zettabit,
+    'zettabits': InformationUnit.zettabit,
+    'yottabit': InformationUnit.yottabit,
+    'yottabits': InformationUnit.yottabit,
     // SI / decimal byte units
     'kilobyte': InformationUnit.kilobyte,
     'kilobytes': InformationUnit.kilobyte,
@@ -194,6 +264,12 @@ enum InformationUnit implements Unit<InformationUnit> {
     'terabytes': InformationUnit.terabyte,
     'petabyte': InformationUnit.petabyte,
     'petabytes': InformationUnit.petabyte,
+    'exabyte': InformationUnit.exabyte,
+    'exabytes': InformationUnit.exabyte,
+    'zettabyte': InformationUnit.zettabyte,
+    'zettabytes': InformationUnit.zettabyte,
+    'yottabyte': InformationUnit.yottabyte,
+    'yottabytes': InformationUnit.yottabyte,
     // IEC / binary
     'kibibyte': InformationUnit.kibibyte,
     'kibibytes': InformationUnit.kibibyte,
@@ -205,6 +281,12 @@ enum InformationUnit implements Unit<InformationUnit> {
     'tebibytes': InformationUnit.tebibyte,
     'pebibyte': InformationUnit.pebibyte,
     'pebibytes': InformationUnit.pebibyte,
+    'exbibyte': InformationUnit.exbibyte,
+    'exbibytes': InformationUnit.exbibyte,
+    'zebibyte': InformationUnit.zebibyte,
+    'zebibytes': InformationUnit.zebibyte,
+    'yobibyte': InformationUnit.yobibyte,
+    'yobibytes': InformationUnit.yobibyte,
   };
 
   /// Returns the direct conversion factor to convert a value from this [InformationUnit]
@@ -226,6 +308,14 @@ enum InformationUnit implements Unit<InformationUnit> {
         return _factorToGigabit;
       case InformationUnit.terabit:
         return _factorToTerabit;
+      case InformationUnit.petabit:
+        return _factorToPetabit;
+      case InformationUnit.exabit:
+        return _factorToExabit;
+      case InformationUnit.zettabit:
+        return _factorToZettabit;
+      case InformationUnit.yottabit:
+        return _factorToYottabit;
       // SI byte units
       case InformationUnit.kilobyte:
         return _factorToKilobyte;
@@ -237,6 +327,12 @@ enum InformationUnit implements Unit<InformationUnit> {
         return _factorToTerabyte;
       case InformationUnit.petabyte:
         return _factorToPetabyte;
+      case InformationUnit.exabyte:
+        return _factorToExabyte;
+      case InformationUnit.zettabyte:
+        return _factorToZettabyte;
+      case InformationUnit.yottabyte:
+        return _factorToYottabyte;
       // IEC binary units
       case InformationUnit.kibibyte:
         return _factorToKibibyte;
@@ -248,6 +344,12 @@ enum InformationUnit implements Unit<InformationUnit> {
         return _factorToTebibyte;
       case InformationUnit.pebibyte:
         return _factorToPebibyte;
+      case InformationUnit.exbibyte:
+        return _factorToExbibyte;
+      case InformationUnit.zebibyte:
+        return _factorToZebibyte;
+      case InformationUnit.yobibyte:
+        return _factorToYobibyte;
     }
   }
 }
