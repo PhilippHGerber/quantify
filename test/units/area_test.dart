@@ -41,7 +41,7 @@ void main() {
         expect(a3.unit, AreaUnit.hectare);
         expect(a3.inSquareMeters, closeTo(10000.0, tolerance));
 
-        final a4 = 1.0.squareMegameter;
+        final a4 = 1.0.Mm2;
         expect(a4.value, 1.0);
         expect(a4.unit, AreaUnit.squareMegameter);
         expect(a4.inSquareKilometers, closeTo(1000000.0, tolerance));
@@ -94,7 +94,7 @@ void main() {
       });
 
       test('1 square megameter to various units', () {
-        final oneSquareMegameter = 1.0.squareMegameter;
+        final oneSquareMegameter = 1.0.Mm2;
         expect(oneSquareMegameter.inSquareMeters, closeTo(1e12, tolerance));
         expect(oneSquareMegameter.inSquareKilometers, closeTo(1e6, tolerance));
       });
@@ -171,7 +171,7 @@ void main() {
         expect(1.6.km2.toString(), '1.6 km²');
         expect(1.ha.toString(), '1.0 ha');
         expect(10.5.yd2.toString(), '10.5 yd²');
-        expect(1.0.squareMegameter.toString(), '1.0 Mm²');
+        expect(1.0.Mm2.toString(), '1.0 Mm²');
       });
     });
 
@@ -342,7 +342,7 @@ void main() {
         expect(km2.inSquareMeters, closeTo(1000000.0, tolerance));
         expect(km2.asSquareMeter.unit, AreaUnit.squareMeter);
 
-        final squareMegaM = 1.squareMegameter;
+        final squareMegaM = 1.Mm2;
         expect(squareMegaM.inSquareKilometers, closeTo(1000000.0, tolerance));
         expect(squareMegaM.asSquareKilometer.unit, AreaUnit.squareKilometer);
       });
@@ -406,12 +406,6 @@ void main() {
           final a = 3.Mm2;
           expect(a.unit, AreaUnit.squareMegameter);
           expect(a.value, 3.0);
-        });
-
-        test('Mm2 is equivalent to deprecated squareMegameter', () {
-          // Intentionally testing the deprecated getter still resolves correctly.
-          // ignore: deprecated_member_use_from_same_package
-          expect(3.Mm2.isEquivalentTo(3.squareMegameter), isTrue);
         });
 
         test('1 Mm² = 1e12 m²', () {
