@@ -220,14 +220,14 @@ abstract class Quantity<T extends Unit<T>> implements Comparable<Quantity<T>> {
   /// Checks if this quantity has the same physical magnitude as another,
   /// accounting for IEEE 754 floating-point rounding inaccuracies.
   ///
-  /// Unlike strict [operator ==], this method converts both values to the same
+  /// Unlike strict[operator ==], this method converts both values to the same
   /// unit before comparing — so `1.m.isEquivalentTo(100.cm)` returns `true`.
   ///
-  /// The comparison uses a **relative tolerance**, meaning the acceptable error
-  /// margin scales with the magnitude of the values. This is correct across the
-  /// full numeric range — from subatomic (picometers) to astronomical (AU).
-  /// Both operands are evaluated in the same unit, so the result is symmetric:
-  /// `a.isEquivalentTo(b) == b.isEquivalentTo(a)` always holds.
+  /// The comparison uses both an **absolute tolerance** and a **relative tolerance**.
+  /// The relative tolerance scales the acceptable error margin with the magnitude
+  /// of the values (crucial for astronomical scales), while the absolute tolerance
+  /// prevents the "Zero-Drift Trap" when comparing values that mathematically
+  /// cancel out to zero but leave microscopic floating-point artifacts.
   ///
   /// Infinities and `NaN` follow IEEE 754 semantics:
   /// - Equal infinities (`+∞` and `+∞`, or `-∞` and `-∞`) → `true`.
@@ -236,30 +236,40 @@ abstract class Quantity<T extends Unit<T>> implements Comparable<Quantity<T>> {
   ///
   /// - [tolerance]: Maximum relative difference. Defaults to `1e-9`
   ///   (one part per billion).
+  /// - [absoluteTolerance]: Maximum absolute difference. Defaults to `1e-12`.
+  ///   This is essential when comparing against exactly zero.
   ///
   /// ```dart
-  /// (0.1.m + 0.2.m).isEquivalentTo(0.3.m);              // true
-  /// 1.au.isEquivalentTo(149597870700.m);                  // true
+  /// (0.1.m + 0.2.m).isEquivalentTo(0.3.m);               // true
+  /// (0.1.m + 0.2.m - 0.3.m).isEquivalentTo(0.m);         // true (Zero-Drift handled)
+  /// 1.au.isEquivalentTo(149597870700.m);                 // true
   /// double.infinity.m.isEquivalentTo(1e300.m);           // false
   /// ```
-  bool isEquivalentTo(Quantity<T> other, {double tolerance = 1e-9}) {
+  bool isEquivalentTo(
+    Quantity<T> other, {
+    double tolerance = 1e-9,
+    double absoluteTolerance = 1e-12,
+  }) {
     assert(tolerance >= 0.0, 'tolerance must be non-negative');
+    assert(absoluteTolerance >= 0.0, 'absoluteTolerance must be non-negative');
 
     // Evaluate both values in this.unit to guarantee symmetry:
     // a.isEquivalentTo(b) == b.isEquivalentTo(a) for all inputs.
     final a = value;
     final b = other.getValue(unit);
 
-    // Exact equality: handles identical infinities and avoids subtraction cost.
+    // Exact equality handles identical infinities, zeros, and avoids subtraction cost.
     if (a == b) return true;
 
-    // Distinct infinities or mixed finite/infinite are never equivalent.
-    if (a.isInfinite || b.isInfinite) return false;
+    // Distinct infinities, mixed finite/infinite, or any NaN are never equivalent.
+    if (a.isInfinite || b.isInfinite || a.isNaN || b.isNaN) return false;
 
     final diff = (a - b).abs();
 
-    // Pure relative tolerance — symmetric by construction.
-    // The a == b short-circuit above handles the 0 == 0 case correctly.
+    // 1. Check absolute tolerance first (solves the Zero-Drift Trap)
+    if (diff <= absoluteTolerance) return true;
+
+    // 2. Fall back to relative tolerance for large magnitudes
     return diff <= math.max(a.abs(), b.abs()) * tolerance;
   }
 

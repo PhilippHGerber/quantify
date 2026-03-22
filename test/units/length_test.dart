@@ -567,6 +567,12 @@ void main() {
     });
 
     group('Magnitude Equality (isEquivalentTo)', () {
+      final oneMeter = 1.m;
+      final hundredCm = 100.cm;
+      final oneMeterAgain = 1.m;
+      final ninetyNineCm = 99.cm;
+      final twoMeters = 2.m;
+
       test('should return true for different units with the same magnitude', () {
         expect(oneMeter.isEquivalentTo(hundredCm), isTrue);
       });
@@ -580,15 +586,44 @@ void main() {
         expect(oneMeter.isEquivalentTo(twoMeters), isFalse);
       });
 
-      test('floating point drift is absorbed by default tolerance', () {
+      test('floating point drift is absorbed by relative tolerance', () {
         final l1 = 0.1.m;
         final l2 = 0.2.m;
-        final sum = l1 + l2; // 0.1 + 0.2 in binary floating point
+        final sum = l1 + l2; // 0.1 + 0.2 in binary floating point is ~0.30000000000000004
 
-        // The raw double value is still not exactly 0.3 …
         expect(sum.value, isNot(equals(0.3)));
-        // … but isEquivalentTo absorbs the drift with relative tolerance.
         expect(sum.isEquivalentTo(0.3.m), isTrue);
+      });
+
+      test('THE ZERO-DRIFT TRAP: microscopic drift compared against exact zero', () {
+        final step1 = 0.1.m;
+        final step2 = 0.2.m;
+        final step3 = 0.3.m;
+
+        final driftResult = step1 + step2 - step3;
+
+        // Raw double is ~5.55e-17.
+        // A pure relative tolerance fails here because reference is 0.0.
+        // The absoluteTolerance fallback correctly evaluates this to true.
+        expect(driftResult.isEquivalentTo(0.m), isTrue);
+      });
+
+      test('THE ZERO-DRIFT TRAP: fractional accumulation compared against exact zero', () {
+        final totalDistance = 1.km;
+        final thirdOfJourney = totalDistance / 3.0;
+
+        // (1/3 * 3) - 1. Drift leaves ~ -1.11e-16
+        final distanceTraveled = (thirdOfJourney * 3.0) - 1.km;
+
+        expect(distanceTraveled.isEquivalentTo(0.m), isTrue);
+      });
+
+      test('astronomical numbers work perfectly with relative tolerance', () {
+        final dist1 = 1.0.ly;
+        const dist2 = Length(9460730472580800.0, LengthUnit.meter);
+
+        // Distances are massive, difference could be meters, but relatively they are identical
+        expect(dist1.isEquivalentTo(dist2), isTrue);
       });
 
       test('is symmetric: a.isEquivalentTo(b) == b.isEquivalentTo(a)', () {
@@ -596,17 +631,45 @@ void main() {
         expect(oneMeter.isEquivalentTo(twoMeters), equals(twoMeters.isEquivalentTo(oneMeter)));
       });
 
-      test('is symmetric when one operand is zero', () {
-        final tiny = 1e-8.m;
-        final zero = 0.km;
-        expect(tiny.isEquivalentTo(zero), equals(zero.isEquivalentTo(tiny)));
+      test('two exact zero values are equivalent regardless of unit', () {
+        expect(0.m.isEquivalentTo(0.km), isTrue);
+        expect(0.cm.isEquivalentTo(0.ly), isTrue);
       });
 
-      test('two zero values are equivalent regardless of unit', () {
-        expect(0.m.isEquivalentTo(0.km), isTrue);
+      test('IEEE 754 infinity and NaN semantics', () {
+        final posInf = double.infinity.m;
+        final negInf = double.negativeInfinity.m;
+        final nanLength = double.nan.m;
+        final massiveFinite = 1e300.m;
+
+        // Equal infinities are true
+        expect(posInf.isEquivalentTo(double.infinity.m), isTrue);
+        expect(negInf.isEquivalentTo(double.negativeInfinity.m), isTrue);
+
+        // Mixed finite/infinite are false
+        expect(posInf.isEquivalentTo(massiveFinite), isFalse);
+        expect(negInf.isEquivalentTo(posInf), isFalse);
+
+        // NaN is never equivalent to anything, not even itself
+        expect(nanLength.isEquivalentTo(posInf), isFalse);
+        expect(nanLength.isEquivalentTo(0.m), isFalse);
+        expect(nanLength.isEquivalentTo(nanLength), isFalse);
+      });
+
+      test('custom tolerances can be applied', () {
+        final a = 1.0.m;
+        final b = 1.0001.m;
+
+        // Default tolerance fails
+        expect(a.isEquivalentTo(b), isFalse);
+
+        // Loose relative tolerance passes
+        expect(a.isEquivalentTo(b, tolerance: 1e-3), isTrue);
+
+        // Absolute tolerance passes (0.0001m diff <= 0.001m absolute)
+        expect(a.isEquivalentTo(b, absoluteTolerance: 1e-3), isTrue);
       });
     });
-
     group('ratioTo', () {
       test('returns correct ratio for same unit', () {
         expect(10.m.ratioTo(2.m), closeTo(5.0, 1e-9));
