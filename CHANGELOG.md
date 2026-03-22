@@ -15,7 +15,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     * Replace `toString(locale: 'de_DE', fractionDigits: 2)` with `toString(format: const QuantityFormat.forLocale('de_DE', fractionDigits: 2))`
     * Replace `toString(showUnitSymbol: false)` with `toString(format: QuantityFormat.valueOnly)`
     * Replace `toString(numberFormat: myNf)` with `toString(format: QuantityFormat.withNumberFormat(myNf))`
-* **`operator /` by zero now returns `Infinity`** — dividing any linear quantity by `0` (e.g. `10.m / 0`) previously threw `ArgumentError`. It now returns a quantity whose `value` is `double.infinity`, consistent with IEEE 754 double arithmetic. Affected types: all 22 linear quantities (`Length`, `Mass`, `Speed`, `Time`, `Area`, `Volume`, `Angle`, `AngularVelocity`, `Acceleration`, `Force`, `Energy`, `Power`, `Pressure`, `Frequency`, `Current`, `ElectricCharge`, `Density`, `SpecificEnergy`, `SolidAngle`, `LuminousIntensity`, `MolarAmount`, `Information`, `TemperatureDelta`). `Temperature.ratioTo()` still throws `ArgumentError` for an absolute-zero divisor.
+* **`operator /` by zero now returns `Infinity`** — dividing any linear quantity by `0` (e.g. `10.m / 0`) previously threw `ArgumentError`. It now returns a quantity whose `value` is `double.infinity`, consistent with IEEE 754 double arithmetic. Affected types: all 22 linear quantities (`Length`, `Mass`, `Speed`, `Time`, `Area`, `Volume`, `Angle`, `AngularVelocity`, `Acceleration`, `Force`, `Energy`, `Power`, `Pressure`, `Frequency`, `Current`, `ElectricCharge`, `Density`, `SpecificEnergy`, `SolidAngle`, `LuminousIntensity`, `MolarAmount`, `Information`, `TemperatureDelta`). `Temperature.ratioTo()` is also now consistent — see below.
+
+* **`Temperature.ratioTo()` now returns `Infinity` on absolute zero** — previously threw `ArgumentError` when the divisor was 0 K. It now returns `double.infinity`, consistent with IEEE 754 semantics and all other division-by-zero behaviour in the library. Code that caught `ArgumentError` from this method must be updated.
+
+* **`Information` lowercase extension aliases remapped to bit-based units** — `.kb`, `.mb`, `.gb`, `.tb`, `.pb` previously mapped to byte-based units (`kilobyte`, `megabyte`, etc.), causing a silent 8× error. They now correctly map to **bit-based** units (`kilobit`, `megabit`, `gigabit`, `terabit`, `petabit`), consistent with standard computing and telecommunications notation where lowercase `b` = bit, uppercase `B` = byte. Migrate byte-based usage to `.kB`, `.MB`, `.GB`, `.TB`, `.PB` or the full-word forms (`.kilobytes`, `.megabytes`, etc.).
 
 ### Added
 
@@ -37,9 +41,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * **IEEE 754-safe `isEquivalentTo({double tolerance = 1e-9})`** — `isEquivalentTo` now accepts an optional `tolerance` parameter and uses a **relative tolerance** comparison instead of strict `double` equality. The acceptable error margin scales with the magnitude of the values, making it reliable across the full numeric range — from picometers to astronomical units. Behaviour summary:
   * Floating-point accumulated drift is absorbed: `(0.1.m + 0.2.m).isEquivalentTo(0.3.m)` returns `true`.
-  * When one operand is exactly `0.0`, tolerance acts as an **absolute** threshold (avoids divide-by-zero degeneration).
+  * Both operands are evaluated in the same unit, so the comparison is **symmetric**: `a.isEquivalentTo(b) == b.isEquivalentTo(a)` always holds. Zero versus any non-zero value returns `false` consistently.
   * Equal infinities (`+∞ == +∞`) → `true`; mixed finite/infinite → `false`; any `NaN` → `false`.
   * Pass `tolerance: 1e-12` for tighter round-trip checks, or `tolerance: 1e-6` for noisy sensor data.
+
+* **`Quantity.ratioTo(Quantity<T> other)`** — new method on the `Quantity<T>` base class that returns the dimensionless ratio of two same-type quantities. Conversion to a common unit is handled automatically. Returns `double.infinity` when the divisor is zero (IEEE 754). Example: `10.km.ratioTo(2.m)` → `5000.0`.
+
+* **`AngularVelocity.from(Angle, Time)` factory** — dimensional bridge that derives angular velocity from an angle and a duration. The symmetric inverse of the existing `totalAngleOver(Time)` method. Example: `AngularVelocity.from(1.revolutions, 1.minutes).inRpm == 1.0`. Throws `ArgumentError` if `time` is zero.
 
 * **Dimensional bridges** — factory constructors that derive one physical quantity from two others, keeping calculations entirely within the type-safe `quantify` ecosystem:
 
@@ -59,9 +67,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * **`Area` extension: `squareMegameter` renamed to `Mm2`** — the `num.squareMegameter` creation getter is renamed to `num.Mm2` to follow the established `{prefix}m2` naming convention used by every other SI area unit (`m2`, `km2`, `hm2`, `dam2`, `dm2`, `cm2`, `mm2`, `um2`). The old `squareMegameter` getter is retained but marked `@Deprecated` and will be removed in the next major version.
 
-* **`Information` lowercase extension aliases** — added linter-friendly all-lowercase creation getters as aliases for teams that enforce `lowerCamelCase` identifiers. The existing SI-cased getters (`kB`, `MB`, `GB`, etc.) remain the primary and are not deprecated:
-  * SI: `.kb`, `.mb`, `.gb`, `.tb`, `.pb`
-  * IEC: `.kib`, `.mib`, `.gib`, `.tib`, `.pib`
+* **`Information` lowercase extension aliases** — added linter-friendly all-lowercase creation getters. The IEC binary aliases are unchanged. Note: `.kb/.mb/.gb/.tb/.pb` were remapped to bit-based units in this release (see breaking changes above).
+  * Bit-based (SI): `.kb` (kilobit), `.mb` (megabit), `.gb` (gigabit), `.tb` (terabit), `.pb` (petabit)
+  * Byte-based (SI): use `.kB`, `.MB`, `.GB`, `.TB`, `.PB` or full-word forms
+  * IEC binary: `.kib`, `.mib`, `.gib`, `.tib`, `.pib`, `.eib`, `.zib`, `.yib`
 
 * **`VolumeFactors.mi3` precision note** — added a doc comment on the cubic-mile constant documenting the unavoidable ~±500 mm³ IEEE 754 rounding error that occurs on direct mi³ → mm³ conversions (relative error ~3.7 × 10⁻¹⁰).
 

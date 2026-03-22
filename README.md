@@ -96,6 +96,7 @@ The library supports a comprehensive range of physical quantities, including all
 | **Power**               | ✅     | **`W`** (Watt), `mW`, `kW`, `MW`, `GW`, `hp`, `PS` (metric hp), `Btu/h`, `erg/s`                                                       | Derived SI: J/s                                         |
 | **Density**             | ✅     | **`kg/m³`** (kilogram per cubic meter), `g/cm³`, `g/mL`                                                                             | Derived SI: kg/m³                                       |
 | **Specific Energy**     | ✅     | **`J/kg`** (joule per kilogram), `kJ/kg`, `Wh/kg`, `kWh/kg`                                                                        | Derived SI: J/kg                                        |
+| **Information**         | ✅     | **`bit`**, `B` (byte); SI bits: `kbit`…`Ybit`; SI bytes: `kB`…`YB`; IEC binary: `KiB`…`YiB`                                        | IEC 80000-13. Three tracks: SI bit, SI byte, IEC binary. |
 
 ## Detailed Usage
 
@@ -197,11 +198,17 @@ final weight = Mass.tryParse('180 lbs'); // Returns null if parsing fails
 To prevent collisions, SI unit prefixes are **strictly case-sensitive** (`10 mm` parses as millimeters, `10 Mm` parses as megameters). However, Non-SI and Imperial units (like `lb`, `ft`, `mi`) are **case-insensitive** (`180 LBS` and `180 lbs` both work perfectly).
 
 **Locale & Number Formatting:**
-By default, the parser gracefully handles both periods (`.`) and commas (`,`) as decimal separators. For advanced localized inputs (like thousands separators), pass a `QuantityFormat` with the appropriate locale:
+By default (`QuantityFormat.invariant`), the parser expects **standard machine-readable numbers** — a period (`.`) as the decimal separator and no thousands separators (the same format used by JSON and Dart's `double.parse`). Comma-decimal strings like `"1,5 km"` will return `null` from the default parser.
+
+To safely parse localized user input, pass a prioritized list of `QuantityFormat`s. The parser tries them in order and handles regional ambiguities:
 
 ```dart
-// Using a predefined locale format
+// Parse a German-formatted string with comma decimal and dot thousands separator
 final length = Length.parse('1.234,56 km', formats: [QuantityFormat.de]);
+
+// Ambiguous comma: try US format first (comma = thousands sep), then German (comma = decimal)
+final weight = Mass.parse('1,234 kg', formats: [QuantityFormat.enUs, QuantityFormat.de]);
+// → 1234.0 kg  (US format matched first)
 
 // Or with a custom NumberFormat from 'intl':
 final format = NumberFormat.decimalPattern('de_DE');
@@ -284,9 +291,24 @@ final energy = Energy.from(1.kW, 1.hours);        // 3 600 000.0 J
 // Pressure = Force / Area  ↔  Force = Pressure × Area
 final pressure = Pressure.from(1000.N, 10.m2);   // 100.0 Pa
 final force    = Force.fromPressure(pressure, 10.m2); // 1 000.0 N
+
+// AngularVelocity = Angle / Time  ↔  Angle = AngularVelocity × Time
+final av    = AngularVelocity.from(1.revolutions, 1.minutes); // 1.0 rpm
+final angle = av.totalAngleOver(2.minutes);                   // 2.0 revolutions
 ```
 
 All inputs are converted to SI base units before calculation, so **mixed units work correctly without any manual conversion**. Each pair of factories is a symmetric inverse of the other.
+
+#### Dimensionless Ratios
+
+Use `ratioTo` to divide two same-type quantities and get a plain `double`, without dropping to raw `.value` extraction:
+
+```dart
+final ratio = 10.km.ratioTo(2.m);   // 5000.0  (unit-independent)
+final share = 500.g.ratioTo(2.kg);  // 0.25
+```
+
+Returns `double.infinity` when the divisor is zero (IEEE 754).
 
 ### Temperature & TemperatureDelta
 
@@ -385,9 +407,9 @@ This distinction is crucial when working with collections like `Set`s or `Map`s,
 a.isEquivalentTo(b, tolerance: 1e-12);   // stricter
 a.isEquivalentTo(b, tolerance: 1e-6);    // looser (e.g. sensor measurements)
 
-// When one operand is zero, tolerance acts as an absolute threshold:
-0.0.m.isEquivalentTo(1e-10.m);           // true  (within 1e-9 absolute)
-0.0.m.isEquivalentTo(1e-8.m);            // false
+// Comparison is always symmetric — a.isEquivalentTo(b) == b.isEquivalentTo(a):
+0.0.m.isEquivalentTo(1e-10.m);           // false — relative tolerance collapses to 0 near zero
+0.0.m.isEquivalentTo(0.0.km);            // true  — both are exactly zero
 
 // IEEE 754 edge cases are handled correctly:
 double.infinity.m.isEquivalentTo(1e300.m); // false — finite ≠ infinite
