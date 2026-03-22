@@ -260,8 +260,8 @@ void main() {
         expect(ratio, closeTo(373.15 / 273.15, tolerance));
       });
 
-      test('ratioTo throws on absolute zero divisor', () {
-        expect(() => 300.kelvin.ratioTo(0.kelvin), throwsArgumentError);
+      test('ratioTo returns Infinity on absolute zero divisor (IEEE 754)', () {
+        expect(300.kelvin.ratioTo(0.kelvin), equals(double.infinity));
       });
 
       test('Carnot efficiency via ratioTo', () {

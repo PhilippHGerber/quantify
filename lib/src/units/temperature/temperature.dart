@@ -225,21 +225,20 @@ class Temperature extends Quantity<TemperatureUnit> {
   /// former `operator /`, which was removed because ratios on non-absolute
   /// scales (e.g. 20 °C / 10 °C) are physically meaningless.
   ///
-  /// Throws [ArgumentError] if [other] is absolute zero (0 K).
+  /// Returns [double.infinity] when [other] is absolute zero (0 K), following
+  /// IEEE 754 semantics — consistent with division-by-zero across the library.
   ///
   /// Example:
   /// ```dart
   /// // Carnot efficiency: η = 1 − T_cold / T_hot
   /// final efficiency = 1.0 - coldReservoir.ratioTo(hotReservoir);
   /// ```
-  double ratioTo(Temperature other) {
+  @override
+  double ratioTo(Quantity<TemperatureUnit> other) {
     final thisK = getValue(TemperatureUnit.kelvin);
     final otherK = other.getValue(TemperatureUnit.kelvin);
-    if (otherK == 0.0) {
-      throw ArgumentError(
-        'Cannot compute ratio: the divisor temperature is absolute zero (0 K).',
-      );
-    }
+    // Defer to IEEE 754 semantics: returns Infinity when divisor is 0 K,
+    // consistent with the division-by-zero behavior of all other quantities.
     return thisK / otherK;
   }
 

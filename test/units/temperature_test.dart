@@ -240,11 +240,8 @@ void main() {
         final ratioC = t20CVal.ratioTo(t10CVal);
         expect(ratioC, closeTo(293.15 / 283.15, tolerance));
 
-        expect(
-          () => t20C.ratioTo(0.0.kelvin),
-          throwsArgumentError,
-          reason: 'Should throw on ratio to absolute zero',
-        );
+        // Division by absolute zero follows IEEE 754: returns Infinity (no exception)
+        expect(t20C.ratioTo(0.0.kelvin), equals(double.infinity));
       });
 
       test('operator + is not defined for Temperature + Temperature', () {
