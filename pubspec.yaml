@@ -14,7 +14,6 @@ environment:
 
 workspace:
   - example
-  - tool/cross_validation
 
 dependencies:
   intl: ^0.20.2
