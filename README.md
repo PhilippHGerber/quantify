@@ -1,6 +1,6 @@
 # Quantify - Type-safe unit conversion
 
-[![platform](https://img.shields.io/badge/platform-flutter%20%7C%20dart-35B8F7.svg)](https://pub.dev/packages/quantify) [![pub package](https://img.shields.io/pub/v/quantify.svg?label=pub.dev&labelColor=333940&logo=flutter&color=00589B)](https://pub.dev/packages/quantify) [![pub points](https://img.shields.io/pub/points/quantify?logo=dart)](https://pub.dev/packages/quantify/score) [![license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/PhilippHGerber/quantify/blob/main/LICENSE) [![style: very good analysis](https://img.shields.io/badge/Style-very_good_analysis-B22C89.svg)](https://pub.dev/packages/very_good_analysis) [![tests](https://github.com/PhilippHGerber/quantify/actions/workflows/package.yaml/badge.svg)](https://github.com/PhilippHGerber/quantify/actions/workflows/package.yaml) [![coverage](https://raw.githubusercontent.com/PhilippHGerber/quantify/badges/coverage.svg)](https://github.com/PhilippHGerber/quantify/actions/workflows/package.yaml)
+[![platform](https://img.shields.io/badge/platform-flutter%20%7C%20dart-35B8F7.svg)](https://pub.dev/packages/quantify) [![pub package](https://img.shields.io/pub/v/quantify.svg?label=pub.dev&labelColor=333940&logo=flutter&color=00589B)](https://pub.dev/packages/quantify) [![pub points](https://img.shields.io/pub/points/quantify?logo=dart)](https://pub.dev/packages/quantify/score) [![license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/PhilippHGerber/quantify/blob/main/LICENSE) [![style: very good analysis](https://img.shields.io/badge/Style-very_good_analysis-B22C89.svg)](https://pub.dev/packages/very_good_analysis) [![tests](https://github.com/PhilippHGerber/quantify/actions/workflows/package.yaml/badge.svg)](https://github.com/PhilippHGerber/quantify/actions/workflows/package.yaml) [![coverage](https://raw.githubusercontent.com/PhilippHGerber/quantify/badges/coverage.svg)](https://github.com/PhilippHGerber/quantify/actions/workflows/package.yaml) [![AI Skills](https://img.shields.io/badge/AI-SKILL.md-blueviolet?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDI0IDI0IiBoZWlnaHQ9IjI0cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0cHgiIGZpbGw9IiNmZmZmZmYiPjxnPjxyZWN0IGZpbGw9Im5vbmUiIGhlaWdodD0iMjQiIHdpZHRoPSIyNCIgeD0iMCIvPjwvZz48Zz48Zz48cG9seWdvbiBwb2ludHM9IjE5LDkgMjAuMjUsNi4yNSAyMyw1IDIwLjI1LDMuNzUgMTksMSAxNy43NSwzLjc1IDE1LDUgMTcuNzUsNi4yNSIvPjxwb2x5Z29uIHBvaW50cz0iMTksMTUgMTcuNzUsMTcuNzUgMTUsMTkgMTcuNzUsMjAuMjUgMTksMjMgMjAuMjUsMjAuMjUgMjMsMTkgMjAuMjUsMTcuNzUiLz48cGF0aCBkPSJNMTEuNSw5LjVMOSw0TDYuNSw5LjVMMSwxMmw1LjUsMi41TDksMjBsMi41LTUuNUwxNywxMkwxMS41LDkuNXogTTkuOTksMTIuOTlMOSwxNS4xN2wtMC45OS0yLjE4TDUuODMsMTJsMi4xOC0wLjk5IEw5LDguODNsMC45OSwyLjE4TDEyLjE3LDEyTDkuOTksMTIuOTl6Ii8+PC9nPjwvZz48L3N2Zz4=&logoColor=white)](./skills/quantify-usage/SKILL.md)
 
 **Quantify** is a comprehensive, type-safe unit conversion library. Convert length, mass, temperature, speed, force, energy, and 20+ other physical quantities with compile-time safety, elegant syntax, and optimal performance. Perfect for scientific computing, engineering applications, fitness tracking, IoT projects, and any cross-platform app that works with measurements.
 
@@ -53,15 +53,6 @@ void main() {
   final parsed = Length.parse('10.5 km');
   print(parsed.inM); // 10500.0
 }
-```
-
-## Installation
-
-Add to your `pubspec.yaml`:
-
-```sh
-dart pub add quantify
-dart pub get
 ```
 
 ### Granular Imports
@@ -492,7 +483,7 @@ print(lengths.map((l) => l.asM).join(', '));
 ## Goals & Roadmap
 
 * **v1.0:** API stability milestone — no breaking changes after this point.
-* **V2.0 and Beyond:**
+* **v2.0 and Beyond:**
   * **High Precision:** Support for `Decimal` types for applications requiring arbitrary precision.
   * **Serialization Support:** Built-in JSON serialization/deserialization.
 
