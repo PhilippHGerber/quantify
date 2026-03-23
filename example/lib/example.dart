@@ -1,4 +1,4 @@
-// quantify v0.15.0
+// For readability in this examples:
 // ignore_for_file: omit_local_variable_types
 
 import 'dart:math' as math;
