@@ -5,90 +5,42 @@ All notable changes to the `quantify` package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.16.0]
+
+2026-03-23
 
 ### Added
 
-* **`MolarUnit.poundMole` (`lb-mol`)** — adds the imperial pound-mole unit to `MolarAmount`. 1 lb-mol = 453.59237 mol (exact, from the pound-to-gram definition). Includes:
-  * `num.lbmol` / `num.poundMoles` creation extensions.
-  * `MolarAmount.inPoundMoles` value getter and `MolarAmount.asPoundMoles` conversion getter.
-  * Symbol alias `'lb-mol'` (case-sensitive) and name aliases `'pound-mole'`, `'pound mole'`, `'poundmole'` (case-insensitive) for `parse()` / `tryParse()`.
+* **Unified formatting and parsing API**:
+  * Added immutable `QuantityFormat` (including `invariant`, `valueOnly`, `enUs`, `de`, `compact`).
+  * Added `parse()` / `tryParse()` to concrete quantity types with prioritized `List<QuantityFormat>` fallback.
+* **New quantity: `Information`**:
+  * Added `InformationUnit` with SI (`b`, `B`, `kB` ... `PB`) and IEC (`KiB` ... `PiB`) units.
+* **New extensibility and comparison capabilities**:
+  * Added `LinearQuantity<T, Q>` as a public base for custom linear quantities.
+  * Added `Quantity.ratioTo(Quantity<T>)`.
+  * Updated `isEquivalentTo({double tolerance = 1e-9})` to use relative tolerance (IEEE 754-aware).
+* **New dimensional factories**:
+  * `Area.from`, `Volume.from`, `Volume.fromArea`, `Power.from`, `Energy.from`, `Pressure.from`, `Force.fromPressure`.
+  * Added `AngularVelocity.from(Angle, Time)`.
 
 ### Changed — Breaking
 
-* **Eliminated `toString()` Parameter Sprawl**: The `Quantity.toString()` method has been completely refactored to reduce API debt. The five overlapping optional parameters (`locale`, `fractionDigits`, `numberFormat`, `showUnitSymbol`, and `unitSymbolSeparator`) have been **removed**. They are replaced by a single `format` parameter.
-  * **Migration:**
-    * Replace `toString(fractionDigits: 2)` with `toString(format: const QuantityFormat(fractionDigits: 2))`
-    * Replace `toString(locale: 'de_DE', fractionDigits: 2)` with `toString(format: const QuantityFormat.forLocale('de_DE', fractionDigits: 2))`
-    * Replace `toString(showUnitSymbol: false)` with `toString(format: QuantityFormat.valueOnly)`
-    * Replace `toString(numberFormat: myNf)` with `toString(format: QuantityFormat.withNumberFormat(myNf))`
-* **`operator /` by zero now follows IEEE 754 semantics — dividing any linear quantity by `0` (e.g. `10.m / 0`) previously threw `ArgumentError`. It now returns a quantity whose `value` is `double.infinity`, `double.negativeInfinity`, or `double.nan` depending on the numerator, consistent with standard Dart double arithmetic. Affected types: all 22 linear quantities (`Length`,`Mass`,`Speed`,`Time`,`Area`,`Volume`,`Angle`,`AngularVelocity`,`Acceleration`,`Force`,`Energy`,`Power`,`Pressure`,`Frequency`,`Current`,`ElectricCharge`,`Density`,`SpecificEnergy`,`SolidAngle`,`LuminousIntensity`,`MolarAmount`,`Information`,`TemperatureDelta`). `Temperature.ratioTo()` is also now consistent — see below.
-
-* **`Temperature.ratioTo()` now returns `Infinity` on absolute zero** — previously threw `ArgumentError` when the divisor was 0 K. It now returns `double.infinity`, consistent with IEEE 754 semantics and all other division-by-zero behaviour in the library. Code that caught `ArgumentError` from this method must be updated.
-
-* **`Information` lowercase extension aliases remapped to bit-based units** — `.kb`, `.mb`, `.gb`, `.tb`, `.pb` previously mapped to byte-based units (`kilobyte`, `megabyte`, etc.), causing a silent 8× error. They now correctly map to **bit-based** units (`kilobit`, `megabit`, `gigabit`, `terabit`, `petabit`), consistent with standard computing and telecommunications notation where lowercase `b` = bit, uppercase `B` = byte. Migrate byte-based usage to `.kB`, `.MB`, `.GB`, `.TB`, `.PB` or the full-word forms (`.kilobytes`, `.megabytes`, etc.).
-
-### Added
-
-* **`QuantityFormat`**: A new, immutable configuration class that unifies formatting and parsing rules. It ensures perfect symmetry between converting a quantity to a string and parsing it back.
-* **Predefined Format Constants**: Added convenient, out-of-the-box formats like `QuantityFormat.invariant`, `QuantityFormat.valueOnly`, `QuantityFormat.enUs`, `QuantityFormat.de`, and `QuantityFormat.compact` to eliminate boilerplate.
-* **Multi-Format Parsing**: Added `static parse()` and `static tryParse()` methods to all concrete `Quantity` subclasses (e.g., `Length`, `Mass`, `Time`, `Temperature`, etc.). These methods accept a prioritized `List<QuantityFormat>`, allowing the parser to gracefully fall back through multiple expected locales or formats (e.g., trying US format, then German format).
-* **`QuantityParseException`**: A new, detailed exception thrown when `parse()` fails. It provides rich diagnostics, including the attempted string and the number of formats tried.
-* **New Quantity: `Information`** — digital storage and transfer sizes with full SI (decimal) and IEC (binary) unit support.
-  * `InformationUnit` enum with 12 units:
-    * **SI / decimal:** `bit`, `byte` (`B`), `kilobyte` (`kB`), `megabyte` (`MB`), `gigabyte` (`GB`), `terabyte` (`TB`), `petabyte` (`PB`).
-    * **IEC / binary:** `kibibyte` (`KiB`), `mebibyte` (`MiB`), `gibibyte` (`GiB`), `tebibyte` (`TiB`), `pebibyte` (`PiB`).
-  * Symbol parsing is strictly case-sensitive: `'b'` → bit, `'B'` → byte, `'kB'` → kilobyte (SI, 1 000 bytes), `'KiB'` → kibibyte (IEC, 1 024 bytes). The legacy `'KB'` resolves to SI kilobyte.
-  * `static Information parse(String, {List<QuantityFormat>})` and `static Information? tryParse(...)` with full locale-aware number parsing.
-  * Extension sugar on `num`: `.bit`, `.byte`, `.kB`, `.MB`, `.GB`, `.TB`, `.PB`, `.KiB`, `.MiB`, `.GiB`, `.TiB`, `.PiB`.
-  * Value getters on `Information`: `.inBit`, `.inByte`, `.inKB`, `.inMB`, `.inGB`, `.inTB`, `.inPB`, `.inKiB`, `.inMiB`, `.inGiB`, `.inTiB`, `.inPiB` (and `as*` conversion variants).
-  * Full arithmetic: `Information + Information`, `- Information`, `* scalar`, `/ scalar`.
-  * Available via `package:quantify/quantify.dart` or the new granular `package:quantify/information.dart`.
-* **`LinearQuantity<T, Q>`** — a new public abstract class that all linear (non-affine) quantity types now extend. Consumers who create custom `Quantity` subclasses can extend `LinearQuantity` instead of `Quantity` to inherit `convertTo`, `+`, `-`, `*`, and `/` automatically; the only method to implement is the factory hook `Q create(double value, T unit)`.
-
-* **IEEE 754-safe `isEquivalentTo({double tolerance = 1e-9})`** — `isEquivalentTo` now accepts an optional `tolerance` parameter and uses a **relative tolerance** comparison instead of strict `double` equality. The acceptable error margin scales with the magnitude of the values, making it reliable across the full numeric range — from picometers to astronomical units. Behaviour summary:
-  * Floating-point accumulated drift is absorbed: `(0.1.m + 0.2.m).isEquivalentTo(0.3.m)` returns `true`.
-  * Both operands are evaluated in the same unit, so the comparison is **symmetric**: `a.isEquivalentTo(b) == b.isEquivalentTo(a)` always holds. Zero versus any non-zero value returns `false` consistently.
-  * Equal infinities (`+∞ == +∞`) → `true`; mixed finite/infinite → `false`; any `NaN` → `false`.
-  * Pass `tolerance: 1e-12` for tighter round-trip checks, or `tolerance: 1e-6` for noisy sensor data.
-
-* **`Quantity.ratioTo(Quantity<T> other)`** — new method on the `Quantity<T>` base class that returns the dimensionless ratio of two same-type quantities. Conversion to a common unit is handled automatically. Returns `double.infinity` when the divisor is zero (IEEE 754). Example: `10.km.ratioTo(2.m)` → `5000.0`.
-
-* **`AngularVelocity.from(Angle, Time)` factory** — dimensional bridge that derives angular velocity from an angle and a duration. The symmetric inverse of the existing `totalAngleOver(Time)` method. Example: `AngularVelocity.from(1.revolutions, 1.minutes).inRpm == 1.0`. Throws `ArgumentError` if `time` is zero.
-
-* **Dimensional bridges** — factory constructors that derive one physical quantity from two others, keeping calculations entirely within the type-safe `quantify` ecosystem:
-
-  | Factory                                     | Formula       | Example                                    |
-  | ------------------------------------------- | ------------- | ------------------------------------------ |
-  | `Area.from(Length l, Length w)`             | A = l × w     | `Area.from(5.m, 4.m)` → 20 m²              |
-  | `Volume.from(Length l, Length w, Length h)` | V = l × w × h | `Volume.from(2.m, 3.m, 4.m)` → 24 m³       |
-  | `Volume.fromArea(Area a, Length depth)`     | V = A × d     | `Volume.fromArea(floor, 2.5.m)`            |
-  | `Power.from(Energy e, Time t)`              | P = E / t     | `Power.from(1.kWh, 1.hours)` → 1 000 W     |
-  | `Energy.from(Power p, Time t)`              | E = P × t     | `Energy.from(1.kW, 1.hours)` → 3 600 000 J |
-  | `Pressure.from(Force f, Area a)`            | P = F / A     | `Pressure.from(1000.N, 10.m2)` → 100 Pa    |
-  | `Force.fromPressure(Pressure p, Area a)`    | F = P × A     | `Force.fromPressure(p, 5.m2)`              |
-
-  All inputs are automatically converted to SI base units before the calculation. Mixed units work correctly (`Area.from(1.km, 500.m)` gives 500 000 m²). These factories are the symmetric complements of each other — `Power.from` is the inverse of `Energy.from`, and `Pressure.from` is the inverse of `Force.fromPressure`.
+* **`Quantity.toString()` API simplified**: removed legacy formatting parameters (`locale`, `fractionDigits`, `numberFormat`, `showUnitSymbol`, `unitSymbolSeparator`) and replaced them with `format`.
+  * Migration examples:
+    * `toString(fractionDigits: 2)` -> `toString(format: const QuantityFormat(fractionDigits: 2))`
+    * `toString(locale: 'de_DE', fractionDigits: 2)` -> `toString(format: const QuantityFormat.forLocale('de_DE', fractionDigits: 2))`
+    * `toString(showUnitSymbol: false)` -> `toString(format: QuantityFormat.valueOnly)`
+    * `toString(numberFormat: myNf)` -> `toString(format: QuantityFormat.withNumberFormat(myNf))`
+* **Division by zero now follows IEEE 754** for all linear quantities: `q / 0` returns `infinity`, `-infinity`, or `NaN` (no `ArgumentError`).
+* **`Temperature.ratioTo()` on absolute zero now returns `double.infinity`** (no `ArgumentError`).
 
 ### Changed — Non-Breaking
 
-* **Standardized API Naming — Dual API (SI Symbol + Full Word):**
-  * Every `num` creation getter with an uppercase SI/IEC symbol now has exactly two variants: the official **SI symbol** (primary) and a **Dart-idiomatic full English word** (alias).
-  * **New SI symbol getters (28 total):** `Mm`, `Gm` (Length); `Mg`, `Gg` (Mass); `ks`, `Ms`, `Gs` (Time); `Mm2` (Area); `Ml`, `Gl`, `Tl` (Volume); `MJ` (Energy); `MW`, `GW` (Power); `MN` (Force); `Hz`, `kHz`, `MHz`, `GHz`, `THz` (Frequency); `MPa` (Pressure).
-  * **New full-word getters (13 total):** `megameters`, `gigameters`, `megagrams`, `gigagrams`, `kiloseconds`, `megaseconds`, `gigaseconds`, `megapascals`, `kilopascals`, `hertz`, `kilohertz`, `megahertz`, `gigahertz`, `terahertz`.
-  * **Deprecated hybrid forms (13 total):** `megaM`, `gigaM`, `megaG`, `gigaG`, `kiloS`, `megaS`, `gigaS`, `megaJ`, `megaW`, `gigaW`, `megaN`, `megaPascals`, `kiloPascals` — these invented notations have no basis in SI and will be removed in v2.0.0.
-  * **Fixed SI-incorrect Frequency getters:** `hz`, `khz`, `mhz`, `ghz`, `thz` violated SI naming rules (Hertz requires capital H). Replaced with correct `Hz`, `kHz`, `MHz`, `GHz`, `THz`. Old lowercase forms are deprecated.
-  * **Fixed `mpa` ambiguity:** lowercase `m` means milli in SI, making `mpa` read as "millipascal". Replaced with correct `MPa`. Old form is deprecated.
-  * **All affected files now include file-level lint suppression** with reviewer-facing comment explaining SI symbol justification.
-  * **Round-trip consistency:** Both creation getters create identical instances; the choice between SI symbol and full word is purely stylistic (`10.Mm` and `10.megameters` are equivalent).
-  * Migration path: Replace all deprecated getters with their SI symbol or full-word equivalent (both listed in deprecation messages). No code logic changes required.
-
-* **`Information` lowercase extension aliases** — added linter-friendly all-lowercase creation getters. The IEC binary aliases are unchanged. Note: `.kb/.mb/.gb/.tb/.pb` were remapped to bit-based units in this release (see breaking changes above).
-  * Bit-based (SI): `.kb` (kilobit), `.mb` (megabit), `.gb` (gigabit), `.tb` (terabit), `.pb` (petabit)
-  * Byte-based (SI): use `.kB`, `.MB`, `.GB`, `.TB`, `.PB` or full-word forms
-  * IEC binary: `.kib`, `.mib`, `.gib`, `.tib`, `.pib`, `.eib`, `.zib`, `.yib`
-
-* **`VolumeFactors.mi3` precision note** — added a doc comment on the cubic-mile constant documenting the unavoidable ~±500 mm³ IEEE 754 rounding error that occurs on direct mi³ → mm³ conversions (relative error ~3.7 × 10⁻¹⁰).
+* **Standardized `num` creation naming (SI symbol + full-word aliases)** across multiple quantities.
+  * Added official SI-style getters (for example `Hz`, `kHz`, `MHz`, `GHz`, `THz`, `MPa`, `Mm`, `Gm`, `Mg`, `Gg`, `ks`, `Ms`, `Gs`).
+  * Added full-word aliases (for example `hertz`, `kilohertz`, `megapascals`, `megameters`, `kiloseconds`).
+  * Deprecated non-SI/hybrid variants (for example `hz`, `khz`, `mhz`, `ghz`, `thz`, `mpa`, `megaM`, `kiloS`, `megaPascals`).
 
 ## [0.15.0]
 
