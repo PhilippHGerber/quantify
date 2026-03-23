@@ -207,5 +207,15 @@ void main() {
       final recovered = Power.from(energy, duration);
       expect(recovered.inWatts, closeTo(500.0, tolerance));
     });
+
+    test('Energy / Power = Time', () {
+      final power = 1000.W;
+      final energy = 1.kWh; // 3,600,000 J
+      final time = power.timeFor(energy);
+      expect(time.inHours, closeTo(1.0, tolerance));
+
+      expect(0.W.timeFor(100.J).inSeconds, double.infinity);
+      expect(0.W.timeFor(0.J).inSeconds, isNaN);
+    });
   });
 }

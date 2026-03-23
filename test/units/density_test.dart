@@ -168,6 +168,17 @@ void main() {
         final mass = density.massOf(volume);
         expect(mass.inKilograms, closeTo(5000.0, tolerance));
       });
+
+      test('Mass / Density = Volume', () {
+        final density = 1000.kgPerM3;
+        final mass = 5000.kg;
+        final volume = density.volumeFor(mass);
+        expect(volume, isA<Volume>());
+        expect(volume.inCubicMeters, closeTo(5.0, tolerance));
+
+        expect(0.kgPerM3.volumeFor(10.kg).inCubicMeters, double.infinity);
+        expect(0.kgPerM3.volumeFor(0.kg).inCubicMeters, isNaN);
+      });
     });
   });
 }

@@ -460,5 +460,15 @@ void main() {
       final recovered = Pressure.from(force, area);
       expect(recovered.inPa, closeTo(200.0, tolerance));
     });
+
+    test('Force / Pressure = Area', () {
+      final pressure = 100.pa;
+      final force = 1000.N;
+      final area = pressure.areaFor(force);
+      expect(area.inSquareMeters, closeTo(10.0, tolerance));
+
+      expect(0.pa.areaFor(10.N).inSquareMeters, double.infinity);
+      expect(0.pa.areaFor(0.N).inSquareMeters, isNaN);
+    });
   });
 }

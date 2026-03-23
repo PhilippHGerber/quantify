@@ -6,6 +6,7 @@ import '../../core/quantity_format.dart';
 import '../../core/quantity_parser.dart';
 import '../time/time.dart';
 import '../time/time_extensions.dart';
+import '../time/time_unit.dart';
 import 'speed_unit.dart';
 
 /// Represents a quantity of speed (or velocity).
@@ -116,5 +117,27 @@ class Speed extends LinearQuantity<SpeedUnit, Speed> {
     final timeInSeconds = duration.inSeconds;
     final resultingDistanceInMeters = valueInMps * timeInSeconds;
     return Length(resultingDistanceInMeters, LengthUnit.meter);
+  }
+
+  /// Calculates the [Time] required to travel a given [Length] distance.
+  ///
+  /// This method performs the dimensional calculation `Time = Length / Speed`.
+  /// The calculation is performed in the base units (m and m/s) to ensure
+  /// correctness, and the result is returned as a `Time` in seconds.
+  /// If the speed is zero, the result follows IEEE 754 semantics: a non-zero
+  /// distance yields [double.infinity] and a zero distance yields [double.nan].
+  ///
+  /// Example:
+  /// ```dart
+  /// final speed = 60.kmh;
+  /// final distance = 120.km;
+  /// final travelTime = speed.timeFor(distance);
+  /// print(travelTime.inHours); // Output: 2.0
+  /// ```
+  Time timeFor(Length distance) {
+    final distanceInM = distance.inM;
+    final speedInMps = getValue(SpeedUnit.meterPerSecond);
+    final timeInSeconds = distanceInM / speedInMps;
+    return Time(timeInSeconds, TimeUnit.second);
   }
 }

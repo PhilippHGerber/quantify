@@ -5,6 +5,7 @@ import '../../core/quantity_format.dart';
 import '../../core/quantity_parser.dart';
 import '../area/area.dart';
 import '../area/area_extensions.dart';
+import '../area/area_unit.dart';
 import '../force/force.dart';
 import '../force/force_extensions.dart';
 import 'pressure_unit.dart';
@@ -72,5 +73,27 @@ class Pressure extends LinearQuantity<PressureUnit, Pressure> {
     List<QuantityFormat> formats = const [QuantityFormat.invariant],
   }) {
     return parser.tryParse(input, formats: formats);
+  }
+
+  /// Calculates the [Area] over which a given [Force] is distributed to exert this pressure.
+  ///
+  /// This method performs the dimensional calculation `Area = Force / Pressure`.
+  /// The calculation is performed in the base units (N and Pa) to ensure
+  /// correctness, and the result is returned as an `Area` in square meters.
+  /// If the pressure is zero, the result follows IEEE 754 semantics: a non-zero
+  /// force yields [double.infinity] and a zero force yields [double.nan].
+  ///
+  /// Example:
+  /// ```dart
+  /// final pressure = 100.pa;
+  /// final force = 500.N;
+  /// final area = pressure.areaFor(force);
+  /// print(area.inSquareMeters); // Output: 5.0
+  /// ```
+  Area areaFor(Force force) {
+    final forceInNewtons = force.inNewtons;
+    final pressureInPascals = getValue(PressureUnit.pascal);
+    final areaInSquareMeters = forceInNewtons / pressureInPascals;
+    return Area(areaInSquareMeters, AreaUnit.squareMeter);
   }
 }

@@ -9,6 +9,7 @@ import '../energy/energy.dart';
 import '../energy/energy_extensions.dart';
 import '../time/time.dart';
 import '../time/time_extensions.dart';
+import '../time/time_unit.dart';
 import 'power_unit.dart';
 
 /// Represents a quantity of power.
@@ -84,5 +85,27 @@ class Power extends LinearQuantity<PowerUnit, Power> {
     List<QuantityFormat> formats = const [QuantityFormat.invariant],
   }) {
     return parser.tryParse(input, formats: formats);
+  }
+
+  /// Calculates the [Time] required to transfer or work a given [Energy].
+  ///
+  /// This method performs the dimensional calculation `Time = Energy / Power`.
+  /// The calculation is performed in the base units (J and W) to ensure
+  /// correctness, and the result is returned as a `Time` in seconds.
+  /// If the power is zero, the result follows IEEE 754 semantics: a non-zero
+  /// energy yields [double.infinity] and a zero energy yields [double.nan].
+  ///
+  /// Example:
+  /// ```dart
+  /// final heater = 2000.W;
+  /// final energy = 1.kWh;
+  /// final duration = heater.timeFor(energy);
+  /// print(duration.inHours); // Output: 0.5
+  /// ```
+  Time timeFor(Energy energy) {
+    final energyInJoules = energy.inJoules;
+    final powerInWatts = getValue(PowerUnit.watt);
+    final timeInSeconds = energyInJoules / powerInWatts;
+    return Time(timeInSeconds, TimeUnit.second);
   }
 }

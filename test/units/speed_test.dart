@@ -95,6 +95,22 @@ void main() {
         final distance2 = speed2.distanceOver(time2);
         expect(distance2.inM, closeTo(300.0, tolerance));
       });
+
+      test('Length / Speed = Time', () {
+        final distance = 120.km;
+        final speed = 60.kmh;
+        final time = speed.timeFor(distance);
+        expect(time, isA<Time>());
+        expect(time.inHours, closeTo(2.0, tolerance));
+
+        final distance2 = 300.m;
+        final speed2 = 10.mps;
+        final time2 = speed2.timeFor(distance2);
+        expect(time2.inSeconds, closeTo(30.0, tolerance));
+
+        expect(0.mps.timeFor(100.m).inSeconds, double.infinity);
+        expect(0.mps.timeFor(0.m).inSeconds, isNaN);
+      });
     });
 
     group('Round Trip Conversions', () {

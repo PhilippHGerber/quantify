@@ -8,6 +8,7 @@ import '../mass/mass_extensions.dart';
 import '../mass/mass_unit.dart';
 import '../volume/volume.dart';
 import '../volume/volume_extensions.dart';
+import '../volume/volume_unit.dart';
 import 'density_unit.dart';
 
 /// Represents a quantity of density.
@@ -94,5 +95,27 @@ class Density extends LinearQuantity<DensityUnit, Density> {
     final volumeInM3 = volume.inCubicMeters;
     final massInKg = densityInKgPerM3 * volumeInM3;
     return Mass(massInKg, MassUnit.kilogram);
+  }
+
+  /// Calculates the [Volume] required for a given [Mass] of this substance.
+  ///
+  /// This method performs the dimensional calculation `Volume = Mass / Density`.
+  /// The calculation is performed in the base units (kg and kg/m³) to ensure
+  /// correctness, and the result is returned as a `Volume` in cubic meters.
+  /// If the density is zero, the result follows IEEE 754 semantics: a non-zero
+  /// mass yields [double.infinity] and a zero mass yields [double.nan].
+  ///
+  /// Example:
+  /// ```dart
+  /// final waterDensity = 1000.kgPerM3;
+  /// final mass = 2000.kg;
+  /// final volume = waterDensity.volumeFor(mass);
+  /// print(volume.inCubicMeters); // Output: 2.0
+  /// ```
+  Volume volumeFor(Mass mass) {
+    final massInKg = mass.inKilograms;
+    final densityInKgPerM3 = getValue(DensityUnit.kilogramPerCubicMeter);
+    final volumeInM3 = massInKg / densityInKgPerM3;
+    return Volume(volumeInM3, VolumeUnit.cubicMeter);
   }
 }
