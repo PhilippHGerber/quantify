@@ -52,6 +52,11 @@ abstract class LinearQuantity<T extends Unit<T>, Q extends LinearQuantity<T, Q>>
     return create(getValue(targetUnit), targetUnit);
   }
 
+  /// Negates this quantity.
+  ///
+  /// Returns a new [Q] with the negated value in the original unit.
+  Q operator -() => create(-value, unit);
+
   /// Adds [other] to this quantity.
   ///
   /// [other] is converted to this quantity's unit before addition.

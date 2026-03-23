@@ -202,6 +202,40 @@ void main() {
       final l2Meters = 2.0.m;
       final l50Cm = 50.cm; // 0.5 meters
 
+      // Unary operator -
+      test('unary operator - negates a positive length', () {
+        final negated = -l2Meters;
+        expect(negated.value, closeTo(-2.0, tolerance));
+        expect(negated.unit, LengthUnit.meter);
+      });
+
+      test('unary operator - applied twice returns the original value', () {
+        final oncenegated = -l2Meters;
+        final twiceNegated = -oncenegated;
+        expect(twiceNegated.value, closeTo(l2Meters.value, tolerance));
+        expect(twiceNegated.unit, LengthUnit.meter);
+      });
+
+      test('unary operator - preserves unit', () {
+        final negated = -l50Cm;
+        expect(negated.value, closeTo(-50.0, tolerance));
+        expect(negated.unit, LengthUnit.centimeter);
+      });
+
+      test('unary operator - on zero returns zero', () {
+        final zero = 0.0.m;
+        final negated = -zero;
+        expect(negated.value, closeTo(0.0, tolerance));
+        expect(negated.unit, LengthUnit.meter);
+      });
+
+      test('unary operator - returns a new instance (immutability)', () {
+        final original = l1Meter;
+        final negated = -original;
+        expect(original.value, closeTo(1.0, tolerance));
+        expect(negated.value, closeTo(-1.0, tolerance));
+      });
+
       // Operator +
       test('operator + combines lengths', () {
         final sum1 = l2Meters + l1Meter;
