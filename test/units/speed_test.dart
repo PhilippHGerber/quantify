@@ -79,7 +79,8 @@ void main() {
         final speed2 = Speed.from(distanceKm, timeHours);
         expect(speed2.inKmh, closeTo(1.0, tolerance));
 
-        expect(() => Speed.from(100.m, 0.s), throwsArgumentError);
+        expect(Speed.from(100.m, 0.s).inMps, double.infinity);
+        expect(Speed.from(0.m, 0.s).inMps, isNaN);
       });
 
       test('Speed * Time = Length', () {

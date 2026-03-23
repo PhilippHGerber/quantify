@@ -23,7 +23,8 @@ class Density extends LinearQuantity<DensityUnit, Density> {
   ///
   /// This factory performs the dimensional calculation `Density = Mass / Volume`.
   /// It converts the inputs to their base SI units (kg and m³) for correctness.
-  /// Throws an [ArgumentError] if the volume is zero.
+  /// If [volume] is zero, the result follows IEEE 754 semantics: a non-zero mass
+  /// yields [double.infinity] and a zero mass yields [double.nan].
   ///
   /// Example:
   /// ```dart
@@ -35,9 +36,6 @@ class Density extends LinearQuantity<DensityUnit, Density> {
   factory Density.from(Mass mass, Volume volume) {
     final kilograms = mass.inKilograms;
     final cubicMeters = volume.inCubicMeters;
-    if (cubicMeters == 0) {
-      throw ArgumentError('Volume cannot be zero when calculating density.');
-    }
     return Density(kilograms / cubicMeters, DensityUnit.kilogramPerCubicMeter);
   }
 

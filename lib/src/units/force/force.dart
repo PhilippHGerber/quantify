@@ -107,7 +107,8 @@ class Force extends LinearQuantity<ForceUnit, Force> {
 
   /// Calculates the [Acceleration] of a given [Mass] when this force is applied (a = F / m).
   ///
-  /// Throws an [ArgumentError] if the `mass` is zero.
+  /// If [mass] is zero, the result follows IEEE 754 semantics: a non-zero force
+  /// yields [double.infinity] and a zero force yields [double.nan].
   /// The result is returned as an `Acceleration` quantity in m/s².
   ///
   /// Example:
@@ -120,15 +121,13 @@ class Force extends LinearQuantity<ForceUnit, Force> {
   Acceleration accelerationOf(Mass mass) {
     final newtons = getValue(ForceUnit.newton);
     final kg = mass.inKilograms;
-    if (kg == 0) {
-      throw ArgumentError('Mass cannot be zero when calculating acceleration.');
-    }
     return Acceleration(newtons / kg, AccelerationUnit.meterPerSecondSquared);
   }
 
   /// Calculates the [Mass] that would be accelerated at a given [Acceleration] by this force (m = F / a).
   ///
-  /// Throws an [ArgumentError] if the `acceleration` is zero.
+  /// If [acceleration] is zero, the result follows IEEE 754 semantics: a non-zero
+  /// force yields [double.infinity] and a zero force yields [double.nan].
   /// The result is returned as a `Mass` quantity in kilograms.
   ///
   /// Example:
@@ -141,9 +140,6 @@ class Force extends LinearQuantity<ForceUnit, Force> {
   Mass massFrom(Acceleration acceleration) {
     final newtons = getValue(ForceUnit.newton);
     final mpss = acceleration.inMetersPerSecondSquared;
-    if (mpss == 0) {
-      throw ArgumentError('Acceleration cannot be zero when calculating mass.');
-    }
     return Mass(newtons / mpss, MassUnit.kilogram);
   }
 }

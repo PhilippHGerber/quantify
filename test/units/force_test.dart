@@ -97,7 +97,8 @@ void main() {
 
         expect(acc, isA<Acceleration>());
         expect(acc.inMetersPerSecondSquared, closeTo(5.0, tolerance));
-        expect(() => 100.N.accelerationOf(0.kg), throwsArgumentError);
+        expect(100.N.accelerationOf(0.kg).inMetersPerSecondSquared, double.infinity);
+        expect(0.N.accelerationOf(0.kg).inMetersPerSecondSquared, isNaN);
       });
 
       test('Force / Acceleration = Mass', () {
@@ -107,7 +108,8 @@ void main() {
 
         expect(mass, isA<Mass>());
         expect(mass.inKilograms, closeTo(5.0, tolerance));
-        expect(() => 50.N.massFrom(0.mpsSquared), throwsArgumentError);
+        expect(50.N.massFrom(0.mpsSquared).inKilograms, double.infinity);
+        expect(0.N.massFrom(0.mpsSquared).inKilograms, isNaN);
       });
     });
 

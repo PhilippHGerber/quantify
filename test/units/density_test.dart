@@ -158,7 +158,8 @@ void main() {
         final density = Density.from(mass, volume);
         expect(density.inKilogramsPerCubicMeter, closeTo(1000.0, tolerance));
 
-        expect(() => Density.from(10.kg, 0.m3), throwsArgumentError);
+        expect(Density.from(10.kg, 0.m3).inKilogramsPerCubicMeter, double.infinity);
+        expect(Density.from(0.kg, 0.m3).inKilogramsPerCubicMeter, isNaN);
       });
 
       test('Mass = Density * Volume', () {

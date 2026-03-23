@@ -127,7 +127,8 @@ void main() {
         final fastDischarge = 360.C.currentOver(1.min); // 360 C / 60 s = 6 A
         expect(fastDischarge.inAmperes, closeTo(6.0, tolerance));
 
-        expect(() => 1.C.currentOver(0.s), throwsArgumentError);
+        expect(1.C.currentOver(0.s).inAmperes, double.infinity);
+        expect(0.C.currentOver(0.s).inAmperes, isNaN);
       });
 
       test('charge.timeFor(Current) calculates correct time', () {
@@ -140,7 +141,8 @@ void main() {
         final time2 = 1.C.timeFor(1.A);
         expect(time2.inSeconds, closeTo(1.0, tolerance));
 
-        expect(() => 1.C.timeFor(0.A), throwsArgumentError);
+        expect(1.C.timeFor(0.A).inSeconds, double.infinity);
+        expect(0.C.timeFor(0.A).inSeconds, isNaN);
       });
     });
 

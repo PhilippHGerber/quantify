@@ -23,7 +23,9 @@ class AngularVelocity extends LinearQuantity<AngularVelocityUnit, AngularVelocit
   ///
   /// `Angular Velocity = Angle / Time`
   ///
-  /// The inverse of [totalAngleOver]. Throws [ArgumentError] if [time] is zero.
+  /// The inverse of [totalAngleOver]. If [time] is zero, the result follows
+  /// IEEE 754 semantics: a non-zero angle yields [double.infinity] and a zero
+  /// angle yields [double.nan].
   ///
   /// Example:
   /// ```dart
@@ -32,9 +34,6 @@ class AngularVelocity extends LinearQuantity<AngularVelocityUnit, AngularVelocit
   /// ```
   factory AngularVelocity.from(Angle angle, Time time) {
     final seconds = time.getValue(TimeUnit.second);
-    if (seconds == 0) {
-      throw ArgumentError('Time cannot be zero when calculating angular velocity.');
-    }
     return AngularVelocity(
       angle.getValue(AngleUnit.radian) / seconds,
       AngularVelocityUnit.radianPerSecond,

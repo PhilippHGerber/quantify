@@ -21,7 +21,8 @@ class Speed extends LinearQuantity<SpeedUnit, Speed> {
   ///
   /// This factory method performs the dimensional calculation `Speed = Length / Time`.
   /// It converts the inputs to their base SI units (meters and seconds) for correctness.
-  /// Throws an [ArgumentError] if the `time` is zero.
+  /// If [time] is zero, the result follows IEEE 754 semantics: a non-zero distance
+  /// yields [double.infinity] and a zero distance yields [double.nan].
   ///
   /// Example:
   /// ```dart
@@ -32,9 +33,6 @@ class Speed extends LinearQuantity<SpeedUnit, Speed> {
   factory Speed.from(Length distance, Time time) {
     final meters = distance.inM;
     final seconds = time.inSeconds;
-    if (seconds == 0) {
-      throw ArgumentError('Time cannot be zero when calculating speed.');
-    }
     return Speed(meters / seconds, SpeedUnit.meterPerSecond);
   }
 

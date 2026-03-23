@@ -21,7 +21,7 @@ class Frequency extends LinearQuantity<FrequencyUnit, Frequency> {
   /// Creates a `Frequency` instance from a `Time` duration representing the
   /// period of one cycle (f = 1/T).
   ///
-  /// Throws an [ArgumentError] if the `time` is zero.
+  /// If [time] is zero, the result follows IEEE 754 semantics: [double.infinity].
   ///
   /// Example:
   /// ```dart
@@ -31,9 +31,6 @@ class Frequency extends LinearQuantity<FrequencyUnit, Frequency> {
   /// ```
   factory Frequency.from(Time time) {
     final seconds = time.inSeconds;
-    if (seconds == 0) {
-      throw ArgumentError('Time period cannot be zero when calculating frequency.');
-    }
     return Frequency(1.0 / seconds, FrequencyUnit.hertz);
   }
 
@@ -75,7 +72,7 @@ class Frequency extends LinearQuantity<FrequencyUnit, Frequency> {
 
   /// Calculates the time period for one cycle of this frequency (T = 1/f).
   ///
-  /// Throws an [UnsupportedError] if the frequency is zero.
+  /// If frequency is zero, the result follows IEEE 754 semantics: [double.infinity].
   /// The result is returned as a `Time` quantity in seconds.
   ///
   /// Example:
@@ -86,9 +83,6 @@ class Frequency extends LinearQuantity<FrequencyUnit, Frequency> {
   /// ```
   Time get period {
     final hertz = getValue(FrequencyUnit.hertz);
-    if (hertz == 0) {
-      throw UnsupportedError('Cannot calculate period for zero frequency.');
-    }
     return Time(1.0 / hertz, TimeUnit.second);
   }
 }

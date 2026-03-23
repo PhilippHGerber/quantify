@@ -24,13 +24,11 @@ class SpecificEnergy extends LinearQuantity<SpecificEnergyUnit, SpecificEnergy> 
   ///
   /// This factory performs the dimensional calculation `SpecificEnergy = Energy / Mass`.
   /// It converts the inputs to their base SI units (Joules and Kilograms) for correctness.
-  /// Throws an [ArgumentError] if the mass is zero.
+  /// If [mass] is zero, the result follows IEEE 754 semantics: a non-zero energy
+  /// yields [double.infinity] and a zero energy yields [double.nan].
   factory SpecificEnergy.from(Energy energy, Mass mass) {
     final joules = energy.inJoules;
     final kilograms = mass.inKilograms;
-    if (kilograms == 0) {
-      throw ArgumentError('Mass cannot be zero when calculating specific energy.');
-    }
     return SpecificEnergy(joules / kilograms, SpecificEnergyUnit.joulePerKilogram);
   }
 

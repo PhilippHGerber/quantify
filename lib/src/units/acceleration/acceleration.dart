@@ -23,7 +23,8 @@ class Acceleration extends LinearQuantity<AccelerationUnit, Acceleration> {
   ///
   /// This factory performs the dimensional calculation `Acceleration = ΔSpeed / Time`.
   /// It converts the inputs to their base SI units for correctness.
-  /// Throws an [ArgumentError] if the `time` is zero.
+  /// If [time] is zero, the result follows IEEE 754 semantics: a non-zero speed
+  /// yields [double.infinity] and a zero speed yields [double.nan].
   ///
   /// Example:
   /// ```dart
@@ -35,9 +36,6 @@ class Acceleration extends LinearQuantity<AccelerationUnit, Acceleration> {
   factory Acceleration.from(Speed speed, Time time) {
     final mps = speed.inMps;
     final seconds = time.inSeconds;
-    if (seconds == 0) {
-      throw ArgumentError('Time cannot be zero when calculating acceleration.');
-    }
     return Acceleration(mps / seconds, AccelerationUnit.meterPerSecondSquared);
   }
 

@@ -77,25 +77,21 @@ class ElectricCharge extends LinearQuantity<ElectricChargeUnit, ElectricCharge> 
 
   /// Calculates the `Current` if this charge flows over a given `Time` (I = Q / t).
   ///
-  /// Throws an [ArgumentError] if the `time` is zero.
+  /// If [time] is zero, the result follows IEEE 754 semantics: a non-zero charge
+  /// yields [double.infinity] and a zero charge yields [double.nan].
   Current currentOver(Time time) {
     final coulombs = getValue(ElectricChargeUnit.coulomb);
     final seconds = time.inSeconds;
-    if (seconds == 0) {
-      throw ArgumentError('Time cannot be zero when calculating current from charge.');
-    }
     return Current(coulombs / seconds, CurrentUnit.ampere);
   }
 
   /// Calculates the `Time` it takes for this charge to flow at a given `Current` (t = Q / I).
   ///
-  /// Throws an [ArgumentError] if the `current` is zero.
+  /// If [current] is zero, the result follows IEEE 754 semantics: a non-zero charge
+  /// yields [double.infinity] and a zero charge yields [double.nan].
   Time timeFor(Current current) {
     final coulombs = getValue(ElectricChargeUnit.coulomb);
     final amperes = current.inAmperes;
-    if (amperes == 0) {
-      throw ArgumentError('Current cannot be zero when calculating time from charge.');
-    }
     return Time(coulombs / amperes, TimeUnit.second);
   }
 }

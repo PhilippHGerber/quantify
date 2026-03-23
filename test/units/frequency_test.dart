@@ -111,7 +111,7 @@ void main() {
         final freq2 = Frequency.from(1.s);
         expect(freq2.inHertz, closeTo(1.0, tolerance));
 
-        expect(() => Frequency.from(0.s), throwsArgumentError);
+        expect(Frequency.from(0.s).inHertz, double.infinity);
       });
 
       test('frequency.period calculates correct time duration', () {
@@ -126,7 +126,7 @@ void main() {
         expect(cycleTime.inNanoseconds, closeTo(1 / 4.2, tolerance));
         expect(cycleTime.unit, TimeUnit.second); // Always returns in base unit
 
-        expect(() => 0.Hz.period, throwsUnsupportedError);
+        expect(0.Hz.period.inSeconds, double.infinity);
       });
     });
 

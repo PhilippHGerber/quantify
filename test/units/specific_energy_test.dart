@@ -104,7 +104,8 @@ void main() {
         expect(se.inJoulesPerKilogram, closeTo(3600.0, tolerance));
         expect(se.inWattHoursPerKilogram, closeTo(1.0, tolerance));
 
-        expect(() => SpecificEnergy.from(10.joules, 0.kg), throwsArgumentError);
+        expect(SpecificEnergy.from(10.joules, 0.kg).inJoulesPerKilogram, double.infinity);
+        expect(SpecificEnergy.from(0.joules, 0.kg).inJoulesPerKilogram, isNaN);
       });
 
       test('Energy = SpecificEnergy * Mass', () {

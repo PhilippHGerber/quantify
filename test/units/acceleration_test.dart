@@ -84,7 +84,8 @@ void main() {
         // 100 km/h is ~27.77 m/s. Over 10s, this is ~2.77 m/s²
         expect(acc.inMetersPerSecondSquared, closeTo(2.777, 1e-3));
 
-        expect(() => Acceleration.from(100.kmh, 0.s), throwsArgumentError);
+        expect(Acceleration.from(100.kmh, 0.s).inMetersPerSecondSquared, double.infinity);
+        expect(Acceleration.from(0.kmh, 0.s).inMetersPerSecondSquared, isNaN);
       });
 
       test('Acceleration * Time = Speed', () {

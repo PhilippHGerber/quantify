@@ -140,10 +140,14 @@ void main() {
         expect(recovered.inRpm, closeTo(original.inRpm, tolerance));
       });
 
-      test('throws ArgumentError when time is zero', () {
+      test('yields Infinity or NaN (IEEE 754) when time is zero', () {
         expect(
-          () => AngularVelocity.from(1.0.revolutions, 0.0.seconds),
-          throwsArgumentError,
+          AngularVelocity.from(1.0.revolutions, 0.0.seconds).inRadiansPerSecond,
+          double.infinity,
+        );
+        expect(
+          AngularVelocity.from(0.0.revolutions, 0.0.seconds).inRadiansPerSecond,
+          isNaN,
         );
       });
     });
