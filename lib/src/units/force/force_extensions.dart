@@ -18,8 +18,17 @@ extension ForceValueGetters on Force {
   /// Returns the force value in Meganewtons (MN).
   double get inMeganewtons => getValue(ForceUnit.meganewton);
 
+  /// Returns the force value in Giganewtons (GN).
+  double get inGiganewtons => getValue(ForceUnit.giganewton);
+
   /// Returns the force value in Millinewtons (mN).
   double get inMillinewtons => getValue(ForceUnit.millinewton);
+
+  /// Returns the force value in Micronewtons (µN).
+  double get inMicronewtons => getValue(ForceUnit.micronewton);
+
+  /// Returns the force value in Nanonewtons (nN).
+  double get inNanonewtons => getValue(ForceUnit.nanonewton);
 
   /// Returns the force value in Pounds-force (lbf).
   double get inPoundsForce => getValue(ForceUnit.poundForce);
@@ -45,8 +54,17 @@ extension ForceValueGetters on Force {
   /// Returns a [Force] object representing this force in Meganewtons (MN).
   Force get asMeganewtons => convertTo(ForceUnit.meganewton);
 
+  /// Returns a [Force] object representing this force in Giganewtons (GN).
+  Force get asGiganewtons => convertTo(ForceUnit.giganewton);
+
   /// Returns a [Force] object representing this force in Millinewtons (mN).
   Force get asMillinewtons => convertTo(ForceUnit.millinewton);
+
+  /// Returns a [Force] object representing this force in Micronewtons (µN).
+  Force get asMicronewtons => convertTo(ForceUnit.micronewton);
+
+  /// Returns a [Force] object representing this force in Nanonewtons (nN).
+  Force get asNanonewtons => convertTo(ForceUnit.nanonewton);
 
   /// Returns a [Force] object representing this force in Pounds-force (lbf).
   Force get asPoundsForce => convertTo(ForceUnit.poundForce);
@@ -87,11 +105,29 @@ extension ForceCreation on num {
   /// Dart-idiomatic alias for the SI symbol [MN].
   Force get meganewtons => Force(toDouble(), ForceUnit.meganewton);
 
+  /// Creates a [Force] instance from this value in Giganewtons (GN).
+  Force get GN => Force(toDouble(), ForceUnit.giganewton);
+
+  /// Creates a [Force] instance from this value in Giganewtons (GN).
+  Force get giganewtons => Force(toDouble(), ForceUnit.giganewton);
+
   /// Creates a [Force] instance from this value in Millinewtons (mN).
   Force get mN => Force(toDouble(), ForceUnit.millinewton);
 
   /// Creates a [Force] instance from this value in Millinewtons (mN).
   Force get millinewtons => Force(toDouble(), ForceUnit.millinewton);
+
+  /// Creates a [Force] instance from this value in Micronewtons (µN).
+  Force get uN => Force(toDouble(), ForceUnit.micronewton);
+
+  /// Creates a [Force] instance from this value in Micronewtons (µN).
+  Force get microjoules => Force(toDouble(), ForceUnit.micronewton);
+
+  /// Creates a [Force] instance from this value in Nanonewtons (nN).
+  Force get nN => Force(toDouble(), ForceUnit.nanonewton);
+
+  /// Creates a [Force] instance from this value in Nanonewtons (nN).
+  Force get nanonewtons => Force(toDouble(), ForceUnit.nanonewton);
 
   /// Creates a [Force] instance from this value in Pounds-force (lbf).
   Force get lbf => Force(toDouble(), ForceUnit.poundForce);

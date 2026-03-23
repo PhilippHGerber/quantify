@@ -46,6 +46,18 @@ void main() {
         expect(curUA.unit, CurrentUnit.microampere);
         expect(curUA.inAmperes, closeTo(0.000123, strictTolerance));
         expect(curUA.inNanoamperes, closeTo(123000.0, defaultTolerance));
+
+        final curGA = 2.0.GA;
+        expect(curGA.inAmperes, closeTo(2e9, defaultTolerance));
+        expect(curGA.inMegaamperes, closeTo(2000.0, strictTolerance));
+
+        final curPA = 500.0.pA;
+        expect(curPA.inAmperes, closeTo(5e-10, defaultTolerance));
+        expect(curPA.inNanoamperes, closeTo(0.5, strictTolerance));
+
+        final curFA = 100.0.fA;
+        expect(curFA.inAmperes, closeTo(1e-13, defaultTolerance));
+        expect(curFA.inPicoamperes, closeTo(0.1, strictTolerance));
       });
 
       test('getValue should return correct value for same unit', () {

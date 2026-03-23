@@ -17,8 +17,20 @@ class CurrentFactors {
   /// Amperes per Nanoampere: 1 nanoampere (nA) = 1e-9 amperes (A).
   static const double amperesPerNanoampere = 1.0e-9;
 
+  /// Amperes per Picoampere: 1 picoampere (pA) = 1e-12 amperes (A).
+  static const double amperesPerPicoampere = 1.0e-12;
+
+  /// Amperes per Femtoampere: 1 femtoampere (fA) = 1e-15 amperes (A).
+  static const double amperesPerFemtoampere = 1.0e-15;
+
   /// Amperes per Kiloampere: 1 kiloampere (kA) = 1000 amperes (A).
   static const double amperesPerKiloampere = 1000.0;
+
+  /// Amperes per Megaampere: 1 megaampere (MA) = 1,000,000 amperes (A).
+  static const double amperesPerMegaampere = 1000000.0;
+
+  /// Amperes per Gigaampere: 1 gigaampere (GA) = 1,000,000,000 amperes (A).
+  static const double amperesPerGigaampere = 1000000000.0;
 
   /// Amperes per Statampere: 1 statampere (statA) ≈ 3.33564 × 10⁻¹⁰ Amperes.
   /// The statampere is the unit of current in the CGS electrostatic system.

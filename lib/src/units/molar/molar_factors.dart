@@ -8,20 +8,26 @@
 class MolarFactors {
   // --- SI Prefixed Units (relative to Mole) ---
 
-  /// Moles per Millimole: 1 millimole (mmol) = 0.001 moles (mol).
-  static const double molesPerMillimole = 0.001;
-
-  /// Moles per Micromole: 1 micromole (µmol) = 0.000001 moles (mol).
-  static const double molesPerMicromole = 0.000001;
-
-  /// Moles per Nanomole: 1 nanomole (nmol) = 1e-9 moles (mol).
-  static const double molesPerNanomole = 1.0e-9;
-
-  /// Moles per Picomole: 1 picomole (pmol) = 1e-12 moles (mol).
-  static const double molesPerPicomole = 1.0e-12;
+  /// Moles per Megamole: 1 megamole (Mmol) = 1e6 moles (mol).
+  static const double molesPerMegamole = 1e6;
 
   /// Moles per Kilomole: 1 kilomole (kmol) = 1000 moles (mol).
   static const double molesPerKilomole = 1000.0;
+
+  /// Moles per Millimole: 1 millimole (mmol) = 0.001 moles (mol).
+  static const double molesPerMillimole = 0.001;
+
+  /// Moles per Micromole: 1 micromole (µmol) = 1e-6 moles (mol).
+  static const double molesPerMicromole = 1e-6;
+
+  /// Moles per Nanomole: 1 nanomole (nmol) = 1e-9 moles (mol).
+  static const double molesPerNanomole = 1e-9;
+
+  /// Moles per Picomole: 1 picomole (pmol) = 1e-12 moles (mol).
+  static const double molesPerPicomole = 1e-12;
+
+  /// Moles per Femtomole: 1 femtomole (fmol) = 1e-15 moles (mol).
+  static const double molesPerFemtomole = 1e-15;
 
   // --- Imperial / chemical-engineering units ---
 

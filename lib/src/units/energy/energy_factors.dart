@@ -9,11 +9,23 @@
 class EnergyFactors {
   // --- SI Prefixed Units (relative to Joule) ---
 
+  /// Joules per Terajoule: 1 TJ = 1,000,000,000,000 J.
+  static const double joulesPerTerajoule = 1e12;
+
+  /// Joules per Gigajoule: 1 GJ = 1,000,000,000 J.
+  static const double joulesPerGigajoule = 1e9;
+
   /// Joules per Megajoule: 1 MJ = 1,000,000 J.
-  static const double joulesPerMegajoule = 1000000.0;
+  static const double joulesPerMegajoule = 1e6;
 
   /// Joules per Kilojoule: 1 kJ = 1,000 J.
   static const double joulesPerKilojoule = 1000.0;
+
+  /// Joules per Millijoule: 1 mJ = 0.001 J.
+  static const double joulesPerMillijoule = 0.001;
+
+  /// Joules per Microjoule: 1 µJ = 1e-6 J.
+  static const double joulesPerMicrojoule = 1e-6;
 
   // --- Other Common and Scientific Units ---
 

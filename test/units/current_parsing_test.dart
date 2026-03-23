@@ -23,6 +23,22 @@ void main() {
       test('parses kiloampere', () {
         expect(Current.parse('10 kA'), const Current(10, CurrentUnit.kiloampere));
       });
+
+      test('parses megaampere', () {
+        expect(Current.parse('50 MA'), const Current(50, CurrentUnit.megaampere));
+      });
+
+      test('parses gigaampere', () {
+        expect(Current.parse('100 GA'), const Current(100, CurrentUnit.gigaampere));
+      });
+
+      test('parses picoampere', () {
+        expect(Current.parse('500 pA'), const Current(500, CurrentUnit.picoampere));
+      });
+
+      test('parses femtoampere', () {
+        expect(Current.parse('100 fA'), const Current(100, CurrentUnit.femtoampere));
+      });
     });
 
     group('CGS units', () {
@@ -56,7 +72,7 @@ void main() {
 
       test('SI symbols distinguish prefixes (mA vs MA)', () {
         expect(Current.parse('20 mA'), const Current(20, CurrentUnit.milliampere));
-        expect(() => Current.parse('20 MA'), throwsA(isA<QuantityParseException>()));
+        expect(Current.parse('20 MA'), const Current(20, CurrentUnit.megaampere));
       });
 
       test('full names are case-insensitive', () {

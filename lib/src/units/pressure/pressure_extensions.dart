@@ -13,6 +13,9 @@ extension PressureValueGetters on Pressure {
   /// Returns the pressure value in Pascals (Pa).
   double get inPa => getValue(PressureUnit.pascal);
 
+  /// Returns the pressure value in Micropascals (µPa).
+  double get inUPa => getValue(PressureUnit.micropascal);
+
   /// Returns the pressure value in Atmospheres (atm).
   double get inAtm => getValue(PressureUnit.atmosphere); // "atm" is already short
 
@@ -30,6 +33,9 @@ extension PressureValueGetters on Pressure {
 
   /// Returns the pressure value in Inches of Mercury (inHg).
   double get inInHg => getValue(PressureUnit.inchOfMercury);
+
+  /// Returns the pressure value in Gigapascals (GPa).
+  double get inGPa => getValue(PressureUnit.gigapascal);
 
   /// Returns the pressure value in Megapascals (MPa).
   double get inMegaPascals => getValue(PressureUnit.megapascal);
@@ -55,6 +61,9 @@ extension PressureValueGetters on Pressure {
   /// Returns a Pressure representing this pressure in Pascals (Pa).
   Pressure get asPa => convertTo(PressureUnit.pascal);
 
+  /// Returns a Pressure representing this pressure in Micropascals (µPa).
+  Pressure get asUPa => convertTo(PressureUnit.micropascal);
+
   /// Returns a Pressure representing this pressure in Atmospheres (atm).
   Pressure get asAtm => convertTo(PressureUnit.atmosphere);
 
@@ -72,6 +81,9 @@ extension PressureValueGetters on Pressure {
 
   /// Returns a Pressure representing this pressure in Inches of Mercury (inHg).
   Pressure get asInHg => convertTo(PressureUnit.inchOfMercury);
+
+  /// Returns a Pressure representing this pressure in Gigapascals (GPa).
+  Pressure get asGPa => convertTo(PressureUnit.gigapascal);
 
   /// Returns a Pressure representing this pressure in Megapascals (MPa).
   Pressure get asMegaPascals => convertTo(PressureUnit.megapascal);
@@ -98,6 +110,9 @@ extension PressureCreation on num {
   /// Creates a [Pressure] instance representing this numerical value in Pascals (Pa).
   Pressure get pa => Pressure(toDouble(), PressureUnit.pascal);
 
+  /// Creates a [Pressure] instance representing this numerical value in Micropascals (µPa).
+  Pressure get uPa => Pressure(toDouble(), PressureUnit.micropascal);
+
   /// Creates a [Pressure] instance representing this numerical value in Atmospheres (atm).
   Pressure get atm => Pressure(toDouble(), PressureUnit.atmosphere);
 
@@ -115,6 +130,9 @@ extension PressureCreation on num {
 
   /// Creates a [Pressure] instance representing this numerical value in Inches of Mercury (inHg).
   Pressure get inHg => Pressure(toDouble(), PressureUnit.inchOfMercury);
+
+  /// Creates a [Pressure] instance representing this numerical value in Gigapascals (GPa).
+  Pressure get GPa => Pressure(toDouble(), PressureUnit.gigapascal);
 
   /// Creates a [Pressure] instance representing this numerical value in Megapascals (MPa).
   ///

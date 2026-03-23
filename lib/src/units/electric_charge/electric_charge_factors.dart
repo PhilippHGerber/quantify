@@ -7,6 +7,9 @@
 class ElectricChargeFactors {
   // --- SI Prefixed Units (relative to Coulomb) ---
 
+  /// Coulombs per Kilocoulomb: 1 kC = 1e3 C.
+  static const double coulombsPerKilocoulomb = 1e3;
+
   /// Coulombs per Millicoulomb: 1 mC = 1e-3 C.
   static const double coulombsPerMillicoulomb = 1e-3;
 
@@ -15,6 +18,9 @@ class ElectricChargeFactors {
 
   /// Coulombs per Nanocoulomb: 1 nC = 1e-9 C.
   static const double coulombsPerNanocoulomb = 1e-9;
+
+  /// Coulombs per Picocoulomb: 1 pC = 1e-12 C.
+  static const double coulombsPerPicocoulomb = 1e-12;
 
   // --- Other Common Units ---
 

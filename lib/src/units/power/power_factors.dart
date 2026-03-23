@@ -7,6 +7,9 @@
 class PowerFactors {
   // --- SI Prefixed Units (relative to Watt) ---
 
+  /// Watts per Terawatt: 1 TW = 1,000,000,000,000 W.
+  static const double wattsPerTerawatt = 1e12;
+
   /// Watts per Gigawatt: 1 GW = 1,000,000,000 W.
   static const double wattsPerGigawatt = 1e9;
 
@@ -18,6 +21,12 @@ class PowerFactors {
 
   /// Watts per Milliwatt: 1 mW = 0.001 W.
   static const double wattsPerMilliwatt = 0.001;
+
+  /// Watts per Microwatt: 1 µW = 1e-6 W.
+  static const double wattsPerMicrowatt = 1e-6;
+
+  /// Watts per Nanowatt: 1 nW = 1e-9 W.
+  static const double wattsPerNanowatt = 1e-9;
 
   // --- CGS Units ---
 

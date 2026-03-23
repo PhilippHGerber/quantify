@@ -9,6 +9,21 @@
 /// unless otherwise specified, aligning with common scientific reference points for water density
 /// and conventional values (e.g., NIST SP 811).
 class PressureFactors {
+  /// Pascals per Gigapascal (GPa): 1 GPa = 1,000,000,000 Pa.
+  static const double pascalsPerGigapascal = 1e9;
+
+  /// Pascals per Megapascal (MPa): 1 MPa = 1,000,000 Pa.
+  static const double pascalsPerMegapascal = 1e6;
+
+  /// Pascals per Kilopascal (kPa): 1 kPa = 1,000 Pa.
+  static const double pascalsPerKilopascal = 1000.0;
+
+  /// Pascals per Hectopascal (hPa): 1 hPa = 100 Pa.
+  static const double pascalsPerHectopascal = 100.0;
+
+  /// Pascals per Micropascal (µPa): 1 µPa = 1e-6 Pa.
+  static const double pascalsPerMicropascal = 1e-6;
+
   /// Pascals per Standard Atmosphere (atm): 1 atm = 101325 Pa (exact definition).
   static const double pascalsPerAtmosphere = 101325.0;
 
@@ -40,15 +55,6 @@ class PressureFactors {
   // Inch of mercury (0 °C)  = 3.386 389 E+03 Pa
   // The calculated value is extremely close and based on fundamental definitions.
   // Using the calculated one for consistency, the difference is negligible for doubles.
-
-  /// Pascals per Megapascal (MPa): 1 MPa = 1,000,000 Pa.
-  static const double pascalsPerMegapascal = 1000000.0;
-
-  /// Pascals per Kilopascal (kPa): 1 kPa = 1000 Pa.
-  static const double pascalsPerKilopascal = 1000.0;
-
-  /// Pascals per Hectopascal (hPa): 1 hPa = 100 Pa.
-  static const double pascalsPerHectopascal = 100.0;
 
   /// Pascals per Millibar (mbar): 1 mbar = 100 Pa (same as hPa).
   static const double pascalsPerMillibar = 100.0;

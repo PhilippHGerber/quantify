@@ -11,10 +11,14 @@ class LuminousIntensityFactors {
   /// Candelas per Millicandela: 1 millicandela (mcd) = 0.001 candelas (cd).
   static const double candelasPerMillicandela = 0.001;
 
+  /// Candelas per Microcandela: 1 microcandela (µcd) = 1e-6 candelas (cd).
+  static const double candelasPerMicrocandela = 1e-6;
+
   /// Candelas per Kilocandela: 1 kilocandela (kcd) = 1000 candelas (cd).
-  /// Note: Kilocandela is a valid SI unit but less commonly used in practice
-  /// compared to candela or millicandela for typical light sources.
   static const double candelasPerKilocandela = 1000.0;
+
+  /// Candelas per Megacandela: 1 megacandela (Mcd) = 1,000,000 candelas (cd).
+  static const double candelasPerMegacandela = 1000000.0;
 
   // --- Other historical or specialized units (less common) ---
   // Example: Hefnerkerze (HK) or Hefner candle, an old German unit of luminous intensity.

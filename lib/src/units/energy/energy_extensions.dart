@@ -16,11 +16,23 @@ extension EnergyValueGetters on Energy {
   /// Returns the energy value in Joules (J).
   double get inJoules => getValue(EnergyUnit.joule);
 
-  /// Returns the energy value in Megajoules (MJ).
-  double get inMegajoules => getValue(EnergyUnit.megajoule);
+  /// Returns the energy value in Millajoules (mJ).
+  double get inMillijoules => getValue(EnergyUnit.millijoule);
+
+  /// Returns the energy value in Microjoules (µJ).
+  double get inMicrojoules => getValue(EnergyUnit.microjoule);
 
   /// Returns the energy value in Kilojoules (kJ).
   double get inKilojoules => getValue(EnergyUnit.kilojoule);
+
+  /// Returns the energy value in Megajoules (MJ).
+  double get inMegajoules => getValue(EnergyUnit.megajoule);
+
+  /// Returns the energy value in Gigajoules (GJ).
+  double get inGigajoules => getValue(EnergyUnit.gigajoule);
+
+  /// Returns the energy value in Terajoules (TJ).
+  double get inTerajoules => getValue(EnergyUnit.terajoule);
 
   /// Returns the energy value in Calories (cal).
   double get inCalories => getValue(EnergyUnit.calorie);
@@ -48,11 +60,23 @@ extension EnergyValueGetters on Energy {
   /// Returns a new [Energy] object representing this energy in Joules (J).
   Energy get asJoules => convertTo(EnergyUnit.joule);
 
-  /// Returns a new [Energy] object representing this energy in Megajoules (MJ).
-  Energy get asMegajoules => convertTo(EnergyUnit.megajoule);
+  /// Returns a new [Energy] object representing this energy in Millijoules (mJ).
+  Energy get asMillijoules => convertTo(EnergyUnit.millijoule);
+
+  /// Returns a new [Energy] object representing this energy in Microjoules (µJ).
+  Energy get asMicrojoules => convertTo(EnergyUnit.microjoule);
 
   /// Returns a new [Energy] object representing this energy in Kilojoules (kJ).
   Energy get asKilojoules => convertTo(EnergyUnit.kilojoule);
+
+  /// Returns a new [Energy] object representing this energy in Megajoules (MJ).
+  Energy get asMegajoules => convertTo(EnergyUnit.megajoule);
+
+  /// Returns a new [Energy] object representing this energy in Gigajoules (GJ).
+  Energy get asGigajoules => convertTo(EnergyUnit.gigajoule);
+
+  /// Returns a new [Energy] object representing this energy in Terajoules (TJ).
+  Energy get asTerajoules => convertTo(EnergyUnit.terajoule);
 
   /// Returns a new [Energy] object representing this energy in Calories (cal).
   Energy get asCalories => convertTo(EnergyUnit.calorie);
@@ -88,6 +112,24 @@ extension EnergyCreation on num {
   /// Creates an [Energy] instance from this value in Joules (J).
   Energy get joules => Energy(toDouble(), EnergyUnit.joule);
 
+  /// Creates an [Energy] instance from this value in Millijoules (mJ).
+  Energy get mJ => Energy(toDouble(), EnergyUnit.millijoule);
+
+  /// Creates an [Energy] instance from this value in Millijoules (mJ).
+  Energy get millijoules => Energy(toDouble(), EnergyUnit.millijoule);
+
+  /// Creates an [Energy] instance from this value in Microjoules (µJ).
+  Energy get uJ => Energy(toDouble(), EnergyUnit.microjoule);
+
+  /// Creates an [Energy] instance from this value in Microjoules (µJ).
+  Energy get microjoules => Energy(toDouble(), EnergyUnit.microjoule);
+
+  /// Creates an [Energy] instance from this value in Kilojoules (kJ).
+  Energy get kJ => Energy(toDouble(), EnergyUnit.kilojoule);
+
+  /// Creates an [Energy] instance from this value in Kilojoules (kJ).
+  Energy get kilojoules => Energy(toDouble(), EnergyUnit.kilojoule);
+
   /// Creates an [Energy] instance from this value in Megajoules (MJ).
   ///
   /// The SI symbol for megajoule is 'MJ' (capital M = mega prefix).
@@ -97,11 +139,17 @@ extension EnergyCreation on num {
   /// Dart-idiomatic alias for the SI symbol [MJ].
   Energy get megajoules => Energy(toDouble(), EnergyUnit.megajoule);
 
-  /// Creates an [Energy] instance from this value in Kilojoules (kJ).
-  Energy get kJ => Energy(toDouble(), EnergyUnit.kilojoule);
+  /// Creates an [Energy] instance from this value in Gigajoules (GJ).
+  Energy get GJ => Energy(toDouble(), EnergyUnit.gigajoule);
 
-  /// Creates an [Energy] instance from this value in Kilojoules (kJ).
-  Energy get kilojoules => Energy(toDouble(), EnergyUnit.kilojoule);
+  /// Creates an [Energy] instance from this value in Gigajoules (GJ).
+  Energy get gigajoules => Energy(toDouble(), EnergyUnit.gigajoule);
+
+  /// Creates an [Energy] instance from this value in Terajoules (TJ).
+  Energy get TJ => Energy(toDouble(), EnergyUnit.terajoule);
+
+  /// Creates an [Energy] instance from this value in Terajoules (TJ).
+  Energy get terajoules => Energy(toDouble(), EnergyUnit.terajoule);
 
   /// Creates an [Energy] instance from this value in Calories (cal).
   Energy get cal => Energy(toDouble(), EnergyUnit.calorie);

@@ -24,8 +24,20 @@ enum CurrentUnit implements LinearUnit<CurrentUnit> {
   /// Nanoampere (nA), equal to 1e-9 amperes.
   nanoampere(CurrentFactors.amperesPerNanoampere, 'nA'),
 
+  /// Picoampere (pA), equal to 1e-12 amperes.
+  picoampere(CurrentFactors.amperesPerPicoampere, 'pA'),
+
+  /// Femtoampere (fA), equal to 1e-15 amperes.
+  femtoampere(CurrentFactors.amperesPerFemtoampere, 'fA'),
+
   /// Kiloampere (kA), equal to 1000 amperes.
   kiloampere(CurrentFactors.amperesPerKiloampere, 'kA'),
+
+  /// Megaampere (MA), equal to 1,000,000 amperes.
+  megaampere(CurrentFactors.amperesPerMegaampere, 'MA'),
+
+  /// Gigaampere (GA), equal to 1,000,000,000 amperes.
+  gigaampere(CurrentFactors.amperesPerGigaampere, 'GA'),
 
   /// Statampere (statA), the CGS electrostatic unit of current.
   statampere(CurrentFactors.amperesPerStatampere, 'statA'),
@@ -48,7 +60,11 @@ enum CurrentUnit implements LinearUnit<CurrentUnit> {
         _factorToMilliampere = toAmpereFactor / CurrentFactors.amperesPerMilliampere,
         _factorToMicroampere = toAmpereFactor / CurrentFactors.amperesPerMicroampere,
         _factorToNanoampere = toAmpereFactor / CurrentFactors.amperesPerNanoampere,
+        _factorToPicoampere = toAmpereFactor / CurrentFactors.amperesPerPicoampere,
+        _factorToFemtoampere = toAmpereFactor / CurrentFactors.amperesPerFemtoampere,
         _factorToKiloampere = toAmpereFactor / CurrentFactors.amperesPerKiloampere,
+        _factorToMegaampere = toAmpereFactor / CurrentFactors.amperesPerMegaampere,
+        _factorToGigaampere = toAmpereFactor / CurrentFactors.amperesPerGigaampere,
         _factorToStatampere = toAmpereFactor / CurrentFactors.amperesPerStatampere,
         _factorToAbampere = toAmpereFactor / CurrentFactors.amperesPerAbampere;
   // If biot were added:
@@ -69,7 +85,11 @@ enum CurrentUnit implements LinearUnit<CurrentUnit> {
   final double _factorToMilliampere;
   final double _factorToMicroampere;
   final double _factorToNanoampere;
+  final double _factorToPicoampere;
+  final double _factorToFemtoampere;
   final double _factorToKiloampere;
+  final double _factorToMegaampere;
+  final double _factorToGigaampere;
   final double _factorToStatampere;
   final double _factorToAbampere;
 
@@ -87,8 +107,16 @@ enum CurrentUnit implements LinearUnit<CurrentUnit> {
     'uA': CurrentUnit.microampere,
     // nanoampere
     'nA': CurrentUnit.nanoampere,
+    // picoampere
+    'pA': CurrentUnit.picoampere,
+    // femtoampere
+    'fA': CurrentUnit.femtoampere,
     // kiloampere
     'kA': CurrentUnit.kiloampere,
+    // megaampere
+    'MA': CurrentUnit.megaampere,
+    // gigaampere
+    'GA': CurrentUnit.gigaampere,
     // statampere
     'statA': CurrentUnit.statampere,
     // abampere
@@ -114,9 +142,21 @@ enum CurrentUnit implements LinearUnit<CurrentUnit> {
     // nanoampere
     'nanoampere': CurrentUnit.nanoampere,
     'nanoamperes': CurrentUnit.nanoampere,
+    // picoampere
+    'picoampere': CurrentUnit.picoampere,
+    'picoamperes': CurrentUnit.picoampere,
+    // femtoampere
+    'femtoampere': CurrentUnit.femtoampere,
+    'femtoamperes': CurrentUnit.femtoampere,
     // kiloampere
     'kiloampere': CurrentUnit.kiloampere,
     'kiloamperes': CurrentUnit.kiloampere,
+    // megaampere
+    'megaampere': CurrentUnit.megaampere,
+    'megaamperes': CurrentUnit.megaampere,
+    // gigaampere
+    'gigaampere': CurrentUnit.gigaampere,
+    'gigaamperes': CurrentUnit.gigaampere,
     // statampere
     'statampere': CurrentUnit.statampere,
     'statamperes': CurrentUnit.statampere,
@@ -145,8 +185,16 @@ enum CurrentUnit implements LinearUnit<CurrentUnit> {
         return _factorToMicroampere;
       case CurrentUnit.nanoampere:
         return _factorToNanoampere;
+      case CurrentUnit.picoampere:
+        return _factorToPicoampere;
+      case CurrentUnit.femtoampere:
+        return _factorToFemtoampere;
       case CurrentUnit.kiloampere:
         return _factorToKiloampere;
+      case CurrentUnit.megaampere:
+        return _factorToMegaampere;
+      case CurrentUnit.gigaampere:
+        return _factorToGigaampere;
       case CurrentUnit.statampere:
         return _factorToStatampere;
       case CurrentUnit.abampere:

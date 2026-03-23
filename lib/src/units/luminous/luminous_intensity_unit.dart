@@ -21,10 +21,18 @@ enum LuminousIntensityUnit implements LinearUnit<LuminousIntensityUnit> {
   /// Commonly used for LEDs and indicator lights.
   millicandela(LuminousIntensityFactors.candelasPerMillicandela, 'mcd'),
 
+  /// Microcandela (µcd), equal to 1e-6 candelas.
+  /// Used in bioluminescence and threshold testing for low-level LEDs.
+  microcandela(LuminousIntensityFactors.candelasPerMicrocandela, 'µcd'),
+
   /// Kilocandela (kcd), equal to 1000 candelas.
   /// A less common unit, might be used for very high-intensity light sources
   /// like searchlights or lighthouses.
-  kilocandela(LuminousIntensityFactors.candelasPerKilocandela, 'kcd');
+  kilocandela(LuminousIntensityFactors.candelasPerKilocandela, 'kcd'),
+
+  /// Megacandela (Mcd), equal to 1,000,000 candelas.
+  /// Required for high-intensity searchlights, lighthouses, and aviation strobes.
+  megacandela(LuminousIntensityFactors.candelasPerMegacandela, 'Mcd');
 
   /// Constant constructor for enum members.
   ///
@@ -39,13 +47,18 @@ enum LuminousIntensityUnit implements LinearUnit<LuminousIntensityUnit> {
         // Initialize direct factors from THIS unit to OTHERS.
         _factorToCandela = toCandelaFactor / 1.0, // Base unit factor for candela is 1.0
         _factorToMillicandela = toCandelaFactor / LuminousIntensityFactors.candelasPerMillicandela,
-        _factorToKilocandela = toCandelaFactor / LuminousIntensityFactors.candelasPerKilocandela;
+        _factorToMicrocandela = toCandelaFactor / LuminousIntensityFactors.candelasPerMicrocandela,
+        _factorToKilocandela = toCandelaFactor / LuminousIntensityFactors.candelasPerKilocandela,
+        _factorToMegacandela = toCandelaFactor / LuminousIntensityFactors.candelasPerMegacandela;
 
   /// SI and unit symbols matched **strictly case-sensitive**.
   static const Map<String, LuminousIntensityUnit> symbolAliases = {
     'cd': candela,
     'mcd': millicandela,
+    'µcd': microcandela,
+    'ucd': microcandela,
     'kcd': kilocandela,
+    'Mcd': megacandela,
   };
 
   /// Full word-form names and non-SI abbreviations matched **case-insensitively**.
@@ -53,8 +66,12 @@ enum LuminousIntensityUnit implements LinearUnit<LuminousIntensityUnit> {
     'candela': candela,
     'millicandela': millicandela,
     'milli candela': millicandela,
+    'microcandela': microcandela,
+    'micro candela': microcandela,
     'kilocandela': kilocandela,
     'kilo candela': kilocandela,
+    'megacandela': megacandela,
+    'mega candela': megacandela,
   };
 
   // If Hefnerkerze were to be added:
@@ -78,7 +95,9 @@ enum LuminousIntensityUnit implements LinearUnit<LuminousIntensityUnit> {
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToCandela;
   final double _factorToMillicandela;
+  final double _factorToMicrocandela;
   final double _factorToKilocandela;
+  final double _factorToMegacandela;
   // If hefnerCandle were added:
   // final double _factorToHefnerCandle;
 
@@ -95,8 +114,12 @@ enum LuminousIntensityUnit implements LinearUnit<LuminousIntensityUnit> {
         return _factorToCandela;
       case LuminousIntensityUnit.millicandela:
         return _factorToMillicandela;
+      case LuminousIntensityUnit.microcandela:
+        return _factorToMicrocandela;
       case LuminousIntensityUnit.kilocandela:
         return _factorToKilocandela;
+      case LuminousIntensityUnit.megacandela:
+        return _factorToMegacandela;
       // If hefnerCandle were added:
       // case LuminousIntensityUnit.hefnerCandle:
       //  return _factorToHefnerCandle;

@@ -14,6 +14,12 @@ enum MolarUnit implements LinearUnit<MolarUnit> {
   /// One mole contains exactly 6.02214076 × 10²³ elementary entities (Avogadro's number).
   mole(1, 'mol'),
 
+  /// Megamole (Mmol), equal to 1e6 moles.
+  megamole(MolarFactors.molesPerMegamole, 'Mmol'),
+
+  /// Kilomole (kmol), equal to 1000 moles.
+  kilomole(MolarFactors.molesPerKilomole, 'kmol'),
+
   /// Millimole (mmol), equal to 0.001 moles.
   millimole(MolarFactors.molesPerMillimole, 'mmol'),
 
@@ -26,8 +32,8 @@ enum MolarUnit implements LinearUnit<MolarUnit> {
   /// Picomole (pmol), equal to 1e-12 moles.
   picomole(MolarFactors.molesPerPicomole, 'pmol'),
 
-  /// Kilomole (kmol), equal to 1000 moles.
-  kilomole(MolarFactors.molesPerKilomole, 'kmol'),
+  /// Femtomole (fmol), equal to 1e-15 moles.
+  femtomole(MolarFactors.molesPerFemtomole, 'fmol'),
 
   /// Pound-mole (lb-mol), an imperial unit used in chemical engineering.
   /// 1 lb-mol = 453.59237 mol (exact, from the pound-to-gram definition).
@@ -47,27 +53,35 @@ enum MolarUnit implements LinearUnit<MolarUnit> {
       : _toMoleFactor = toMoleFactor,
         // Initialize direct factors from THIS unit to OTHERS.
         _factorToMole = toMoleFactor / 1.0, // Base unit factor for mole is 1.0
+        _factorToMegamole = toMoleFactor / MolarFactors.molesPerMegamole,
+        _factorToKilomole = toMoleFactor / MolarFactors.molesPerKilomole,
         _factorToMillimole = toMoleFactor / MolarFactors.molesPerMillimole,
         _factorToMicromole = toMoleFactor / MolarFactors.molesPerMicromole,
         _factorToNanomole = toMoleFactor / MolarFactors.molesPerNanomole,
         _factorToPicomole = toMoleFactor / MolarFactors.molesPerPicomole,
-        _factorToKilomole = toMoleFactor / MolarFactors.molesPerKilomole,
+        _factorToFemtomole = toMoleFactor / MolarFactors.molesPerFemtomole,
         _factorToPoundMole = toMoleFactor / MolarFactors.molesPerPoundMole;
 
   /// SI and unit symbols matched **strictly case-sensitive**.
   static const Map<String, MolarUnit> symbolAliases = {
     'mol': mole,
+    'Mmol': megamole,
+    'kmol': kilomole,
     'mmol': millimole,
     'µmol': micromole,
     'nmol': nanomole,
     'pmol': picomole,
-    'kmol': kilomole,
+    'fmol': femtomole,
     'lb-mol': poundMole,
   };
 
   /// Full word-form names and non-SI abbreviations matched **case-insensitively**.
   static const Map<String, MolarUnit> nameAliases = {
     'mole': mole,
+    'megamole': megamole,
+    'mega mole': megamole,
+    'kilomole': kilomole,
+    'kilo mole': kilomole,
     'millimole': millimole,
     'milli mole': millimole,
     'micromole': micromole,
@@ -76,8 +90,8 @@ enum MolarUnit implements LinearUnit<MolarUnit> {
     'nano mole': nanomole,
     'picomole': picomole,
     'pico mole': picomole,
-    'kilomole': kilomole,
-    'kilo mole': kilomole,
+    'femtomole': femtomole,
+    'femto mole': femtomole,
     'pound-mole': poundMole,
     'pound mole': poundMole,
     'poundmole': poundMole,
@@ -98,11 +112,13 @@ enum MolarUnit implements LinearUnit<MolarUnit> {
   // These are calculated once in the const constructor for performance.
 
   final double _factorToMole;
+  final double _factorToMegamole;
+  final double _factorToKilomole;
   final double _factorToMillimole;
   final double _factorToMicromole;
   final double _factorToNanomole;
   final double _factorToPicomole;
-  final double _factorToKilomole;
+  final double _factorToFemtomole;
   final double _factorToPoundMole;
 
   /// Returns the direct conversion factor to convert a value from this [MolarUnit]
@@ -123,6 +139,10 @@ enum MolarUnit implements LinearUnit<MolarUnit> {
     switch (targetUnit) {
       case MolarUnit.mole:
         return _factorToMole;
+      case MolarUnit.megamole:
+        return _factorToMegamole;
+      case MolarUnit.kilomole:
+        return _factorToKilomole;
       case MolarUnit.millimole:
         return _factorToMillimole;
       case MolarUnit.micromole:
@@ -131,8 +151,8 @@ enum MolarUnit implements LinearUnit<MolarUnit> {
         return _factorToNanomole;
       case MolarUnit.picomole:
         return _factorToPicomole;
-      case MolarUnit.kilomole:
-        return _factorToKilomole;
+      case MolarUnit.femtomole:
+        return _factorToFemtomole;
       case MolarUnit.poundMole:
         return _factorToPoundMole;
     }

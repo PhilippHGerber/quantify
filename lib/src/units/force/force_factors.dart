@@ -5,14 +5,23 @@
 ///
 /// These constants represent: `1 [Unit] = Z [Newtons]`.
 class ForceFactors {
-  /// Newtons per Kilonewton (kN): 1 kN = 1000 N.
-  static const double newtonsPerKilonewton = 1000.0;
+  /// Newtons per Giganewton (GN): 1 GN = 1,000,000,000 N.
+  static const double newtonsPerGiganewton = 1e9;
 
   /// Newtons per Meganewton (MN): 1 MN = 1,000,000 N.
   static const double newtonsPerMeganewton = 1e6;
 
+  /// Newtons per Kilonewton (kN): 1 kN = 1000 N.
+  static const double newtonsPerKilonewton = 1000.0;
+
   /// Newtons per Millinewton (mN): 1 mN = 0.001 N.
   static const double newtonsPerMillinewton = 0.001;
+
+  /// Newtons per Micronewton (µN): 1 µN = 1e-6 N.
+  static const double newtonsPerMicronewton = 1e-6;
+
+  /// Newtons per Nanonewton (nN): 1 nN = 1e-9 N.
+  static const double newtonsPerNanonewton = 1e-9;
 
   /// Newtons per Pound-force (lbf): 1 lbf = 0.45359237 kg * 9.80665 m/s².
   /// This is based on the standard weight of one pound of mass.

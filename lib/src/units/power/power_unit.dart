@@ -13,6 +13,12 @@ enum PowerUnit implements LinearUnit<PowerUnit> {
   /// Watt (W), the SI derived unit of power, equal to one Joule per second.
   watt(1, 'W'),
 
+  /// Nanowatt (nW), used in semiconductor sleep-state power profiling.
+  nanowatt(PowerFactors.wattsPerNanowatt, 'nW'),
+
+  /// Microwatt (µW), critical for IoT devices and RFID.
+  microwatt(PowerFactors.wattsPerMicrowatt, 'µW'),
+
   /// Milliwatt (mW), a sub-multiple of the Watt, common in electronics.
   milliwatt(PowerFactors.wattsPerMilliwatt, 'mW'),
 
@@ -24,6 +30,9 @@ enum PowerUnit implements LinearUnit<PowerUnit> {
 
   /// Gigawatt (GW), a multiple of the Watt, used for large power plants.
   gigawatt(PowerFactors.wattsPerGigawatt, 'GW'),
+
+  /// Terawatt (TW), standard scale for global energy consumption.
+  terawatt(PowerFactors.wattsPerTerawatt, 'TW'),
 
   // --- Engineering / Common Units ---
 
@@ -45,10 +54,13 @@ enum PowerUnit implements LinearUnit<PowerUnit> {
   const PowerUnit(double toWattFactor, this.symbol)
       : _toWattFactor = toWattFactor,
         _factorToWatt = toWattFactor / 1.0,
+        _factorToNanowatt = toWattFactor / PowerFactors.wattsPerNanowatt,
+        _factorToMicrowatt = toWattFactor / PowerFactors.wattsPerMicrowatt,
         _factorToMilliwatt = toWattFactor / PowerFactors.wattsPerMilliwatt,
         _factorToKilowatt = toWattFactor / PowerFactors.wattsPerKilowatt,
         _factorToMegawatt = toWattFactor / PowerFactors.wattsPerMegawatt,
         _factorToGigawatt = toWattFactor / PowerFactors.wattsPerGigawatt,
+        _factorToTerawatt = toWattFactor / PowerFactors.wattsPerTerawatt,
         _factorToHorsepower = toWattFactor / PowerFactors.wattsPerHorsepower,
         _factorToMetricHorsepower = toWattFactor / PowerFactors.wattsPerMetricHorsepower,
         _factorToBtuPerHour = toWattFactor / PowerFactors.wattsPerBtuPerHour,
@@ -64,10 +76,13 @@ enum PowerUnit implements LinearUnit<PowerUnit> {
 
   // --- Pre-calculated direct conversion factors ---
   final double _factorToWatt;
+  final double _factorToNanowatt;
+  final double _factorToMicrowatt;
   final double _factorToMilliwatt;
   final double _factorToKilowatt;
   final double _factorToMegawatt;
   final double _factorToGigawatt;
+  final double _factorToTerawatt;
   final double _factorToHorsepower;
   final double _factorToMetricHorsepower;
   final double _factorToBtuPerHour;
@@ -80,6 +95,11 @@ enum PowerUnit implements LinearUnit<PowerUnit> {
   static const Map<String, PowerUnit> symbolAliases = {
     // watt
     'W': PowerUnit.watt,
+    // nanowatt
+    'nW': PowerUnit.nanowatt,
+    // microwatt
+    'µW': PowerUnit.microwatt,
+    'uW': PowerUnit.microwatt,
     // milliwatt
     'mW': PowerUnit.milliwatt,
     // kilowatt
@@ -88,6 +108,8 @@ enum PowerUnit implements LinearUnit<PowerUnit> {
     'MW': PowerUnit.megawatt,
     // gigawatt
     'GW': PowerUnit.gigawatt,
+    // terawatt
+    'TW': PowerUnit.terawatt,
     // horsepower
     'hp': PowerUnit.horsepower,
     // metric horsepower
@@ -107,6 +129,12 @@ enum PowerUnit implements LinearUnit<PowerUnit> {
     // watt
     'watt': PowerUnit.watt,
     'watts': PowerUnit.watt,
+    // nanowatt
+    'nanowatt': PowerUnit.nanowatt,
+    'nanowatts': PowerUnit.nanowatt,
+    // microwatt
+    'microwatt': PowerUnit.microwatt,
+    'microwatts': PowerUnit.microwatt,
     // milliwatt
     'milliwatt': PowerUnit.milliwatt,
     'milliwatts': PowerUnit.milliwatt,
@@ -119,6 +147,9 @@ enum PowerUnit implements LinearUnit<PowerUnit> {
     // gigawatt
     'gigawatt': PowerUnit.gigawatt,
     'gigawatts': PowerUnit.gigawatt,
+    // terawatt
+    'terawatt': PowerUnit.terawatt,
+    'terawatts': PowerUnit.terawatt,
     // horsepower
     'horsepower': PowerUnit.horsepower,
     // metric horsepower
@@ -139,6 +170,10 @@ enum PowerUnit implements LinearUnit<PowerUnit> {
     switch (targetUnit) {
       case PowerUnit.watt:
         return _factorToWatt;
+      case PowerUnit.nanowatt:
+        return _factorToNanowatt;
+      case PowerUnit.microwatt:
+        return _factorToMicrowatt;
       case PowerUnit.milliwatt:
         return _factorToMilliwatt;
       case PowerUnit.kilowatt:
@@ -147,6 +182,8 @@ enum PowerUnit implements LinearUnit<PowerUnit> {
         return _factorToMegawatt;
       case PowerUnit.gigawatt:
         return _factorToGigawatt;
+      case PowerUnit.terawatt:
+        return _factorToTerawatt;
       case PowerUnit.horsepower:
         return _factorToHorsepower;
       case PowerUnit.metricHorsepower:

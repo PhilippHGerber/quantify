@@ -13,14 +13,23 @@ enum ForceUnit implements LinearUnit<ForceUnit> {
   /// Newton (N), the SI derived unit of force.
   newton(1, 'N'),
 
+  /// Nanonewton (nN), the standard scale for AFM and cellular mechanics.
+  nanonewton(ForceFactors.newtonsPerNanonewton, 'nN'),
+
+  /// Micronewton (µN), for MEMS and ion thruster output.
+  micronewton(ForceFactors.newtonsPerMicronewton, 'µN'),
+
+  /// Millinewton (mN), a common sub-multiple of the Newton.
+  millinewton(ForceFactors.newtonsPerMillinewton, 'mN'),
+
   /// Kilonewton (kN), a common multiple of the Newton.
   kilonewton(ForceFactors.newtonsPerKilonewton, 'kN'),
 
   /// Meganewton (MN), used for very large forces (e.g., rocket thrust).
   meganewton(ForceFactors.newtonsPerMeganewton, 'MN'),
 
-  /// Millinewton (mN), a common sub-multiple of the Newton.
-  millinewton(ForceFactors.newtonsPerMillinewton, 'mN'),
+  /// Giganewton (GN), used in geology (tectonic plate forces).
+  giganewton(ForceFactors.newtonsPerGiganewton, 'GN'),
 
   /// Pound-force (lbf), the imperial/US customary unit of force.
   poundForce(ForceFactors.newtonsPerPoundForce, 'lbf'),
@@ -41,9 +50,12 @@ enum ForceUnit implements LinearUnit<ForceUnit> {
   const ForceUnit(double toNewtonFactor, this.symbol)
       : _toNewtonFactor = toNewtonFactor,
         _factorToNewton = toNewtonFactor / 1.0,
+        _factorToNanonewton = toNewtonFactor / ForceFactors.newtonsPerNanonewton,
+        _factorToMicronewton = toNewtonFactor / ForceFactors.newtonsPerMicronewton,
+        _factorToMillinewton = toNewtonFactor / ForceFactors.newtonsPerMillinewton,
         _factorToKilonewton = toNewtonFactor / ForceFactors.newtonsPerKilonewton,
         _factorToMeganewton = toNewtonFactor / ForceFactors.newtonsPerMeganewton,
-        _factorToMillinewton = toNewtonFactor / ForceFactors.newtonsPerMillinewton,
+        _factorToGiganewton = toNewtonFactor / ForceFactors.newtonsPerGiganewton,
         _factorToPoundForce = toNewtonFactor / ForceFactors.newtonsPerPoundForce,
         _factorToDyne = toNewtonFactor / ForceFactors.newtonsPerDyne,
         _factorToKilogramForce = toNewtonFactor / ForceFactors.newtonsPerKilogramForce,
@@ -58,9 +70,12 @@ enum ForceUnit implements LinearUnit<ForceUnit> {
 
   // --- Pre-calculated direct conversion factors ---
   final double _factorToNewton;
+  final double _factorToNanonewton;
+  final double _factorToMicronewton;
+  final double _factorToMillinewton;
   final double _factorToKilonewton;
   final double _factorToMeganewton;
-  final double _factorToMillinewton;
+  final double _factorToGiganewton;
   final double _factorToPoundForce;
   final double _factorToDyne;
   final double _factorToKilogramForce;
@@ -74,12 +89,19 @@ enum ForceUnit implements LinearUnit<ForceUnit> {
   static const Map<String, ForceUnit> symbolAliases = {
     // newton
     'N': ForceUnit.newton,
+    // nanonewton
+    'nN': ForceUnit.nanonewton,
+    // micronewton
+    'µN': ForceUnit.micronewton,
+    'uN': ForceUnit.micronewton,
+    // millinewton
+    'mN': ForceUnit.millinewton,
     // kilonewton
     'kN': ForceUnit.kilonewton,
     // meganewton
     'MN': ForceUnit.meganewton,
-    // millinewton
-    'mN': ForceUnit.millinewton,
+    // giganewton
+    'GN': ForceUnit.giganewton,
     // pound-force
     'lbf': ForceUnit.poundForce,
     // dyne
@@ -101,15 +123,24 @@ enum ForceUnit implements LinearUnit<ForceUnit> {
     // newton
     'newton': ForceUnit.newton,
     'newtons': ForceUnit.newton,
+    // nanonewton
+    'nanonewton': ForceUnit.nanonewton,
+    'nanonewtons': ForceUnit.nanonewton,
+    // micronewton
+    'micronewton': ForceUnit.micronewton,
+    'micronewtons': ForceUnit.micronewton,
+    // millinewton
+    'millinewton': ForceUnit.millinewton,
+    'millinewtons': ForceUnit.millinewton,
     // kilonewton
     'kilonewton': ForceUnit.kilonewton,
     'kilonewtons': ForceUnit.kilonewton,
     // meganewton
     'meganewton': ForceUnit.meganewton,
     'meganewtons': ForceUnit.meganewton,
-    // millinewton
-    'millinewton': ForceUnit.millinewton,
-    'millinewtons': ForceUnit.millinewton,
+    // giganewton
+    'giganewton': ForceUnit.giganewton,
+    'giganewtons': ForceUnit.giganewton,
     // pound-force
     'pound-force': ForceUnit.poundForce,
     'pounds-force': ForceUnit.poundForce,
@@ -141,12 +172,18 @@ enum ForceUnit implements LinearUnit<ForceUnit> {
     switch (targetUnit) {
       case ForceUnit.newton:
         return _factorToNewton;
+      case ForceUnit.nanonewton:
+        return _factorToNanonewton;
+      case ForceUnit.micronewton:
+        return _factorToMicronewton;
+      case ForceUnit.millinewton:
+        return _factorToMillinewton;
       case ForceUnit.kilonewton:
         return _factorToKilonewton;
       case ForceUnit.meganewton:
         return _factorToMeganewton;
-      case ForceUnit.millinewton:
-        return _factorToMillinewton;
+      case ForceUnit.giganewton:
+        return _factorToGiganewton;
       case ForceUnit.poundForce:
         return _factorToPoundForce;
       case ForceUnit.dyne:

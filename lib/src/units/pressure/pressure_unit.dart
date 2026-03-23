@@ -12,6 +12,9 @@ enum PressureUnit implements LinearUnit<PressureUnit> {
   /// Pascal (Pa), the SI derived unit of pressure.
   pascal(1, 'Pa'),
 
+  /// Micropascal (µPa), the international standard reference pressure for acoustics.
+  micropascal(PressureFactors.pascalsPerMicropascal, 'µPa'),
+
   /// Atmosphere (atm), standard atmosphere.
   atmosphere(PressureFactors.pascalsPerAtmosphere, 'atm'),
 
@@ -29,6 +32,10 @@ enum PressureUnit implements LinearUnit<PressureUnit> {
 
   /// Inch of mercury (inHg) at 0°C.
   inchOfMercury(PressureFactors.pascalsPerInchOfMercury, 'inHg'),
+
+  /// Gigapascal (GPa).
+  /// Required for material science (Young's modulus, tensile strength).
+  gigapascal(PressureFactors.pascalsPerGigapascal, 'GPa'),
 
   /// Megapascal (MPa).
   megapascal(PressureFactors.pascalsPerMegapascal, 'MPa'),
@@ -58,6 +65,7 @@ enum PressureUnit implements LinearUnit<PressureUnit> {
   /// The formula `factor_A_to_B = _toPascalFactor_A / _toPascalFactor_B` is used.
   const PressureUnit(this._toPascalFactor, this.symbol)
       : _factorToPascal = _toPascalFactor / 1.0, // Pascal's _toPascalFactor is 1.0
+        _factorToMicropascal = _toPascalFactor / PressureFactors.pascalsPerMicropascal,
         _factorToAtmosphere = _toPascalFactor / PressureFactors.pascalsPerAtmosphere,
         _factorToBar = _toPascalFactor / PressureFactors.pascalsPerBar,
         _factorToPsi = _toPascalFactor / PressureFactors.pascalsPerPsi,
@@ -65,6 +73,7 @@ enum PressureUnit implements LinearUnit<PressureUnit> {
         _factorToMillimeterOfMercury =
             _toPascalFactor / PressureFactors.pascalsPerMillimeterOfMercury,
         _factorToInchOfMercury = _toPascalFactor / PressureFactors.pascalsPerInchOfMercury,
+        _factorToGigapascal = _toPascalFactor / PressureFactors.pascalsPerGigapascal,
         _factorToMegapascal = _toPascalFactor / PressureFactors.pascalsPerMegapascal,
         _factorToKilopascal = _toPascalFactor / PressureFactors.pascalsPerKilopascal,
         _factorToHectopascal = _toPascalFactor / PressureFactors.pascalsPerHectopascal,
@@ -84,12 +93,14 @@ enum PressureUnit implements LinearUnit<PressureUnit> {
 
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToPascal;
+  final double _factorToMicropascal;
   final double _factorToAtmosphere;
   final double _factorToBar;
   final double _factorToPsi;
   final double _factorToTorr;
   final double _factorToMillimeterOfMercury;
   final double _factorToInchOfMercury;
+  final double _factorToGigapascal;
   final double _factorToMegapascal;
   final double _factorToKilopascal;
   final double _factorToHectopascal;
@@ -104,6 +115,9 @@ enum PressureUnit implements LinearUnit<PressureUnit> {
   static const Map<String, PressureUnit> symbolAliases = {
     // pascal
     'Pa': PressureUnit.pascal,
+    // micropascal
+    'µPa': PressureUnit.micropascal,
+    'uPa': PressureUnit.micropascal,
     // atmosphere
     'atm': PressureUnit.atmosphere,
     // bar
@@ -116,6 +130,8 @@ enum PressureUnit implements LinearUnit<PressureUnit> {
     'mmHg': PressureUnit.millimeterOfMercury,
     // inch of mercury
     'inHg': PressureUnit.inchOfMercury,
+    // gigapascal
+    'GPa': PressureUnit.gigapascal,
     // megapascal
     'MPa': PressureUnit.megapascal,
     // kilopascal
@@ -140,6 +156,10 @@ enum PressureUnit implements LinearUnit<PressureUnit> {
     // pascal
     'pascal': PressureUnit.pascal,
     'pascals': PressureUnit.pascal,
+    // micropascal
+    'micropascal': PressureUnit.micropascal,
+    'micropascals': PressureUnit.micropascal,
+    'micropa': PressureUnit.micropascal,
     // atmosphere
     'atmosphere': PressureUnit.atmosphere,
     'atmospheres': PressureUnit.atmosphere,
@@ -161,6 +181,10 @@ enum PressureUnit implements LinearUnit<PressureUnit> {
     'inch of mercury': PressureUnit.inchOfMercury,
     'inches of mercury': PressureUnit.inchOfMercury,
     'inhg': PressureUnit.inchOfMercury,
+    // gigapascal
+    'gigapascal': PressureUnit.gigapascal,
+    'gigapascals': PressureUnit.gigapascal,
+    'gipa': PressureUnit.gigapascal,
     // megapascal
     'megapascal': PressureUnit.megapascal,
     'megapascals': PressureUnit.megapascal,
@@ -189,6 +213,8 @@ enum PressureUnit implements LinearUnit<PressureUnit> {
     switch (targetUnit) {
       case PressureUnit.pascal:
         return _factorToPascal;
+      case PressureUnit.micropascal:
+        return _factorToMicropascal;
       case PressureUnit.atmosphere:
         return _factorToAtmosphere;
       case PressureUnit.bar:
@@ -201,6 +227,8 @@ enum PressureUnit implements LinearUnit<PressureUnit> {
         return _factorToMillimeterOfMercury;
       case PressureUnit.inchOfMercury:
         return _factorToInchOfMercury;
+      case PressureUnit.gigapascal:
+        return _factorToGigapascal;
       case PressureUnit.megapascal:
         return _factorToMegapascal;
       case PressureUnit.kilopascal:

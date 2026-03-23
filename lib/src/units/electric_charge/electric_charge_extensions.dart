@@ -6,6 +6,9 @@ extension ElectricChargeValueGetters on ElectricCharge {
   /// Returns the electric charge value in Coulombs (C).
   double get inCoulombs => getValue(ElectricChargeUnit.coulomb);
 
+  /// Returns the electric charge value in Kilocoulombs (kC).
+  double get inKilocoulombs => getValue(ElectricChargeUnit.kilocoulomb);
+
   /// Returns the electric charge value in Millicoulombs (mC).
   double get inMillicoulombs => getValue(ElectricChargeUnit.millicoulomb);
 
@@ -14,6 +17,9 @@ extension ElectricChargeValueGetters on ElectricCharge {
 
   /// Returns the electric charge value in Nanocoulombs (nC).
   double get inNanocoulombs => getValue(ElectricChargeUnit.nanocoulomb);
+
+  /// Returns the electric charge value in Picocoulombs (pC).
+  double get inPicocoulombs => getValue(ElectricChargeUnit.picocoulomb);
 
   /// Returns the electric charge value in Elementary Charges (e).
   double get inElementaryCharges => getValue(ElectricChargeUnit.elementaryCharge);
@@ -33,6 +39,9 @@ extension ElectricChargeValueGetters on ElectricCharge {
   /// Returns a new [ElectricCharge] object representing this charge in Coulombs (C).
   ElectricCharge get asCoulombs => convertTo(ElectricChargeUnit.coulomb);
 
+  /// Returns a new [ElectricCharge] object representing this charge in Kilocoulombs (kC).
+  ElectricCharge get asKilocoulombs => convertTo(ElectricChargeUnit.kilocoulomb);
+
   /// Returns a new [ElectricCharge] object representing this charge in Millicoulombs (mC).
   ElectricCharge get asMillicoulombs => convertTo(ElectricChargeUnit.millicoulomb);
 
@@ -41,6 +50,9 @@ extension ElectricChargeValueGetters on ElectricCharge {
 
   /// Returns a new [ElectricCharge] object representing this charge in Nanocoulombs (nC).
   ElectricCharge get asNanocoulombs => convertTo(ElectricChargeUnit.nanocoulomb);
+
+  /// Returns a new [ElectricCharge] object representing this charge in Picocoulombs (pC).
+  ElectricCharge get asPicocoulombs => convertTo(ElectricChargeUnit.picocoulomb);
 
   /// Returns a new [ElectricCharge] object representing this charge in Elementary Charges (e).
   ElectricCharge get asElementaryCharges => convertTo(ElectricChargeUnit.elementaryCharge);
@@ -67,6 +79,9 @@ extension ElectricChargeCreation on num {
   /// Alias for `C`.
   ElectricCharge get coulombs => ElectricCharge(toDouble(), ElectricChargeUnit.coulomb);
 
+  /// Creates an [ElectricCharge] instance from this value in Kilocoulombs (kC).
+  ElectricCharge get kC => ElectricCharge(toDouble(), ElectricChargeUnit.kilocoulomb);
+
   /// Creates an [ElectricCharge] instance from this value in Millicoulombs (mC).
   ElectricCharge get mC => ElectricCharge(toDouble(), ElectricChargeUnit.millicoulomb);
 
@@ -75,6 +90,9 @@ extension ElectricChargeCreation on num {
 
   /// Creates an [ElectricCharge] instance from this value in Nanocoulombs (nC).
   ElectricCharge get nC => ElectricCharge(toDouble(), ElectricChargeUnit.nanocoulomb);
+
+  /// Creates an [ElectricCharge] instance from this value in Picocoulombs (pC).
+  ElectricCharge get pC => ElectricCharge(toDouble(), ElectricChargeUnit.picocoulomb);
 
   /// Creates an [ElectricCharge] instance from this value in Elementary Charges (e).
   /// Represents the number of elementary charges (e.g., protons or electrons).

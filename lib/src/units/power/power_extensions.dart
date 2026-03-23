@@ -16,6 +16,12 @@ extension PowerValueGetters on Power {
   /// Returns the power value in Watts (W).
   double get inWatts => getValue(PowerUnit.watt);
 
+  /// Returns the power value in Nanowatts (nW).
+  double get inNanowatts => getValue(PowerUnit.nanowatt);
+
+  /// Returns the power value in Microwatts (µW).
+  double get inMicrowatts => getValue(PowerUnit.microwatt);
+
   /// Returns the power value in Milliwatts (mW).
   double get inMilliwatts => getValue(PowerUnit.milliwatt);
 
@@ -27,6 +33,9 @@ extension PowerValueGetters on Power {
 
   /// Returns the power value in Gigawatts (GW).
   double get inGigawatts => getValue(PowerUnit.gigawatt);
+
+  /// Returns the power value in Terawatts (TW).
+  double get inTerawatts => getValue(PowerUnit.terawatt);
 
   // --- Engineering / Common Units ---
   /// Returns the power value in mechanical Horsepower (hp).
@@ -47,6 +56,12 @@ extension PowerValueGetters on Power {
   /// Returns a new [Power] object representing this power in Watts (W).
   Power get asWatts => convertTo(PowerUnit.watt);
 
+  /// Returns a new [Power] object representing this power in Nanowatts (nW).
+  Power get asNanowatts => convertTo(PowerUnit.nanowatt);
+
+  /// Returns a new [Power] object representing this power in Microwatts (µW).
+  Power get asMicrowatts => convertTo(PowerUnit.microwatt);
+
   /// Returns a new [Power] object representing this power in Milliwatts (mW).
   Power get asMilliwatts => convertTo(PowerUnit.milliwatt);
 
@@ -58,6 +73,9 @@ extension PowerValueGetters on Power {
 
   /// Returns a new [Power] object representing this power in Gigawatts (GW).
   Power get asGigawatts => convertTo(PowerUnit.gigawatt);
+
+  /// Returns a new [Power] object representing this power in Terawatts (TW).
+  Power get asTerawatts => convertTo(PowerUnit.terawatt);
 
   /// Returns a new [Power] object representing this power in mechanical Horsepower (hp).
   Power get asHorsepower => convertTo(PowerUnit.horsepower);
@@ -81,6 +99,18 @@ extension PowerCreation on num {
   /// Creates a [Power] instance from this value in Watts (W).
   Power get watts => Power(toDouble(), PowerUnit.watt);
 
+  /// Creates a [Power] instance from this value in Nanowatts (nW).
+  Power get nW => Power(toDouble(), PowerUnit.nanowatt);
+
+  /// Creates a [Power] instance from this value in Nanowatts (nW).
+  Power get nanowatts => Power(toDouble(), PowerUnit.nanowatt);
+
+  /// Creates a [Power] instance from this value in Microwatts (µW).
+  Power get uW => Power(toDouble(), PowerUnit.microwatt);
+
+  /// Creates a [Power] instance from this value in Microwatts (µW).
+  Power get microwatts => Power(toDouble(), PowerUnit.microwatt);
+
   /// Creates a [Power] instance from this value in Milliwatts (mW).
   Power get mW => Power(toDouble(), PowerUnit.milliwatt);
 
@@ -99,17 +129,19 @@ extension PowerCreation on num {
   Power get MW => Power(toDouble(), PowerUnit.megawatt);
 
   /// Creates a [Power] instance from this value in Megawatts (MW).
-  /// Dart-idiomatic alias for the SI symbol [MW].
   Power get megawatts => Power(toDouble(), PowerUnit.megawatt);
 
   /// Creates a [Power] instance from this value in Gigawatts (GW).
-  ///
-  /// The SI symbol for gigawatt is 'GW' (capital G = giga prefix).
   Power get GW => Power(toDouble(), PowerUnit.gigawatt);
 
   /// Creates a [Power] instance from this value in Gigawatts (GW).
-  /// Dart-idiomatic alias for the SI symbol [GW].
   Power get gigawatts => Power(toDouble(), PowerUnit.gigawatt);
+
+  /// Creates a [Power] instance from this value in Terawatts (TW).
+  Power get TW => Power(toDouble(), PowerUnit.terawatt);
+
+  /// Creates a [Power] instance from this value in Terawatts (TW).
+  Power get terawatts => Power(toDouble(), PowerUnit.terawatt);
 
   // --- Engineering / Common Units ---
 

@@ -58,7 +58,7 @@ void main() {
 
       test('SI symbols distinguish prefixes (mmol vs Mmol)', () {
         expect(MolarAmount.parse('25 mmol'), const MolarAmount(25, MolarUnit.millimole));
-        expect(() => MolarAmount.parse('25 Mmol'), throwsA(isA<QuantityParseException>()));
+        expect(MolarAmount.parse('25 Mmol'), const MolarAmount(25, MolarUnit.megamole));
       });
 
       test('full names are case-insensitive', () {

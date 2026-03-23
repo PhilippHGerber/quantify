@@ -13,6 +13,9 @@ enum ElectricChargeUnit implements LinearUnit<ElectricChargeUnit> {
   /// Coulomb (C), the SI derived unit of electric charge.
   coulomb(1, 'C'),
 
+  /// Kilocoulomb (kC), a multiple of the Coulomb.
+  kilocoulomb(ElectricChargeFactors.coulombsPerKilocoulomb, 'kC'),
+
   /// Millicoulomb (mC), a sub-multiple of the Coulomb.
   millicoulomb(ElectricChargeFactors.coulombsPerMillicoulomb, 'mC'),
 
@@ -21,6 +24,9 @@ enum ElectricChargeUnit implements LinearUnit<ElectricChargeUnit> {
 
   /// Nanocoulomb (nC), a sub-multiple of the Coulomb.
   nanocoulomb(ElectricChargeFactors.coulombsPerNanocoulomb, 'nC'),
+
+  /// Picocoulomb (pC), a sub-multiple of the Coulomb.
+  picocoulomb(ElectricChargeFactors.coulombsPerPicocoulomb, 'pC'),
 
   /// Elementary Charge (e), the charge of a single proton.
   elementaryCharge(ElectricChargeFactors.coulombsPerElementaryCharge, 'e'),
@@ -44,9 +50,11 @@ enum ElectricChargeUnit implements LinearUnit<ElectricChargeUnit> {
   const ElectricChargeUnit(double toCoulombFactor, this.symbol)
       : _toCoulombFactor = toCoulombFactor,
         _factorToCoulomb = toCoulombFactor / 1.0,
+        _factorToKilocoulomb = toCoulombFactor / ElectricChargeFactors.coulombsPerKilocoulomb,
         _factorToMillicoulomb = toCoulombFactor / ElectricChargeFactors.coulombsPerMillicoulomb,
         _factorToMicrocoulomb = toCoulombFactor / ElectricChargeFactors.coulombsPerMicrocoulomb,
         _factorToNanocoulomb = toCoulombFactor / ElectricChargeFactors.coulombsPerNanocoulomb,
+        _factorToPicocoulomb = toCoulombFactor / ElectricChargeFactors.coulombsPerPicocoulomb,
         _factorToElementaryCharge =
             toCoulombFactor / ElectricChargeFactors.coulombsPerElementaryCharge,
         _factorToAmpereHour = toCoulombFactor / ElectricChargeFactors.coulombsPerAmpereHour,
@@ -63,9 +71,11 @@ enum ElectricChargeUnit implements LinearUnit<ElectricChargeUnit> {
 
   // --- Pre-calculated direct conversion factors ---
   final double _factorToCoulomb;
+  final double _factorToKilocoulomb;
   final double _factorToMillicoulomb;
   final double _factorToMicrocoulomb;
   final double _factorToNanocoulomb;
+  final double _factorToPicocoulomb;
   final double _factorToElementaryCharge;
   final double _factorToAmpereHour;
   final double _factorToMilliampereHour;
@@ -79,6 +89,8 @@ enum ElectricChargeUnit implements LinearUnit<ElectricChargeUnit> {
   static const Map<String, ElectricChargeUnit> symbolAliases = {
     // coulomb
     'C': ElectricChargeUnit.coulomb,
+    // kilocoulomb
+    'kC': ElectricChargeUnit.kilocoulomb,
     // millicoulomb
     'mC': ElectricChargeUnit.millicoulomb,
     // microcoulomb
@@ -86,6 +98,8 @@ enum ElectricChargeUnit implements LinearUnit<ElectricChargeUnit> {
     'uC': ElectricChargeUnit.microcoulomb,
     // nanocoulomb
     'nC': ElectricChargeUnit.nanocoulomb,
+    // picocoulomb
+    'pC': ElectricChargeUnit.picocoulomb,
     // elementary charge
     'e': ElectricChargeUnit.elementaryCharge,
     // ampere-hour
@@ -107,6 +121,9 @@ enum ElectricChargeUnit implements LinearUnit<ElectricChargeUnit> {
     // coulomb
     'coulomb': ElectricChargeUnit.coulomb,
     'coulombs': ElectricChargeUnit.coulomb,
+    // kilocoulomb
+    'kilocoulomb': ElectricChargeUnit.kilocoulomb,
+    'kilocoulombs': ElectricChargeUnit.kilocoulomb,
     // millicoulomb
     'millicoulomb': ElectricChargeUnit.millicoulomb,
     'millicoulombs': ElectricChargeUnit.millicoulomb,
@@ -116,6 +133,9 @@ enum ElectricChargeUnit implements LinearUnit<ElectricChargeUnit> {
     // nanocoulomb
     'nanocoulomb': ElectricChargeUnit.nanocoulomb,
     'nanocoulombs': ElectricChargeUnit.nanocoulomb,
+    // picocoulomb
+    'picocoulomb': ElectricChargeUnit.picocoulomb,
+    'picocoulombs': ElectricChargeUnit.picocoulomb,
     // elementary charge
     'elementary charge': ElectricChargeUnit.elementaryCharge,
     // ampere-hour
@@ -148,12 +168,16 @@ enum ElectricChargeUnit implements LinearUnit<ElectricChargeUnit> {
     switch (targetUnit) {
       case ElectricChargeUnit.coulomb:
         return _factorToCoulomb;
+      case ElectricChargeUnit.kilocoulomb:
+        return _factorToKilocoulomb;
       case ElectricChargeUnit.millicoulomb:
         return _factorToMillicoulomb;
       case ElectricChargeUnit.microcoulomb:
         return _factorToMicrocoulomb;
       case ElectricChargeUnit.nanocoulomb:
         return _factorToNanocoulomb;
+      case ElectricChargeUnit.picocoulomb:
+        return _factorToPicocoulomb;
       case ElectricChargeUnit.elementaryCharge:
         return _factorToElementaryCharge;
       case ElectricChargeUnit.ampereHour:

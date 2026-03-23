@@ -59,7 +59,10 @@ void main() {
           LuminousIntensity.parse('150 mcd'),
           const LuminousIntensity(150, LuminousIntensityUnit.millicandela),
         );
-        expect(() => LuminousIntensity.parse('150 Mcd'), throwsA(isA<QuantityParseException>()));
+        expect(
+          LuminousIntensity.parse('150 Mcd'),
+          const LuminousIntensity(150, LuminousIntensityUnit.megacandela),
+        );
       });
 
       test('full names are case-insensitive', () {

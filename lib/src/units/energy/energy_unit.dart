@@ -12,11 +12,23 @@ enum EnergyUnit implements LinearUnit<EnergyUnit> {
   /// Joule (J), the SI derived unit of energy.
   joule(1, 'J'),
 
-  /// Megajoule (MJ), a common multiple of the Joule.
-  megajoule(EnergyFactors.joulesPerMegajoule, 'MJ'),
+  /// Millijoule (mJ), common in optics and medical devices.
+  millijoule(EnergyFactors.joulesPerMillijoule, 'mJ'),
+
+  /// Microjoule (µJ), used in fiber optics and low-energy physics.
+  microjoule(EnergyFactors.joulesPerMicrojoule, 'µJ'),
 
   /// Kilojoule (kJ), a common multiple of the Joule.
   kilojoule(EnergyFactors.joulesPerKilojoule, 'kJ'),
+
+  /// Megajoule (MJ), a common multiple of the Joule.
+  megajoule(EnergyFactors.joulesPerMegajoule, 'MJ'),
+
+  /// Gigajoule (GJ), standard unit for utility billing.
+  gigajoule(EnergyFactors.joulesPerGigajoule, 'GJ'),
+
+  /// Terajoule (TJ), used in macro-economics and earth sciences.
+  terajoule(EnergyFactors.joulesPerTerajoule, 'TJ'),
 
   /// Calorie (cal), the thermochemical calorie (4.184 J exact).
   /// This is the IUPAC/ISO 31-4 recommended standard for scientific use.
@@ -57,8 +69,12 @@ enum EnergyUnit implements LinearUnit<EnergyUnit> {
   const EnergyUnit(double toJouleFactor, this.symbol)
       : _toJouleFactor = toJouleFactor,
         _factorToJoule = toJouleFactor / 1.0,
-        _factorToMegajoule = toJouleFactor / EnergyFactors.joulesPerMegajoule,
+        _factorToMillijoule = toJouleFactor / EnergyFactors.joulesPerMillijoule,
+        _factorToMicrojoule = toJouleFactor / EnergyFactors.joulesPerMicrojoule,
         _factorToKilojoule = toJouleFactor / EnergyFactors.joulesPerKilojoule,
+        _factorToMegajoule = toJouleFactor / EnergyFactors.joulesPerMegajoule,
+        _factorToGigajoule = toJouleFactor / EnergyFactors.joulesPerGigajoule,
+        _factorToTerajoule = toJouleFactor / EnergyFactors.joulesPerTerajoule,
         _factorToCalorie = toJouleFactor / EnergyFactors.joulesPerCalorie,
         _factorToCalorieIT = toJouleFactor / EnergyFactors.joulesPerCalorieIT,
         _factorToKilocalorie = toJouleFactor / EnergyFactors.joulesPerKilocalorie,
@@ -77,8 +93,12 @@ enum EnergyUnit implements LinearUnit<EnergyUnit> {
 
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToJoule;
-  final double _factorToMegajoule;
+  final double _factorToMillijoule;
+  final double _factorToMicrojoule;
   final double _factorToKilojoule;
+  final double _factorToMegajoule;
+  final double _factorToGigajoule;
+  final double _factorToTerajoule;
   final double _factorToCalorie;
   final double _factorToCalorieIT;
   final double _factorToKilocalorie;
@@ -94,10 +114,19 @@ enum EnergyUnit implements LinearUnit<EnergyUnit> {
   static const Map<String, EnergyUnit> symbolAliases = {
     // joule
     'J': EnergyUnit.joule,
-    // megajoule
-    'MJ': EnergyUnit.megajoule,
+    // millijoule
+    'mJ': EnergyUnit.millijoule,
+    // microjoule
+    'µJ': EnergyUnit.microjoule,
+    'uJ': EnergyUnit.microjoule,
     // kilojoule
     'kJ': EnergyUnit.kilojoule,
+    // megajoule
+    'MJ': EnergyUnit.megajoule,
+    // gigajoule
+    'GJ': EnergyUnit.gigajoule,
+    // terajoule
+    'TJ': EnergyUnit.terajoule,
     // calorie
     'cal': EnergyUnit.calorie,
     // calorie IT
@@ -124,12 +153,26 @@ enum EnergyUnit implements LinearUnit<EnergyUnit> {
     // joule
     'joule': EnergyUnit.joule,
     'joules': EnergyUnit.joule,
-    // megajoule
-    'megajoule': EnergyUnit.megajoule,
-    'megajoules': EnergyUnit.megajoule,
+    // millijoule
+    'millijoule': EnergyUnit.millijoule,
+    'millajoules': EnergyUnit.millijoule,
+    'millajoule': EnergyUnit.millijoule,
+    'millijoules': EnergyUnit.millijoule,
+    // microjoule
+    'microjoule': EnergyUnit.microjoule,
+    'microjoules': EnergyUnit.microjoule,
     // kilojoule
     'kilojoule': EnergyUnit.kilojoule,
     'kilojoules': EnergyUnit.kilojoule,
+    // megajoule
+    'megajoule': EnergyUnit.megajoule,
+    'megajoules': EnergyUnit.megajoule,
+    // gigajoule
+    'gigajoule': EnergyUnit.gigajoule,
+    'gigajoules': EnergyUnit.gigajoule,
+    // terajoule
+    'terajoule': EnergyUnit.terajoule,
+    'terajoules': EnergyUnit.terajoule,
     // calorie
     'calorie': EnergyUnit.calorie,
     'calories': EnergyUnit.calorie,
@@ -171,10 +214,18 @@ enum EnergyUnit implements LinearUnit<EnergyUnit> {
     switch (targetUnit) {
       case EnergyUnit.joule:
         return _factorToJoule;
-      case EnergyUnit.megajoule:
-        return _factorToMegajoule;
+      case EnergyUnit.millijoule:
+        return _factorToMillijoule;
+      case EnergyUnit.microjoule:
+        return _factorToMicrojoule;
       case EnergyUnit.kilojoule:
         return _factorToKilojoule;
+      case EnergyUnit.megajoule:
+        return _factorToMegajoule;
+      case EnergyUnit.gigajoule:
+        return _factorToGigajoule;
+      case EnergyUnit.terajoule:
+        return _factorToTerajoule;
       case EnergyUnit.calorie:
         return _factorToCalorie;
       case EnergyUnit.calorieIT:

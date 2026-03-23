@@ -1,6 +1,12 @@
 import 'molar_amount.dart';
 import 'molar_unit.dart';
 
+// SI/IEC unit symbols use uppercase letters by international standard
+// (e.g., 'Hz' for hertz, named after Heinrich Hertz).
+// Dart's lowerCamelCase rule is intentionally overridden here to preserve
+// domain correctness and discoverability for scientists and engineers.
+// ignore_for_file: non_constant_identifier_names
+
 /// Provides convenient access to [MolarAmount] values in specific units
 /// using getter properties.
 ///
@@ -9,6 +15,12 @@ import 'molar_unit.dart';
 extension MolarAmountValueGetters on MolarAmount {
   /// Returns the molar amount value in Moles (mol).
   double get inMoles => getValue(MolarUnit.mole);
+
+  /// Returns the molar amount value in Megamoles (Mmol).
+  double get inMegamoles => getValue(MolarUnit.megamole);
+
+  /// Returns the molar amount value in Kilomoles (kmol).
+  double get inKilomoles => getValue(MolarUnit.kilomole);
 
   /// Returns the molar amount value in Millimoles (mmol).
   double get inMillimoles => getValue(MolarUnit.millimole);
@@ -22,8 +34,8 @@ extension MolarAmountValueGetters on MolarAmount {
   /// Returns the molar amount value in Picomoles (pmol).
   double get inPicomoles => getValue(MolarUnit.picomole);
 
-  /// Returns the molar amount value in Kilomoles (kmol).
-  double get inKilomoles => getValue(MolarUnit.kilomole);
+  /// Returns the molar amount value in Femtomoles (fmol).
+  double get inFemtomoles => getValue(MolarUnit.femtomole);
 
   /// Returns the molar amount value in Pound-moles (lb-mol).
   double get inPoundMoles => getValue(MolarUnit.poundMole);
@@ -32,6 +44,12 @@ extension MolarAmountValueGetters on MolarAmount {
 
   /// Returns a new [MolarAmount] object representing this amount in Moles (mol).
   MolarAmount get asMoles => convertTo(MolarUnit.mole);
+
+  /// Returns a new [MolarAmount] object representing this amount in Megamoles (Mmol).
+  MolarAmount get asMegamoles => convertTo(MolarUnit.megamole);
+
+  /// Returns a new [MolarAmount] object representing this amount in Kilomoles (kmol).
+  MolarAmount get asKilomoles => convertTo(MolarUnit.kilomole);
 
   /// Returns a new [MolarAmount] object representing this amount in Millimoles (mmol).
   MolarAmount get asMillimoles => convertTo(MolarUnit.millimole);
@@ -45,8 +63,8 @@ extension MolarAmountValueGetters on MolarAmount {
   /// Returns a new [MolarAmount] object representing this amount in Picomoles (pmol).
   MolarAmount get asPicomoles => convertTo(MolarUnit.picomole);
 
-  /// Returns a new [MolarAmount] object representing this amount in Kilomoles (kmol).
-  MolarAmount get asKilomoles => convertTo(MolarUnit.kilomole);
+  /// Returns a new [MolarAmount] object representing this amount in Femtomoles (fmol).
+  MolarAmount get asFemtomoles => convertTo(MolarUnit.femtomole);
 
   /// Returns a new [MolarAmount] object representing this amount in Pound-moles (lb-mol).
   MolarAmount get asPoundMoles => convertTo(MolarUnit.poundMole);
@@ -64,6 +82,18 @@ extension MolarAmountCreation on num {
   /// Creates a [MolarAmount] instance representing this numerical value in Moles (mol).
   /// Alias for `mol`.
   MolarAmount get moles => MolarAmount(toDouble(), MolarUnit.mole);
+
+  /// Creates a [MolarAmount] instance representing this numerical value in Megamoles (Mmol).
+  MolarAmount get Mmol => MolarAmount(toDouble(), MolarUnit.megamole);
+
+  /// Creates a [MolarAmount] instance representing this numerical value in Megamoles (Mmol).
+  MolarAmount get megamoles => MolarAmount(toDouble(), MolarUnit.megamole);
+
+  /// Creates a [MolarAmount] instance representing this numerical value in Kilomoles (kmol).
+  MolarAmount get kmol => MolarAmount(toDouble(), MolarUnit.kilomole);
+
+  /// Creates a [MolarAmount] instance representing this numerical value in Kilomoles (kmol).
+  MolarAmount get kilomoles => MolarAmount(toDouble(), MolarUnit.kilomole);
 
   /// Creates a [MolarAmount] instance representing this numerical value in Millimoles (mmol).
   MolarAmount get mmol => MolarAmount(toDouble(), MolarUnit.millimole);
@@ -93,12 +123,11 @@ extension MolarAmountCreation on num {
   /// Alias for `pmol`.
   MolarAmount get picomoles => MolarAmount(toDouble(), MolarUnit.picomole);
 
-  /// Creates a [MolarAmount] instance representing this numerical value in Kilomoles (kmol).
-  MolarAmount get kmol => MolarAmount(toDouble(), MolarUnit.kilomole);
+  /// Creates a [MolarAmount] instance representing this numerical value in Femtomoles (fmol).
+  MolarAmount get fmol => MolarAmount(toDouble(), MolarUnit.femtomole);
 
-  /// Creates a [MolarAmount] instance representing this numerical value in Kilomoles (kmol).
-  /// Alias for `kmol`.
-  MolarAmount get kilomoles => MolarAmount(toDouble(), MolarUnit.kilomole);
+  /// Creates a [MolarAmount] instance representing this numerical value in Femtomoles (fmol).
+  MolarAmount get femtomoles => MolarAmount(toDouble(), MolarUnit.femtomole);
 
   /// Creates a [MolarAmount] instance representing this numerical value in Pound-moles (lb-mol).
   MolarAmount get lbmol => MolarAmount(toDouble(), MolarUnit.poundMole);
