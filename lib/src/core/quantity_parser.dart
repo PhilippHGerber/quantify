@@ -311,12 +311,8 @@ class QuantityParser<T extends Unit<T>, Q extends Quantity<T>> {
           continue;
         }
 
-        try {
-          final value = nf.parse(normalizedNumeric).toDouble();
-          return factory(value, unit);
-        } on FormatException {
-          continue;
-        }
+        final value = nf.tryParse(normalizedNumeric)?.toDouble();
+        if (value != null) return factory(value, unit);
       } else {
         // Invariant mode: strict Dart-native parsing (dot decimal, no comma separators).
         // Since we stripped spaces in the normalization step, SI-spaced values like "10 000.5"
