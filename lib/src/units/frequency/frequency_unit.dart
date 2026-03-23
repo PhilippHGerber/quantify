@@ -91,6 +91,8 @@ enum FrequencyUnit implements LinearUnit<FrequencyUnit> {
     'mHz': FrequencyUnit.millihertz,
     // revolutions per minute
     'rpm': FrequencyUnit.revolutionsPerMinute,
+    // revolutions per second
+    'rps': FrequencyUnit.hertz,
     // beats per minute
     'bpm': FrequencyUnit.beatsPerMinute,
     // radian per second
@@ -121,6 +123,10 @@ enum FrequencyUnit implements LinearUnit<FrequencyUnit> {
     'revolutions per minute': FrequencyUnit.revolutionsPerMinute,
     'revolution per minute': FrequencyUnit.revolutionsPerMinute,
     'rpm': FrequencyUnit.revolutionsPerMinute,
+    // revolutions per second
+    'revolutions per second': FrequencyUnit.hertz,
+    'revolution per second': FrequencyUnit.hertz,
+    'rps': FrequencyUnit.hertz,
     // beats per minute
     'beats per minute': FrequencyUnit.beatsPerMinute,
     'beat per minute': FrequencyUnit.beatsPerMinute,
