@@ -18,8 +18,6 @@
 * **Robust Parsing:** Built-in string parsing with locale handling and custom alias support.
 * **Lightweight:** Minimal dependencies - just `intl` and `meta`.
 
-Whether you're building a fitness tracker that converts between miles and kilometers, an IoT dashboard displaying sensor readings in multiple units, an engineering calculator, or a scientific application requiring precise measurements, `quantify` provides the robust foundation you need.
-
 ## Quick Start
 
 ```dart
@@ -66,34 +64,49 @@ dart pub add quantify
 dart pub get
 ```
 
+### Granular Imports
+
+By default, `import 'package:quantify/quantify.dart'` gives you everything. In large projects or when combining `quantify` with other libraries, extension method conflicts can occur. Import only what you need using per-quantity entry points:
+
+```dart
+import 'package:quantify/length.dart';
+import 'package:quantify/time.dart';
+
+void main() {
+  final distance = 100.m; // Works
+  final duration = 30.s;   // Works
+  // final weight = 70.kg; // Compile error — Mass not imported
+}
+```
+
 ## Supported Units
 
 The library supports a comprehensive range of physical quantities, including all 7 SI base units and many derived units - ideal for scientific computing, engineering calculations, and any Flutter or Dart application requiring precise unit conversions:
 
 | Quantity Type           | Status | Units Available                                                                                                                        | Notes / SI Base Unit Ref.                               |
 | ----------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| **Length**              | ✅     | **`m`** (meter), `km`, `hm`, `dam`, `dm`, `cm`, `mm`, `μm`, `nm`, `pm`, `fm`, `in`, `ft`, `yd`, `mi`, `nmi`, `AU`, `ly`, `pc`, `Å`     | SI Base: Meter (m)                                      |
-| **Mass**                | ✅     | **`kg`** (kilogram), `hg`, `dag`, `g`, `dg`, `cg`, `mg`, `μg`, `ng`, `t`, `lb`, `oz`, `st`, `slug`, `short ton`, `long ton`, `u`, `ct` | SI Base: Kilogram (kg)                                  |
-| **Time**                | ✅     | **`s`** (second), `μs`, `ns`, `ps`, `ms`, `min`, `h`, `d`, `wk`, `mo`, `yr`                                                            | SI Base: Second (s)                                     |
-| **Electric Current**    | ✅     | **`A`** (ampere), `mA`, `μA`, `nA`, `kA`                                                                                               | SI Base: Ampere (A)                                     |
+| **Length**              | ✅     | **`m`** (meter), `km`, `Mm`, `Gm`, `hm`, `dam`, `dm`, `cm`, `mm`, `μm`, `nm`, `pm`, `fm`, `in`, `ft`, `yd`, `mi`, `nmi`, `AU`, `ly`, `pc`, `Å` | SI Base: Meter (m)                                      |
+| **Mass**                | ✅     | **`kg`** (kilogram), `hg`, `dag`, `g`, `dg`, `cg`, `mg`, `μg`, `ng`, `Mg`, `Gg`, `t`, `lb`, `oz`, `st`, `slug`, `short ton`, `long ton`, `u`, `ct` | SI Base: Kilogram (kg)                                  |
+| **Time**                | ✅     | **`s`** (second), `μs`, `ns`, `ps`, `ms`, `cs`, `ds`, `das`, `hs`, `ks`, `Ms`, `Gs`, `min`, `h`, `d`, `wk`, `fn`, `mo`, `yr`, `dec`, `c` | SI Base: Second (s)                                     |
+| **Electric Current**    | ✅     | **`A`** (ampere), `mA`, `μA`, `nA`, `pA`, `fA`, `kA`, `MA`, `GA`, `statA`, `abA`                                             | SI Base: Ampere (A)                                     |
 | **Temperature**         | ✅     | **`K`** (kelvin), `°C` (celsius), `°F` (fahrenheit), `°R` (rankine)                                                                    | SI Base: Kelvin (K). Affine conversions.                |
 | **TemperatureDelta**    | ✅     | **`K`** (kelvinDelta), `°C` (celsiusDelta), `°F` (fahrenheitDelta), `°R` (rankineDelta)                                                | Linear. Represents a temperature *change*, not a point. |
-| **Amount of Substance** | ✅     | **`mol`** (mole), `mmol`, `μmol`, `nmol`, `pmol`, `kmol`, `lb-mol` (pound-mole)                                                        | SI Base: Mole (mol)                                     |
-| **Luminous Intensity**  | ✅     | **`cd`** (candela), `mcd`, `kcd`                                                                                                       | SI Base: Candela (cd)                                   |
+| **Amount of Substance** | ✅     | **`mol`** (mole), `mmol`, `μmol`, `nmol`, `pmol`, `fmol`, `kmol`, `Mmol`, `lb-mol` (pound-mole)                                        | SI Base: Mole (mol)                                     |
+| **Luminous Intensity**  | ✅     | **`cd`** (candela), `mcd`, `μcd`, `kcd`, `Mcd`                                                                                         | SI Base: Candela (cd)                                   |
 | *Derived*               |        |                                                                                                                                        |                                                         |
 | **Angle**               | ✅     | **`rad`** (radian), `°` (degree), `grad`, `rev`, `arcmin` ('), `arcsec` ("), `mrad`                                                    | Derived SI: dimensionless                               |
 | **Angular Velocity**    | ✅     | **`rad/s`**, `°/s`, `rpm`, `rps`                                                                                                       | Derived SI: 1/s                                         |
-| **Speed / Velocity**    | ✅     | **`m/s`** (meter per second), `km/h`, `mph`, `kn` (knot), `ft/s`                                                                       | Derived SI                                              |
-| **Acceleration**        | ✅     | **`m/s²`**, `g` (standard gravity), `km/h/s`, `cm/s²` (Galileo)                                                                        | Derived SI                                              |
-| **Force**               | ✅     | **`N`** (Newton), `lbf`, `dyn`, `kgf`, `kN`, `gf`, `pdl`                                                                               | Derived SI: kg·m/s²                                     |
-| **Pressure**            | ✅     | **`Pa`** (Pascal), `atm`, `bar`, `psi`, `Torr`, `mmHg`, `inHg`, `kPa`, `hPa`, `mbar`, `cmH₂O`, `inH₂O`                                 | Derived SI: N/m²                                        |
+| **Speed / Velocity**    | ✅     | **`m/s`** (meter per second), `km/s`, `km/h`, `mph`, `kn` (knot), `ft/s`                                                               | Derived SI                                              |
+| **Acceleration**        | ✅     | **`m/s²`**, `g` (standard gravity), `km/h/s`, `mph/s`, `kn/s`, `ft/s²`, `cm/s²` (Galileo)                                             | Derived SI                                              |
+| **Force**               | ✅     | **`N`** (Newton), `lbf`, `dyn`, `kgf`, `kN`, `MN`, `GN`, `mN`, `µN`, `nN`, `gf`, `pdl`                                                   | Derived SI: kg·m/s²                                     |
+| **Pressure**            | ✅     | **`Pa`** (Pascal), `atm`, `bar`, `psi`, `Torr`, `mmHg`, `inHg`, `kPa`, `hPa`, `GPa`, `MPa`, `mbar`, `µPa`, `cmH₂O`, `inH₂O`             | Derived SI: N/m²                                        |
 | **Area**                | ✅     | **`m²`**, `Mm²`, `km²`, `hm²`, `dam²`, `dm²`, `cm²`, `mm²`, `µm²`, `ha`, `mi²`, `acre`, `yd²`, `ft²`, `in²`                            | Derived SI                                              |
-| **Volume**              | ✅     | **`m³`**, **`L`**, `mL`, `gal`, `fl-oz`, `ft³`, `in³`, `qt`, `pt`, `tbsp`, `tsp`...                                                    | Derived SI: L (Liter)                                   |
-| **Frequency**           | ✅     | **`Hz`**, `kHz`, `MHz`, `GHz`, `THz`, `rpm`, `bpm`                                                                                     | Derived SI: 1/s                                         |
-| **Electric Charge**     | ✅     | **`C`**, `mC`, `µC`, `nC`, `Ah`, `e`, `mAh`, `statC`, `abC`                                                                            | Derived SI: A·s                                         |
+| **Volume**              | ✅     | **`m³`**, `km³`, `hm³`, `dam³`, `dm³`, `cm³`, `mm³`, `mi³`; **`L`**, `kl`, `Ml`, `Gl`, `Tl`, `cl`, `mL`, `µL`; `gal`, `qt`, `pt`, `fl-oz`, `tbsp`, `tsp`, `ft³`, `in³` | Derived SI: L (Liter)                                   |
+| **Frequency**           | ✅     | **`Hz`**, `kHz`, `MHz`, `GHz`, `THz`, `mHz`, `rpm`, `bpm`, `rad/s`, `°/s`                                                              | Derived SI: 1/s                                         |
+| **Electric Charge**     | ✅     | **`C`**, `kC`, `mC`, `µC`, `nC`, `pC`, `Ah`, `e`, `mAh`, `statC`, `Fr`, `abC`                                                          | Derived SI: A·s                                         |
 | **Solid Angle**         | ✅     | **`sr`**, `deg²` (Square Degree), `sp` (Spat)                                                                                          | Derived SI: dimensionless                               |
-| **Energy / Work**       | ✅     | **`J`** (Joule), `kJ`, `MJ`, `kWh`, `cal`, `kcal`, `eV`, `Btu`                                                                         | Derived SI: N·m                                         |
-| **Power**               | ✅     | **`W`** (Watt), `mW`, `kW`, `MW`, `GW`, `hp`, `PS` (metric hp), `Btu/h`, `erg/s`                                                       | Derived SI: J/s                                         |
+| **Energy / Work**       | ✅     | **`J`** (Joule), `kJ`, `MJ`, `GJ`, `TJ`, `kWh`, `mJ`, `µJ`, `cal`, `kcal`, `eV`, `Btu`                                                 | Derived SI: N·m                                         |
+| **Power**               | ✅     | **`W`** (Watt), `mW`, `kW`, `MW`, `GW`, `TW`, `μW`, `nW`, `hp`, `PS` (metric hp), `Btu/h`, `erg/s`                                     | Derived SI: J/s                                         |
 | **Density**             | ✅     | **`kg/m³`** (kilogram per cubic meter), `g/cm³`, `g/mL`                                                                             | Derived SI: kg/m³                                       |
 | **Specific Energy**     | ✅     | **`J/kg`** (joule per kilogram), `kJ/kg`, `Wh/kg`, `kWh/kg`                                                                        | Derived SI: J/kg                                        |
 | **Information**         | ✅     | **`bit`**, `B` (byte); SI bits: `kbit`…`Ybit`; SI bytes: `kB`…`YB`; IEC binary: `KiB`…`YiB`                                        | IEC 80000-13. Three tracks: SI bit, SI byte, IEC binary. |
@@ -142,7 +155,7 @@ This **dual API** ensures:
 
 * **International compliance:** SI symbols (`Mm`, `Hz`, `MJ`, etc.) follow official standards
 * **Code readability:** Full-word getters (`megameters`, `hertz`, `megajoules`) read naturally in English
-* **Consistency:** All 23 quantities follow the same pattern
+* **Consistency:** All 25 quantities follow the same pattern
 * **No performance cost:** Both compile to identical bytecode
 
 ### Converting and Retrieving Values
@@ -323,6 +336,15 @@ final force    = Force.fromPressure(pressure, 10.m2); // 1 000.0 N
 // AngularVelocity = Angle / Time  ↔  Angle = AngularVelocity × Time
 final av    = AngularVelocity.from(1.revolutions, 1.minutes); // 1.0 rpm
 final angle = av.totalAngleOver(2.minutes);                   // 2.0 revolutions
+
+// Density = Mass / Volume
+final density = Density.from(1.kg, 1.liters);   // 1 000.0 kg/m³
+
+// SpecificEnergy = Energy / Mass
+final specific = SpecificEnergy.from(1.kJ, 0.5.kg); // 2 000.0 J/kg
+
+// Frequency = 1 / Time (period → frequency)
+final freq = Frequency.from(0.5.s);             // 2.0 Hz
 ```
 
 All inputs are converted to SI base units before calculation, so **mixed units work correctly without any manual conversion**. Each pair of factories is a symmetric inverse of the other.
@@ -456,35 +478,6 @@ print(lengths.map((l) => l.asM).join(', '));
 // Output: 1000.0 m, 1524.0 m, 1609.344 m, 2000.0 m
 ```
 
-## Managing Imports and Avoiding Conflicts
-
-`quantify` is designed to be both convenient and robust. By default, importing `package:quantify/quantify.dart` gives you access to all quantities and their handy extensions (like `10.m` or `5.s`).
-
-However, in large projects or when combining `quantify` with other libraries, this might lead to name conflicts with extension methods. To give you full control over what is imported into your project's namespace, `quantify` provides separate entry points for each quantity type.
-
-If you encounter a name conflict or simply want to be more explicit about your dependencies, you can import only the quantities you need.
-
-### Example: Importing only Length and Time
-
-Instead of the main package, you can import specific libraries:
-
-```dart
-// Import only the extensions you need
-import 'package:quantify/length.dart';
-import 'package:quantify/time.dart';
-
-void main() {
-  // Now, only extensions for Length and Time are available.
-  final distance = 100.m; // Works
-  final duration = 30.s;   // Works
-
-  // This will cause a compile-time error because Mass extensions were not imported.
-  // final weight = 70.kg; // ERROR: The getter 'kg' isn't defined for the type 'int'.
-}
-```
-
-This granular approach ensures that `quantify` can be used safely and effectively in any project, no matter how complex.
-
 ## Use Cases
 
 `quantify` is ideal for a wide range of applications:
@@ -498,7 +491,7 @@ This granular approach ensures that `quantify` can be used safely and effectivel
 
 ## Goals & Roadmap
 
-* **V1.0 (Current):** All 7 SI base units with comprehensive unit coverage and a rich constants library. Production-ready for Dart and Flutter applications.
+* **v1.0:** API stability milestone — no breaking changes after this point.
 * **V2.0 and Beyond:**
   * **High Precision:** Support for `Decimal` types for applications requiring arbitrary precision.
   * **Serialization Support:** Built-in JSON serialization/deserialization.
