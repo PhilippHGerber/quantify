@@ -10,6 +10,14 @@ import 'information_unit.dart';
 /// Supports both SI/decimal units (`kB`, `MB`, `GB`, …) and IEC/binary units
 /// (`KiB`, `MiB`, `GiB`, …). The base unit for internal storage is the Bit.
 ///
+/// > [!WARNING]
+/// > **Precision Limit:** `quantify` uses 64-bit IEEE 754 `double`s, which have a maximum
+/// > exact integer representation of 2⁵³ (approx. 9.007 × 10¹⁵). Because 1 Pebibyte (PiB)
+/// > is exactly 2⁵³ bytes, conversions involving units larger than PiB/PB (such as
+/// > Exabytes or Yottabytes) converted down to bits or bytes will experience floating-point
+/// > precision loss (rounding errors). For sub-byte precision at Exabyte scales, a
+/// > `BigInt` or arbitrary-precision library is required.
+///
 /// ```dart
 /// final total = 500.MB + 1.GB;  // Information
 /// print(total.inMB);             // 1500.0
