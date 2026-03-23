@@ -5,10 +5,10 @@ import 'energy_factors.dart';
 
 /// Represents units of energy.
 ///
-/// This enum implements the [Unit] interface to provide conversion capabilities
+/// This enum implements the [LinearUnit] interface to provide conversion capabilities
 /// and a display [symbol] for each energy unit. All conversion factors are
 /// pre-calculated in the constructor relative to the Joule (J).
-enum EnergyUnit implements Unit<EnergyUnit> {
+enum EnergyUnit implements LinearUnit<EnergyUnit> {
   /// Joule (J), the SI derived unit of energy.
   joule(1, 'J'),
 

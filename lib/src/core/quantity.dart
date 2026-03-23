@@ -85,10 +85,7 @@ abstract class Quantity<T extends Unit<T>> implements Comparable<Quantity<T>> {
   /// final tempInCelsius = Temperature(0.0, TemperatureUnit.celsius);
   /// double fahrenheit = tempInCelsius.getValue(TemperatureUnit.fahrenheit); // fahrenheit will be 32.0
   /// ```
-  double getValue(T targetUnit) {
-    if (targetUnit == _unit) return _value;
-    return _value * _unit.factorTo(targetUnit);
-  }
+  double getValue(T targetUnit);
 
   /// Creates a new `Quantity` instance of the same type, with its value
   /// converted to the specified [targetUnit].

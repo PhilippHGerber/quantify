@@ -5,7 +5,7 @@ import 'information_factors.dart';
 
 /// Represents units of digital information.
 ///
-/// This enum implements the [Unit] interface to provide conversion capabilities
+/// This enum implements the [LinearUnit] interface to provide conversion capabilities
 /// and a display [symbol] for each information unit.
 /// All conversion factors are pre-calculated in the constructor relative to Bit.
 ///
@@ -13,7 +13,7 @@ import 'information_factors.dart';
 /// - **SI bit** (`kbit`, `Mbit`, `Gbit`, `Tbit`, `Pbit`, `Ebit`, `Zbit`, `Ybit`) — powers of 10³, counting bits.
 /// - **SI / decimal byte** (`kB`, `MB`, `GB`, `TB`, `PB`, `EB`, `ZB`, `YB`) — powers of 10³, counting bytes.
 /// - **IEC / binary** (`KiB`, `MiB`, `GiB`, `TiB`, `PiB`, `EiB`, `ZiB`, `YiB`) — powers of 2¹⁰ (1 024).
-enum InformationUnit implements Unit<InformationUnit> {
+enum InformationUnit implements LinearUnit<InformationUnit> {
   /// Bit (bit), the fundamental unit of digital information.
   bit(1, 'bit'),
 

@@ -5,10 +5,10 @@ import 'length_factors.dart';
 
 /// Represents units of length.
 ///
-/// This enum implements the [Unit] interface to provide conversion capabilities
+/// This enum implements the [LinearUnit] interface to provide conversion capabilities
 /// and a display [symbol] for each length unit.
 /// All conversion factors are pre-calculated in the constructor relative to Meter.
-enum LengthUnit implements Unit<LengthUnit> {
+enum LengthUnit implements LinearUnit<LengthUnit> {
   /// Meter (m), the SI base unit of length.
   meter(1, 'm'),
 

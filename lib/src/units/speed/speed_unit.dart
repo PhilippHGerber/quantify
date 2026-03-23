@@ -5,11 +5,11 @@ import 'speed_factors.dart';
 
 /// Represents units of speed.
 ///
-/// This enum implements the [Unit] interface to provide conversion capabilities
+/// This enum implements the [LinearUnit] interface to provide conversion capabilities
 /// and a display [symbol] for each speed unit.
 /// All conversion factors are pre-calculated in the constructor relative to
 /// Meter per Second (m/s).
-enum SpeedUnit implements Unit<SpeedUnit> {
+enum SpeedUnit implements LinearUnit<SpeedUnit> {
   /// Meter per second (m/s), the SI derived unit of speed.
   meterPerSecond(1, 'm/s'),
 

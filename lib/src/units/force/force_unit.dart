@@ -5,11 +5,11 @@ import 'force_factors.dart';
 
 /// Represents units of force.
 ///
-/// This enum implements the [Unit] interface to provide conversion capabilities
+/// This enum implements the [LinearUnit] interface to provide conversion capabilities
 /// and a display [symbol] for each force unit.
 /// All conversion factors are pre-calculated in the constructor relative to
 /// Newton (N).
-enum ForceUnit implements Unit<ForceUnit> {
+enum ForceUnit implements LinearUnit<ForceUnit> {
   /// Newton (N), the SI derived unit of force.
   newton(1, 'N'),
 

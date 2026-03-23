@@ -30,7 +30,7 @@ import 'unit.dart';
 /// }
 /// ```
 @immutable
-abstract class LinearQuantity<T extends Unit<T>, Q extends LinearQuantity<T, Q>>
+abstract class LinearQuantity<T extends LinearUnit<T>, Q extends LinearQuantity<T, Q>>
     extends Quantity<T> {
   /// Creates a new [LinearQuantity] with the given [value] and [unit].
   const LinearQuantity(super._value, super._unit);
@@ -41,6 +41,15 @@ abstract class LinearQuantity<T extends Unit<T>, Q extends LinearQuantity<T, Q>>
   /// Subclasses must implement this to return `Q(value, unit)`.
   @protected
   Q create(double value, T unit);
+
+  /// Returns the value of this quantity converted to [targetUnit].
+  /// If [targetUnit] is the same as the current unit, returns the original value
+  /// without performing any conversion, ensuring optimal performance for common cases.
+  @override
+  double getValue(T targetUnit) {
+    if (targetUnit == unit) return value;
+    return value * unit.factorTo(targetUnit);
+  }
 
   /// Creates a new [Q] instance with the value converted to [targetUnit].
   ///

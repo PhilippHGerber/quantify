@@ -5,11 +5,11 @@ import 'solid_angle_factors.dart';
 
 /// Represents units of solid angle.
 ///
-/// This enum implements the [Unit] interface to provide conversion capabilities
+/// This enum implements the [LinearUnit] interface to provide conversion capabilities
 /// and a display [symbol] for each solid angle unit.
 /// All conversion factors are pre-calculated in the constructor relative to
 /// Steradian (sr).
-enum SolidAngleUnit implements Unit<SolidAngleUnit> {
+enum SolidAngleUnit implements LinearUnit<SolidAngleUnit> {
   /// Steradian (sr), the SI derived unit of solid angle.
   steradian(1, 'sr'),
 

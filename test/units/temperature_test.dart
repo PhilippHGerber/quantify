@@ -27,17 +27,6 @@ void main() {
         const temp = Temperature(100, TemperatureUnit.celsius);
         expect(temp.getValue(TemperatureUnit.celsius), 100.0);
       });
-
-      test('Unit.factorTo should throw UnsupportedError for TemperatureUnit', () {
-        expect(
-          () => TemperatureUnit.celsius.factorTo(TemperatureUnit.fahrenheit),
-          throwsUnsupportedError,
-        );
-        expect(
-          () => TemperatureUnit.kelvin.factorTo(TemperatureUnit.celsius),
-          throwsUnsupportedError,
-        );
-      });
     });
 
     group('Conversions', () {

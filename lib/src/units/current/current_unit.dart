@@ -5,11 +5,11 @@ import 'current_factors.dart';
 
 /// Represents units for electric current.
 ///
-/// This enum implements the [Unit] interface to provide conversion capabilities
+/// This enum implements the [LinearUnit] interface to provide conversion capabilities
 /// and a display [symbol] for each electric current unit.
 /// All conversion factors are pre-calculated in the constructor relative to Ampere (A),
 /// which is the SI base unit for electric current.
-enum CurrentUnit implements Unit<CurrentUnit> {
+enum CurrentUnit implements LinearUnit<CurrentUnit> {
   /// Ampere (A), the SI base unit of electric current.
   /// Defined by taking the fixed numerical value of the elementary charge *e* to be
   /// 1.602176634 × 10⁻¹⁹ when expressed in the unit C, which is equal to A s.

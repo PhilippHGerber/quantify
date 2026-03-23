@@ -5,11 +5,11 @@ import 'mass_factors.dart';
 
 /// Represents units of mass.
 ///
-/// This enum implements the [Unit] interface to provide conversion capabilities
+/// This enum implements the [LinearUnit] interface to provide conversion capabilities
 /// and a display [symbol] for each mass unit.
 /// All conversion factors are pre-calculated in the constructor relative to Kilogram (kg),
 /// which is the SI base unit for mass.
-enum MassUnit implements Unit<MassUnit> {
+enum MassUnit implements LinearUnit<MassUnit> {
   /// Kilogram (kg), the SI base unit of mass.
   kilogram(1, 'kg'),
 

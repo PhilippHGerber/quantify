@@ -5,10 +5,10 @@ import 'power_factors.dart';
 
 /// Represents units of power.
 ///
-/// This enum implements the [Unit] interface to provide conversion capabilities
+/// This enum implements the [LinearUnit] interface to provide conversion capabilities
 /// and a display [symbol] for each power unit. All conversion factors are
 /// pre-calculated in the constructor relative to the Watt (W).
-enum PowerUnit implements Unit<PowerUnit> {
+enum PowerUnit implements LinearUnit<PowerUnit> {
   // --- SI Units ---
   /// Watt (W), the SI derived unit of power, equal to one Joule per second.
   watt(1, 'W'),

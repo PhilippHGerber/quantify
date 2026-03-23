@@ -5,11 +5,11 @@ import 'volume_factors.dart';
 
 /// Represents units of volume.
 ///
-/// This enum implements the [Unit] interface to provide conversion capabilities
+/// This enum implements the [LinearUnit] interface to provide conversion capabilities
 /// and a display [symbol] for each volume unit.
 /// All conversion factors are pre-calculated in the constructor relative to
 /// Cubic Millimeter (mm³) for maximum precision.
-enum VolumeUnit implements Unit<VolumeUnit> {
+enum VolumeUnit implements LinearUnit<VolumeUnit> {
   // --- SI Cubic ---
   /// Cubic Meter (m³), the SI derived unit of volume.
   cubicMeter(VolumeFactors.m3, 'm³'),

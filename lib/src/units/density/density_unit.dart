@@ -5,11 +5,11 @@ import 'density_factors.dart';
 
 /// Represents units of density.
 ///
-/// This enum implements the [Unit] interface to provide conversion capabilities
+/// This enum implements the [LinearUnit] interface to provide conversion capabilities
 /// and a display [symbol] for each density unit.
 /// All conversion factors are pre-calculated in the constructor relative to
 /// Kilogram per Cubic Meter (kg/m³).
-enum DensityUnit implements Unit<DensityUnit> {
+enum DensityUnit implements LinearUnit<DensityUnit> {
   /// Kilogram per Cubic Meter (kg/m³), the SI derived unit of density.
   kilogramPerCubicMeter(DensityFactors.kilogramPerCubicMeter, 'kg/m³'),
 

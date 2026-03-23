@@ -5,10 +5,10 @@ import 'pressure_factors.dart';
 
 /// Represents units of pressure.
 ///
-/// This enum implements the [Unit] interface to provide conversion capabilities
+/// This enum implements the [LinearUnit] interface to provide conversion capabilities
 /// and a display [symbol] for each pressure unit.
 /// All conversion factors are pre-calculated in the constructor relative to Pascal (Pa).
-enum PressureUnit implements Unit<PressureUnit> {
+enum PressureUnit implements LinearUnit<PressureUnit> {
   /// Pascal (Pa), the SI derived unit of pressure.
   pascal(1, 'Pa'),
 

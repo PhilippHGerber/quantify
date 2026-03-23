@@ -5,11 +5,11 @@ import 'area_factors.dart';
 
 /// Represents units of area.
 ///
-/// This enum implements the [Unit] interface to provide conversion capabilities
+/// This enum implements the [LinearUnit] interface to provide conversion capabilities
 /// and a display [symbol] for each area unit.
 /// All conversion factors are pre-calculated in the constructor relative to
 /// Square Meter (m²).
-enum AreaUnit implements Unit<AreaUnit> {
+enum AreaUnit implements LinearUnit<AreaUnit> {
   /// Square Meter (m²), the SI derived unit of area.
   squareMeter(1, 'm²'),
 

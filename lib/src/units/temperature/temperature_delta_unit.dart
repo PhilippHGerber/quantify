@@ -22,7 +22,7 @@ import '../../core/unit.dart';
 /// | `celsiusDelta`    | 1.0                   |
 /// | `fahrenheitDelta` | 5/9 ≈ 0.5556         |
 /// | `rankineDelta`    | 5/9 ≈ 0.5556         |
-enum TemperatureDeltaUnit implements Unit<TemperatureDeltaUnit> {
+enum TemperatureDeltaUnit implements LinearUnit<TemperatureDeltaUnit> {
   /// Kelvin delta (K). Base unit of temperature change.
   kelvinDelta(1.0, 'K'),
 

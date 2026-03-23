@@ -5,11 +5,11 @@ import 'acceleration_factors.dart';
 
 /// Represents units of acceleration.
 ///
-/// This enum implements the [Unit] interface to provide conversion capabilities
+/// This enum implements the [LinearUnit] interface to provide conversion capabilities
 /// and a display [symbol] for each acceleration unit.
 /// All conversion factors are pre-calculated in the constructor relative to
 /// Meter per Second Squared (m/s²).
-enum AccelerationUnit implements Unit<AccelerationUnit> {
+enum AccelerationUnit implements LinearUnit<AccelerationUnit> {
   /// Meter per second squared (m/s²), the SI derived unit of acceleration.
   meterPerSecondSquared(1, 'm/s²'),
 

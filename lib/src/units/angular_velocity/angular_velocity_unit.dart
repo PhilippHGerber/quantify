@@ -5,10 +5,10 @@ import 'angular_velocity_factors.dart';
 
 /// Represents units for angular velocity.
 ///
-/// This enum implements the [Unit] interface to provide conversion capabilities
+/// This enum implements the [LinearUnit] interface to provide conversion capabilities
 /// and a display [symbol] for each angular velocity unit. All conversion factors
 /// are pre-calculated in the constructor relative to Radian per Second (rad/s).
-enum AngularVelocityUnit implements Unit<AngularVelocityUnit> {
+enum AngularVelocityUnit implements LinearUnit<AngularVelocityUnit> {
   /// Radian per second (rad/s), the SI-derived unit of angular velocity.
   radianPerSecond(1, 'rad/s'),
 

@@ -5,11 +5,11 @@ import 'molar_factors.dart';
 
 /// Represents units for amount of substance (molar amount).
 ///
-/// This enum implements the [Unit] interface to provide conversion capabilities
+/// This enum implements the [LinearUnit] interface to provide conversion capabilities
 /// and a display [symbol] for each molar amount unit.
 /// All conversion factors are pre-calculated in the constructor relative to Mole (mol),
 /// which is the SI base unit for amount of substance.
-enum MolarUnit implements Unit<MolarUnit> {
+enum MolarUnit implements LinearUnit<MolarUnit> {
   /// Mole (mol), the SI base unit for amount of substance.
   /// One mole contains exactly 6.02214076 × 10²³ elementary entities (Avogadro's number).
   mole(1, 'mol'),

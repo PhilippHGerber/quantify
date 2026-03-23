@@ -5,11 +5,11 @@ import 'electric_charge_factors.dart';
 
 /// Represents units of electric charge.
 ///
-/// This enum implements the [Unit] interface to provide conversion capabilities
+/// This enum implements the [LinearUnit] interface to provide conversion capabilities
 /// and a display [symbol] for each electric charge unit.
 /// All conversion factors are pre-calculated in the constructor relative to
 /// Coulomb (C).
-enum ElectricChargeUnit implements Unit<ElectricChargeUnit> {
+enum ElectricChargeUnit implements LinearUnit<ElectricChargeUnit> {
   /// Coulomb (C), the SI derived unit of electric charge.
   coulomb(1, 'C'),
 

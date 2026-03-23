@@ -5,11 +5,11 @@ import 'luminous_intensity_factors.dart';
 
 /// Represents units for luminous intensity.
 ///
-/// This enum implements the [Unit] interface to provide conversion capabilities
+/// This enum implements the [LinearUnit] interface to provide conversion capabilities
 /// and a display [symbol] for each luminous intensity unit.
 /// All conversion factors are pre-calculated in the constructor relative to Candela (cd),
 /// which is the SI base unit for luminous intensity.
-enum LuminousIntensityUnit implements Unit<LuminousIntensityUnit> {
+enum LuminousIntensityUnit implements LinearUnit<LuminousIntensityUnit> {
   /// Candela (cd), the SI base unit of luminous intensity.
   /// It is defined by taking the fixed numerical value of the luminous efficacy
   /// of monochromatic radiation of frequency 540 × 10¹² Hz, Kcd, to be 683

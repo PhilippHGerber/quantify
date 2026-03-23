@@ -5,10 +5,10 @@ import 'angle_factors.dart';
 
 /// Represents units for a plane angle.
 ///
-/// This enum implements the [Unit] interface to provide conversion capabilities
+/// This enum implements the [LinearUnit] interface to provide conversion capabilities
 /// and a display [symbol] for each angle unit. All conversion factors are
 /// pre-calculated in the constructor relative to Radian (rad).
-enum AngleUnit implements Unit<AngleUnit> {
+enum AngleUnit implements LinearUnit<AngleUnit> {
   /// Radian (rad), the SI-derived unit of angle. Used by `dart:math`.
   radian(1, 'rad'),
 

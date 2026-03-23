@@ -5,11 +5,11 @@ import 'frequency_factors.dart';
 
 /// Represents units of frequency.
 ///
-/// This enum implements the [Unit] interface to provide conversion capabilities
+/// This enum implements the [LinearUnit] interface to provide conversion capabilities
 /// and a display [symbol] for each frequency unit.
 /// All conversion factors are pre-calculated in the constructor relative to
 /// Hertz (Hz).
-enum FrequencyUnit implements Unit<FrequencyUnit> {
+enum FrequencyUnit implements LinearUnit<FrequencyUnit> {
   /// Hertz (Hz), the SI derived unit of frequency, equal to one cycle per second.
   hertz(1, 'Hz'),
 

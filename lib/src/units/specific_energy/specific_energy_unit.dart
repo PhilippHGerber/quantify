@@ -5,11 +5,11 @@ import 'specific_energy_factors.dart';
 
 /// Represents units of specific energy.
 ///
-/// This enum implements the [Unit] interface to provide conversion capabilities
+/// This enum implements the [LinearUnit] interface to provide conversion capabilities
 /// and a display [symbol] for each specific energy unit.
 /// All conversion factors are pre-calculated in the constructor relative to
 /// Joule per Kilogram (J/kg).
-enum SpecificEnergyUnit implements Unit<SpecificEnergyUnit> {
+enum SpecificEnergyUnit implements LinearUnit<SpecificEnergyUnit> {
   /// Joule per Kilogram (J/kg), the SI derived unit of specific energy.
   joulePerKilogram(SpecificEnergyFactors.joulePerKilogram, 'J/kg'),
 

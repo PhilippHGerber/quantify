@@ -7,10 +7,10 @@ import 'time_factors.dart';
 
 /// Represents units of time.
 ///
-/// This enum implements the [Unit] interface to provide conversion capabilities
+/// This enum implements the [LinearUnit] interface to provide conversion capabilities
 /// and a display [symbol] for each time unit.
 /// All conversion factors are pre-calculated in the constructor relative to Second (s).
-enum TimeUnit implements Unit<TimeUnit> {
+enum TimeUnit implements LinearUnit<TimeUnit> {
   /// Second (s), the SI base unit of time.
   second(1.0, 's'),
 
