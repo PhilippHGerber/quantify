@@ -7,7 +7,7 @@ void main() {
 
     group('Constructors and Getters', () {
       test('should create from num extensions and retrieve values', () {
-        final se = 100.jPerKg;
+        final se = 100.JPerKg;
         expect(se.value, 100.0);
         expect(se.unit, SpecificEnergyUnit.joulePerKilogram);
         expect(se.inJoulesPerKilogram, closeTo(100.0, tolerance));
@@ -21,7 +21,7 @@ void main() {
     group('Conversions', () {
       test('J/kg to Wh/kg', () {
         // 3600 J/kg = 1 Wh/kg
-        final se = 3600.jPerKg;
+        final se = 3600.JPerKg;
         expect(se.inWattHoursPerKilogram, closeTo(1.0, tolerance));
       });
 
@@ -39,12 +39,12 @@ void main() {
 
     group('convertTo', () {
       test('convertTo same unit returns identical instance', () {
-        final se = 100.jPerKg;
+        final se = 100.JPerKg;
         expect(identical(se, se.convertTo(SpecificEnergyUnit.joulePerKilogram)), isTrue);
       });
 
       test('convertTo different unit returns correct value and unit', () {
-        final se = 3600.jPerKg;
+        final se = 3600.JPerKg;
         final converted = se.convertTo(SpecificEnergyUnit.wattHourPerKilogram);
         expect(converted.unit, SpecificEnergyUnit.wattHourPerKilogram);
         expect(converted.value, closeTo(1.0, tolerance));
@@ -53,7 +53,7 @@ void main() {
 
     group('Comparison', () {
       test('should correctly compare different units', () {
-        final se1 = 3600.jPerKg;
+        final se1 = 3600.JPerKg;
         final se2 = 1.whPerKg;
         expect(se1.compareTo(se2), 0);
         expect(se1.compareTo(2.whPerKg), lessThan(0));
@@ -62,7 +62,7 @@ void main() {
 
     group('Arithmetic', () {
       test('operator + with mixed units', () {
-        final sum = 1.whPerKg + 3600.jPerKg; // 1 + 1 (in Wh/kg)
+        final sum = 1.whPerKg + 3600.JPerKg; // 1 + 1 (in Wh/kg)
         expect(sum.inWattHoursPerKilogram, closeTo(2.0, tolerance));
       });
 
@@ -74,7 +74,7 @@ void main() {
 
       test('operator - subtracts specific energy (mixed units, result in lhs unit)', () {
         // 7200 J/kg − 1 Wh/kg (= 3600 J/kg) = 3600 J/kg
-        final diff = 7200.jPerKg - 1.whPerKg;
+        final diff = 7200.JPerKg - 1.whPerKg;
         expect(diff.inJoulesPerKilogram, closeTo(3600.0, tolerance));
         expect(diff.unit, SpecificEnergyUnit.joulePerKilogram);
       });
@@ -92,7 +92,7 @@ void main() {
       });
 
       test('operator / by zero returns infinity', () {
-        expect((100.jPerKg / 0.0).value, double.infinity);
+        expect((100.JPerKg / 0.0).value, double.infinity);
       });
     });
 
@@ -127,7 +127,7 @@ void main() {
       });
 
       test('different units are not equal even if equivalent', () {
-        final se1 = 3600.jPerKg;
+        final se1 = 3600.JPerKg;
         final se2 = 1.whPerKg;
         expect(se1, isNot(equals(se2)));
         expect(se1.compareTo(se2), 0);
@@ -136,7 +136,7 @@ void main() {
 
     group('toString', () {
       test('displays value with symbol', () {
-        expect(100.jPerKg.toString(), '100.0\u00A0J/kg');
+        expect(100.JPerKg.toString(), '100.0\u00A0J/kg');
         expect(1.whPerKg.toString(), '1.0\u00A0Wh/kg');
         expect(1.kJPerKg.toString(), '1.0\u00A0kJ/kg');
         expect(1.kWhPerKg.toString(), '1.0\u00A0kWh/kg');
@@ -156,14 +156,14 @@ void main() {
 
     group('Comprehensive Extension Coverage', () {
       test('all in* value getters', () {
-        final se = 3600000.jPerKg; // 1 kWh/kg
+        final se = 3600000.JPerKg; // 1 kWh/kg
         expect(se.inKilowattHoursPerKilogram, closeTo(1.0, tolerance));
         expect(se.inKilojoulesPerKilogram, closeTo(3600.0, tolerance));
         expect(se.inWattHoursPerKilogram, closeTo(1000.0, tolerance));
       });
 
       test('all as* conversion getters', () {
-        final se = 3600.jPerKg; // 1 Wh/kg
+        final se = 3600.JPerKg; // 1 Wh/kg
 
         final asJ = se.asJoulesPerKilogram;
         expect(asJ.unit, SpecificEnergyUnit.joulePerKilogram);

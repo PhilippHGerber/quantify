@@ -869,4 +869,69 @@ void main() {
       expect(1024.0.PiB.asEiB.unit, InformationUnit.exbibyte);
     });
   });
+
+  group('Information — Uncovered extension getters', () {
+    const tol = 1e-6;
+
+    // inZbit / inYbit value getters
+    test('inZbit and inYbit', () {
+      const oneYbit = Information(1, InformationUnit.yottabit);
+      expect(oneYbit.inYbit, closeTo(1.0, tol));
+      expect(oneYbit.inZbit, closeTo(1000.0, tol));
+    });
+
+    // inYB value getter
+    test('inYB', () {
+      const oneYB = Information(1, InformationUnit.yottabyte);
+      expect(oneYB.inYB, closeTo(1.0, tol));
+    });
+
+    // asByte / asMbit / asTbit instance getters
+    test('asByte asMbit asTbit', () {
+      expect(8.0.bit.asByte.value, closeTo(1.0, tol));
+      expect(1.0.kbit.asMbit.value, closeTo(0.001, tol));
+      expect(1.0.Gbit.asTbit.value, closeTo(0.001, tol));
+    });
+
+    // asZbit / asYbit
+    test('asZbit asYbit', () {
+      const zbit = Information(1, InformationUnit.zettabit);
+      expect(zbit.asZbit.unit, InformationUnit.zettabit);
+      expect(zbit.asYbit.value, closeTo(0.001, tol));
+    });
+
+    // asMB / asGB / asTB / asYB
+    test('asMB asGB asTB asYB', () {
+      expect(1.0.GB.asMB.value, closeTo(1000.0, tol));
+      expect(1.0.TB.asGB.value, closeTo(1000.0, tol));
+      expect(1.0.TB.asTB.unit, InformationUnit.terabyte);
+      const yb = Information(1, InformationUnit.yottabyte);
+      expect(yb.asYB.unit, InformationUnit.yottabyte);
+    });
+
+    // asKiB / asMiB / asTiB
+    test('asKiB asMiB asTiB', () {
+      expect(1024.0.KiB.asMiB.value, closeTo(1.0, tol));
+      expect(1.0.MiB.asKiB.value, closeTo(1024.0, tol));
+      expect(1024.0.MiB.asTiB.value, closeTo(1.0 / 1024.0, tol));
+    });
+
+    // Creation aliases: bits, bytes, kilobytes, megabytes, gigabytes, terabytes
+    test('bits bytes word aliases', () {
+      expect(8.0.bits.unit, InformationUnit.bit);
+      expect(1.0.bytes.unit, InformationUnit.byte);
+      expect(1.0.kilobytes.unit, InformationUnit.kilobyte);
+      expect(1.0.megabytes.unit, InformationUnit.megabyte);
+      expect(1.0.gigabytes.unit, InformationUnit.gigabyte);
+      expect(1.0.terabytes.unit, InformationUnit.terabyte);
+    });
+
+    // IEC word aliases: kibibytes, mebibytes, gibibytes, tebibytes
+    test('kibibytes mebibytes gibibytes tebibytes aliases', () {
+      expect(1.0.kibibytes.unit, InformationUnit.kibibyte);
+      expect(1.0.mebibytes.unit, InformationUnit.mebibyte);
+      expect(1.0.gibibytes.unit, InformationUnit.gibibyte);
+      expect(1.0.tebibytes.unit, InformationUnit.tebibyte);
+    });
+  });
 }

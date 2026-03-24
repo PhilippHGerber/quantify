@@ -200,6 +200,30 @@ void main() {
       );
     });
 
+    test('nanowatt/microwatt/terawatt extensions', () {
+      const tol = 1e-9;
+      // Creation
+      expect(1.0.nW.unit, PowerUnit.nanowatt);
+      expect(1.0.nanowatts.unit, PowerUnit.nanowatt);
+      expect(1.0.uW.unit, PowerUnit.microwatt);
+      expect(1.0.microwatts.unit, PowerUnit.microwatt);
+      expect(1.0.TW.unit, PowerUnit.terawatt);
+      expect(1.0.terawatts.unit, PowerUnit.terawatt);
+
+      // inX getters
+      expect(1.0.W.inNanowatts, closeTo(1e9, 1.0));
+      expect(1.0.W.inMicrowatts, closeTo(1e6, tol));
+      expect(1e12.W.inTerawatts, closeTo(1.0, tol));
+
+      // asX getters
+      expect(1.0.W.asNanowatts.unit, PowerUnit.nanowatt);
+      expect(1.0.W.asNanowatts.value, closeTo(1e9, 1.0));
+      expect(1.0.W.asMicrowatts.unit, PowerUnit.microwatt);
+      expect(1.0.W.asMicrowatts.value, closeTo(1e6, tol));
+      expect(1e12.W.asTerawatts.unit, PowerUnit.terawatt);
+      expect(1e12.W.asTerawatts.value, closeTo(1.0, tol));
+    });
+
     test('inverse of Energy.from: Power.from(Energy.from(p, t), t) ≈ p', () {
       const original = Power(500, PowerUnit.watt);
       const duration = Time(60, TimeUnit.second);

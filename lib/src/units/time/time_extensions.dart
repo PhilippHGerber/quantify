@@ -192,27 +192,6 @@ extension TimeCreation on num {
   /// Dart-idiomatic alias for the SI symbol [Gs].
   Time get gigaseconds => Time(toDouble(), TimeUnit.gigasecond);
 
-  /// Creates a [Time] instance from this numerical value in Kiloseconds (ks).
-  ///
-  /// Deprecated: Use [ks] (SI symbol) or [kiloseconds] (full word) instead.
-  @Deprecated('Use ks (SI symbol) or kiloseconds (full word) instead. '
-      'Will be removed in v1.0.0.')
-  Time get kiloS => Time(toDouble(), TimeUnit.kilosecond);
-
-  /// Creates a [Time] instance from this numerical value in Megaseconds (Ms).
-  ///
-  /// Deprecated: Use [Ms] (SI symbol) or [megaseconds] (full word) instead.
-  @Deprecated('Use Ms (SI symbol) or megaseconds (full word) instead. '
-      'Will be removed in v1.0.0.')
-  Time get megaS => Time(toDouble(), TimeUnit.megasecond);
-
-  /// Creates a [Time] instance from this numerical value in Gigaseconds (Gs).
-  ///
-  /// Deprecated: Use [Gs] (SI symbol) or [gigaseconds] (full word) instead.
-  @Deprecated('Use Gs (SI symbol) or gigaseconds (full word) instead. '
-      'Will be removed in v1.0.0.')
-  Time get gigaS => Time(toDouble(), TimeUnit.gigasecond);
-
   /// Creates a [Time] instance representing this numerical value in Minutes (min).
   Time get minutes => Time(toDouble(), TimeUnit.minute);
 
@@ -246,6 +225,10 @@ extension TimeCreation on num {
   /// Alias for `seconds`.
   Time get s => Time(toDouble(), TimeUnit.second);
 
+  /// Creates a [Time] instance representing this numerical value in Seconds (s).
+  /// Alias for [seconds]. English plural shorthand for developer convenience.
+  Time get secs => Time(toDouble(), TimeUnit.second);
+
   /// Creates a [Time] instance representing this numerical value in Microseconds (μs).
   /// Alias for `microseconds`.
   Time get us => Time(toDouble(), TimeUnit.microsecond);
@@ -266,9 +249,17 @@ extension TimeCreation on num {
   /// Alias for `minutes`. Note: 'm' is used for meters, so 'min' is better for time.
   Time get min => Time(toDouble(), TimeUnit.minute);
 
+  /// Creates a [Time] instance representing this numerical value in Minutes (min).
+  /// Alias for [minutes]. English plural shorthand for developer convenience.
+  Time get mins => Time(toDouble(), TimeUnit.minute);
+
   /// Creates a [Time] instance representing this numerical value in Hours (h).
   /// Alias for `hours`.
   Time get h => Time(toDouble(), TimeUnit.hour);
+
+  /// Creates a [Time] instance representing this numerical value in Hours (h).
+  /// Alias for [hours]. English plural shorthand for developer convenience.
+  Time get hrs => Time(toDouble(), TimeUnit.hour);
 
   /// Creates a [Time] instance representing this numerical value in Days (d).
   /// Alias for `days`.

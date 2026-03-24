@@ -108,7 +108,13 @@ extension PressureValueGetters on Pressure {
 /// using shortened unit names where appropriate.
 extension PressureCreation on num {
   /// Creates a [Pressure] instance representing this numerical value in Pascals (Pa).
-  Pressure get pa => Pressure(toDouble(), PressureUnit.pascal);
+  ///
+  /// The SI symbol for pascal is 'Pa' (capital P, named after Blaise Pascal).
+  Pressure get Pa => Pressure(toDouble(), PressureUnit.pascal);
+
+  /// Creates a [Pressure] instance representing this numerical value in Pascals (Pa).
+  /// Alias for [Pa].
+  Pressure get pascals => Pressure(toDouble(), PressureUnit.pascal);
 
   /// Creates a [Pressure] instance representing this numerical value in Micropascals (µPa).
   Pressure get uPa => Pressure(toDouble(), PressureUnit.micropascal);
@@ -116,8 +122,16 @@ extension PressureCreation on num {
   /// Creates a [Pressure] instance representing this numerical value in Atmospheres (atm).
   Pressure get atm => Pressure(toDouble(), PressureUnit.atmosphere);
 
+  /// Creates a [Pressure] instance representing this numerical value in Atmospheres (atm).
+  /// Alias for [atm].
+  Pressure get atmospheres => Pressure(toDouble(), PressureUnit.atmosphere);
+
   /// Creates a [Pressure] instance representing this numerical value in Bars (bar).
   Pressure get bar => Pressure(toDouble(), PressureUnit.bar);
+
+  /// Creates a [Pressure] instance representing this numerical value in Bars (bar).
+  /// Alias for [bar].
+  Pressure get bars => Pressure(toDouble(), PressureUnit.bar);
 
   /// Creates a [Pressure] instance representing this numerical value in Pounds per Square Inch (psi).
   Pressure get psi => Pressure(toDouble(), PressureUnit.psi);
@@ -127,6 +141,10 @@ extension PressureCreation on num {
 
   /// Creates a [Pressure] instance representing this numerical value in Millimeters of Mercury (mmHg).
   Pressure get mmHg => Pressure(toDouble(), PressureUnit.millimeterOfMercury);
+
+  /// Creates a [Pressure] instance representing this numerical value in Millimeters of Mercury (mmHg).
+  /// Alias for [mmHg].
+  Pressure get millimetersOfMercury => Pressure(toDouble(), PressureUnit.millimeterOfMercury);
 
   /// Creates a [Pressure] instance representing this numerical value in Inches of Mercury (inHg).
   Pressure get inHg => Pressure(toDouble(), PressureUnit.inchOfMercury);
@@ -161,30 +179,4 @@ extension PressureCreation on num {
 
   /// Creates a [Pressure] instance representing this numerical value in Inches of Water (inH₂O) at 4°C.
   Pressure get inH2O => Pressure(toDouble(), PressureUnit.inchOfWater);
-
-  /// Creates a [Pressure] instance representing this numerical value in Megapascals (MPa).
-  ///
-  /// Deprecated: Use [MPa] (SI symbol) or [megapascals] (full word) instead.
-  /// Will be removed in v1.0.0.
-  @Deprecated('Use MPa (SI symbol) or megapascals (full word) instead. '
-      'Will be removed in v1.0.0.')
-  Pressure get megaPascals => Pressure(toDouble(), PressureUnit.megapascal);
-
-  /// Creates a [Pressure] instance representing this numerical value in Megapascals (MPa).
-  ///
-  /// Deprecated: Use [MPa] (SI symbol) or [megapascals] (full word) instead.
-  /// Lowercase mpa is ambiguous (m = milli in SI).
-  /// Will be removed in v1.0.0.
-  @Deprecated('Use MPa (SI symbol) or megapascals (full word) instead. '
-      'Lowercase mpa is ambiguous (m = milli in SI). '
-      'Will be removed in v1.0.0.')
-  Pressure get mpa => Pressure(toDouble(), PressureUnit.megapascal);
-
-  /// Creates a [Pressure] instance representing this numerical value in Kilopascals (kPa).
-  ///
-  /// Deprecated: Use [kPa] (SI symbol) or [kilopascals] (full word) instead.
-  /// Will be removed in v1.0.0.
-  @Deprecated('Use kPa (SI symbol) or kilopascals (full word) instead. '
-      'Will be removed in v1.0.0.')
-  Pressure get kiloPascals => Pressure(toDouble(), PressureUnit.kilopascal);
 }

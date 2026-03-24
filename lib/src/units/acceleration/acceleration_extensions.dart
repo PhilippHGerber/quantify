@@ -51,7 +51,15 @@ extension AccelerationValueGetters on Acceleration {
 /// Provides convenient factory methods for creating [Acceleration] instances from [num].
 extension AccelerationCreation on num {
   /// Creates an [Acceleration] instance from this value in Meters per second squared (m/s²).
-  Acceleration get mpsSquared => Acceleration(toDouble(), AccelerationUnit.meterPerSecondSquared);
+  ///
+  /// The numeric suffix '2' matches the superscript notation in 'm/s²' and aligns with
+  /// the area/volume naming pattern (e.g., `m2`, `ft3`).
+  Acceleration get mps2 => Acceleration(toDouble(), AccelerationUnit.meterPerSecondSquared);
+
+  /// Creates an [Acceleration] instance from this value in Meters per second squared (m/s²).
+  /// Alias for [mps2].
+  Acceleration get metersPerSecondSquared =>
+      Acceleration(toDouble(), AccelerationUnit.meterPerSecondSquared);
 
   /// Creates an [Acceleration] instance from this value in Standard Gravity (g).
   /// Note: A trailing underscore is used to avoid conflict with the getter 'g' for grams in Mass.

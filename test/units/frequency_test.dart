@@ -213,4 +213,38 @@ void main() {
       });
     });
   });
+
+  group('Frequency — Uncovered extension getters', () {
+    const tol = 1e-9;
+
+    // Value getters
+    test('inTerahertz inMillihertz', () {
+      expect(1.0.THz.inTerahertz, closeTo(1.0, tol));
+      expect(1.0.Hz.inMillihertz, closeTo(1000.0, tol));
+    });
+
+    // Instance getters (as*)
+    test('asTerahertz asGigahertz asMillihertz asDegreesPerSecond', () {
+      expect(1.0.THz.asTerahertz.unit, FrequencyUnit.terahertz);
+      expect(1.0.GHz.asGigahertz.unit, FrequencyUnit.gigahertz);
+      expect(1.0.Hz.asMillihertz.value, closeTo(1000.0, tol));
+      expect(360.0.Hz.asDegreesPerSecond.unit, FrequencyUnit.degreePerSecond);
+    });
+
+    // Creation aliases
+    test('hertz kilohertz megahertz gigahertz terahertz word aliases', () {
+      expect(1.0.hertz.unit, FrequencyUnit.hertz);
+      expect(1.0.kilohertz.unit, FrequencyUnit.kilohertz);
+      expect(1.0.megahertz.unit, FrequencyUnit.megahertz);
+      expect(1.0.gigahertz.unit, FrequencyUnit.gigahertz);
+      expect(1.0.terahertz.unit, FrequencyUnit.terahertz);
+    });
+
+    test('mHz millihertz radPerSec degPerSec creation aliases', () {
+      expect(1.0.mHz.unit, FrequencyUnit.millihertz);
+      expect(1.0.millihertz.unit, FrequencyUnit.millihertz);
+      expect(1.0.radPerSec.unit, FrequencyUnit.radianPerSecond);
+      expect(1.0.degPerSec.unit, FrequencyUnit.degreePerSecond);
+    });
+  });
 }

@@ -56,12 +56,27 @@ extension TemperatureCreation on num {
   /// Creates a [Temperature] instance representing this numerical value in Celsius (°C).
   Temperature get celsius => Temperature(toDouble(), TemperatureUnit.celsius);
 
+  /// Creates a [Temperature] instance representing this numerical value in Celsius (°C).
+  /// Alias for [celsius]. Uses "degrees" to reflect the official scientific name
+  /// "degrees Celsius", distinguishing it from the absolute Kelvin scale.
+  Temperature get degreesCelsius => Temperature(toDouble(), TemperatureUnit.celsius);
+
   /// Creates a [Temperature] instance representing this numerical value in Kelvin (K).
   Temperature get kelvin => Temperature(toDouble(), TemperatureUnit.kelvin);
 
   /// Creates a [Temperature] instance representing this numerical value in Fahrenheit (°F).
   Temperature get fahrenheit => Temperature(toDouble(), TemperatureUnit.fahrenheit);
 
+  /// Creates a [Temperature] instance representing this numerical value in Fahrenheit (°F).
+  /// Alias for [fahrenheit]. Uses "degrees" to reflect the official scientific name
+  /// "degrees Fahrenheit", distinguishing it from the absolute Kelvin scale.
+  Temperature get degreesFahrenheit => Temperature(toDouble(), TemperatureUnit.fahrenheit);
+
   /// Creates a [Temperature] instance representing this numerical value in Rankine (°R).
   Temperature get rankine => Temperature(toDouble(), TemperatureUnit.rankine);
+
+  /// Creates a [Temperature] instance representing this numerical value in Rankine (°R).
+  /// Alias for [rankine]. Uses "degrees" to reflect the official scientific name
+  /// "degrees Rankine", distinguishing it from the absolute Kelvin scale.
+  Temperature get degreesRankine => Temperature(toDouble(), TemperatureUnit.rankine);
 }

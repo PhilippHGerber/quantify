@@ -181,8 +181,16 @@ extension InformationCreation on num {
   /// Creates an [Information] instance representing this value in Bits.
   Information get bit => Information(toDouble(), InformationUnit.bit);
 
+  /// Creates an [Information] instance representing this value in Bits.
+  /// Alias for [bit].
+  Information get bits => Information(toDouble(), InformationUnit.bit);
+
   /// Creates an [Information] instance representing this value in Bytes (B).
   Information get byte => Information(toDouble(), InformationUnit.byte);
+
+  /// Creates an [Information] instance representing this value in Bytes (B).
+  /// Alias for [byte].
+  Information get bytes => Information(toDouble(), InformationUnit.byte);
 
   // SI bit units
 
@@ -222,17 +230,33 @@ extension InformationCreation on num {
   /// Creates an [Information] instance representing this value in Kilobytes (kB, SI: 1 000 bytes).
   Information get kB => Information(toDouble(), InformationUnit.kilobyte);
 
+  /// Creates an [Information] instance representing this value in Kilobytes (kB, SI: 1 000 bytes).
+  /// Alias for [kB].
+  Information get kilobytes => Information(toDouble(), InformationUnit.kilobyte);
+
   /// Creates an [Information] instance representing this value in Megabytes (MB, SI: 10⁶ bytes).
   // ignore: non_constant_identifier_names
   Information get MB => Information(toDouble(), InformationUnit.megabyte);
+
+  /// Creates an [Information] instance representing this value in Megabytes (MB, SI: 10⁶ bytes).
+  /// Alias for [MB].
+  Information get megabytes => Information(toDouble(), InformationUnit.megabyte);
 
   /// Creates an [Information] instance representing this value in Gigabytes (GB, SI: 10⁹ bytes).
   // ignore: non_constant_identifier_names
   Information get GB => Information(toDouble(), InformationUnit.gigabyte);
 
+  /// Creates an [Information] instance representing this value in Gigabytes (GB, SI: 10⁹ bytes).
+  /// Alias for [GB].
+  Information get gigabytes => Information(toDouble(), InformationUnit.gigabyte);
+
   /// Creates an [Information] instance representing this value in Terabytes (TB, SI: 10¹² bytes).
   // ignore: non_constant_identifier_names
   Information get TB => Information(toDouble(), InformationUnit.terabyte);
+
+  /// Creates an [Information] instance representing this value in Terabytes (TB, SI: 10¹² bytes).
+  /// Alias for [TB].
+  Information get terabytes => Information(toDouble(), InformationUnit.terabyte);
 
   /// Creates an [Information] instance representing this value in Petabytes (PB, SI: 10¹⁵ bytes).
   // ignore: non_constant_identifier_names
@@ -256,17 +280,33 @@ extension InformationCreation on num {
   // ignore: non_constant_identifier_names
   Information get KiB => Information(toDouble(), InformationUnit.kibibyte);
 
+  /// Creates an [Information] instance representing this value in Kibibytes (KiB, IEC: 1 024 bytes).
+  /// Alias for [KiB].
+  Information get kibibytes => Information(toDouble(), InformationUnit.kibibyte);
+
   /// Creates an [Information] instance representing this value in Mebibytes (MiB, IEC: 2²⁰ bytes).
   // ignore: non_constant_identifier_names
   Information get MiB => Information(toDouble(), InformationUnit.mebibyte);
+
+  /// Creates an [Information] instance representing this value in Mebibytes (MiB, IEC: 2²⁰ bytes).
+  /// Alias for [MiB].
+  Information get mebibytes => Information(toDouble(), InformationUnit.mebibyte);
 
   /// Creates an [Information] instance representing this value in Gibibytes (GiB, IEC: 2³⁰ bytes).
   // ignore: non_constant_identifier_names
   Information get GiB => Information(toDouble(), InformationUnit.gibibyte);
 
+  /// Creates an [Information] instance representing this value in Gibibytes (GiB, IEC: 2³⁰ bytes).
+  /// Alias for [GiB].
+  Information get gibibytes => Information(toDouble(), InformationUnit.gibibyte);
+
   /// Creates an [Information] instance representing this value in Tebibytes (TiB, IEC: 2⁴⁰ bytes).
   // ignore: non_constant_identifier_names
   Information get TiB => Information(toDouble(), InformationUnit.tebibyte);
+
+  /// Creates an [Information] instance representing this value in Tebibytes (TiB, IEC: 2⁴⁰ bytes).
+  /// Alias for [TiB].
+  Information get tebibytes => Information(toDouble(), InformationUnit.tebibyte);
 
   /// Creates an [Information] instance representing this value in Pebibytes (PiB, IEC: 2⁵⁰ bytes).
   // ignore: non_constant_identifier_names

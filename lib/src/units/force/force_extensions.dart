@@ -121,7 +121,8 @@ extension ForceCreation on num {
   Force get uN => Force(toDouble(), ForceUnit.micronewton);
 
   /// Creates a [Force] instance from this value in Micronewtons (µN).
-  Force get microjoules => Force(toDouble(), ForceUnit.micronewton);
+  /// Alias for [uN].
+  Force get micronewtons => Force(toDouble(), ForceUnit.micronewton);
 
   /// Creates a [Force] instance from this value in Nanonewtons (nN).
   Force get nN => Force(toDouble(), ForceUnit.nanonewton);
@@ -131,6 +132,10 @@ extension ForceCreation on num {
 
   /// Creates a [Force] instance from this value in Pounds-force (lbf).
   Force get lbf => Force(toDouble(), ForceUnit.poundForce);
+
+  /// Creates a [Force] instance from this value in Pounds-force (lbf).
+  /// Alias for [lbf].
+  Force get poundsForce => Force(toDouble(), ForceUnit.poundForce);
 
   /// Creates a [Force] instance from this value in Dyne (dyn).
   Force get dyn => Force(toDouble(), ForceUnit.dyne);
@@ -146,12 +151,4 @@ extension ForceCreation on num {
 
   /// Creates a [Force] instance from this value in Poundals (pdl).
   Force get pdl => Force(toDouble(), ForceUnit.poundal);
-
-  /// Creates a [Force] instance from this value in Meganewtons (MN).
-  ///
-  /// Deprecated: Use [MN] (SI symbol) or [meganewtons] (full word) instead.
-  /// Will be removed in v1.0.0.
-  @Deprecated('Use MN (SI symbol) or meganewtons (full word) instead. '
-      'Will be removed in v1.0.0.')
-  Force get megaN => Force(toDouble(), ForceUnit.meganewton);
 }

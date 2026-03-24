@@ -148,30 +148,22 @@ extension PowerCreation on num {
   /// Creates a [Power] instance from this value in mechanical Horsepower (hp).
   Power get hp => Power(toDouble(), PowerUnit.horsepower);
 
+  /// Creates a [Power] instance from this value in mechanical Horsepower (hp).
+  /// Alias for [hp].
+  Power get horsepower => Power(toDouble(), PowerUnit.horsepower);
+
   /// Creates a [Power] instance from this value in metric Horsepower (PS).
   Power get metricHp => Power(toDouble(), PowerUnit.metricHorsepower);
 
   /// Creates a [Power] instance from this value in British Thermal Units per hour (Btu/h).
   Power get btuPerHour => Power(toDouble(), PowerUnit.btuPerHour);
 
+  /// Creates a [Power] instance from this value in British Thermal Units per hour (Btu/h).
+  /// Alias for [btuPerHour].
+  Power get britishThermalUnitsPerHour => Power(toDouble(), PowerUnit.btuPerHour);
+
   // --- CGS Units ---
 
   /// Creates a [Power] instance from this value in Ergs per second (erg/s).
   Power get ergPerSecond => Power(toDouble(), PowerUnit.ergPerSecond);
-
-  /// Creates a [Power] instance from this value in Megawatts (MW).
-  ///
-  /// Deprecated: Use [MW] (SI symbol) or [megawatts] (full word) instead.
-  /// Will be removed in v1.0.0.
-  @Deprecated('Use MW (SI symbol) or megawatts (full word) instead. '
-      'Will be removed in v1.0.0.')
-  Power get megaW => Power(toDouble(), PowerUnit.megawatt);
-
-  /// Creates a [Power] instance from this value in Gigawatts (GW).
-  ///
-  /// Deprecated: Use [GW] (SI symbol) or [gigawatts] (full word) instead.
-  /// Will be removed in v1.0.0.
-  @Deprecated('Use GW (SI symbol) or gigawatts (full word) instead. '
-      'Will be removed in v1.0.0.')
-  Power get gigaW => Power(toDouble(), PowerUnit.gigawatt);
 }

@@ -1,6 +1,12 @@
 import 'electric_charge.dart';
 import 'electric_charge_unit.dart';
 
+// SI/IEC unit symbols use uppercase letters by international standard
+// (e.g., 'Ah' for ampere-hour, where A = Ampere, named after a person).
+// Dart's lowerCamelCase rule is intentionally overridden here to preserve
+// domain correctness and discoverability for scientists and engineers.
+// ignore_for_file: non_constant_identifier_names
+
 /// Provides convenient access to [ElectricCharge] values in specific units.
 extension ElectricChargeValueGetters on ElectricCharge {
   /// Returns the electric charge value in Coulombs (C).
@@ -82,24 +88,50 @@ extension ElectricChargeCreation on num {
   /// Creates an [ElectricCharge] instance from this value in Kilocoulombs (kC).
   ElectricCharge get kC => ElectricCharge(toDouble(), ElectricChargeUnit.kilocoulomb);
 
+  /// Creates an [ElectricCharge] instance from this value in Kilocoulombs (kC).
+  /// Alias for [kC].
+  ElectricCharge get kilocoulombs => ElectricCharge(toDouble(), ElectricChargeUnit.kilocoulomb);
+
   /// Creates an [ElectricCharge] instance from this value in Millicoulombs (mC).
   ElectricCharge get mC => ElectricCharge(toDouble(), ElectricChargeUnit.millicoulomb);
+
+  /// Creates an [ElectricCharge] instance from this value in Millicoulombs (mC).
+  /// Alias for [mC].
+  ElectricCharge get millicoulombs => ElectricCharge(toDouble(), ElectricChargeUnit.millicoulomb);
 
   /// Creates an [ElectricCharge] instance from this value in Microcoulombs (µC).
   ElectricCharge get uC => ElectricCharge(toDouble(), ElectricChargeUnit.microcoulomb);
 
+  /// Creates an [ElectricCharge] instance from this value in Microcoulombs (µC).
+  /// Alias for [uC].
+  ElectricCharge get microcoulombs => ElectricCharge(toDouble(), ElectricChargeUnit.microcoulomb);
+
   /// Creates an [ElectricCharge] instance from this value in Nanocoulombs (nC).
   ElectricCharge get nC => ElectricCharge(toDouble(), ElectricChargeUnit.nanocoulomb);
 
+  /// Creates an [ElectricCharge] instance from this value in Nanocoulombs (nC).
+  /// Alias for [nC].
+  ElectricCharge get nanocoulombs => ElectricCharge(toDouble(), ElectricChargeUnit.nanocoulomb);
+
   /// Creates an [ElectricCharge] instance from this value in Picocoulombs (pC).
   ElectricCharge get pC => ElectricCharge(toDouble(), ElectricChargeUnit.picocoulomb);
+
+  /// Creates an [ElectricCharge] instance from this value in Picocoulombs (pC).
+  /// Alias for [pC].
+  ElectricCharge get picocoulombs => ElectricCharge(toDouble(), ElectricChargeUnit.picocoulomb);
 
   /// Creates an [ElectricCharge] instance from this value in Elementary Charges (e).
   /// Represents the number of elementary charges (e.g., protons or electrons).
   ElectricCharge get e => ElectricCharge(toDouble(), ElectricChargeUnit.elementaryCharge);
 
   /// Creates an [ElectricCharge] instance from this value in Ampere-hours (Ah).
-  ElectricCharge get ah => ElectricCharge(toDouble(), ElectricChargeUnit.ampereHour);
+  ///
+  /// The SI symbol uses a capital 'A' because the Ampere is named after André-Marie Ampère.
+  ElectricCharge get Ah => ElectricCharge(toDouble(), ElectricChargeUnit.ampereHour);
+
+  /// Creates an [ElectricCharge] instance from this value in Ampere-hours (Ah).
+  /// Alias for [Ah].
+  ElectricCharge get ampereHours => ElectricCharge(toDouble(), ElectricChargeUnit.ampereHour);
 
   /// Creates an [ElectricCharge] instance from this value in Milliampere-hours (mAh).
   ElectricCharge get mAh => ElectricCharge(toDouble(), ElectricChargeUnit.milliampereHour);

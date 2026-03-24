@@ -82,7 +82,7 @@ void main() {
     group('Dimensional Analysis', () {
       test('Mass * Acceleration = Force', () {
         final mass = 10.kg;
-        final acc = 9.80665.mpsSquared; // 1 g
+        final acc = 9.80665.mps2; // 1 g
         final force = Force.from(mass, acc);
 
         expect(force, isA<Force>());
@@ -103,13 +103,13 @@ void main() {
 
       test('Force / Acceleration = Mass', () {
         final force = 50.N;
-        final acc = 10.mpsSquared;
+        final acc = 10.mps2;
         final mass = force.massFrom(acc);
 
         expect(mass, isA<Mass>());
         expect(mass.inKilograms, closeTo(5.0, tolerance));
-        expect(50.N.massFrom(0.mpsSquared).inKilograms, double.infinity);
-        expect(0.N.massFrom(0.mpsSquared).inKilograms, isNaN);
+        expect(50.N.massFrom(0.mps2).inKilograms, double.infinity);
+        expect(0.N.massFrom(0.mps2).inKilograms, isNaN);
       });
     });
 
@@ -206,6 +206,35 @@ void main() {
           Force.fromPressure(const Pressure(100, PressureUnit.pascal), 1.m2).unit,
           ForceUnit.newton,
         );
+      });
+
+      test('meganewton/giganewton/micronewton/nanonewton extensions', () {
+        const tol = 1e-9;
+        // Creation
+        expect(1.0.MN.unit, ForceUnit.meganewton);
+        expect(1.0.meganewtons.unit, ForceUnit.meganewton);
+        expect(1.0.GN.unit, ForceUnit.giganewton);
+        expect(1.0.giganewtons.unit, ForceUnit.giganewton);
+        expect(1.0.uN.unit, ForceUnit.micronewton);
+        expect(1.0.micronewtons.unit, ForceUnit.micronewton);
+        expect(1.0.nN.unit, ForceUnit.nanonewton);
+        expect(1.0.nanonewtons.unit, ForceUnit.nanonewton);
+
+        // inX getters
+        expect(1e6.N.inMeganewtons, closeTo(1.0, tol));
+        expect(1e9.N.inGiganewtons, closeTo(1.0, tol));
+        expect(1.0.N.inMicronewtons, closeTo(1e6, tol));
+        expect(1.0.N.inNanonewtons, closeTo(1e9, 1.0));
+
+        // asX getters
+        expect(1e6.N.asMeganewtons.unit, ForceUnit.meganewton);
+        expect(1e6.N.asMeganewtons.value, closeTo(1.0, tol));
+        expect(1e9.N.asGiganewtons.unit, ForceUnit.giganewton);
+        expect(1e9.N.asGiganewtons.value, closeTo(1.0, tol));
+        expect(1.0.N.asMicronewtons.unit, ForceUnit.micronewton);
+        expect(1.0.N.asMicronewtons.value, closeTo(1e6, tol));
+        expect(1.0.N.asNanonewtons.unit, ForceUnit.nanonewton);
+        expect(1.0.N.asNanonewtons.value, closeTo(1e9, 1.0));
       });
 
       test('doubling area doubles force', () {

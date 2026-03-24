@@ -110,14 +110,26 @@ extension AreaCreation on num {
   /// Creates an [Area] instance representing this numerical value in Square Meters (m²).
   Area get m2 => Area(toDouble(), AreaUnit.squareMeter);
 
+  /// Creates an [Area] instance representing this numerical value in Square Meters (m²).
+  /// Alias for [m2].
+  Area get squareMeters => Area(toDouble(), AreaUnit.squareMeter);
+
   /// Creates an [Area] instance representing this numerical value in Square Decimeters (dm²).
   Area get dm2 => Area(toDouble(), AreaUnit.squareDecimeter);
 
   /// Creates an [Area] instance representing this numerical value in Square Centimeters (cm²).
   Area get cm2 => Area(toDouble(), AreaUnit.squareCentimeter);
 
+  /// Creates an [Area] instance representing this numerical value in Square Centimeters (cm²).
+  /// Alias for [cm2].
+  Area get squareCentimeters => Area(toDouble(), AreaUnit.squareCentimeter);
+
   /// Creates an [Area] instance representing this numerical value in Square Millimeters (mm²).
   Area get mm2 => Area(toDouble(), AreaUnit.squareMillimeter);
+
+  /// Creates an [Area] instance representing this numerical value in Square Millimeters (mm²).
+  /// Alias for [mm2].
+  Area get squareMillimeters => Area(toDouble(), AreaUnit.squareMillimeter);
 
   /// Creates an [Area] instance representing this numerical value in Square Micrometers (µm²).
   Area get um2 => Area(toDouble(), AreaUnit.squareMicrometer);
@@ -134,6 +146,10 @@ extension AreaCreation on num {
   /// Creates an [Area] instance representing this numerical value in Square Kilometers (km²).
   Area get km2 => Area(toDouble(), AreaUnit.squareKilometer);
 
+  /// Creates an [Area] instance representing this numerical value in Square Kilometers (km²).
+  /// Alias for [km2].
+  Area get squareKilometers => Area(toDouble(), AreaUnit.squareKilometer);
+
   /// Creates an [Area] instance representing this numerical value in Square Megameters (Mm²).
   ///
   /// The SI symbol for square megameter is 'Mm2' (capital M = mega prefix).
@@ -142,14 +158,30 @@ extension AreaCreation on num {
   /// Creates an [Area] instance representing this numerical value in Square Inches (in²).
   Area get in2 => Area(toDouble(), AreaUnit.squareInch);
 
+  /// Creates an [Area] instance representing this numerical value in Square Inches (in²).
+  /// Alias for [in2].
+  Area get squareInches => Area(toDouble(), AreaUnit.squareInch);
+
   /// Creates an [Area] instance representing this numerical value in Square Feet (ft²).
   Area get ft2 => Area(toDouble(), AreaUnit.squareFoot);
+
+  /// Creates an [Area] instance representing this numerical value in Square Feet (ft²).
+  /// Alias for [ft2].
+  Area get squareFeet => Area(toDouble(), AreaUnit.squareFoot);
 
   /// Creates an [Area] instance representing this numerical value in Square Yards (yd²).
   Area get yd2 => Area(toDouble(), AreaUnit.squareYard);
 
+  /// Creates an [Area] instance representing this numerical value in Square Yards (yd²).
+  /// Alias for [yd2].
+  Area get squareYards => Area(toDouble(), AreaUnit.squareYard);
+
   /// Creates an [Area] instance representing this numerical value in Square Miles (mi²).
   Area get mi2 => Area(toDouble(), AreaUnit.squareMile);
+
+  /// Creates an [Area] instance representing this numerical value in Square Miles (mi²).
+  /// Alias for [mi2].
+  Area get squareMiles => Area(toDouble(), AreaUnit.squareMile);
 
   /// Creates an [Area] instance representing this numerical value in Acres (ac).
   Area get ac => Area(toDouble(), AreaUnit.acre);

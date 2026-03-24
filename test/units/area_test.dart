@@ -424,6 +424,38 @@ void main() {
       expect(Area.from(1.km, 500.m).inSquareMeters, closeTo(500000.0, tolerance));
     });
 
+    test('dm2/um2/dam2/hm2/Mm2/squareYards extensions', () {
+      const tol = 1e-9;
+      // Creation
+      expect(1.0.dm2.unit, AreaUnit.squareDecimeter);
+      expect(1.0.um2.unit, AreaUnit.squareMicrometer);
+      expect(1.0.dam2.unit, AreaUnit.squareDecameter);
+      expect(1.0.hm2.unit, AreaUnit.squareHectometer);
+      expect(1.0.Mm2.unit, AreaUnit.squareMegameter);
+      expect(1.0.yd2.unit, AreaUnit.squareYard);
+      expect(1.0.squareYards.unit, AreaUnit.squareYard);
+
+      // inX getters
+      expect(1.0.m2.inSquareDecimeters, closeTo(100.0, tol));
+      expect(1.0.m2.inSquareMicrometers, closeTo(1e12, 1.0));
+      expect(100.0.m2.inSquareDecameters, closeTo(1.0, tol));
+      expect(10000.0.m2.inSquareHectometers, closeTo(1.0, tol));
+      expect(1e12.m2.inSquareMegameters, closeTo(1.0, tol));
+      expect(0.8361.m2.inSquareYards, closeTo(1.0, 1e-4));
+
+      // asX getters
+      expect(1.0.m2.asSquareDecimeter.unit, AreaUnit.squareDecimeter);
+      expect(1.0.m2.asSquareDecimeter.value, closeTo(100.0, tol));
+      expect(1.0.m2.asSquareMicrometer.unit, AreaUnit.squareMicrometer);
+      expect(100.0.m2.asSquareDecameter.unit, AreaUnit.squareDecameter);
+      expect(100.0.m2.asSquareDecameter.value, closeTo(1.0, tol));
+      expect(10000.0.m2.asSquareHectometer.unit, AreaUnit.squareHectometer);
+      expect(10000.0.m2.asSquareHectometer.value, closeTo(1.0, tol));
+      expect(1e12.m2.asSquareMegameter.unit, AreaUnit.squareMegameter);
+      expect(1e12.m2.asSquareMegameter.value, closeTo(1.0, tol));
+      expect(0.8361.m2.asSquareYard.unit, AreaUnit.squareYard);
+    });
+
     test('result is always in squareMeter unit', () {
       expect(Area.from(3.m, 3.m).unit, AreaUnit.squareMeter);
     });

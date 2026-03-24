@@ -185,6 +185,55 @@ void main() {
       });
     });
 
+    group('Microcandela and Megacandela extensions', () {
+      const tol = 1e-9;
+      test('ucd / microcandelas creation and inMicrocandelas getter', () {
+        final li = 500.0.ucd;
+        expect(li.value, 500.0);
+        expect(li.unit, LuminousIntensityUnit.microcandela);
+        expect(li.inCandelas, closeTo(500e-6, tol));
+      });
+
+      test('microcandelas alias matches ucd', () {
+        expect(1.0.microcandelas.unit, LuminousIntensityUnit.microcandela);
+        expect(1.0.microcandelas.value, 1.0);
+      });
+
+      test('inMicrocandelas from candelas', () {
+        expect(1.0.cd.inMicrocandelas, closeTo(1e6, tol));
+      });
+
+      test('asMicrocandelas returns correct object', () {
+        final li = 0.001.cd;
+        final asUcd = li.asMicrocandelas;
+        expect(asUcd.unit, LuminousIntensityUnit.microcandela);
+        expect(asUcd.value, closeTo(1000.0, tol));
+      });
+
+      test('Mcd / megacandelas creation and inMegacandelas getter', () {
+        final li = 2.0.Mcd;
+        expect(li.value, 2.0);
+        expect(li.unit, LuminousIntensityUnit.megacandela);
+        expect(li.inCandelas, closeTo(2e6, tol));
+      });
+
+      test('megacandelas alias matches Mcd', () {
+        expect(3.0.megacandelas.unit, LuminousIntensityUnit.megacandela);
+        expect(3.0.megacandelas.value, 3.0);
+      });
+
+      test('inMegacandelas from kilocandelas', () {
+        expect(1000.0.kcd.inMegacandelas, closeTo(1.0, tol));
+      });
+
+      test('asMegacandelas returns correct object', () {
+        final li = 5e6.cd;
+        final asMcd = li.asMegacandelas;
+        expect(asMcd.unit, LuminousIntensityUnit.megacandela);
+        expect(asMcd.value, closeTo(5.0, tol));
+      });
+    });
+
     group('Edge Cases', () {
       test('Conversion with zero value', () {
         final liZeroCd = 0.0.cd;

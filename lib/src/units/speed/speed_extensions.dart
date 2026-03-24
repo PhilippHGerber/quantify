@@ -70,6 +70,11 @@ extension SpeedCreation on num {
   Speed get kmh => Speed(toDouble(), SpeedUnit.kilometerPerHour);
 
   /// Creates a [Speed] instance from this value in Kilometers per hour (km/h).
+  /// Alias for [kmh].
+  Speed get kmPerHour => Speed(toDouble(), SpeedUnit.kilometerPerHour);
+
+  /// Creates a [Speed] instance from this value in Kilometers per hour (km/h).
+  /// Alias for [kmh].
   Speed get kilometersPerHour => Speed(toDouble(), SpeedUnit.kilometerPerHour);
 
   /// Creates a [Speed] instance from this value in Miles per hour (mph).

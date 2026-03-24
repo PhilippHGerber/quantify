@@ -51,8 +51,16 @@ extension AngleCreation on num {
   /// Creates an [Angle] instance from this numerical value in Radians (rad).
   Angle get radians => Angle(toDouble(), AngleUnit.radian);
 
+  /// Creates an [Angle] instance from this numerical value in Radians (rad).
+  /// Alias for [radians]. Singular form for natural English syntax (e.g., `1.radian`).
+  Angle get radian => Angle(toDouble(), AngleUnit.radian);
+
   /// Creates an [Angle] instance from this numerical value in Degrees (°).
   Angle get degrees => Angle(toDouble(), AngleUnit.degree);
+
+  /// Creates an [Angle] instance from this numerical value in Degrees (°).
+  /// Alias for [degrees]. Singular form for natural English syntax (e.g., `1.degree`).
+  Angle get degree => Angle(toDouble(), AngleUnit.degree);
 
   /// Creates an [Angle] instance from this numerical value in Gradians (grad).
   Angle get gradians => Angle(toDouble(), AngleUnit.gradian);

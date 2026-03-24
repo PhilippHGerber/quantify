@@ -989,6 +989,128 @@ void main() {
         expect(angstroms.inNm, closeTo(1.0, tolerance));
       });
 
+      group('Full-word creation aliases', () {
+        // Each test verifies the alias produces the correct unit and delegates
+        // to the same underlying LengthUnit as its abbreviation counterpart.
+
+        test('SI metric — singular and plural match abbreviations', () {
+          expect(1.gigameter.unit, LengthUnit.gigameter);
+          expect(1.gigameters.unit, LengthUnit.gigameter);
+          expect(1.Gm.value, 1.gigameter.value);
+
+          expect(1.megameter.unit, LengthUnit.megameter);
+          expect(1.megameters.unit, LengthUnit.megameter);
+          expect(1.Mm.value, 1.megameter.value);
+
+          expect(1.kilometer.unit, LengthUnit.kilometer);
+          expect(1.kilometers.unit, LengthUnit.kilometer);
+          expect(1.km.value, 1.kilometer.value);
+
+          expect(1.hectometer.unit, LengthUnit.hectometer);
+          expect(1.hectometers.unit, LengthUnit.hectometer);
+          expect(1.hm.value, 1.hectometer.value);
+
+          expect(1.decameter.unit, LengthUnit.decameter);
+          expect(1.decameters.unit, LengthUnit.decameter);
+          expect(1.dam.value, 1.decameter.value);
+
+          expect(1.meter.unit, LengthUnit.meter);
+          expect(1.meters.unit, LengthUnit.meter);
+          expect(1.m.value, 1.meter.value);
+
+          expect(1.decimeter.unit, LengthUnit.decimeter);
+          expect(1.decimeters.unit, LengthUnit.decimeter);
+          expect(1.dm.value, 1.decimeter.value);
+
+          expect(1.centimeter.unit, LengthUnit.centimeter);
+          expect(1.centimeters.unit, LengthUnit.centimeter);
+          expect(1.cm.value, 1.centimeter.value);
+
+          expect(1.millimeter.unit, LengthUnit.millimeter);
+          expect(1.millimeters.unit, LengthUnit.millimeter);
+          expect(1.mm.value, 1.millimeter.value);
+        });
+
+        test('Sub-millimeter SI — singular, plural, and micron aliases', () {
+          expect(1.micrometer.unit, LengthUnit.micrometer);
+          expect(1.micrometers.unit, LengthUnit.micrometer);
+          expect(1.micron.unit, LengthUnit.micrometer);
+          expect(1.microns.unit, LengthUnit.micrometer);
+          expect(1.um.value, 1.micrometer.value);
+
+          expect(1.nanometer.unit, LengthUnit.nanometer);
+          expect(1.nanometers.unit, LengthUnit.nanometer);
+          expect(1.nm.value, 1.nanometer.value);
+
+          expect(1.picometer.unit, LengthUnit.picometer);
+          expect(1.picometers.unit, LengthUnit.picometer);
+          expect(1.pm.value, 1.picometer.value);
+
+          expect(1.femtometer.unit, LengthUnit.femtometer);
+          expect(1.femtometers.unit, LengthUnit.femtometer);
+          expect(1.fm.value, 1.femtometer.value);
+        });
+
+        test('Ångström — plural alias', () {
+          expect(1.angstroms.unit, LengthUnit.angstrom);
+          expect(1.angstrom.value, 1.angstroms.value);
+        });
+
+        test('Imperial — foot/feet, yard/yards, inch/inches, mile/miles', () {
+          expect(1.inch.unit, LengthUnit.inch);
+          expect(1.inches.unit, LengthUnit.inch);
+          expect(12.inches.inFt, closeTo(1.0, tolerance));
+
+          expect(1.foot.unit, LengthUnit.foot);
+          expect(1.feet.unit, LengthUnit.foot);
+          expect(3.feet.inYd, closeTo(1.0, tolerance));
+          expect(1.ft.value, 1.foot.value);
+
+          expect(1.yard.unit, LengthUnit.yard);
+          expect(1.yards.unit, LengthUnit.yard);
+          expect(1.yd.value, 1.yard.value);
+
+          expect(1.mile.unit, LengthUnit.mile);
+          expect(1.miles.unit, LengthUnit.mile);
+          expect(1.mi.value, 1.mile.value);
+        });
+
+        test('Maritime — nauticalMile / nauticalMiles', () {
+          expect(1.nauticalMile.unit, LengthUnit.nauticalMile);
+          expect(1.nauticalMiles.unit, LengthUnit.nauticalMile);
+          expect(1.nmi.value, 1.nauticalMile.value);
+          // 1 nmi = 1852 m exactly
+          expect(1.nauticalMile.inM, closeTo(1852.0, tolerance));
+        });
+
+        test('Astronomical — astronomicalUnit/s, lightYear/s, parsec/s', () {
+          expect(1.astronomicalUnit.unit, LengthUnit.astronomicalUnit);
+          expect(1.astronomicalUnits.unit, LengthUnit.astronomicalUnit);
+          expect(1.AU.value, 1.astronomicalUnit.value);
+
+          expect(1.lightYear.unit, LengthUnit.lightYear);
+          expect(1.lightYears.unit, LengthUnit.lightYear);
+          expect(1.ly.value, 1.lightYear.value);
+
+          expect(1.parsec.unit, LengthUnit.parsec);
+          expect(1.parsecs.unit, LengthUnit.parsec);
+          expect(1.pc.value, 1.parsec.value);
+        });
+
+        test('Full-word aliases produce correct converted values', () {
+          // Spot-check that the full-word forms convert identically to abbreviations.
+          expect(100.centimeters.inM, closeTo(1.0, tolerance));
+          expect(1000.millimeters.inM, closeTo(1.0, tolerance));
+          expect(1.kilometers.inM, closeTo(1000.0, tolerance));
+          expect(1.meters.inCm, closeTo(100.0, tolerance));
+          expect(1000.microns.inMm, closeTo(1.0, tolerance));
+          expect(1.nauticalMiles.inKm, closeTo(1.852, tolerance));
+          expect(5280.feet.inMi, closeTo(1.0, highTolerance));
+          expect(3.feet.inYd, closeTo(1.0, tolerance));
+          expect(36.inches.inYd, closeTo(1.0, tolerance));
+        });
+      });
+
       test('All conversion getters work correctly', () {
         final base = 1000.m;
 

@@ -175,6 +175,10 @@ extension VolumeCreation on num {
   /// Creates a [Volume] instance from this value in Cubic Meters (m³).
   Volume get m3 => Volume(toDouble(), VolumeUnit.cubicMeter);
 
+  /// Creates a [Volume] instance from this value in Cubic Meters (m³).
+  /// Alias for [m3].
+  Volume get cubicMeters => Volume(toDouble(), VolumeUnit.cubicMeter);
+
   /// Creates a [Volume] instance from this value in Kiloliters (kl).
   Volume get kl => Volume(toDouble(), VolumeUnit.kiloliter);
 
@@ -182,34 +186,43 @@ extension VolumeCreation on num {
   Volume get dm3 => Volume(toDouble(), VolumeUnit.cubicDecimeter);
 
   /// Creates a [Volume] instance from this value in Liters (L).
-  Volume get l => Volume(toDouble(), VolumeUnit.litre);
+  ///
+  /// The uppercase 'L' is the BIPM-recommended symbol to avoid confusion with
+  /// the digit '1' or uppercase 'I' in many fonts.
+  Volume get L => Volume(toDouble(), VolumeUnit.litre);
 
   /// Creates a [Volume] instance from this value in Liters (L).
-  /// Alias for `l`.
+  /// Alias for [L].
   Volume get liters => Volume(toDouble(), VolumeUnit.litre);
 
   /// Creates a [Volume] instance from this value in Cubic Centimeters (cm³).
   Volume get cm3 => Volume(toDouble(), VolumeUnit.cubicCentimeter);
 
   /// Creates a [Volume] instance from this value in Milliliters (mL).
-  Volume get ml => Volume(toDouble(), VolumeUnit.milliliter);
+  ///
+  /// Uses uppercase 'L' per BIPM recommendation to prevent visual ambiguity with '1'.
+  Volume get mL => Volume(toDouble(), VolumeUnit.milliliter);
 
   /// Creates a [Volume] instance from this value in Milliliters (mL).
-  /// Alias for `ml`.
+  /// Alias for [mL].
   Volume get milliliters => Volume(toDouble(), VolumeUnit.milliliter);
 
-  /// Creates a [Volume] instance from this value in Centiliters (cl).
-  Volume get cl => Volume(toDouble(), VolumeUnit.centiliter);
+  /// Creates a [Volume] instance from this value in Centiliters (cL).
+  ///
+  /// Uses uppercase 'L' per BIPM recommendation to prevent visual ambiguity with '1'.
+  Volume get cL => Volume(toDouble(), VolumeUnit.centiliter);
 
-  /// Creates a [Volume] instance from this value in Centiliters (cl).
-  /// Alias for `cl`.
+  /// Creates a [Volume] instance from this value in Centiliters (cL).
+  /// Alias for [cL].
   Volume get centiliters => Volume(toDouble(), VolumeUnit.centiliter);
 
   /// Creates a [Volume] instance from this value in Cubic Millimeters (mm³).
   Volume get mm3 => Volume(toDouble(), VolumeUnit.cubicMillimeter);
 
   /// Creates a [Volume] instance from this value in Microliters (µL).
-  Volume get ul => Volume(toDouble(), VolumeUnit.microliter);
+  ///
+  /// Uses uppercase 'L' per BIPM recommendation to prevent visual ambiguity with '1'.
+  Volume get uL => Volume(toDouble(), VolumeUnit.microliter);
 
   /// Creates a [Volume] instance from this value in Cubic Decameters (dam³).
   Volume get dam3 => Volume(toDouble(), VolumeUnit.cubicDecameter);
@@ -220,8 +233,8 @@ extension VolumeCreation on num {
   Volume get Ml => Volume(toDouble(), VolumeUnit.megaliter);
 
   /// Creates a [Volume] instance from this value in Megaliters (Ml).
-  /// Dart-idiomatic alias for the SI symbol [Ml].
-  Volume get megaliter => Volume(toDouble(), VolumeUnit.megaliter);
+  /// Alias for [Ml].
+  Volume get megaliters => Volume(toDouble(), VolumeUnit.megaliter);
 
   /// Creates a [Volume] instance from this value in Cubic Hectometers (hm³).
   Volume get hm3 => Volume(toDouble(), VolumeUnit.cubicHectometer);
@@ -232,8 +245,8 @@ extension VolumeCreation on num {
   Volume get Gl => Volume(toDouble(), VolumeUnit.gigaliter);
 
   /// Creates a [Volume] instance from this value in Gigaliters (Gl).
-  /// Dart-idiomatic alias for the SI symbol [Gl].
-  Volume get gigaliter => Volume(toDouble(), VolumeUnit.gigaliter);
+  /// Alias for [Gl].
+  Volume get gigaliters => Volume(toDouble(), VolumeUnit.gigaliter);
 
   /// Creates a [Volume] instance from this value in Cubic Kilometers (km³).
   Volume get km3 => Volume(toDouble(), VolumeUnit.cubicKilometer);
@@ -244,16 +257,24 @@ extension VolumeCreation on num {
   Volume get Tl => Volume(toDouble(), VolumeUnit.teraliter);
 
   /// Creates a [Volume] instance from this value in Teraliters (Tl).
-  /// Dart-idiomatic alias for the SI symbol [Tl].
-  Volume get teraliter => Volume(toDouble(), VolumeUnit.teraliter);
+  /// Alias for [Tl].
+  Volume get teraliters => Volume(toDouble(), VolumeUnit.teraliter);
 
   // --- Imperial / US Customary ---
 
   /// Creates a [Volume] instance from this value in Cubic Inches (in³).
   Volume get in3 => Volume(toDouble(), VolumeUnit.cubicInch);
 
+  /// Creates a [Volume] instance from this value in Cubic Inches (in³).
+  /// Alias for [in3].
+  Volume get cubicInches => Volume(toDouble(), VolumeUnit.cubicInch);
+
   /// Creates a [Volume] instance from this value in Cubic Feet (ft³).
   Volume get ft3 => Volume(toDouble(), VolumeUnit.cubicFoot);
+
+  /// Creates a [Volume] instance from this value in Cubic Feet (ft³).
+  /// Alias for [ft3].
+  Volume get cubicFeet => Volume(toDouble(), VolumeUnit.cubicFoot);
 
   /// Creates a [Volume] instance from this value in Cubic Miles (mi³).
   Volume get mi3 => Volume(toDouble(), VolumeUnit.cubicMile);
@@ -262,25 +283,41 @@ extension VolumeCreation on num {
   Volume get gal => Volume(toDouble(), VolumeUnit.gallon);
 
   /// Creates a [Volume] instance from this value in US Gallons (gal).
-  /// Alias for `gal`.
+  /// Alias for [gal]. Singular form for natural English syntax (e.g., `1.gallon`).
+  Volume get gallon => Volume(toDouble(), VolumeUnit.gallon);
+
+  /// Creates a [Volume] instance from this value in US Gallons (gal).
+  /// Alias for [gal].
   Volume get gallons => Volume(toDouble(), VolumeUnit.gallon);
 
   /// Creates a [Volume] instance from this value in US Quarts (qt).
   Volume get qt => Volume(toDouble(), VolumeUnit.quart);
 
   /// Creates a [Volume] instance from this value in US Quarts (qt).
-  /// Alias for `qt`.
+  /// Alias for [qt]. Singular form for natural English syntax (e.g., `1.quart`).
+  Volume get quart => Volume(toDouble(), VolumeUnit.quart);
+
+  /// Creates a [Volume] instance from this value in US Quarts (qt).
+  /// Alias for [qt].
   Volume get quarts => Volume(toDouble(), VolumeUnit.quart);
 
   /// Creates a [Volume] instance from this value in US Pints (pt).
   Volume get pt => Volume(toDouble(), VolumeUnit.pint);
 
   /// Creates a [Volume] instance from this value in US Pints (pt).
-  /// Alias for `pt`.
+  /// Alias for [pt]. Singular form for natural English syntax (e.g., `1.pint`).
+  Volume get pint => Volume(toDouble(), VolumeUnit.pint);
+
+  /// Creates a [Volume] instance from this value in US Pints (pt).
+  /// Alias for [pt].
   Volume get pints => Volume(toDouble(), VolumeUnit.pint);
 
   /// Creates a [Volume] instance from this value in US Fluid Ounces (fl-oz).
   Volume get flOz => Volume(toDouble(), VolumeUnit.fluidOunce);
+
+  /// Creates a [Volume] instance from this value in US Fluid Ounces (fl-oz).
+  /// Alias for [flOz]. Singular form for natural English syntax (e.g., `1.fluidOunce`).
+  Volume get fluidOunce => Volume(toDouble(), VolumeUnit.fluidOunce);
 
   /// Creates a [Volume] instance from this value in US Tablespoons (tbsp).
   Volume get tbsp => Volume(toDouble(), VolumeUnit.tablespoon);

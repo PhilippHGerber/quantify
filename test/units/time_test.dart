@@ -729,4 +729,41 @@ void main() {
       });
     });
   });
+
+  group('Time — Uncovered extension getters', () {
+    // Value getters not exercised above
+    test('inKiloseconds inMegaseconds inGigaseconds inCenturies', () {
+      expect(1000.0.seconds.inKiloseconds, closeTo(1.0, tolerance));
+      expect(1000.0.ks.inMegaseconds, closeTo(1.0, tolerance));
+      expect(1.0.Ms.inGigaseconds, closeTo(0.001, tolerance));
+      expect(100.0.years.inCenturies, closeTo(1.0, lowprecisionTolerance));
+    });
+
+    test('asYears asFortnights asDecades asCenturies', () {
+      expect(365.25.days.asYears.unit, TimeUnit.year);
+      expect(14.0.days.asFortnights.value, closeTo(1.0, tolerance));
+      expect(10.0.years.asDecades.value, closeTo(1.0, lowprecisionTolerance));
+      expect(100.0.years.asCenturies.value, closeTo(1.0, lowprecisionTolerance));
+    });
+
+    // Creation aliases not previously exercised
+    test('das hs creation aliases', () {
+      expect(1.0.das.unit, TimeUnit.decasecond);
+      expect(1.0.hs.unit, TimeUnit.hectosecond);
+    });
+
+    test('Ms Gs megaseconds gigaseconds creation aliases', () {
+      expect(1.0.Ms.unit, TimeUnit.megasecond);
+      expect(1.0.megaseconds.unit, TimeUnit.megasecond);
+      expect(1.0.Gs.unit, TimeUnit.gigasecond);
+      expect(1.0.gigaseconds.unit, TimeUnit.gigasecond);
+    });
+
+    test('months secs mins hrs short aliases', () {
+      expect(1.0.months.unit, TimeUnit.month);
+      expect(1.0.secs.unit, TimeUnit.second);
+      expect(1.0.mins.unit, TimeUnit.minute);
+      expect(1.0.hrs.unit, TimeUnit.hour);
+    });
+  });
 }

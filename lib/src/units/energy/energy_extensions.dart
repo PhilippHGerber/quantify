@@ -190,11 +190,7 @@ extension EnergyCreation on num {
   /// Creates an [Energy] instance from this value in British Thermal Units (Btu).
   Energy get btu => Energy(toDouble(), EnergyUnit.btu);
 
-  /// Creates an [Energy] instance from this value in Megajoules (MJ).
-  ///
-  /// Deprecated: Use [MJ] (SI symbol) or [megajoules] (full word) instead.
-  /// Will be removed in v1.0.0.
-  @Deprecated('Use MJ (SI symbol) or megajoules (full word) instead. '
-      'Will be removed in v1.0.0.')
-  Energy get megaJ => Energy(toDouble(), EnergyUnit.megajoule);
+  /// Creates an [Energy] instance from this value in British Thermal Units (Btu).
+  /// Alias for [btu].
+  Energy get britishThermalUnits => Energy(toDouble(), EnergyUnit.btu);
 }

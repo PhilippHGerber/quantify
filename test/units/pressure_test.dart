@@ -26,7 +26,7 @@ void main() {
 
     group('Constructors and Getters', () {
       test('should create Pressure from num extensions and retrieve values', () {
-        final p1 = 101325.0.pa;
+        final p1 = 101325.0.Pa;
         expect(p1.value, 101325.0);
         expect(p1.unit, PressureUnit.pascal);
         expect(p1.inAtm, closeTo(1.0, 1e-9));
@@ -52,7 +52,7 @@ void main() {
       });
 
       test('getValue for all units from Pascal base', () {
-        final p = 100000.0.pa; // 1 bar
+        final p = 100000.0.Pa; // 1 bar
         expect(p.inPa, 100000.0);
         expect(p.inAtm, closeTo(100000.0 / 101325.0, 1e-7));
         expect(p.inBar, closeTo(1.0, 1e-9));
@@ -143,7 +143,7 @@ void main() {
       });
 
       test('convertTo same unit should return same instance (or equal if optimized)', () {
-        final p1 = 10.0.pa;
+        final p1 = 10.0.Pa;
         final p2 = p1.convertTo(PressureUnit.pascal);
         expect(identical(p1, p2), isTrue);
       });
@@ -163,7 +163,7 @@ void main() {
       });
 
       test('should return 0 for equal pressures in different units', () {
-        final pPascals = 100000.0.pa;
+        final pPascals = 100000.0.Pa;
         final pMillibars = 1000.0.mbar;
         expect(pBar.compareTo(pPascals), 0);
         expect(pPascals.compareTo(pBar), 0);
@@ -242,7 +242,7 @@ void main() {
 
     group('Edge Cases', () {
       test('Conversion with zero value', () {
-        final pZero = 0.0.pa;
+        final pZero = 0.0.Pa;
         for (final unit in PressureUnit.values) {
           expect(pZero.getValue(unit), 0.0, reason: '0 Pa to ${unit.symbol} should be 0');
         }
@@ -255,7 +255,7 @@ void main() {
       test('Conversion with negative value (if meaningful for pressure, though usually positive)',
           () {
         // Pressure is typically positive, but the math should still work.
-        final pNegative = (-100.0).pa;
+        final pNegative = (-100.0).Pa;
         expect(pNegative.inBar, closeTo(-0.001, 1e-9));
       });
     });
@@ -315,11 +315,11 @@ void main() {
         final p = 2.0.MPa; // 2 MPa = 2,000,000 Pa
         expect(p.inMegaPascals, closeTo(2.0, tolerance));
         expect(p.inPa, closeTo(2000000.0, tolerance));
-        expect(1000000.0.pa.inMegaPascals, closeTo(1.0, tolerance));
+        expect(1000000.0.Pa.inMegaPascals, closeTo(1.0, tolerance));
       });
 
       test('asMegaPascals conversion getter', () {
-        final p = 2000000.0.pa;
+        final p = 2000000.0.Pa;
         final asMpa = p.asMegaPascals;
         expect(asMpa.unit, PressureUnit.megapascal);
         expect(asMpa.value, closeTo(2.0, tolerance));
@@ -363,8 +363,8 @@ void main() {
         final p = 10.0.inH2O;
         final asInH2O = p.asInH2O;
         expect(identical(p, asInH2O), isTrue);
-        expect(249.08891.pa.asInH2O.unit, PressureUnit.inchOfWater);
-        expect(249.08891.pa.asInH2O.value, closeTo(1.0, highTolerance));
+        expect(249.08891.Pa.asInH2O.unit, PressureUnit.inchOfWater);
+        expect(249.08891.Pa.asInH2O.value, closeTo(1.0, highTolerance));
       });
     });
 
@@ -462,13 +462,50 @@ void main() {
     });
 
     test('Force / Pressure = Area', () {
-      final pressure = 100.pa;
+      final pressure = 100.Pa;
       final force = 1000.N;
       final area = pressure.areaFor(force);
       expect(area.inSquareMeters, closeTo(10.0, tolerance));
 
-      expect(0.pa.areaFor(10.N).inSquareMeters, double.infinity);
-      expect(0.pa.areaFor(0.N).inSquareMeters, isNaN);
+      expect(0.Pa.areaFor(10.N).inSquareMeters, double.infinity);
+      expect(0.Pa.areaFor(0.N).inSquareMeters, isNaN);
+    });
+  });
+
+  group('Pressure — Uncovered extension getters', () {
+    // Value getters not exercised above
+    test('inUPa inGPa inMegaPascals alias', () {
+      expect(1.0.Pa.inUPa, closeTo(1e6, tolerance));
+      expect(1.0.GPa.inGPa, closeTo(1.0, tolerance));
+      expect(1.0.MPa.inMegaPascals, closeTo(1.0, tolerance));
+    });
+
+    test('inInHg inCmH2O inInH2O', () {
+      expect(1.0.inHg.inInHg, closeTo(1.0, tolerance));
+      expect(1.0.cmH2O.inCmH2O, closeTo(1.0, tolerance));
+      expect(1.0.inH2O.inInH2O, closeTo(1.0, tolerance));
+    });
+
+    // Instance getters (as*)
+    test('asUPa asInHg asGPa asMegaPascals asKiloPascals asCmH2O asInH2O', () {
+      expect(1.0.Pa.asUPa.unit, PressureUnit.micropascal);
+      expect(1.0.Pa.asInHg.unit, PressureUnit.inchOfMercury);
+      expect(1.0.GPa.asGPa.unit, PressureUnit.gigapascal);
+      expect(1.0.MPa.asMegaPascals.unit, PressureUnit.megapascal);
+      expect(1.0.kPa.asKiloPascals.unit, PressureUnit.kilopascal);
+      expect(1.0.Pa.asCmH2O.unit, PressureUnit.centimeterOfWater);
+      expect(1.0.Pa.asInH2O.unit, PressureUnit.inchOfWater);
+    });
+
+    // Creation aliases not hit
+    test('atmospheres bars millimetersOfMercury GPa MPa megapascals kilopascals word aliases', () {
+      expect(1.0.atmospheres.unit, PressureUnit.atmosphere);
+      expect(1.0.bars.unit, PressureUnit.bar);
+      expect(1.0.millimetersOfMercury.unit, PressureUnit.millimeterOfMercury);
+      expect(1.0.GPa.unit, PressureUnit.gigapascal);
+      expect(1.0.MPa.unit, PressureUnit.megapascal);
+      expect(1.0.megapascals.unit, PressureUnit.megapascal);
+      expect(1.0.kilopascals.unit, PressureUnit.kilopascal);
     });
   });
 }

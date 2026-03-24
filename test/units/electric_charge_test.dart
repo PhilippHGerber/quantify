@@ -33,7 +33,7 @@ void main() {
         expect(charge.unit, ElectricChargeUnit.coulomb);
         expect(charge.inMillicoulombs, closeTo(1500.0, tolerance));
 
-        final battery = 5.0.ah; // 5 Ampere-hours
+        final battery = 5.0.Ah; // 5 Ampere-hours
         expect(battery.value, 5.0);
         expect(battery.unit, ElectricChargeUnit.ampereHour);
         expect(battery.inCoulombs, closeTo(5.0 * 3600.0, tolerance));
@@ -52,7 +52,7 @@ void main() {
       });
 
       test('Ampere-hour to Coulombs', () {
-        final phoneBattery = 4.5.ah; // 4500 mAh
+        final phoneBattery = 4.5.Ah; // 4500 mAh
         expect(phoneBattery.inCoulombs, closeTo(4.5 * 3600, tolerance));
       });
 
@@ -65,7 +65,7 @@ void main() {
 
       test('mAh and CGS units conversions', () {
         // 1 Ah = 1000 mAh
-        final oneAh = 1.0.ah;
+        final oneAh = 1.0.Ah;
         expect(oneAh.inMilliampereHours, closeTo(1000.0, 1e-12));
 
         // 1 abcoulomb = 10 coulombs
@@ -81,7 +81,7 @@ void main() {
 
     group('Comparison', () {
       test('should correctly compare different units', () {
-        final q1 = 1.ah; // 3600 C
+        final q1 = 1.Ah; // 3600 C
         final q2 = 3500.C;
         final q3 = 3700.C;
 
@@ -93,13 +93,13 @@ void main() {
 
     group('Arithmetic', () {
       test('should perform addition and subtraction', () {
-        final sum = 1.ah + 400.C; // 3600 C + 400 C = 4000 C
+        final sum = 1.Ah + 400.C; // 3600 C + 400 C = 4000 C
         expect(sum.inCoulombs, closeTo(4000.0, tolerance));
         expect(sum.unit, ElectricChargeUnit.ampereHour); // Left operand's unit
       });
 
       test('should perform scalar multiplication and division', () {
-        final charge = 2.5.ah;
+        final charge = 2.5.Ah;
         expect((charge * 2.0).inAmpereHours, closeTo(5.0, tolerance));
         expect((charge / 5.0).inAmpereHours, closeTo(0.5, tolerance));
         expect((charge / 0).value, double.infinity);
@@ -118,7 +118,7 @@ void main() {
       });
 
       test('charge.currentOver(Time) calculates correct current', () {
-        final battery = 5.ah;
+        final battery = 5.Ah;
         // Discharge over 10 hours -> 0.5 A
         final current = battery.currentOver(10.h);
         expect(current.inAmperes, closeTo(0.5, tolerance));
@@ -132,7 +132,7 @@ void main() {
       });
 
       test('charge.timeFor(Current) calculates correct time', () {
-        final battery = 4.5.ah;
+        final battery = 4.5.Ah;
         // Time to discharge at 500 mA (0.5 A) -> 9 hours
         final time = battery.timeFor(500.mA);
         expect(time.inHours, closeTo(9.0, tolerance));
@@ -170,7 +170,7 @@ void main() {
       });
 
       test('all as* conversion getters', () {
-        final q = 1.ah; // 3600 C
+        final q = 1.Ah; // 3600 C
 
         final asC = q.asCoulombs;
         expect(asC.unit, ElectricChargeUnit.coulomb);
@@ -214,7 +214,7 @@ void main() {
       test('Battery Capacity', () {
         // A typical phone battery has a capacity of 4500 mAh.
         // This is equivalent to 4.5 Ah.
-        final phoneBattery = 4.5.ah;
+        final phoneBattery = 4.5.Ah;
 
         // Verify its value in Coulombs
         expect(phoneBattery.inCoulombs, closeTo(16200, tolerance));
@@ -224,6 +224,25 @@ void main() {
         final deviceCurrent = 150.mA;
         final runtime = phoneBattery.timeFor(deviceCurrent);
         expect(runtime.inHours, closeTo(30.0, tolerance));
+      });
+
+      test('kilocoulomb/picocoulomb extensions', () {
+        const tol = 1e-9;
+        // Creation
+        expect(1.0.kC.unit, ElectricChargeUnit.kilocoulomb);
+        expect(1.0.kilocoulombs.unit, ElectricChargeUnit.kilocoulomb);
+        expect(1.0.pC.unit, ElectricChargeUnit.picocoulomb);
+        expect(1.0.picocoulombs.unit, ElectricChargeUnit.picocoulomb);
+
+        // inX getters
+        expect(1000.0.C.inKilocoulombs, closeTo(1.0, tol));
+        expect(1.0.C.inPicocoulombs, closeTo(1e12, 1.0));
+
+        // asX getters
+        expect(1000.0.C.asKilocoulombs.unit, ElectricChargeUnit.kilocoulomb);
+        expect(1000.0.C.asKilocoulombs.value, closeTo(1.0, tol));
+        expect(1.0.C.asPicocoulombs.unit, ElectricChargeUnit.picocoulomb);
+        expect(1.0.C.asPicocoulombs.value, closeTo(1e12, 1.0));
       });
 
       test('Number of Electrons', () {

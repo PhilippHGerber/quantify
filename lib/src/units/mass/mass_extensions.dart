@@ -145,6 +145,10 @@ extension MassCreation on num {
   /// Creates a [Mass] instance representing this numerical value in Kilograms (kg).
   Mass get kg => Mass(toDouble(), MassUnit.kilogram);
 
+  /// Creates a [Mass] instance representing this numerical value in Kilograms (kg).
+  /// Alias for [kg].
+  Mass get kilograms => Mass(toDouble(), MassUnit.kilogram);
+
   /// Creates a [Mass] instance representing this numerical value in Hectograms (hg).
   Mass get hg => Mass(toDouble(), MassUnit.hectogram);
 
@@ -206,18 +210,6 @@ extension MassCreation on num {
   /// Dart-idiomatic alias for the SI symbol [Gg].
   Mass get gigagrams => Mass(toDouble(), MassUnit.gigagram);
 
-  /// Creates a [Mass] instance in Megagrams.
-  /// Deprecated: Use [Mg] or [megagrams] instead.
-  @Deprecated('Use Mg (SI symbol) or megagrams (full word) instead. '
-      'Will be removed in v1.0.0.')
-  Mass get megaG => Mass(toDouble(), MassUnit.megagram);
-
-  /// Creates a [Mass] instance in Gigagrams.
-  /// Deprecated: Use [Gg] or [gigagrams] instead.
-  @Deprecated('Use Gg (SI symbol) or gigagrams (full word) instead. '
-      'Will be removed in v1.0.0.')
-  Mass get gigaG => Mass(toDouble(), MassUnit.gigagram);
-
   /// Creates a [Mass] instance representing this numerical value in Tonnes (t, metric tons).
   Mass get t => Mass(toDouble(), MassUnit.tonne);
 
@@ -229,7 +221,11 @@ extension MassCreation on num {
   Mass get lb => Mass(toDouble(), MassUnit.pound);
 
   /// Creates a [Mass] instance representing this numerical value in Pounds (lb).
-  /// Alias for `lb`.
+  /// Alias for [lb].
+  Mass get lbs => Mass(toDouble(), MassUnit.pound);
+
+  /// Creates a [Mass] instance representing this numerical value in Pounds (lb).
+  /// Alias for [lb].
   Mass get pounds => Mass(toDouble(), MassUnit.pound);
 
   /// Creates a [Mass] instance representing this numerical value in Ounces (oz).

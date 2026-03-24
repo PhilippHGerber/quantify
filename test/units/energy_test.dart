@@ -280,6 +280,52 @@ void main() {
       );
     });
 
+    test('millijoule/microjoule/gigajoule/terajoule extensions', () {
+      const tol = 1e-9;
+      // Creation
+      expect(500.0.mJ.unit, EnergyUnit.millijoule);
+      expect(500.0.millijoules.unit, EnergyUnit.millijoule);
+      expect(2.0.uJ.unit, EnergyUnit.microjoule);
+      expect(2.0.microjoules.unit, EnergyUnit.microjoule);
+      expect(1.0.GJ.unit, EnergyUnit.gigajoule);
+      expect(1.0.gigajoules.unit, EnergyUnit.gigajoule);
+      expect(1.0.TJ.unit, EnergyUnit.terajoule);
+      expect(1.0.terajoules.unit, EnergyUnit.terajoule);
+
+      // inX getters
+      expect(1.0.J.inMillijoules, closeTo(1000.0, tol));
+      expect(1.0.J.inMicrojoules, closeTo(1e6, tol));
+      expect(1e9.J.inGigajoules, closeTo(1.0, tol));
+      expect(1e12.J.inTerajoules, closeTo(1.0, tol));
+
+      // asX getters
+      final asMillijoules = 1.0.J.asMillijoules;
+      expect(asMillijoules.unit, EnergyUnit.millijoule);
+      expect(asMillijoules.value, closeTo(1000.0, tol));
+
+      final asMicrojoules = 1.0.J.asMicrojoules;
+      expect(asMicrojoules.unit, EnergyUnit.microjoule);
+      expect(asMicrojoules.value, closeTo(1e6, tol));
+
+      final asGigajoules = 1e9.J.asGigajoules;
+      expect(asGigajoules.unit, EnergyUnit.gigajoule);
+      expect(asGigajoules.value, closeTo(1.0, tol));
+
+      final asTerajoules = 1e12.J.asTerajoules;
+      expect(asTerajoules.unit, EnergyUnit.terajoule);
+      expect(asTerajoules.value, closeTo(1.0, tol));
+    });
+
+    test('calIT / caloriesIT extensions', () {
+      const tol = 1e-9;
+      expect(1.0.calIT.unit, EnergyUnit.calorieIT);
+      expect(1.0.caloriesIT.unit, EnergyUnit.calorieIT);
+      expect(1.0.calIT.inJoules, closeTo(4.1868, tol));
+      final asCalIT = 4.1868.J.asCaloriesIT;
+      expect(asCalIT.unit, EnergyUnit.calorieIT);
+      expect(asCalIT.value, closeTo(1.0, 1e-6));
+    });
+
     test('inverse of Power.from: Energy.from(Power.from(e, t), t) ≈ e', () {
       const original = Energy(7200, EnergyUnit.joule);
       const duration = Time(60, TimeUnit.second);

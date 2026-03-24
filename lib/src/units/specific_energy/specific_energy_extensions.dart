@@ -1,6 +1,12 @@
 import 'specific_energy.dart';
 import 'specific_energy_unit.dart';
 
+// SI/IEC unit symbols use uppercase letters by international standard
+// (e.g., 'J' for joule, named after James Prescott Joule).
+// Dart's lowerCamelCase rule is intentionally overridden here to preserve
+// domain correctness and discoverability for scientists and engineers.
+// ignore_for_file: non_constant_identifier_names
+
 /// Provides convenient access to [SpecificEnergy] values in specific units.
 extension SpecificEnergyValueGetters on SpecificEnergy {
   /// Returns the value in Joules per Kilogram (J/kg).
@@ -32,7 +38,14 @@ extension SpecificEnergyValueGetters on SpecificEnergy {
 /// Provides convenient factory methods for creating [SpecificEnergy] instances from [num].
 extension SpecificEnergyCreation on num {
   /// Creates a [SpecificEnergy] instance from this value in Joules per Kilogram (J/kg).
-  SpecificEnergy get jPerKg => SpecificEnergy(toDouble(), SpecificEnergyUnit.joulePerKilogram);
+  ///
+  /// The SI symbol uses a capital 'J' because the Joule is named after James Prescott Joule.
+  SpecificEnergy get JPerKg => SpecificEnergy(toDouble(), SpecificEnergyUnit.joulePerKilogram);
+
+  /// Creates a [SpecificEnergy] instance from this value in Joules per Kilogram (J/kg).
+  /// Alias for [JPerKg].
+  SpecificEnergy get joulesPerKilogram =>
+      SpecificEnergy(toDouble(), SpecificEnergyUnit.joulePerKilogram);
 
   /// Creates a [SpecificEnergy] instance from this value in Kilojoules per Kilogram (kJ/kg).
   SpecificEnergy get kJPerKg => SpecificEnergy(toDouble(), SpecificEnergyUnit.kilojoulePerKilogram);

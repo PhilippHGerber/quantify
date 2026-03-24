@@ -23,7 +23,7 @@ void main() {
       });
 
       test('m/s² to other units', () {
-        final acc = 9.80665.mpsSquared;
+        final acc = 9.80665.mps2;
         expect(acc.inStandardGravity, closeTo(1.0, tolerance));
         expect(acc.inFeetPerSecondSquared, closeTo(32.1740, 1e-4));
       });
@@ -39,7 +39,7 @@ void main() {
 
       test('Centimeter per second squared (Galileo)', () {
         // 1 m/s² = 100 cm/s²
-        final acc = 1.mpsSquared;
+        final acc = 1.mps2;
         expect(acc.inCentimetersPerSecondSquared, closeTo(100.0, 1e-12));
 
         final galileo = 500.gal;
@@ -49,9 +49,9 @@ void main() {
 
     group('Comparison', () {
       test('should correctly compare different units', () {
-        final a1 = 9.80665.mpsSquared;
+        final a1 = 9.80665.mps2;
         final a2 = 1.gravity;
-        final a3 = 10.0.mpsSquared;
+        final a3 = 10.0.mps2;
 
         expect(a1.compareTo(a2), 0);
         expect(a3.compareTo(a1), greaterThan(0));
@@ -61,7 +61,7 @@ void main() {
 
     group('Arithmetic', () {
       test('should perform addition and subtraction', () {
-        final sum = 1.gravity + 0.19335.mpsSquared; // 9.80665 + 0.19335 = 10.0
+        final sum = 1.gravity + 0.19335.mps2; // 9.80665 + 0.19335 = 10.0
         expect(sum.inMetersPerSecondSquared, closeTo(10.0, tolerance));
         expect(sum.unit, AccelerationUnit.standardGravity);
       });
@@ -141,13 +141,13 @@ void main() {
       });
 
       test('all in* value getters', () {
-        final a = 9.80665.mpsSquared; // 1 g
+        final a = 9.80665.mps2; // 1 g
         expect(a.inMilesPerHourPerSecond, closeTo(9.80665 / 0.44704, tolerance));
         expect(a.inKnotsPerSecond, closeTo(9.80665 / (1852.0 / 3600.0), tolerance));
       });
 
       test('all as* conversion getters', () {
-        final a = 9.80665.mpsSquared; // 1 g
+        final a = 9.80665.mps2; // 1 g
 
         final asMps2 = a.asMetersPerSecondSquared;
         expect(asMps2.unit, AccelerationUnit.meterPerSecondSquared);

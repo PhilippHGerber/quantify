@@ -33,7 +33,7 @@ void main() {
         expect(v1.unit, VolumeUnit.cubicMeter);
         expect(v1.inLiters, closeTo(1500.0, tolerance));
 
-        final v2 = 500.ml;
+        final v2 = 500.mL;
         expect(v2.inLiters, closeTo(0.5, tolerance));
         expect(v2.inCubicCentimeters, closeTo(500.0, tolerance));
 
@@ -42,7 +42,7 @@ void main() {
         expect(v3.inPints, closeTo(8.0, tolerance));
         expect(v3.inFluidOunces, closeTo(128.0, tolerance));
 
-        final v4 = 10.cl;
+        final v4 = 10.cL;
         expect(v4.inMilliliters, closeTo(100.0, tolerance));
         expect(v4.inLiters, closeTo(0.1, tolerance));
       });
@@ -53,7 +53,7 @@ void main() {
         expect(1.m3.inKiloliters, closeTo(1.0, tolerance));
         expect(1.dm3.inLiters, closeTo(1.0, tolerance));
         expect(1.cm3.inMilliliters, closeTo(1.0, tolerance));
-        expect(10.ml.inCentiliters, closeTo(1.0, tolerance));
+        expect(10.mL.inCentiliters, closeTo(1.0, tolerance));
         expect(1.mm3.inMicroliters, closeTo(1.0, tolerance));
         expect(1.dam3.inMegaliters, closeTo(1.0, tolerance));
         expect(1.hm3.inGigaliters, closeTo(1.0, tolerance));
@@ -89,7 +89,7 @@ void main() {
         expect(oneGallon.inLiters, closeTo(expectedLitersInOneGallon, highTolerance));
 
         // --- Test Liter to other units ---
-        final oneLiter = 1.l;
+        final oneLiter = 1.L;
         const expectedGallonsInOneLiter = 1 / expectedLitersInOneGallon;
         const expectedFlOzInOneLiter = expectedGallonsInOneLiter * 128.0;
         const expectedCubicInchesInOneLiter = cubicCmPerLiter / cubicCmPerCubicInch;
@@ -103,7 +103,7 @@ void main() {
     group('Comparison', () {
       test('should correctly compare volumes of different units', () {
         // Test GREATER THAN: 1 cubic meter (1000 L) is greater than 999 liters.
-        expect(1.m3.compareTo(999.l), greaterThan(0));
+        expect(1.m3.compareTo(999.L), greaterThan(0));
 
         // Test EQUAL: 1 US Gallon is EXACTLY 4 US Quarts.
         expect(1.gal.compareTo(4.qt), 0, reason: '1 gallon should be exactly equal to 4 quarts');
@@ -112,17 +112,17 @@ void main() {
         expect(1.gal.compareTo(5.qt), lessThan(0));
 
         // Test EQUAL: 1 Liter is EXACTLY 1000 Cubic Centimeters.
-        expect(1.l.compareTo(1000.cm3), 0);
+        expect(1.L.compareTo(1000.cm3), 0);
 
         // Test EQUAL: 1 Centiliter is EXACTLY 10 Milliliters.
-        expect(1.cl.compareTo(10.ml), 0);
+        expect(1.cL.compareTo(10.mL), 0);
       });
     });
 
     group('Arithmetic', () {
       test('should correctly perform arithmetic operations', () {
         final v1 = 1.gal;
-        final v2 = 1.l;
+        final v2 = 1.L;
         final sum = v1 + v2;
         final difference = v1 - v2;
 
@@ -149,10 +149,10 @@ void main() {
     group('toString()', () {
       test('should return formatted string for various units', () {
         expect(1.5.m3.toString(), '1.5\u00A0m³');
-        expect(250.ml.toString(), '250.0\u00A0mL');
+        expect(250.mL.toString(), '250.0\u00A0mL');
         expect(1.gal.toString(), '1.0\u00A0gal');
         expect(8.flOz.toString(), '8.0\u00A0fl-oz');
-        expect(5.cl.toString(), '5.0\u00A0cl');
+        expect(5.cL.toString(), '5.0\u00A0cl');
         expect(1.tsp.toString(), '1.0\u00A0tsp');
       });
     });
@@ -164,11 +164,11 @@ void main() {
         expect(5.milliliters.unit, VolumeUnit.milliliter);
         expect(2.centiliters.unit, VolumeUnit.centiliter);
         expect(1.dam3.unit, VolumeUnit.cubicDecameter);
-        expect(1.megaliter.unit, VolumeUnit.megaliter);
+        expect(1.megaliters.unit, VolumeUnit.megaliter);
         expect(1.hm3.unit, VolumeUnit.cubicHectometer);
-        expect(1.gigaliter.unit, VolumeUnit.gigaliter);
+        expect(1.gigaliters.unit, VolumeUnit.gigaliter);
         expect(1.km3.unit, VolumeUnit.cubicKilometer);
-        expect(1.teraliter.unit, VolumeUnit.teraliter);
+        expect(1.teraliters.unit, VolumeUnit.teraliter);
         expect(1.mi3.unit, VolumeUnit.cubicMile);
         expect(2.gallons.unit, VolumeUnit.gallon);
         expect(4.quarts.unit, VolumeUnit.quart);
@@ -332,6 +332,50 @@ void main() {
           closeTo(2.0, highTolerance),
         );
       });
+    });
+  });
+
+  group('Volume — Uncovered extension getters', () {
+    // Value getters for cubic SI units not hit by main tests
+    test('inCubicDecameters inCubicHectometers inCubicKilometers inCubicDecimeters', () {
+      expect(1.dam3.inCubicDecameters, closeTo(1.0, tolerance));
+      expect(1.hm3.inCubicHectometers, closeTo(1.0, tolerance));
+      expect(1.km3.inCubicKilometers, closeTo(1.0, tolerance));
+      expect(1.dm3.inCubicDecimeters, closeTo(1.0, tolerance));
+    });
+
+    test('inCubicFeet inCubicMiles', () {
+      expect(1.ft3.inCubicFeet, closeTo(1.0, tolerance));
+      expect(1.mi3.inCubicMiles, closeTo(1.0, tolerance));
+    });
+
+    // Creation aliases not hit
+    test('cubicMeters uL Ml Gl Tl creation aliases', () {
+      expect(2.0.cubicMeters.unit, VolumeUnit.cubicMeter);
+      expect(5.0.uL.unit, VolumeUnit.microliter);
+      expect(3.0.Ml.unit, VolumeUnit.megaliter);
+      expect(3.0.megaliters.unit, VolumeUnit.megaliter);
+      expect(2.0.Gl.unit, VolumeUnit.gigaliter);
+      expect(2.0.gigaliters.unit, VolumeUnit.gigaliter);
+      expect(1.0.Tl.unit, VolumeUnit.teraliter);
+      expect(1.0.teraliters.unit, VolumeUnit.teraliter);
+    });
+
+    test('cubicInches cubicFeet imperial word aliases', () {
+      expect(1.0.cubicInches.unit, VolumeUnit.cubicInch);
+      expect(1.0.cubicFeet.unit, VolumeUnit.cubicFoot);
+    });
+
+    test('gallon quart pint fluidOunce singular aliases', () {
+      expect(1.0.gallon.unit, VolumeUnit.gallon);
+      expect(1.0.quart.unit, VolumeUnit.quart);
+      expect(1.0.pint.unit, VolumeUnit.pint);
+      expect(1.0.fluidOunce.unit, VolumeUnit.fluidOunce);
+    });
+
+    test('tbsp tablespoons aliases', () {
+      expect(1.0.tbsp.unit, VolumeUnit.tablespoon);
+      expect(1.0.tablespoons.unit, VolumeUnit.tablespoon);
     });
   });
 }

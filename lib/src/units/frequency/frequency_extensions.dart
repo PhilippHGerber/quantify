@@ -118,6 +118,10 @@ extension FrequencyCreation on num {
   /// Creates a [Frequency] instance from this value in Millihertz (mHz).
   Frequency get mHz => Frequency(toDouble(), FrequencyUnit.millihertz);
 
+  /// Creates a [Frequency] instance from this value in Millihertz (mHz).
+  /// Alias for [mHz].
+  Frequency get millihertz => Frequency(toDouble(), FrequencyUnit.millihertz);
+
   /// Creates a [Frequency] instance from this value in Revolutions per minute (rpm).
   ///
   /// This is functionally equivalent to the `rpm` extension in `AngularVelocity`.
@@ -128,52 +132,16 @@ extension FrequencyCreation on num {
   Frequency get bpm => Frequency(toDouble(), FrequencyUnit.beatsPerMinute);
 
   /// Creates a [Frequency] instance from this value in Radians per second (rad/s).
+  ///
+  /// Note: `radiansPerSecond` is intentionally omitted here to avoid extension
+  /// ambiguity with `AngularVelocityCreation`, which already provides that alias.
   Frequency get radPerSec => Frequency(toDouble(), FrequencyUnit.radianPerSecond);
 
   /// Creates a [Frequency] instance from this value in Degrees per second (°/s).
+  ///
+  /// Note: `degreesPerSecond` is intentionally omitted here to avoid extension
+  /// ambiguity with `AngularVelocityCreation`, which already provides that alias.
   Frequency get degPerSec => Frequency(toDouble(), FrequencyUnit.degreePerSecond);
-
-  /// Creates a [Frequency] instance from this value in Hertz (Hz).
-  ///
-  /// Deprecated: Use [Hz] (SI symbol) or [hertz] (full word) instead.
-  /// SI mandates capital H for Hertz (named after Heinrich Hertz).
-  /// Will be removed in v1.0.0.
-  @Deprecated('Use Hz (SI symbol) or hertz (full word) instead. '
-      'SI mandates capital H for Hertz (named after Heinrich Hertz). '
-      'Will be removed in v1.0.0.')
-  Frequency get hz => Frequency(toDouble(), FrequencyUnit.hertz);
-
-  /// Creates a [Frequency] instance from this value in Kilohertz (kHz).
-  ///
-  /// Deprecated: Use [kHz] (SI symbol) or [kilohertz] (full word) instead.
-  /// Will be removed in v1.0.0.
-  @Deprecated('Use kHz (SI symbol) or kilohertz (full word) instead. '
-      'Will be removed in v1.0.0.')
-  Frequency get khz => Frequency(toDouble(), FrequencyUnit.kilohertz);
-
-  /// Creates a [Frequency] instance from this value in Megahertz (MHz).
-  ///
-  /// Deprecated: Use [MHz] (SI symbol) or [megahertz] (full word) instead.
-  /// Will be removed in v1.0.0.
-  @Deprecated('Use MHz (SI symbol) or megahertz (full word) instead. '
-      'Will be removed in v1.0.0.')
-  Frequency get mhz => Frequency(toDouble(), FrequencyUnit.megahertz);
-
-  /// Creates a [Frequency] instance from this value in Gigahertz (GHz).
-  ///
-  /// Deprecated: Use [GHz] (SI symbol) or [gigahertz] (full word) instead.
-  /// Will be removed in v1.0.0.
-  @Deprecated('Use GHz (SI symbol) or gigahertz (full word) instead. '
-      'Will be removed in v1.0.0.')
-  Frequency get ghz => Frequency(toDouble(), FrequencyUnit.gigahertz);
-
-  /// Creates a [Frequency] instance from this value in Terahertz (THz).
-  ///
-  /// Deprecated: Use [THz] (SI symbol) or [terahertz] (full word) instead.
-  /// Will be removed in v1.0.0.
-  @Deprecated('Use THz (SI symbol) or terahertz (full word) instead. '
-      'Will be removed in v1.0.0.')
-  Frequency get thz => Frequency(toDouble(), FrequencyUnit.terahertz);
 }
 
 /// Provides an alias for the `rpm` extension on `num` for creating [Frequency] instances.

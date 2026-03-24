@@ -27,6 +27,10 @@ extension DensityCreation on num {
   /// Creates a [Density] instance from this value in Kilograms per Cubic Meter (kg/m³).
   Density get kgPerM3 => Density(toDouble(), DensityUnit.kilogramPerCubicMeter);
 
+  /// Creates a [Density] instance from this value in Kilograms per Cubic Meter (kg/m³).
+  /// Alias for [kgPerM3].
+  Density get kilogramsPerCubicMeter => Density(toDouble(), DensityUnit.kilogramPerCubicMeter);
+
   /// Creates a [Density] instance from this value in Grams per Cubic Centimeter (g/cm³).
   Density get gPerCm3 => Density(toDouble(), DensityUnit.gramPerCubicCentimeter);
 
