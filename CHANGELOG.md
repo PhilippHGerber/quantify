@@ -5,6 +5,31 @@ All notable changes to the `quantify` package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.17.0]
+
+2026-03-24
+
+### Changed — Breaking
+
+* **Removed non-SI and hybrid `num` creation aliases** deprecated in 0.16.0, in favour of proper SI symbols and full-word forms:
+  * `Frequency`: `hz`, `khz`, `mhz`, `ghz`, `thz` → use `Hz`, `kHz`, `MHz`, `GHz`, `THz`.
+  * `Length`: `megaM`, `gigaM` → use `Mm`, `Gm`.
+  * `Acceleration`: `mpsSquared` → use `mPerS2`.
+  * `ElectricCharge`: `ah` → use `Ah`.
+  * `Energy`: `megaJ` → use `MJ`.
+  * `Force`: `megaN`, `microjoules` (was misnamed — mapped to micronewton) → use `MN`, `uN`.
+  * `Mass`: `megaG`, `gigaG` → use `Mg`, `Gg`.
+  * `Power`: `megaW`, `gigaW` → use `MW`, `GW`.
+  * `Pressure`: `pa`, `mpa`, `megaPascals`, `kiloPascals` → use `Pa`, `MPa`, `megapascals`, `kilopascals`.
+  * `SpecificEnergy`: `jPerKg` → use `jPerKilogram`.
+  * `Time`: `kiloS`, `megaS`, `gigaS` → use `ks`, `Ms`, `Gs`.
+  * `Volume`: `l`, `ml`, `cl`, `ul`, `megaliter`, `gigaliter`, `teraliter` → use `L`, `mL`, `cL`, `uL`, `megaliters`, `gigaliters`, `teraliters`.
+
+### Changed — Non-Breaking
+
+* **Added full-word singular and plural `num` creation aliases** across all quantities, completing the naming convention from 0.16.0 (e.g. `meter`/`meters`, `kilometer`/`kilometers`, `gigameter`/`gigameters`, `atmospheres`, `bars`, `megapascals`, `kilopascals`, `millimetersOfMercury`, `megaseconds`, `gigaseconds`, `months`, `secs`, `mins`, `hrs`, `cubicMeters`, `megaliters`, `gigaliters`, `teraliters`, `cubicInches`, `cubicFeet`, `gallon`, `quart`, `pint`, `fluidOunce`, `tablespoons`, `bits`, `bytes`, `kilobytes`–`terabytes`, `kibibytes`–`tebibytes`).
+* **Added `in*` / `as*` extension getters** for units not previously covered (e.g. `inTerahertz`, `inZbit`, `inYbit`, `inYB`, `inKiloseconds`, `inMegaseconds`, `inGigaseconds`, `inCenturies`, `inUPa`, `inGPa`, `asTerahertz`, `asZbit`, `asYbit`, `asGB`, `asTB`, `asKiB`, `asMiB`, `asTiB`, `asUPa`, `asGPa`, `asFortnights`, `asDecades`, `asCenturies`).
+
 ## [0.16.1]
 
 ### Changed
