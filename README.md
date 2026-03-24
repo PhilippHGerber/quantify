@@ -442,7 +442,7 @@ This distinction is crucial when working with collections like `Set`s or `Map`s,
 (0.1.m + 0.2.m).isEquivalentTo(0.3.m);  // true  ✓
 
 // Astronomical scale (AU → metres):
-1.au.isEquivalentTo(149597870700.m);      // true  ✓
+1.AU.isEquivalentTo(149597870700.m);      // true  ✓
 
 // Tighter or looser tolerance when you need it:
 a.isEquivalentTo(b, tolerance: 1e-12);   // stricter
