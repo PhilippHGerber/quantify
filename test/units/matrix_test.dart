@@ -65,6 +65,8 @@ void main() {
     testUnitMatrix('Frequency', FrequencyUnit.values, tolerance: 1e-12);
     testUnitMatrix('ElectricCharge', ElectricChargeUnit.values, tolerance: 1e-12);
     testUnitMatrix('Current', CurrentUnit.values, tolerance: 1e-12);
+    testUnitMatrix('Voltage', VoltageUnit.values, tolerance: 1e-12);
+    testUnitMatrix('Resistance', ResistanceUnit.values, tolerance: 1e-12);
     testUnitMatrix('LuminousIntensity', LuminousIntensityUnit.values, tolerance: 1e-12);
     testUnitMatrix('Information', InformationUnit.values, tolerance: 1e-12);
     testUnitMatrix('TemperatureDelta', TemperatureDeltaUnit.values, tolerance: 1e-12);

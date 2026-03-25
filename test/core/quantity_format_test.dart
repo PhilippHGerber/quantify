@@ -64,10 +64,17 @@ void main() {
         expect(result, contains('3.4M'));
       });
 
-      // Regression: static final would permanently capture the locale at first
-      // access. The getter must re-evaluate NumberFormat on every call.
-      test('returns a new instance on each access (getter, not cached field)', () {
-        expect(identical(QuantityFormat.compact, QuantityFormat.compact), isFalse);
+      test('returns the cached instance within the same locale', () {
+        Intl.defaultLocale = 'en_US';
+        expect(identical(QuantityFormat.compact, QuantityFormat.compact), isTrue);
+      });
+
+      test('returns a new instance after locale change', () {
+        Intl.defaultLocale = 'en_US';
+        final first = QuantityFormat.compact;
+        Intl.defaultLocale = 'de_DE';
+        final second = QuantityFormat.compact;
+        expect(identical(first, second), isFalse);
       });
 
       test('reflects Intl.defaultLocale at time of access', () {
