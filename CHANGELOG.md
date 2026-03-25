@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+* **New quantity: `Voltage` (Electric Potential)**:
+  * Added `VoltageUnit` with SI prefixed units (`nV`, `µV`, `mV`, `V`, `kV`, `MV`, `GV`) and CGS units (`statV`, `abV`).
+  * Added `Voltage.fromPowerAndCurrent(Power, Current)` — V = P / I.
+  * Added `Voltage.fromEnergyAndCharge(Energy, ElectricCharge)` — V = E / Q.
+  * Added `Voltage.currentThrough(Resistance)` — I = V / R (Ohm's law).
+  * Added `ElectricPotential` type alias for formal contexts.
+  * Full `num` extension support: `12.V`, `3.3.kV`, `12.volts`, `3.3.kilovolts`, etc.
+* **New quantity: `Resistance`**:
+  * Added `ResistanceUnit` with SI prefixed units (`nΩ`, `µΩ`, `mΩ`, `Ω`, `kΩ`, `MΩ`, `GΩ`).
+  * Added `Resistance.fromOhmsLaw(Voltage, Current)` — R = V / I.
+  * Added `Resistance.voltageAt(Current)` — V = I × R and `Resistance.currentAt(Voltage)` — I = V / R.
+  * Full `num` extension support: `470.ohms`, `4.7.kiloohms`, `10.megaohms`, etc.
+
+### Changed — Non-Breaking
+
+* **`QuantityFormat.compact` is now cached** with locale-aware invalidation.
+  The instance is reused across consecutive accesses within the same locale,
+  eliminating repeated `NumberFormat.compact()` allocations in hot loops.
+  The cache automatically invalidates when `Intl.defaultLocale` changes.
+
 ### Changed — Breaking
 
 * **`FrequencyCreationRpm.rpm` renamed to `FrequencyCreationRpm.freqRpm`** to resolve an extension

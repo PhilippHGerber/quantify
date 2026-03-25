@@ -412,6 +412,11 @@ print(oneKm < 999.m);            // false
 print(oneKm >= thousandMeters);  // true
 ```
 
+> **Tip:** Relational operators use strict `double` comparison and do not account for floating-point drift. For tolerance-aware boundary checks, combine with `isEquivalentTo`:
+> ```dart
+> if (a > b || a.isEquivalentTo(b)) { /* a >= b with tolerance */ }
+> ```
+
 #### Equality Checks (`isEquivalentTo()` vs. `==`)
 
 There are two types of equality checks available:
