@@ -343,6 +343,63 @@ void main() {
       });
     });
 
+    group('Comprehensive Extension Coverage', () {
+      const tol = 1e-9;
+
+      test('all creation alias getters on num', () {
+        expect(1.0.nanovolts.unit, VoltageUnit.nanovolt);
+        expect(1.0.nanovolts.value, 1.0);
+        expect(1.0.microvolts.unit, VoltageUnit.microvolt);
+        expect(1.0.millivolts.unit, VoltageUnit.millivolt);
+        expect(1.0.kilovolts.unit, VoltageUnit.kilovolt);
+        expect(1.0.MV.unit, VoltageUnit.megavolt);
+        expect(1.0.megavolts.unit, VoltageUnit.megavolt);
+        expect(1.0.gigavolts.unit, VoltageUnit.gigavolt);
+        expect(1.0.statvolts.unit, VoltageUnit.statvolt);
+        expect(1.0.abvolts.unit, VoltageUnit.abvolt);
+      });
+
+      test('all as* conversion getters', () {
+        final v = 1000.0.mV; // 1 V
+
+        final asV = v.asVolts;
+        expect(asV.unit, VoltageUnit.volt);
+        expect(asV.value, closeTo(1.0, tol));
+
+        final asNv = v.asNanovolts;
+        expect(asNv.unit, VoltageUnit.nanovolt);
+        expect(asNv.value, closeTo(1.0e9, 1.0)); // large value, loose tol
+
+        final asUv = v.asMicrovolts;
+        expect(asUv.unit, VoltageUnit.microvolt);
+        expect(asUv.value, closeTo(1.0e6, tol));
+
+        final asMv = v.asMillivolts;
+        expect(asMv.unit, VoltageUnit.millivolt);
+        expect(asMv.value, closeTo(1000.0, tol));
+
+        final asKv = v.asKilovolts;
+        expect(asKv.unit, VoltageUnit.kilovolt);
+        expect(asKv.value, closeTo(0.001, tol));
+
+        final asMV = 1.0.kV.asMegavolts;
+        expect(asMV.unit, VoltageUnit.megavolt);
+        expect(asMV.value, closeTo(0.001, tol));
+
+        final asGV = 1.0.kV.asGigavolts;
+        expect(asGV.unit, VoltageUnit.gigavolt);
+        expect(asGV.value, closeTo(1e-6, tol));
+
+        final asStatV = 1.0.V.asStatvolts;
+        expect(asStatV.unit, VoltageUnit.statvolt);
+        expect(asStatV.value, closeTo(1.0 / 299.792458, tol));
+
+        final asAbV = 1.0.V.asAbvolts;
+        expect(asAbV.unit, VoltageUnit.abvolt);
+        expect(asAbV.value, closeTo(1.0e8, 1.0)); // large value, loose tol
+      });
+    });
+
     group('Round trips', () {
       test('V -> mV -> V', () => testRoundTrip(VoltageUnit.volt, VoltageUnit.millivolt, 12.5));
       test('V -> kV -> V', () => testRoundTrip(VoltageUnit.volt, VoltageUnit.kilovolt, 230.0));

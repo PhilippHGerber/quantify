@@ -382,6 +382,186 @@ void main() {
       );
     });
 
+    // --- Additional V×I switch arms ---
+    test('fromVoltageAndCurrent: V × µA → µW', () {
+      final p = Power.fromVoltageAndCurrent(1.0.V, 1.0.uA);
+      expect(p.unit, PowerUnit.microwatt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromVoltageAndCurrent: V × MA → MW', () {
+      final p = Power.fromVoltageAndCurrent(1.0.V, 1.0.MA);
+      expect(p.unit, PowerUnit.megawatt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromVoltageAndCurrent: mV × A → mW', () {
+      final p = Power.fromVoltageAndCurrent(500.0.mV, 2.0.A);
+      expect(p.unit, PowerUnit.milliwatt);
+      expect(p.value, closeTo(1000.0, tol));
+    });
+
+    test('fromVoltageAndCurrent: mV × kA → W', () {
+      final p = Power.fromVoltageAndCurrent(1.0.mV, 1.0.kA);
+      expect(p.unit, PowerUnit.watt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromVoltageAndCurrent: µV × A → µW', () {
+      final p = Power.fromVoltageAndCurrent(1.0.uV, 1.0.A);
+      expect(p.unit, PowerUnit.microwatt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromVoltageAndCurrent: kV × mA → W', () {
+      final p = Power.fromVoltageAndCurrent(1.0.kV, 1.0.mA);
+      expect(p.unit, PowerUnit.watt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromVoltageAndCurrent: MV × A → MW', () {
+      final p = Power.fromVoltageAndCurrent(1.0.MV, 1.0.A);
+      expect(p.unit, PowerUnit.megawatt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromVoltageAndCurrent: MV × kA → GW', () {
+      final p = Power.fromVoltageAndCurrent(1.0.MV, 1.0.kA);
+      expect(p.unit, PowerUnit.gigawatt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromVoltageAndCurrent: GV × A → GW', () {
+      final p = Power.fromVoltageAndCurrent(1.0.GV, 1.0.A);
+      expect(p.unit, PowerUnit.gigawatt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    // --- Additional I²R switch arms ---
+    test('fromCurrentAndResistance: A × mΩ → mW', () {
+      final p = Power.fromCurrentAndResistance(1.0.A, 1.0.milliohms);
+      expect(p.unit, PowerUnit.milliwatt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromCurrentAndResistance: A × MΩ → MW', () {
+      final p = Power.fromCurrentAndResistance(1.0.A, 1.0.megaohms);
+      expect(p.unit, PowerUnit.megawatt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromCurrentAndResistance: mA × Ω → µW', () {
+      final p = Power.fromCurrentAndResistance(1.0.mA, 1.0.ohms);
+      expect(p.unit, PowerUnit.microwatt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromCurrentAndResistance: mA × MΩ → W', () {
+      final p = Power.fromCurrentAndResistance(1.0.mA, 1.0.megaohms);
+      expect(p.unit, PowerUnit.watt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromCurrentAndResistance: µA × kΩ → nW', () {
+      final p = Power.fromCurrentAndResistance(1.0.uA, 1.0.kiloohms);
+      expect(p.unit, PowerUnit.nanowatt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromCurrentAndResistance: µA × MΩ → µW', () {
+      final p = Power.fromCurrentAndResistance(1.0.uA, 1.0.megaohms);
+      expect(p.unit, PowerUnit.microwatt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromCurrentAndResistance: µA × GΩ → mW', () {
+      final p = Power.fromCurrentAndResistance(1.0.uA, 1.0.gigaohms);
+      expect(p.unit, PowerUnit.milliwatt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromCurrentAndResistance: kA × mΩ → kW', () {
+      final p = Power.fromCurrentAndResistance(1.0.kA, 1.0.milliohms);
+      expect(p.unit, PowerUnit.kilowatt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromCurrentAndResistance: unmatched → SI fallback W', () {
+      // nA × Ω has no mapping → fallback to watt
+      expect(
+        Power.fromCurrentAndResistance(
+          const Current(1, CurrentUnit.nanoampere),
+          1.0.ohms,
+        ).unit,
+        PowerUnit.watt,
+      );
+    });
+
+    // --- Additional V²/R switch arms ---
+    test('fromVoltageAndResistance: V × mΩ → kW', () {
+      final p = Power.fromVoltageAndResistance(1.0.V, 1.0.milliohms);
+      expect(p.unit, PowerUnit.kilowatt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromVoltageAndResistance: V × MΩ → µW', () {
+      final p = Power.fromVoltageAndResistance(1.0.V, 1.0.megaohms);
+      expect(p.unit, PowerUnit.microwatt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromVoltageAndResistance: mV × Ω → µW', () {
+      final p = Power.fromVoltageAndResistance(1.0.mV, 1.0.ohms);
+      expect(p.unit, PowerUnit.microwatt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromVoltageAndResistance: mV × mΩ → mW', () {
+      final p = Power.fromVoltageAndResistance(1.0.mV, 1.0.milliohms);
+      expect(p.unit, PowerUnit.milliwatt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromVoltageAndResistance: mV × kΩ → nW', () {
+      final p = Power.fromVoltageAndResistance(1.0.mV, 1.0.kiloohms);
+      expect(p.unit, PowerUnit.nanowatt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromVoltageAndResistance: kV × kΩ → kW', () {
+      final p = Power.fromVoltageAndResistance(1.0.kV, 1.0.kiloohms);
+      expect(p.unit, PowerUnit.kilowatt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromVoltageAndResistance: kV × MΩ → W', () {
+      final p = Power.fromVoltageAndResistance(1.0.kV, 1.0.megaohms);
+      expect(p.unit, PowerUnit.watt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromVoltageAndResistance: kV × GΩ → mW', () {
+      final p = Power.fromVoltageAndResistance(1.0.kV, 1.0.gigaohms);
+      expect(p.unit, PowerUnit.milliwatt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromVoltageAndResistance: MV × Ω → TW', () {
+      final p = Power.fromVoltageAndResistance(1.0.MV, 1.0.ohms);
+      expect(p.unit, PowerUnit.terawatt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromVoltageAndResistance: unmatched → SI fallback W', () {
+      expect(
+        Power.fromVoltageAndResistance(
+          const Voltage(1, VoltageUnit.statvolt),
+          1.0.ohms,
+        ).unit,
+        PowerUnit.watt,
+      );
+    });
+
     // --- Cross-formula consistency ---
     test('V×I == I²R == V²/R for same circuit (V=10V, I=2A, R=5Ω)', () {
       final v = 10.0.V;

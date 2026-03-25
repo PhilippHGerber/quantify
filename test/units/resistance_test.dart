@@ -293,6 +293,42 @@ void main() {
       });
     });
 
+    group('Comprehensive Extension Coverage', () {
+      const tol = 1e-9;
+
+      test('all as* conversion getters', () {
+        final r = 1000.0.milliohms; // 1 Ω
+
+        final asOhm = r.asOhms;
+        expect(asOhm.unit, ResistanceUnit.ohm);
+        expect(asOhm.value, closeTo(1.0, tol));
+
+        final asNano = r.asNanoohms;
+        expect(asNano.unit, ResistanceUnit.nanoohm);
+        expect(asNano.value, closeTo(1.0e9, 1.0)); // large value
+
+        final asMicro = r.asMicroohms;
+        expect(asMicro.unit, ResistanceUnit.microohm);
+        expect(asMicro.value, closeTo(1.0e6, tol));
+
+        final asMilli = r.asMilliohms;
+        expect(asMilli.unit, ResistanceUnit.milliohm);
+        expect(asMilli.value, closeTo(1000.0, tol));
+
+        final asKilo = r.asKiloohms;
+        expect(asKilo.unit, ResistanceUnit.kiloohm);
+        expect(asKilo.value, closeTo(0.001, tol));
+
+        final asMega = 1.0.kiloohms.asMegaohms;
+        expect(asMega.unit, ResistanceUnit.megaohm);
+        expect(asMega.value, closeTo(0.001, tol));
+
+        final asGiga = 1.0.kiloohms.asGigaohms;
+        expect(asGiga.unit, ResistanceUnit.gigaohm);
+        expect(asGiga.value, closeTo(1.0e-6, tol));
+      });
+    });
+
     group('Parsing', () {
       test('parse basic resistance strings', () {
         expect(Resistance.parse('470 Ω').inOhms, closeTo(470.0, strictTolerance));

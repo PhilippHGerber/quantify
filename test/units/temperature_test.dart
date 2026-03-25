@@ -527,6 +527,40 @@ void main() {
     });
   });
 
+  group('Comprehensive Extension Coverage', () {
+    const tol = 1e-9;
+
+    test('degreesCelsius alias matches celsius', () {
+      final c1 = 25.0.degreesCelsius;
+      final c2 = 25.0.celsius;
+      expect(c1.unit, TemperatureUnit.celsius);
+      expect(c1.value, c2.value);
+    });
+
+    test('degreesFahrenheit alias matches fahrenheit', () {
+      final f1 = 98.6.degreesFahrenheit;
+      final f2 = 98.6.fahrenheit;
+      expect(f1.unit, TemperatureUnit.fahrenheit);
+      expect(f1.value, f2.value);
+    });
+
+    test('degreesRankine alias matches rankine', () {
+      final r1 = 491.67.degreesRankine;
+      final r2 = 491.67.rankine;
+      expect(r1.unit, TemperatureUnit.rankine);
+      expect(r1.value, r2.value);
+    });
+
+    test('asDelta converts absolute temperature to TemperatureDelta in kelvin', () {
+      final t = 300.0.kelvin;
+      final delta = t.asDelta;
+      expect(delta.inKelvinDelta, closeTo(300.0, tol));
+
+      final tC = 100.0.celsius; // 373.15 K
+      expect(tC.asDelta.inKelvinDelta, closeTo(373.15, tol));
+    });
+  });
+
   group('toString formatting for Rankine', () {
     test('should display correct symbol', () {
       expect(100.0.rankine.toString(), '100.0\u00A0°R');

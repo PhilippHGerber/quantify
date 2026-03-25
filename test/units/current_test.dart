@@ -357,6 +357,37 @@ void main() {
     group('Comprehensive Current Extension Coverage', () {
       const tolerance = 1e-9;
 
+      test('asAmperes, asPicoamperes, asFemtoamperes, asMegaamperes, asGigaamperes', () {
+        final c = 1.0.A;
+
+        final asA = c.asAmperes;
+        expect(asA.unit, CurrentUnit.ampere);
+        expect(asA.value, closeTo(1.0, tolerance));
+
+        final asPa = c.asPicoamperes;
+        expect(asPa.unit, CurrentUnit.picoampere);
+        expect(asPa.value, closeTo(1.0e12, 1.0)); // large value
+
+        final asFa = c.asFemtoamperes;
+        expect(asFa.unit, CurrentUnit.femtoampere);
+        expect(asFa.value, closeTo(1.0e15, 1000.0)); // very large value
+
+        final asMA = 1.0.kA.asMegaamperes;
+        expect(asMA.unit, CurrentUnit.megaampere);
+        expect(asMA.value, closeTo(0.001, tolerance));
+
+        final asGA = 1.0.kA.asGigaamperes;
+        expect(asGA.unit, CurrentUnit.gigaampere);
+        expect(asGA.value, closeTo(1.0e-6, tolerance));
+      });
+
+      test('gigaamperes creation alias matches GA', () {
+        final fromAlias = 1.0.gigaamperes;
+        final fromSymbol = 1.0.GA;
+        expect(fromAlias.unit, CurrentUnit.gigaampere);
+        expect(fromAlias.value, fromSymbol.value);
+      });
+
       test('All current unit creation and value getters', () {
         // mA
         final ma = 500.milliamperes;

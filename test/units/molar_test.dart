@@ -312,6 +312,10 @@ void main() {
         expect(1.0.nanomoles.unit, MolarUnit.nanomole);
         expect(1.0.pmol.unit, MolarUnit.picomole);
         expect(1.0.picomoles.unit, MolarUnit.picomole);
+        expect(1.0.fmol.unit, MolarUnit.femtomole);
+        expect(1.0.femtomoles.unit, MolarUnit.femtomole);
+        expect(1.0.Mmol.unit, MolarUnit.megamole);
+        expect(1.0.megamoles.unit, MolarUnit.megamole);
         expect(1.0.kmol.unit, MolarUnit.kilomole);
         expect(1.0.kilomoles.unit, MolarUnit.kilomole);
         expect(1.0.lbmol.unit, MolarUnit.poundMole);
@@ -347,9 +351,24 @@ void main() {
         expect(asKmol.unit, MolarUnit.kilomole);
         expect(asKmol.value, closeTo(0.001, tolerance));
 
+        final asMega = base.asMegamoles;
+        expect(asMega.unit, MolarUnit.megamole);
+        expect(asMega.value, closeTo(1.0e-6, tolerance));
+
+        final asFmol = base.asFemtomoles;
+        expect(asFmol.unit, MolarUnit.femtomole);
+        expect(asFmol.value, closeTo(1e15, 1000.0)); // very large value
+
         final asLbmol = base.asPoundMoles;
         expect(asLbmol.unit, MolarUnit.poundMole);
         expect(asLbmol.value, closeTo(1.0 / 453.59237, 1e-12));
+      });
+
+      test('inMegamoles and inFemtomoles value getters', () {
+        expect(1.0.Mmol.inMoles, closeTo(1e6, tolerance));
+        expect(1.0.mol.inMegamoles, closeTo(1e-6, tolerance));
+        expect(1.0.mol.inFemtomoles, closeTo(1e15, 1.0));
+        expect(1.0.fmol.inMoles, closeTo(1e-15, tolerance));
       });
     });
   });
