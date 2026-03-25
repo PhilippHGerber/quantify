@@ -7,6 +7,7 @@ import '../../core/quantity_parse_exception.dart' show QuantityParseException;
 import '../../core/quantity_parser.dart';
 import '../length/length.dart';
 import '../length/length_extensions.dart';
+import '../length/length_unit.dart';
 import 'area_unit.dart';
 
 /// Represents a quantity of area.
@@ -26,14 +27,39 @@ class Area extends LinearQuantity<AreaUnit, Area> {
 
   /// Creates an [Area] from two [Length] values representing width and height (A = l × w).
   ///
-  /// Both lengths are converted to meters before multiplying, so mixed units
-  /// work correctly.
+  /// The result's unit is the squared counterpart of [l]'s unit when one exists
+  /// (e.g. `inch` → `squareInch`). If no counterpart exists the result is in
+  /// [AreaUnit.squareMeter]. [w] is converted to [l]'s unit before multiplying,
+  /// so mixed-unit inputs work correctly.
   ///
   /// ```dart
-  /// final room = Area.from(5.m, 4.m);     // 20.0 m²
-  /// final plot = Area.from(1.km, 500.m);  // 500000.0 m²
+  /// Area.from(5.m, 4.m);       // 20.0 m²
+  /// Area.from(9.inch, 9.inch); // 81.0 in²
+  /// Area.from(1.km, 500.m);    // 0.5 km²
   /// ```
-  factory Area.from(Length l, Length w) => Area(l.inM * w.inM, AreaUnit.squareMeter);
+  factory Area.from(Length l, Length w) {
+    final targetUnit = _correspondingAreaUnit(l.unit);
+    if (targetUnit != null) return Area(l.value * w.getValue(l.unit), targetUnit);
+    return Area(l.inM * w.inM, AreaUnit.squareMeter);
+  }
+
+  /// Maps a [LengthUnit] to its corresponding [AreaUnit], or `null` when none exists.
+  static AreaUnit? _correspondingAreaUnit(LengthUnit u) => switch (u) {
+        LengthUnit.megameter => AreaUnit.squareMegameter,
+        LengthUnit.kilometer => AreaUnit.squareKilometer,
+        LengthUnit.hectometer => AreaUnit.squareHectometer,
+        LengthUnit.decameter => AreaUnit.squareDecameter,
+        LengthUnit.meter => AreaUnit.squareMeter,
+        LengthUnit.decimeter => AreaUnit.squareDecimeter,
+        LengthUnit.centimeter => AreaUnit.squareCentimeter,
+        LengthUnit.millimeter => AreaUnit.squareMillimeter,
+        LengthUnit.micrometer => AreaUnit.squareMicrometer,
+        LengthUnit.inch => AreaUnit.squareInch,
+        LengthUnit.foot => AreaUnit.squareFoot,
+        LengthUnit.yard => AreaUnit.squareYard,
+        LengthUnit.mile => AreaUnit.squareMile,
+        _ => null, // gigameter, nanometer, nauticalMile, astronomical, etc.
+      };
 
   @override
   @protected
