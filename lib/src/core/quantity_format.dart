@@ -160,12 +160,20 @@ class QuantityFormat {
   /// Uses [NumberFormat.compact()] from the `intl` package. Useful for
   /// displaying large quantities in tight UI spaces.
   ///
-  /// A new [NumberFormat] is created on each access so that the format always
-  /// reflects the current [Intl.defaultLocale]. This is important for apps
-  /// that set or change their locale after startup — a `static final` field
-  /// would permanently capture the locale at first access (typically before
-  /// any locale configuration runs).
+  /// The instance is cached and automatically invalidated when
+  /// [Intl.defaultLocale] changes, so the format always reflects the
+  /// current locale without repeated heavy `NumberFormat` allocations.
   // Factory semantics aren't quite right
   // ignore: prefer_constructors_over_static_methods
-  static QuantityFormat get compact => QuantityFormat.withNumberFormat(NumberFormat.compact());
+  static QuantityFormat get compact {
+    final effectiveLocale = Intl.defaultLocale ?? Intl.getCurrentLocale();
+    if (_cachedCompact == null || _compactLocaleKey != effectiveLocale) {
+      _compactLocaleKey = effectiveLocale;
+      _cachedCompact = QuantityFormat.withNumberFormat(NumberFormat.compact());
+    }
+    return _cachedCompact!;
+  }
+
+  static String? _compactLocaleKey;
+  static QuantityFormat? _cachedCompact;
 }
