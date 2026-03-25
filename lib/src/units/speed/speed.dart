@@ -4,6 +4,8 @@ import '../../../length.dart';
 import '../../core/linear_quantity.dart';
 import '../../core/quantity_format.dart';
 import '../../core/quantity_parser.dart';
+import '../acceleration/acceleration.dart';
+import '../acceleration/acceleration_unit.dart';
 import '../time/time.dart';
 import '../time/time_extensions.dart';
 import '../time/time_unit.dart';
@@ -18,24 +20,85 @@ class Speed extends LinearQuantity<SpeedUnit, Speed> {
   /// Creates a new `Speed` with a given [value] and [unit].
   const Speed(super._value, super._unit);
 
-  /// Creates a `Speed` instance from a `Length` and a `Time`.
+  /// Creates a `Speed` from [distance] and [time] (v = d / t).
   ///
-  /// This factory method performs the dimensional calculation `Speed = Length / Time`.
-  /// It converts the inputs to their base SI units (meters and seconds) for correctness.
-  /// If [time] is zero, the result follows IEEE 754 semantics: a non-zero distance
-  /// yields [double.infinity] and a zero distance yields [double.nan].
+  /// If the combination of [distance]'s unit and [time]'s unit matches a
+  /// standard speed unit (e.g. km + h → km/h, mi + h → mph), the result uses
+  /// that unit. Otherwise the result is in [SpeedUnit.meterPerSecond].
+  /// If [time] is zero, the result follows IEEE 754 semantics.
   ///
-  /// Example:
   /// ```dart
-  /// final distance = 100.m;
-  /// final duration = 10.s;
-  /// final speed = Speed.from(distance, duration); // Results in Speed(10.0, SpeedUnit.meterPerSecond)
+  /// Speed.from(100.km, 1.hours);   // 100.0 km/h
+  /// Speed.from(60.miles, 1.hours); // 60.0 mph
+  /// Speed.from(100.m, 10.s);       // 10.0 m/s
   /// ```
   factory Speed.from(Length distance, Time time) {
-    final meters = distance.inM;
-    final seconds = time.inSeconds;
-    return Speed(meters / seconds, SpeedUnit.meterPerSecond);
+    final target = _correspondingSpeedUnit(distance.unit, time.unit);
+    if (target != null) return Speed(distance.value / time.value, target);
+    return Speed(distance.inM / time.inSeconds, SpeedUnit.meterPerSecond);
   }
+
+  /// Creates a `Speed` from [acceleration] and [time] (v = a × t).
+  ///
+  /// The result unit is determined by the acceleration unit's implicit speed
+  /// component: `m/s²` → `m/s`, `ft/s²` → `ft/s`, `km/h/s` → `km/h`,
+  /// `mph/s` → `mph`, `kn/s` → `kn`, `g` (standard gravity) → `m/s`.
+  /// `cm/s²` has no matching speed unit and falls back to [SpeedUnit.meterPerSecond].
+  ///
+  /// The time can be in any unit; it is always converted to seconds for the
+  /// calculation (the "/s" in the acceleration unit cancels with the elapsed
+  /// time), so `Speed.from(10.mps2, 1.minutes)` correctly yields `600.0 m/s`.
+  ///
+  /// ```dart
+  /// Speed.from(9.80665.mps2, 1.s);   // 9.80665 m/s
+  /// Speed.from(1.gravity, 1.s);      // 9.80665 m/s
+  /// Speed.from(10.kmPerHPerS, 6.s);  // 60.0 km/h
+  /// Speed.from(32.2.fps2, 3.s);      // 96.6 ft/s
+  /// ```
+  factory Speed.fromAcceleration(Acceleration acceleration, Time time) {
+    final speedUnit = _correspondingSpeedUnitFromAccel(acceleration.unit);
+    final targetSpeed = speedUnit ?? SpeedUnit.meterPerSecond;
+    final baseAccelUnit = _baseAccelUnitFor(targetSpeed);
+    return Speed(
+      acceleration.getValue(baseAccelUnit) * time.getValue(TimeUnit.second),
+      targetSpeed,
+    );
+  }
+
+  /// Maps an [AccelerationUnit] to the [SpeedUnit] it implies.
+  static SpeedUnit? _correspondingSpeedUnitFromAccel(AccelerationUnit a) => switch (a) {
+        AccelerationUnit.meterPerSecondSquared => SpeedUnit.meterPerSecond,
+        AccelerationUnit.footPerSecondSquared => SpeedUnit.footPerSecond,
+        AccelerationUnit.kilometerPerHourPerSecond => SpeedUnit.kilometerPerHour,
+        AccelerationUnit.milePerHourPerSecond => SpeedUnit.milePerHour,
+        AccelerationUnit.knotPerSecond => SpeedUnit.knot,
+        AccelerationUnit.standardGravity => SpeedUnit.meterPerSecond,
+        AccelerationUnit.centimeterPerSecondSquared => null, // no cm/s SpeedUnit
+      };
+
+  /// Maps a [SpeedUnit] back to the [AccelerationUnit] whose "/s" component it
+  /// cancels — used to correctly convert the acceleration value before
+  /// multiplying by elapsed time.
+  static AccelerationUnit _baseAccelUnitFor(SpeedUnit s) => switch (s) {
+        SpeedUnit.meterPerSecond => AccelerationUnit.meterPerSecondSquared,
+        SpeedUnit.kilometerPerSecond => AccelerationUnit.meterPerSecondSquared,
+        SpeedUnit.kilometerPerHour => AccelerationUnit.kilometerPerHourPerSecond,
+        SpeedUnit.milePerHour => AccelerationUnit.milePerHourPerSecond,
+        SpeedUnit.knot => AccelerationUnit.knotPerSecond,
+        SpeedUnit.footPerSecond => AccelerationUnit.footPerSecondSquared,
+      };
+
+  /// Returns the natural [SpeedUnit] for a given length/time combination,
+  /// or `null` if no standard unit matches.
+  static SpeedUnit? _correspondingSpeedUnit(LengthUnit d, TimeUnit t) => switch ((d, t)) {
+        (LengthUnit.meter, TimeUnit.second) => SpeedUnit.meterPerSecond,
+        (LengthUnit.kilometer, TimeUnit.second) => SpeedUnit.kilometerPerSecond,
+        (LengthUnit.kilometer, TimeUnit.hour) => SpeedUnit.kilometerPerHour,
+        (LengthUnit.mile, TimeUnit.hour) => SpeedUnit.milePerHour,
+        (LengthUnit.nauticalMile, TimeUnit.hour) => SpeedUnit.knot,
+        (LengthUnit.foot, TimeUnit.second) => SpeedUnit.footPerSecond,
+        _ => null,
+      };
 
   @override
   @protected
@@ -101,43 +164,54 @@ class Speed extends LinearQuantity<SpeedUnit, Speed> {
 
   /// Calculates the total [Length] traveled over a given [Time] duration.
   ///
-  /// This method performs the dimensional calculation `Length = Speed × Time`.
-  /// The calculation is performed in the base units (m/s and s) to ensure
-  /// correctness, and the result is returned as a `Length` in meters.
+  /// The result's unit matches the distance component of this speed's unit:
+  /// `km/h` → kilometers, `mph` → miles, `m/s` → meters, `kn` → nautical miles.
   ///
-  /// Example:
   /// ```dart
-  /// final carSpeed = 60.kmh;
-  /// final travelTime = 2.h;
-  /// final distance = carSpeed.distanceOver(travelTime);
-  /// print(distance.inKm); // Output: 120.0
+  /// 60.kmh.distanceOver(2.h);   // 120.0 km
+  /// 60.mph.distanceOver(0.5.h); // 30.0 mi
+  /// 10.mps.distanceOver(5.s);   // 50.0 m
   /// ```
   Length distanceOver(Time duration) {
-    final valueInMps = getValue(SpeedUnit.meterPerSecond);
-    final timeInSeconds = duration.inSeconds;
-    final resultingDistanceInMeters = valueInMps * timeInSeconds;
-    return Length(resultingDistanceInMeters, LengthUnit.meter);
+    final lengthUnit = _correspondingLengthUnit(unit);
+    final timeUnit = _correspondingTimeUnit(unit);
+    return Length(value * duration.getValue(timeUnit), lengthUnit);
   }
 
   /// Calculates the [Time] required to travel a given [Length] distance.
   ///
-  /// This method performs the dimensional calculation `Time = Length / Speed`.
-  /// The calculation is performed in the base units (m and m/s) to ensure
-  /// correctness, and the result is returned as a `Time` in seconds.
-  /// If the speed is zero, the result follows IEEE 754 semantics: a non-zero
-  /// distance yields [double.infinity] and a zero distance yields [double.nan].
+  /// The result's unit matches the time component of this speed's unit:
+  /// `km/h` → hours, `mph` → hours, `m/s` → seconds, `kn` → hours.
+  /// If the speed is zero, the result follows IEEE 754 semantics.
   ///
-  /// Example:
   /// ```dart
-  /// final speed = 60.kmh;
-  /// final distance = 120.km;
-  /// final travelTime = speed.timeFor(distance);
-  /// print(travelTime.inHours); // Output: 2.0
+  /// 60.kmh.timeFor(120.km);   // 2.0 h
+  /// 60.mph.timeFor(30.miles); // 0.5 h
+  /// 10.mps.timeFor(50.m);     // 5.0 s
   /// ```
   Time timeFor(Length distance) {
-    final distanceInM = distance.inM;
-    final speedInMps = getValue(SpeedUnit.meterPerSecond);
-    final timeInSeconds = distanceInM / speedInMps;
-    return Time(timeInSeconds, TimeUnit.second);
+    final lengthUnit = _correspondingLengthUnit(unit);
+    final timeUnit = _correspondingTimeUnit(unit);
+    return Time(distance.getValue(lengthUnit) / value, timeUnit);
   }
+
+  /// Maps a [SpeedUnit] to its distance component [LengthUnit].
+  static LengthUnit _correspondingLengthUnit(SpeedUnit u) => switch (u) {
+        SpeedUnit.meterPerSecond => LengthUnit.meter,
+        SpeedUnit.kilometerPerSecond => LengthUnit.kilometer,
+        SpeedUnit.kilometerPerHour => LengthUnit.kilometer,
+        SpeedUnit.milePerHour => LengthUnit.mile,
+        SpeedUnit.knot => LengthUnit.nauticalMile,
+        SpeedUnit.footPerSecond => LengthUnit.foot,
+      };
+
+  /// Maps a [SpeedUnit] to its time component [TimeUnit].
+  static TimeUnit _correspondingTimeUnit(SpeedUnit u) => switch (u) {
+        SpeedUnit.meterPerSecond => TimeUnit.second,
+        SpeedUnit.kilometerPerSecond => TimeUnit.second,
+        SpeedUnit.kilometerPerHour => TimeUnit.hour,
+        SpeedUnit.milePerHour => TimeUnit.hour,
+        SpeedUnit.knot => TimeUnit.hour,
+        SpeedUnit.footPerSecond => TimeUnit.second,
+      };
 }
