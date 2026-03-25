@@ -52,7 +52,7 @@ extension FrequencyAngularVelocityInterop on Frequency {
   /// Example:
   /// ```dart
   /// // This is valid
-  /// final rotationalFreq = 60.rpm; // A Frequency object
+  /// final rotationalFreq = 60.freqRpm; // A Frequency object
   /// final motorSpeed = rotationalFreq.asAngularVelocity; // An AngularVelocity object
   ///
   /// // This will throw an error

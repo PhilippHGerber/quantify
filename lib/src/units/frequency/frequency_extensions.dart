@@ -142,13 +142,10 @@ extension FrequencyCreation on num {
   /// Note: `degreesPerSecond` is intentionally omitted here to avoid extension
   /// ambiguity with `AngularVelocityCreation`, which already provides that alias.
   Frequency get degPerSec => Frequency(toDouble(), FrequencyUnit.degreePerSecond);
-}
 
-/// Provides an alias for the `rpm` extension on `num` for creating [Frequency] instances.
-extension FrequencyCreationRpm on num {
   /// Creates a [Frequency] instance from this value in Revolutions per minute (rpm).
   ///
   /// This is functionally equivalent to the `rpm` extension in `AngularVelocity`.
   /// Use the one that is most semantically appropriate for your context.
-  Frequency get rpm => Frequency(toDouble(), FrequencyUnit.revolutionsPerMinute);
+  Frequency get freqRpm => Frequency(toDouble(), FrequencyUnit.revolutionsPerMinute);
 }

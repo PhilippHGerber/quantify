@@ -1,7 +1,7 @@
 /// Provides type-safe units for Frequency.
 ///
 /// Import this file to use Frequency quantities and their
-/// extensions on `num` (like `4.2.ghz`, `120.bpm`, `60.rpm`).
+/// extensions on `num` (like `4.2.ghz`, `120.bpm`, `60.freqRpm`).
 ///
 /// **Note:** If you also import `angular_velocity.dart`, the `.rpm` getter
 /// will conflict. In that case, use the main `quantify.dart` barrel (which
