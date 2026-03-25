@@ -296,8 +296,31 @@ void main() {
         expect(Volume.from(2.m, 3.m, 4.m).inCubicMeters, closeTo(24.0, tolerance));
       });
 
-      test('result unit is cubicMeter', () {
+      test('meter inputs → cubicMeter', () {
         expect(Volume.from(1.m, 1.m, 1.m).unit, VolumeUnit.cubicMeter);
+      });
+
+      // --- Unit-preserving behaviour ---
+      test('foot inputs → cubicFoot', () {
+        expect(Volume.from(2.ft, 3.ft, 4.ft).unit, VolumeUnit.cubicFoot);
+        expect(Volume.from(2.ft, 3.ft, 4.ft).value, closeTo(24.0, tolerance));
+      });
+
+      test('km × m × m → cubicKilometer (mixed-unit, primary wins)', () {
+        final vol = Volume.from(1.km, 1.m, 1.m);
+        expect(vol.unit, VolumeUnit.cubicKilometer);
+        expect(vol.inCubicMeters, closeTo(1000.0, tolerance));
+      });
+
+      test('nautical miles → SI fallback', () {
+        expect(
+          Volume.from(1.nauticalMiles, 1.nauticalMiles, 1.nauticalMiles).unit,
+          VolumeUnit.cubicMeter,
+        );
+      });
+
+      test('physical correctness round-trip: 2 ft × 3 ft × 4 ft ≈ 0.679604 m³', () {
+        expect(Volume.from(2.ft, 3.ft, 4.ft).inCubicMeters, closeTo(0.679604, 1e-5));
       });
 
       test('mixed units: 1 km × 1 m × 1 m = 1000 m³', () {
@@ -315,8 +338,31 @@ void main() {
         expect(Volume.fromArea(floor, 2.5.m).inCubicMeters, closeTo(50.0, tolerance));
       });
 
-      test('result unit is cubicMeter', () {
+      test('squareMeter area → cubicMeter', () {
         expect(Volume.fromArea(Area.from(1.m, 1.m), 1.m).unit, VolumeUnit.cubicMeter);
+      });
+
+      // --- Unit-preserving behaviour ---
+      test('squareFoot area → cubicFoot', () {
+        final area = Area.from(5.ft, 4.ft);
+        final vol = Volume.fromArea(area, 3.ft);
+        expect(vol.unit, VolumeUnit.cubicFoot);
+        expect(vol.value, closeTo(60.0, tolerance));
+      });
+
+      test('squareInch area, mixed depth → cubicInch', () {
+        final area = Area.from(12.inch, 12.inch); // 144 in²
+        final vol = Volume.fromArea(area, 3.inch);
+        expect(vol.unit, VolumeUnit.cubicInch);
+        expect(vol.value, closeTo(432.0, tolerance));
+      });
+
+      test('hectare area → SI fallback cubicMeter', () {
+        expect(Volume.fromArea(1.ha, 1.m).unit, VolumeUnit.cubicMeter);
+      });
+
+      test('physical correctness: 5 ft × 4 ft × 3 ft ≈ 1.699 m³', () {
+        expect(Volume.fromArea(Area.from(5.ft, 4.ft), 3.ft).inCubicMeters, closeTo(1.699011, 1e-5));
       });
 
       test('consistent with Volume.from', () {

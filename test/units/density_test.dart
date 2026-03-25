@@ -179,6 +179,45 @@ void main() {
         expect(0.kgPerM3.volumeFor(10.kg).inCubicMeters, double.infinity);
         expect(0.kgPerM3.volumeFor(0.kg).inCubicMeters, isNaN);
       });
+
+      // --- Unit-preserving behaviour ---
+      test('Density.from: kg + m³ → kg/m³', () {
+        final d = Density.from(2000.kg, 2.m3);
+        expect(d.unit, DensityUnit.kilogramPerCubicMeter);
+        expect(d.value, closeTo(1000.0, tolerance));
+      });
+
+      test('Density.from: g + cm³ → g/cm³', () {
+        final d = Density.from(13.546.g, 1.0.cm3);
+        expect(d.unit, DensityUnit.gramPerCubicCentimeter);
+        expect(d.value, closeTo(13.546, 1e-6));
+      });
+
+      test('Density.from: unmatched → SI fallback', () {
+        expect(Density.from(1.kg, 1.L).unit, DensityUnit.kilogramPerCubicMeter);
+      });
+
+      test('massOf: g/cm³ → result in grams', () {
+        final d = 13.546.gPerCm3;
+        final m = d.massOf(100.cm3);
+        expect(m.unit, MassUnit.gram);
+        expect(m.value, closeTo(1354.6, 1e-6));
+      });
+
+      test('massOf: kg/m³ → result in kilograms', () {
+        expect(1000.kgPerM3.massOf(2.m3).unit, MassUnit.kilogram);
+        expect(1000.kgPerM3.massOf(2.m3).value, closeTo(2000.0, tolerance));
+      });
+
+      test('volumeFor: g/cm³ → result in cm³', () {
+        final v = 13.546.gPerCm3.volumeFor(135.46.g);
+        expect(v.unit, VolumeUnit.cubicCentimeter);
+        expect(v.value, closeTo(10.0, 1e-6));
+      });
+
+      test('physical correctness: massOf round-trip', () {
+        expect(13.546.gPerCm3.massOf(100.cm3).inKilograms, closeTo(1.3546, 1e-6));
+      });
     });
   });
 }

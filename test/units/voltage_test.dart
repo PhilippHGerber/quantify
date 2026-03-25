@@ -248,6 +248,67 @@ void main() {
         final voltage = Voltage.fromEnergyAndCharge(energy, charge);
         expect(voltage.inVolts, closeTo(2.0, defaultTolerance));
       });
+
+      // --- Voltage.from(Current, Resistance) ---
+      test('Voltage.from: A × Ω → V', () {
+        final v = Voltage.from(2.0.A, 10.0.ohms);
+        expect(v.unit, VoltageUnit.volt);
+        expect(v.value, closeTo(20.0, strictTolerance));
+      });
+
+      test('Voltage.from: mA × kΩ → V', () {
+        final v = Voltage.from(5.0.mA, 1.0.kiloohms);
+        expect(v.unit, VoltageUnit.volt);
+        expect(v.value, closeTo(5.0, strictTolerance));
+      });
+
+      test('Voltage.from: mA × Ω → mV', () {
+        final v = Voltage.from(10.0.mA, 47.0.ohms);
+        expect(v.unit, VoltageUnit.millivolt);
+        expect(v.value, closeTo(470.0, strictTolerance));
+      });
+
+      test('Voltage.from: μA × MΩ → V', () {
+        final v = Voltage.from(3.0.uA, 2.0.megaohms);
+        expect(v.unit, VoltageUnit.volt);
+        expect(v.value, closeTo(6.0, strictTolerance));
+      });
+
+      test('Voltage.from: μA × kΩ → mV', () {
+        final v = Voltage.from(10.0.uA, 100.0.kiloohms);
+        expect(v.unit, VoltageUnit.millivolt);
+        expect(v.value, closeTo(1000.0, strictTolerance));
+      });
+
+      test('Voltage.from: A × mΩ → mV (shunt sensing)', () {
+        final v = Voltage.from(10.0.A, 10.0.milliohms);
+        expect(v.unit, VoltageUnit.millivolt);
+        expect(v.value, closeTo(100.0, strictTolerance));
+      });
+
+      test('Voltage.from: kA × Ω → kV (power systems)', () {
+        final v = Voltage.from(1.0.kA, 1.0.ohms);
+        expect(v.unit, VoltageUnit.kilovolt);
+        expect(v.value, closeTo(1.0, strictTolerance));
+      });
+
+      test('Voltage.from: unmatched → SI fallback V', () {
+        // statA × Ω has no mapping → fallback to volt
+        expect(
+          Voltage.from(const Current(1, CurrentUnit.statampere), 1.0.ohms).unit,
+          VoltageUnit.volt,
+        );
+      });
+
+      test('Voltage.from physical correctness: 5 mA × 2 kΩ = 10 V', () {
+        expect(Voltage.from(5.0.mA, 2.0.kiloohms).inVolts, closeTo(10.0, strictTolerance));
+      });
+
+      test('Voltage.from round-trip with Resistance.fromOhmsLaw', () {
+        final v = Voltage.from(20.0.mA, 500.0.ohms); // 10 V
+        final r = Resistance.fromOhmsLaw(v, 20.0.mA);
+        expect(r.inOhms, closeTo(500.0, strictTolerance));
+      });
     });
 
     group('Parsing', () {

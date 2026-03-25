@@ -251,6 +251,73 @@ void main() {
         final recovered = Force.fromPressure(pressure, area);
         expect(recovered.inNewtons, closeTo(800.0, highTolerance));
       });
+
+      // --- Unit-preserving behaviour ---
+      test('Pa × m² → N', () {
+        final f = Force.fromPressure(const Pressure(200, PressureUnit.pascal), 0.5.m2);
+        expect(f.unit, ForceUnit.newton);
+        expect(f.value, closeTo(100.0, highTolerance));
+      });
+
+      test('kPa × m² → kN', () {
+        final f = Force.fromPressure(const Pressure(200, PressureUnit.kilopascal), 0.5.m2);
+        expect(f.unit, ForceUnit.kilonewton);
+        expect(f.value, closeTo(100.0, highTolerance));
+      });
+
+      test('psi × in² → lbf', () {
+        final f = Force.fromPressure(
+          const Pressure(30, PressureUnit.psi),
+          const Area(2, AreaUnit.squareInch),
+        );
+        expect(f.unit, ForceUnit.poundForce);
+        expect(f.value, closeTo(60.0, highTolerance));
+      });
+
+      test('atm × m² → SI fallback N', () {
+        expect(
+          Force.fromPressure(const Pressure(1, PressureUnit.atmosphere), 1.m2).unit,
+          ForceUnit.newton,
+        );
+      });
+
+      test('physical correctness: 200 kPa × 0.5 m² ≈ 100 000 N', () {
+        expect(
+          Force.fromPressure(const Pressure(200, PressureUnit.kilopascal), 0.5.m2).inNewtons,
+          closeTo(100000.0, highTolerance),
+        );
+      });
+    });
+
+    group('Force.from unit-preserving', () {
+      test('kg × m/s² → N', () {
+        final f = Force.from(10.kg, 2.mps2);
+        expect(f.unit, ForceUnit.newton);
+        expect(f.value, closeTo(20.0, highTolerance));
+      });
+
+      test('g × cm/s² → dyn', () {
+        final f =
+            Force.from(5.g, const Acceleration(3, AccelerationUnit.centimeterPerSecondSquared));
+        expect(f.unit, ForceUnit.dyne);
+        expect(f.value, closeTo(15.0, highTolerance));
+      });
+
+      test('kg × cm/s² → SI fallback N', () {
+        expect(
+          Force.from(1.kg, const Acceleration(100, AccelerationUnit.centimeterPerSecondSquared))
+              .unit,
+          ForceUnit.newton,
+        );
+      });
+
+      test('physical correctness: 5 g × 3 cm/s² ≈ 1.5e-4 N', () {
+        expect(
+          Force.from(5.g, const Acceleration(3, AccelerationUnit.centimeterPerSecondSquared))
+              .inNewtons,
+          closeTo(1.5e-4, 1e-8),
+        );
+      });
     });
   });
 }

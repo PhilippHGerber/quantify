@@ -237,6 +237,60 @@ void main() {
         final rBack = Resistance.fromOhmsLaw(v, i); // R = V / I = 220 Ω
         expect(rBack.inOhms, closeTo(220.0, strictTolerance));
       });
+
+      // --- powerFrom(Current) — P = I² × R ---
+      test('powerFrom: A × Ω → W', () {
+        final p = 50.0.ohms.powerFrom(2.0.A);
+        expect(p.unit, PowerUnit.watt);
+        expect(p.value, closeTo(200.0, strictTolerance));
+      });
+
+      test('powerFrom: mA × kΩ → mW', () {
+        final p = 10.0.kiloohms.powerFrom(100.0.mA);
+        expect(p.unit, PowerUnit.milliwatt);
+        expect(p.value, closeTo(100000.0, strictTolerance));
+      });
+
+      test('powerFrom: A × kΩ → kW', () {
+        final p = 1.0.kiloohms.powerFrom(1.0.A);
+        expect(p.unit, PowerUnit.kilowatt);
+        expect(p.value, closeTo(1.0, strictTolerance));
+      });
+
+      test('powerFrom physical correctness: 2 A × 50 Ω = 200 W', () {
+        expect(50.0.ohms.powerFrom(2.0.A).inWatts, closeTo(200.0, strictTolerance));
+      });
+
+      // --- powerAt(Voltage) — P = V² / R ---
+      test('powerAt: V × Ω → W', () {
+        final p = 50.0.ohms.powerAt(100.0.V);
+        expect(p.unit, PowerUnit.watt);
+        expect(p.value, closeTo(200.0, strictTolerance));
+      });
+
+      test('powerAt: V × kΩ → mW', () {
+        final p = 1.0.kiloohms.powerAt(10.0.V);
+        expect(p.unit, PowerUnit.milliwatt);
+        expect(p.value, closeTo(100.0, strictTolerance));
+      });
+
+      test('powerAt: kV × Ω → MW', () {
+        final p = 1.0.ohms.powerAt(1.0.kV);
+        expect(p.unit, PowerUnit.megawatt);
+        expect(p.value, closeTo(1.0, strictTolerance));
+      });
+
+      test('powerAt physical correctness: 100 V / 50 Ω = 200 W', () {
+        expect(50.0.ohms.powerAt(100.0.V).inWatts, closeTo(200.0, strictTolerance));
+      });
+
+      test('powerFrom and powerAt are consistent for same conditions', () {
+        // V = I × R: 10 V = 2 A × 5 Ω → both P = 20 W
+        final r = 5.0.ohms;
+        final i = 2.0.A;
+        final v = r.voltageAt(i); // 10 V
+        expect(r.powerFrom(i).inWatts, closeTo(r.powerAt(v).inWatts, strictTolerance));
+      });
     });
 
     group('Parsing', () {

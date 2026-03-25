@@ -456,8 +456,29 @@ void main() {
       expect(0.8361.m2.asSquareYard.unit, AreaUnit.squareYard);
     });
 
-    test('result is always in squareMeter unit', () {
+    test('meter inputs → squareMeter', () {
       expect(Area.from(3.m, 3.m).unit, AreaUnit.squareMeter);
+    });
+
+    // --- Unit-preserving behaviour ---
+    test('inch inputs → squareInch', () {
+      expect(Area.from(9.inch, 9.inch).unit, AreaUnit.squareInch);
+      expect(Area.from(9.inch, 9.inch).value, closeTo(81.0, tolerance));
+    });
+
+    test('km × m → squareKilometer (mixed-unit, primary wins)', () {
+      final area = Area.from(1.km, 500.m);
+      expect(area.unit, AreaUnit.squareKilometer);
+      expect(area.value, closeTo(0.5, tolerance));
+    });
+
+    test('nautical miles → SI fallback (no squareNauticalMile unit)', () {
+      expect(Area.from(5.nauticalMiles, 3.nauticalMiles).unit, AreaUnit.squareMeter);
+    });
+
+    test('physical correctness: 9 in × 9 in = 81 in² ≈ 0.052258 m²', () {
+      // 1 in = 0.0254 m → 1 in² = 0.00064516 m² → 81 in² ≈ 0.05225796 m²
+      expect(Area.from(9.inch, 9.inch).inSquareMeters, closeTo(0.05225796, 1e-6));
     });
 
     test('centimeters: 100 cm × 200 cm = 2 m²', () {

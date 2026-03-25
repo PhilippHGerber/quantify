@@ -1,4 +1,6 @@
 import 'package:quantify/energy.dart';
+import 'package:quantify/force.dart';
+import 'package:quantify/length.dart';
 import 'package:quantify/power.dart';
 import 'package:quantify/time.dart';
 import 'package:test/test.dart';
@@ -6,7 +8,6 @@ import 'package:test/test.dart';
 void main() {
   group('Energy', () {
     const strictTolerance = 1e-12; // For "exact" conversions or small scales
-    const defaultTolerance = 1e-9; // General purpose
     const highTolerance = 1e-6; // For conversions involving many decimal places
 
     // Helper for round trip tests
@@ -14,7 +15,7 @@ void main() {
       EnergyUnit initialUnit,
       EnergyUnit intermediateUnit,
       double initialValue, {
-      double tol = defaultTolerance,
+      double tol = 1e-9,
     }) {
       final e1 = Energy(initialValue, initialUnit);
       final e2 = e1.convertTo(intermediateUnit);
@@ -32,14 +33,14 @@ void main() {
         final eKcal = 250.0.kcal;
         expect(eKcal.value, 250.0);
         expect(eKcal.unit, EnergyUnit.kilocalorie);
-        expect(eKcal.inJoules, closeTo(250.0 * 4184.0, defaultTolerance));
-        expect(eKcal.asJoules.value, closeTo(250.0 * 4184.0, defaultTolerance));
+        expect(eKcal.inJoules, closeTo(250.0 * 4184.0, 1e-9));
+        expect(eKcal.asJoules.value, closeTo(250.0 * 4184.0, 1e-9));
         expect(eKcal.asJoules.unit, EnergyUnit.joule);
 
         final eKwh = 1.2.kWh;
         expect(eKwh.value, 1.2);
         expect(eKwh.unit, EnergyUnit.kilowattHour);
-        expect(eKwh.inJoules, closeTo(1.2 * 3600000.0, defaultTolerance));
+        expect(eKwh.inJoules, closeTo(1.2 * 3600000.0, 1e-9));
       });
 
       test('getValue should return correct value for same unit', () {
@@ -100,7 +101,7 @@ void main() {
 
       test('operator + combines energies', () {
         final sum = e1 + e3; // 3600 kJ + 500 kJ = 4100 kJ
-        expect(sum.inKilojoules, closeTo(4100.0, defaultTolerance));
+        expect(sum.inKilojoules, closeTo(4100.0, 1e-9));
         expect(sum.unit, EnergyUnit.kilowattHour); // Left-hand operand's unit
       });
 
@@ -112,10 +113,10 @@ void main() {
 
       test('operator * and / scale energy by a scalar', () {
         final scaledUp = e3 * 4.0;
-        expect(scaledUp.inKilojoules, closeTo(2000.0, defaultTolerance));
+        expect(scaledUp.inKilojoules, closeTo(2000.0, 1e-9));
 
         final scaledDown = e1 / 2.0;
-        expect(scaledDown.inKilowattHours, closeTo(0.5, defaultTolerance));
+        expect(scaledDown.inKilowattHours, closeTo(0.5, 1e-9));
 
         expect((e1 / 0.0).value, double.infinity);
       });
@@ -141,15 +142,15 @@ void main() {
         // A snack bar has 150 kcal.
         final snackBar = 150.0.kcal;
         // How much is this in kJ? (Common on food labels outside the US)
-        expect(snackBar.inKilojoules, closeTo(627.6, defaultTolerance)); // 150 * 4.184
+        expect(snackBar.inKilojoules, closeTo(627.6, 1e-9)); // 150 * 4.184
       });
 
       test('Household electricity consumption', () {
         // A 100W light bulb running for 24 hours.
         // Energy = Power * Time = 0.1 kW * 24 h = 2.4 kWh
         final bulbEnergy = 2.4.kWh;
-        expect(bulbEnergy.inJoules, closeTo(2.4 * 3.6e6, defaultTolerance));
-        expect(bulbEnergy.inMegajoules, closeTo(8.64, defaultTolerance));
+        expect(bulbEnergy.inJoules, closeTo(2.4 * 3.6e6, 1e-9));
+        expect(bulbEnergy.inMegajoules, closeTo(8.64, 1e-9));
       });
     });
 
@@ -164,7 +165,7 @@ void main() {
         expect(1.kilowattHours.unit, EnergyUnit.kilowattHour);
         expect(1.electronvolts.unit, EnergyUnit.electronvolt);
         expect(1000.btu.unit, EnergyUnit.btu);
-        expect(100.joules.inJoules, closeTo(100.0, defaultTolerance));
+        expect(100.joules.inJoules, closeTo(100.0, 1e-9));
       });
 
       test('all as* conversion getters', () {
@@ -172,30 +173,30 @@ void main() {
 
         final asMj = e.asMegajoules;
         expect(asMj.unit, EnergyUnit.megajoule);
-        expect(asMj.value, closeTo(3.6, defaultTolerance));
+        expect(asMj.value, closeTo(3.6, 1e-9));
 
         final asKj = e.asKilojoules;
         expect(asKj.unit, EnergyUnit.kilojoule);
-        expect(asKj.value, closeTo(3600.0, defaultTolerance));
+        expect(asKj.value, closeTo(3600.0, 1e-9));
 
         final asCal = e.asCalories;
         expect(asCal.unit, EnergyUnit.calorie);
-        expect(asCal.value, closeTo(3600000.0 / 4.184, defaultTolerance)); // 1 cal = 4.184 J
+        expect(asCal.value, closeTo(3600000.0 / 4.184, 1e-9)); // 1 cal = 4.184 J
 
         final asKcal = e.asKilocalories;
         expect(asKcal.unit, EnergyUnit.kilocalorie);
-        expect(asKcal.value, closeTo(3600000.0 / 4184.0, defaultTolerance)); // 1 kcal = 4184 J
+        expect(asKcal.value, closeTo(3600000.0 / 4184.0, 1e-9)); // 1 kcal = 4184 J
 
         final asKcalIt = e.asKilocaloriesIT;
         expect(asKcalIt.unit, EnergyUnit.kilocalorieIT);
         expect(
           asKcalIt.value,
-          closeTo(3600000.0 / 4186.8, defaultTolerance),
+          closeTo(3600000.0 / 4186.8, 1e-9),
         ); // 1 kcal_IT = 4186.8 J
 
         final asKwh = e.asKilowattHours;
         expect(asKwh.unit, EnergyUnit.kilowattHour);
-        expect(asKwh.value, closeTo(1.0, defaultTolerance));
+        expect(asKwh.value, closeTo(1.0, 1e-9));
 
         final asEv = e.asElectronvolts;
         expect(asEv.unit, EnergyUnit.electronvolt);
@@ -228,14 +229,14 @@ void main() {
       });
 
       test('extension creation for IT variants', () {
-        expect(100.calIT.inJoules, closeTo(418.68, defaultTolerance));
-        expect(1.kcalIT.inJoules, closeTo(4186.8, defaultTolerance));
+        expect(100.calIT.inJoules, closeTo(418.68, 1e-9));
+        expect(1.kcalIT.inJoules, closeTo(4186.8, 1e-9));
       });
 
       test('extension value getters for IT variants', () {
         const energy = Energy(4186.8, EnergyUnit.joule);
         expect(energy.inCaloriesIT, closeTo(1000, highTolerance));
-        expect(energy.inKilocaloriesIT, closeTo(1, defaultTolerance));
+        expect(energy.inKilocaloriesIT, closeTo(1, 1e-9));
       });
 
       test('round-trip conversions for IT variants', () {
@@ -243,7 +244,7 @@ void main() {
         final roundTrip = original.asJoules.asCaloriesIT;
         expect(
           roundTrip.getValue(EnergyUnit.calorieIT),
-          closeTo(123.456, defaultTolerance),
+          closeTo(123.456, 1e-9),
         );
       });
 
@@ -268,8 +269,8 @@ void main() {
       expect(Energy.from(1.kW, 1.hours).inJoules, closeTo(3600000.0, 1e-3));
     });
 
-    test('result unit is joule', () {
-      expect(Energy.from(1.kW, 1.hours).unit, EnergyUnit.joule);
+    test('result unit is kilowattHour for kW + h', () {
+      expect(Energy.from(1.kW, 1.hours).unit, EnergyUnit.kilowattHour);
     });
 
     test('E = P × t with watts and seconds', () {
@@ -332,6 +333,95 @@ void main() {
       final power = Power.from(original, duration);
       final recovered = Energy.from(power, duration);
       expect(recovered.inJoules, closeTo(7200.0, 1e-9));
+    });
+
+    // --- Unit-preserving behaviour ---
+    test('Energy.from: W + s → J', () {
+      final e = Energy.from(10.W, 10.s);
+      expect(e.unit, EnergyUnit.joule);
+      expect(e.value, closeTo(100.0, 1e-9));
+    });
+
+    test('Energy.from: kW + h → kWh', () {
+      final e = Energy.from(1.kW, 1.hours);
+      expect(e.unit, EnergyUnit.kilowattHour);
+      expect(e.value, closeTo(1.0, 1e-9));
+    });
+
+    test('Energy.from: BTU/h + h → BTU', () {
+      final e = Energy.from(const Power(5000, PowerUnit.btuPerHour), 2.hours);
+      expect(e.unit, EnergyUnit.btu);
+      expect(e.value, closeTo(10000.0, 1e-9));
+    });
+
+    test('Energy.from: unmatched → SI fallback J', () {
+      expect(Energy.from(1.kW, 1.minutes).unit, EnergyUnit.joule);
+    });
+
+    test('Energy.from physical correctness: 1 kW × 1 h = 3 600 000 J', () {
+      expect(Energy.from(1.kW, 1.hours).inJoules, closeTo(3600000.0, 1e-3));
+    });
+  });
+
+  group('Dimensional Analysis (Energy.fromWork)', () {
+    const strictTolerance = 1e-12;
+
+    test('Energy.fromWork: N × m → J', () {
+      final e = Energy.fromWork(10.0.N, 5.0.m);
+      expect(e.unit, EnergyUnit.joule);
+      expect(e.value, closeTo(50.0, strictTolerance));
+    });
+
+    test('Energy.fromWork: N × mm → mJ', () {
+      final e = Energy.fromWork(1.0.N, 500.0.mm);
+      expect(e.unit, EnergyUnit.millijoule);
+      expect(e.value, closeTo(500.0, strictTolerance));
+    });
+
+    test('Energy.fromWork: N × km → kJ', () {
+      final e = Energy.fromWork(1.0.N, 2.0.km);
+      expect(e.unit, EnergyUnit.kilojoule);
+      expect(e.value, closeTo(2.0, strictTolerance));
+    });
+
+    test('Energy.fromWork: kN × m → kJ', () {
+      final e = Energy.fromWork(5.0.kN, 3.0.m);
+      expect(e.unit, EnergyUnit.kilojoule);
+      expect(e.value, closeTo(15.0, strictTolerance));
+    });
+
+    test('Energy.fromWork: kN × km → MJ', () {
+      final e = Energy.fromWork(2.0.kN, 3.0.km);
+      expect(e.unit, EnergyUnit.megajoule);
+      expect(e.value, closeTo(6.0, strictTolerance));
+    });
+
+    test('Energy.fromWork: MN × m → MJ', () {
+      final e = Energy.fromWork(1.0.MN, 4.0.m);
+      expect(e.unit, EnergyUnit.megajoule);
+      expect(e.value, closeTo(4.0, strictTolerance));
+    });
+
+    test('Energy.fromWork: MN × km → GJ', () {
+      final e = Energy.fromWork(2.0.MN, 5.0.km);
+      expect(e.unit, EnergyUnit.gigajoule);
+      expect(e.value, closeTo(10.0, strictTolerance));
+    });
+
+    test('Energy.fromWork: GN × m → GJ', () {
+      final e = Energy.fromWork(3.0.GN, 2.0.m);
+      expect(e.unit, EnergyUnit.gigajoule);
+      expect(e.value, closeTo(6.0, strictTolerance));
+    });
+
+    test('Energy.fromWork: unmatched (lbf × ft) → SI fallback J', () {
+      final e = Energy.fromWork(const Force(1, ForceUnit.poundForce), 1.0.ft);
+      expect(e.unit, EnergyUnit.joule);
+      expect(e.inJoules, closeTo(1.35582, 1e-4));
+    });
+
+    test('Energy.fromWork physical correctness: 10 N × 5 m = 50 J', () {
+      expect(Energy.fromWork(10.0.N, 5.0.m).inJoules, closeTo(50.0, strictTolerance));
     });
   });
 }

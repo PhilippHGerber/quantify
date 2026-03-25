@@ -1,8 +1,11 @@
 // test/units/power_test.dart
 
+import 'package:quantify/current.dart';
 import 'package:quantify/energy.dart';
 import 'package:quantify/power.dart';
+import 'package:quantify/resistance.dart';
 import 'package:quantify/time.dart';
+import 'package:quantify/voltage.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -188,8 +191,8 @@ void main() {
       expect(Power.from(1.kWh, 1.hours).inWatts, closeTo(1000.0, tolerance));
     });
 
-    test('result unit is watt', () {
-      expect(Power.from(1.kWh, 1.hours).unit, PowerUnit.watt);
+    test('result unit is kilowatt for kWh + h', () {
+      expect(Power.from(1.kWh, 1.hours).unit, PowerUnit.kilowatt);
     });
 
     test('P = E / t with seconds', () {
@@ -240,6 +243,156 @@ void main() {
 
       expect(0.W.timeFor(100.J).inSeconds, double.infinity);
       expect(0.W.timeFor(0.J).inSeconds, isNaN);
+    });
+
+    // --- Unit-preserving behaviour ---
+    test('Power.from: J + s → W', () {
+      final p = Power.from(100.J, 10.s);
+      expect(p.unit, PowerUnit.watt);
+      expect(p.value, closeTo(10.0, tolerance));
+    });
+
+    test('Power.from: kWh + h → kW', () {
+      final p = Power.from(1.kWh, 1.hours);
+      expect(p.unit, PowerUnit.kilowatt);
+      expect(p.value, closeTo(1.0, tolerance));
+    });
+
+    test('Power.from: BTU + h → BTU/h', () {
+      final p = Power.from(const Energy(5000, EnergyUnit.btu), 1.hours);
+      expect(p.unit, PowerUnit.btuPerHour);
+      expect(p.value, closeTo(5000.0, tolerance));
+    });
+
+    test('Power.from: unmatched → SI fallback W', () {
+      expect(Power.from(1.kJ, 1.minutes).unit, PowerUnit.watt);
+    });
+
+    test('Power.from physical correctness: 1 kWh / 1 h ≈ 1000 W', () {
+      expect(Power.from(1.kWh, 1.hours).inWatts, closeTo(1000.0, tolerance));
+    });
+
+    test('timeFor: BTU/h for 5000 BTU → 1 h', () {
+      final t = const Power(5000, PowerUnit.btuPerHour).timeFor(const Energy(5000, EnergyUnit.btu));
+      expect(t.unit, TimeUnit.hour);
+      expect(t.value, closeTo(1.0, 1e-6));
+    });
+
+    test('timeFor: W → result in seconds', () {
+      final t = 1000.W.timeFor(3600.kJ);
+      expect(t.unit, TimeUnit.second);
+      expect(t.inHours, closeTo(1.0, 1e-6));
+    });
+  });
+
+  group('Electrical Power factories', () {
+    const tol = 1e-9;
+
+    // --- Power.fromVoltageAndCurrent (P = V × I) ---
+    test('fromVoltageAndCurrent: V × A → W', () {
+      final p = Power.fromVoltageAndCurrent(12.0.V, 2.0.A);
+      expect(p.unit, PowerUnit.watt);
+      expect(p.value, closeTo(24.0, tol));
+    });
+
+    test('fromVoltageAndCurrent: V × mA → mW', () {
+      final p = Power.fromVoltageAndCurrent(5.0.V, 200.0.mA);
+      expect(p.unit, PowerUnit.milliwatt);
+      expect(p.value, closeTo(1000.0, tol));
+    });
+
+    test('fromVoltageAndCurrent: kV × A → kW', () {
+      final p = Power.fromVoltageAndCurrent(1.0.kV, 10.0.A);
+      expect(p.unit, PowerUnit.kilowatt);
+      expect(p.value, closeTo(10.0, tol));
+    });
+
+    test('fromVoltageAndCurrent: kV × kA → MW', () {
+      final p = Power.fromVoltageAndCurrent(20.0.kV, 5.0.kA);
+      expect(p.unit, PowerUnit.megawatt);
+      expect(p.value, closeTo(100.0, tol));
+    });
+
+    test('fromVoltageAndCurrent: unmatched → SI fallback W', () {
+      expect(
+        Power.fromVoltageAndCurrent(
+          const Voltage(1, VoltageUnit.statvolt),
+          1.0.A,
+        ).unit,
+        PowerUnit.watt,
+      );
+    });
+
+    test('fromVoltageAndCurrent physical correctness: 230 V × 10 A = 2300 W', () {
+      expect(
+        Power.fromVoltageAndCurrent(230.0.V, 10.0.A).inWatts,
+        closeTo(2300.0, tol),
+      );
+    });
+
+    // --- Power.fromCurrentAndResistance (P = I² × R) ---
+    test('fromCurrentAndResistance: A × Ω → W', () {
+      final p = Power.fromCurrentAndResistance(2.0.A, 50.0.ohms);
+      expect(p.unit, PowerUnit.watt);
+      expect(p.value, closeTo(200.0, tol));
+    });
+
+    test('fromCurrentAndResistance: mA × kΩ → mW', () {
+      final p = Power.fromCurrentAndResistance(10.0.mA, 1.0.kiloohms);
+      expect(p.unit, PowerUnit.milliwatt);
+      expect(p.value, closeTo(100.0, tol));
+    });
+
+    test('fromCurrentAndResistance: kA × Ω → MW', () {
+      final p = Power.fromCurrentAndResistance(1.0.kA, 1.0.ohms);
+      expect(p.unit, PowerUnit.megawatt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromCurrentAndResistance physical correctness: 3 A × 10 Ω = 90 W', () {
+      expect(
+        Power.fromCurrentAndResistance(3.0.A, 10.0.ohms).inWatts,
+        closeTo(90.0, tol),
+      );
+    });
+
+    // --- Power.fromVoltageAndResistance (P = V² / R) ---
+    test('fromVoltageAndResistance: V × Ω → W', () {
+      final p = Power.fromVoltageAndResistance(10.0.V, 50.0.ohms);
+      expect(p.unit, PowerUnit.watt);
+      expect(p.value, closeTo(2.0, tol));
+    });
+
+    test('fromVoltageAndResistance: V × kΩ → mW', () {
+      final p = Power.fromVoltageAndResistance(10.0.V, 1.0.kiloohms);
+      expect(p.unit, PowerUnit.milliwatt);
+      expect(p.value, closeTo(100.0, tol));
+    });
+
+    test('fromVoltageAndResistance: kV × Ω → MW', () {
+      final p = Power.fromVoltageAndResistance(1.0.kV, 1.0.ohms);
+      expect(p.unit, PowerUnit.megawatt);
+      expect(p.value, closeTo(1.0, tol));
+    });
+
+    test('fromVoltageAndResistance physical correctness: 100 V / 50 Ω = 200 W', () {
+      expect(
+        Power.fromVoltageAndResistance(100.0.V, 50.0.ohms).inWatts,
+        closeTo(200.0, tol),
+      );
+    });
+
+    // --- Cross-formula consistency ---
+    test('V×I == I²R == V²/R for same circuit (V=10V, I=2A, R=5Ω)', () {
+      final v = 10.0.V;
+      final i = 2.0.A;
+      final r = 5.0.ohms;
+      final p1 = Power.fromVoltageAndCurrent(v, i);
+      final p2 = Power.fromCurrentAndResistance(i, r);
+      final p3 = Power.fromVoltageAndResistance(v, r);
+      expect(p1.inWatts, closeTo(20.0, tol));
+      expect(p2.inWatts, closeTo(20.0, tol));
+      expect(p3.inWatts, closeTo(20.0, tol));
     });
   });
 }

@@ -150,6 +150,66 @@ void main() {
           isNaN,
         );
       });
+
+      // --- Unit-preserving behaviour ---
+      test('rev + min → rpm', () {
+        final av = AngularVelocity.from(1.0.revolutions, 1.0.minutes);
+        expect(av.unit, AngularVelocityUnit.revolutionPerMinute);
+        expect(av.value, closeTo(1.0, tolerance));
+      });
+
+      test('deg + s → deg/s', () {
+        final av = AngularVelocity.from(180.0.degrees, 1.0.seconds);
+        expect(av.unit, AngularVelocityUnit.degreePerSecond);
+        expect(av.value, closeTo(180.0, tolerance));
+      });
+
+      test('rad + s → rad/s', () {
+        final av = AngularVelocity.from(1.0.radians, 1.0.seconds);
+        expect(av.unit, AngularVelocityUnit.radianPerSecond);
+        expect(av.value, closeTo(1.0, tolerance));
+      });
+
+      test('unmatched (deg + min) → SI fallback rad/s', () {
+        final av = AngularVelocity.from(180.0.degrees, 1.0.minutes);
+        expect(av.unit, AngularVelocityUnit.radianPerSecond);
+        // 180° = π rad, 1 min = 60 s → π/60 rad/s
+        expect(av.inRadiansPerSecond, closeTo(math.pi / 60.0, tolerance));
+      });
+
+      test('physical correctness: 3000 rpm over 2 min ≈ 3000 rad/min in rad/s', () {
+        expect(
+          AngularVelocity.from(1.0.revolutions, 1.0.minutes).inRadiansPerSecond,
+          closeTo((2 * math.pi) / 60.0, tolerance),
+        );
+      });
+    });
+
+    group('unit-preserving totalAngleOver', () {
+      test('rpm × min → revolutions', () {
+        final angle = 3000.0.rpm.totalAngleOver(2.0.minutes);
+        expect(angle.unit, AngleUnit.revolution);
+        expect(angle.inRevolutions, closeTo(6000.0, tolerance));
+      });
+
+      test('deg/s × s → degrees', () {
+        final angle = 180.0.degreesPerSecond.totalAngleOver(2.0.seconds);
+        expect(angle.unit, AngleUnit.degree);
+        expect(angle.inDegrees, closeTo(360.0, tolerance));
+      });
+
+      test('rad/s × s → radians', () {
+        final angle = math.pi.radiansPerSecond.totalAngleOver(2.0.seconds);
+        expect(angle.unit, AngleUnit.radian);
+        expect(angle.inRadians, closeTo(2 * math.pi, tolerance));
+      });
+
+      test('physical correctness round-trip', () {
+        const original = AngularVelocity(3000, AngularVelocityUnit.revolutionPerMinute);
+        final angle = original.totalAngleOver(2.0.minutes);
+        final recovered = AngularVelocity.from(angle, 2.0.minutes);
+        expect(recovered.inRpm, closeTo(3000.0, tolerance));
+      });
     });
   });
 }

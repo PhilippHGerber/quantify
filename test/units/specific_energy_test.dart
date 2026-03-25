@@ -116,6 +116,52 @@ void main() {
         expect(energy.inJoules, closeTo(720000.0, tolerance));
         expect(energy.inKilowattHours, closeTo(0.2, tolerance));
       });
+
+      // --- Unit-preserving behaviour ---
+      test('SpecificEnergy.from: kJ + kg → kJ/kg', () {
+        final se = SpecificEnergy.from(const Energy(1000, EnergyUnit.kilojoule), 2.kg);
+        expect(se.unit, SpecificEnergyUnit.kilojoulePerKilogram);
+        expect(se.value, closeTo(500.0, tolerance));
+      });
+
+      test('SpecificEnergy.from: kWh + kg → kWh/kg', () {
+        final se = SpecificEnergy.from(const Energy(3, EnergyUnit.kilowattHour), 10.kg);
+        expect(se.unit, SpecificEnergyUnit.kilowattHourPerKilogram);
+        expect(se.value, closeTo(0.3, tolerance));
+      });
+
+      test('SpecificEnergy.from: unmatched (J + g) → SI fallback J/kg', () {
+        // No mapper for (joule, gram) → SI fallback
+        final se = SpecificEnergy.from(const Energy(100, EnergyUnit.joule), 50.g);
+        expect(se.unit, SpecificEnergyUnit.joulePerKilogram);
+        expect(se.inJoulesPerKilogram, closeTo(2000.0, tolerance));
+      });
+
+      test('energyIn: kJ/kg × kg → kJ', () {
+        final energy = 500.kJPerKg.energyIn(2.kg);
+        expect(energy.unit, EnergyUnit.kilojoule);
+        expect(energy.value, closeTo(1000.0, tolerance));
+      });
+
+      test('energyIn: kWh/kg × kg → kWh', () {
+        final energy = 0.3.kWhPerKg.energyIn(10.kg);
+        expect(energy.unit, EnergyUnit.kilowattHour);
+        expect(energy.value, closeTo(3.0, tolerance));
+      });
+
+      test('energyIn: Wh/kg × kg → J (SI fallback, no EnergyUnit.wattHour)', () {
+        final energy = 100.whPerKg.energyIn(1.kg);
+        expect(energy.unit, EnergyUnit.joule);
+        expect(energy.inJoules, closeTo(360000.0, tolerance));
+      });
+
+      test('physical correctness: SpecificEnergy.from round-trip via energyIn', () {
+        const se = SpecificEnergy(500, SpecificEnergyUnit.kilojoulePerKilogram);
+        const mass = Mass(4, MassUnit.kilogram);
+        final energy = se.energyIn(mass); // 2000 kJ
+        final recovered = SpecificEnergy.from(energy, mass);
+        expect(recovered.inKilojoulesPerKilogram, closeTo(500.0, tolerance));
+      });
     });
 
     group('Equality and HashCode', () {

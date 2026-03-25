@@ -31,6 +31,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed — Breaking
 
+* **Unit-preserving dimensional factories** — All factory constructors and inverse instance
+  methods now return results in the unit system of their primary input operand, consistent
+  with the existing arithmetic operator convention ("left operand wins"):
+  * `Area.from(9.inch, 9.inch)` → `81.0 in²` (was `0.052 m²`)
+  * `Volume.from(2.ft, 3.ft, 4.ft)` → `24.0 ft³` (was `0.679 m³`)
+  * `Speed.from(100.km, 1.hours)` → `100.0 km/h` (was `27.78 m/s`)
+  * `Density.from(13.5.g, 1.0.cm3).massOf(10.cm3)` → result in grams (was kilograms)
+  * `Power.from(1.kWh, 1.hours)` → `1.0 kW` (was `1000.0 W`)
+  * `Energy.from(1.kW, 1.hours)` → `1.0 kWh` (was `3600000.0 J`)
+  * All Tier 1 (area/volume), Tier 2 (compound factories), and Tier 3 (inverse instance
+    methods: `massOf`, `volumeFor`, `timeFor`, `distanceOver`, `totalAngleOver`, `energyIn`)
+    follow this rule.
+  * **SI fallback**: inputs with no natural output unit counterpart (e.g. `nauticalMile` for
+    area, or mixed unit combinations) continue to return SI results. Never throws.
+  * **Migration**: code reading `.value` directly from factory results may see different
+    numbers for non-SI inputs. Use `.inXxx` getters (e.g. `.inSquareMeters`) for
+    unit-independent access — these are unaffected.
+
 * **`FrequencyCreationRpm.rpm` renamed to `FrequencyCreationRpm.freqRpm`** to resolve an extension
   collision with `AngularVelocityCreation.rpm` (which returns `AngularVelocity`).
   * Previously the `FrequencyCreationRpm` extension was hidden from the barrel export

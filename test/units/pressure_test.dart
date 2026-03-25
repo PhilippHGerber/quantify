@@ -470,6 +470,51 @@ void main() {
       expect(0.Pa.areaFor(10.N).inSquareMeters, double.infinity);
       expect(0.Pa.areaFor(0.N).inSquareMeters, isNaN);
     });
+
+    // --- Unit-preserving behaviour ---
+    test('Pressure.from: N + m² → Pa', () {
+      final p = Pressure.from(100.N, 0.5.m2);
+      expect(p.unit, PressureUnit.pascal);
+      expect(p.value, closeTo(200.0, tolerance));
+    });
+
+    test('Pressure.from: kN + m² → kPa', () {
+      final p = Pressure.from(const Force(100, ForceUnit.kilonewton), 0.5.m2);
+      expect(p.unit, PressureUnit.kilopascal);
+      expect(p.value, closeTo(200.0, tolerance));
+    });
+
+    test('Pressure.from: lbf + in² → psi', () {
+      final p = Pressure.from(
+        const Force(60, ForceUnit.poundForce),
+        const Area(2, AreaUnit.squareInch),
+      );
+      expect(p.unit, PressureUnit.psi);
+      expect(p.value, closeTo(30.0, tolerance));
+    });
+
+    test('Pressure.from: unmatched → SI fallback Pa', () {
+      expect(Pressure.from(const Force(1, ForceUnit.dyne), 1.m2).unit, PressureUnit.pascal);
+    });
+
+    test('areaFor: Pa → result in m²', () {
+      final a = 200.Pa.areaFor(1000.N);
+      expect(a.unit, AreaUnit.squareMeter);
+      expect(a.value, closeTo(5.0, tolerance));
+    });
+
+    test('areaFor: psi → result in in²', () {
+      final a = const Pressure(30, PressureUnit.psi).areaFor(const Force(60, ForceUnit.poundForce));
+      expect(a.unit, AreaUnit.squareInch);
+      expect(a.value, closeTo(2.0, tolerance));
+    });
+
+    test('physical correctness: 100 kN / 0.5 m² ≈ 200 000 Pa', () {
+      expect(
+        Pressure.from(const Force(100, ForceUnit.kilonewton), 0.5.m2).inPa,
+        closeTo(200000.0, tolerance),
+      );
+    });
   });
 
   group('Pressure — Uncovered extension getters', () {

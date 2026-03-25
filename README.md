@@ -306,19 +306,21 @@ final combined = bigMass + smallMass; // Result: 5.00025 t
 
 ```dart
 // Area = Length × Length
-final room = Area.from(5.m, 4.m);           // 20.0 m²
-final plot = Area.from(1.km, 500.m);        // 500 000.0 m²
+final room = Area.from(5.m, 4.m);               // 20.0 m²
+final plot = Area.from(1.km, 500.m);             // 0.5 km²  ← result in km²
+final tile = Area.from(9.0.inch, 9.0.inch);      // 81.0 in² ← result in in²
 
 // Volume = Length × Length × Length
-final box = Volume.from(2.m, 3.m, 4.m);    // 24.0 m³
+final box     = Volume.from(2.ft, 3.ft, 4.ft);  // 24.0 ft³ ← result in ft³
+final siBox   = Volume.from(2.m, 3.m, 4.m);     // 24.0 m³
 
 // Volume = Area × depth
 final floor = Area.from(10.m, 5.m);
-final pool  = Volume.fromArea(floor, 2.m); // 100.0 m³
+final pool  = Volume.fromArea(floor, 2.m);       // 100.0 m³
 
 // Power = Energy / Time  ↔  Energy = Power × Time
-final power  = Power.from(1.kWh, 1.hours);       // 1 000.0 W
-final energy = Energy.from(1.kW, 1.hours);        // 3 600 000.0 J
+final power  = Power.from(1.kWh, 1.hours);       //   1.0 kW  ← result in kW
+final energy = Energy.from(1.kW, 1.hours);        //   1.0 kWh ← result in kWh
 
 // Pressure = Force / Area  ↔  Force = Pressure × Area
 final pressure = Pressure.from(1000.N, 10.m2);   // 100.0 Pa
@@ -328,17 +330,19 @@ final force    = Force.fromPressure(pressure, 10.m2); // 1 000.0 N
 final av    = AngularVelocity.from(1.revolutions, 1.minutes); // 1.0 rpm
 final angle = av.totalAngleOver(2.minutes);                   // 2.0 revolutions
 
-// Density = Mass / Volume
-final density = Density.from(1.kg, 1.liters);   // 1 000.0 kg/m³
+// Density = Mass / Volume  ↔  mass/volume retrieval
+final density = Density.from(13.5.g, 1.0.cm3);  // 13.5 g/cm³ ← result in g/cm³
+final mass    = density.massOf(10.cm3);           // 135.0 g    ← result in g
 
-// SpecificEnergy = Energy / Mass
-final specific = SpecificEnergy.from(1.kJ, 0.5.kg); // 2 000.0 J/kg
+// SpecificEnergy = Energy / Mass  ↔  energy retrieval
+final specific = SpecificEnergy.from(1.kJ, 0.5.kg); // 2.0 kJ/kg ← result in kJ/kg
+final stored   = specific.energyIn(10.kg);            // 20.0 kJ   ← result in kJ
 
 // Frequency = 1 / Time (period → frequency)
 final freq = Frequency.from(0.5.s);             // 2.0 Hz
 ```
 
-All inputs are converted to SI base units before calculation, so **mixed units work correctly without any manual conversion**. Each pair of factories is a symmetric inverse of the other.
+The result unit **matches the primary operand's unit system** — `Area.from(9.inch, 9.inch)` gives `81.0 in²`, not `0.052 m²`. Mixed inputs (e.g. `km` × `m`) are supported: the secondary operand is automatically converted to the primary's unit. When no matching output unit exists (e.g. nautical miles for area, or unrelated unit combinations), the result falls back to the SI unit. Each pair of factories is a symmetric inverse of the other.
 
 #### Dimensionless Ratios
 
