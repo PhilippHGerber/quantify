@@ -11,39 +11,19 @@ class AngleFactors {
   static const double radiansPerRevolution = 2 * math.pi;
 
   /// Radians per Degree.
+  /// Defined exactly to ensure precision in non-radian conversions.
   static const double radiansPerDegree = radiansPerRevolution / 360.0;
 
   /// Radians per Gradian.
+  /// Defined exactly to ensure precision in non-radian conversions.
   static const double radiansPerGradian = radiansPerRevolution / 400.0;
 
   /// Radians per Arcminute.
-  static const double radiansPerArcminute = radiansPerDegree / 60.0;
+  static const double radiansPerArcminute = radiansPerRevolution / (360.0 * 60.0);
 
   /// Radians per Arcsecond.
-  static const double radiansPerArcsecond = radiansPerArcminute / 60.0;
+  static const double radiansPerArcsecond = radiansPerRevolution / (360.0 * 3600.0);
 
   /// Radians per Milliradian.
   static const double radiansPerMilliradian = 0.001;
-
-  // --- Factors to convert FROM Radians TO a unit ---
-  // This avoids division of imprecise doubles in the const constructor.
-  // Formula: 1 Radian = Z [Unit]
-
-  /// Degrees per Radian.
-  static const double degreesPerRadian = 180.0 / math.pi;
-
-  /// Gradians per Radian.
-  static const double gradiansPerRadian = 200.0 / math.pi;
-
-  /// Revolutions per Radian.
-  static const double revolutionsPerRadian = 1.0 / (2 * math.pi);
-
-  /// Arcminutes per Radian.
-  static const double arcminutesPerRadian = degreesPerRadian * 60.0;
-
-  /// Arcseconds per Radian.
-  static const double arcsecondsPerRadian = arcminutesPerRadian * 60.0;
-
-  /// Milliradians per Radian.
-  static const double milliradiansPerRadian = 1000;
 }

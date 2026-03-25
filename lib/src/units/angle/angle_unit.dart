@@ -36,20 +36,20 @@ enum AngleUnit implements LinearUnit<AngleUnit> {
 
   /// Constant constructor for enum members.
   ///
-  /// [_toRadianFactor] is the factor to convert from this unit to the base unit (Radian).
+  /// [toRadianFactor] is the factor to convert from this unit to the base unit (Radian).
   /// [symbol] is the display symbol for the unit.
   ///
   /// The constructor pre-calculates all direct conversion factors
   /// from this unit to every other `AngleUnit`.
   const AngleUnit(double toRadianFactor, this.symbol)
       : _toRadianFactor = toRadianFactor,
-        _factorToRadian = toRadianFactor,
-        _factorToDegree = toRadianFactor * AngleFactors.degreesPerRadian,
-        _factorToGradian = toRadianFactor * AngleFactors.gradiansPerRadian,
-        _factorToRevolution = toRadianFactor * AngleFactors.revolutionsPerRadian,
-        _factorToArcminute = toRadianFactor * AngleFactors.arcminutesPerRadian,
-        _factorToArcsecond = toRadianFactor * AngleFactors.arcsecondsPerRadian,
-        _factorToMilliradian = toRadianFactor * AngleFactors.milliradiansPerRadian;
+        _factorToRadian = toRadianFactor / 1.0,
+        _factorToDegree = toRadianFactor / AngleFactors.radiansPerDegree,
+        _factorToGradian = toRadianFactor / AngleFactors.radiansPerGradian,
+        _factorToRevolution = toRadianFactor / AngleFactors.radiansPerRevolution,
+        _factorToArcminute = toRadianFactor / AngleFactors.radiansPerArcminute,
+        _factorToArcsecond = toRadianFactor / AngleFactors.radiansPerArcsecond,
+        _factorToMilliradian = toRadianFactor / AngleFactors.radiansPerMilliradian;
 
   // ignore: unused_field // The factor to convert from this unit to Radian.
   final double _toRadianFactor;
