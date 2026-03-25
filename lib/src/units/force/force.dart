@@ -1,6 +1,7 @@
 import 'package:meta/meta.dart';
 
 import '../../../quantify.dart' show QuantityParseException;
+import '../../constants/physical_constants.dart';
 import '../../core/linear_quantity.dart';
 import '../../core/quantity_format.dart';
 import '../../core/quantity_parse_exception.dart' show QuantityParseException;
@@ -43,6 +44,20 @@ class Force extends LinearQuantity<ForceUnit, Force> {
     final kg = mass.inKilograms;
     final mpss = acceleration.inMetersPerSecondSquared;
     return Force(kg * mpss, ForceUnit.newton);
+  }
+
+  /// Creates a [Force] instance representing the weight of a [Mass] under
+  /// a given [gravity] (F = m * g).
+  ///
+  /// Defaults to [PhysicalConstants.standardGravity] (9.80665 m/s²) if no
+  /// specific gravity is provided.
+  ///
+  /// ```dart
+  /// final weightOnEarth = Force.fromMass(10.kg);
+  /// final weightOnMoon  = Force.fromMass(10.kg, gravity: 1.625.mpsSquared);
+  /// ```
+  factory Force.fromMass(Mass mass, {Acceleration? gravity}) {
+    return Force.from(mass, gravity ?? PhysicalConstants.standardGravity);
   }
 
   /// Creates a [Force] quantity from [Pressure] and [Area] (F = P × A).
