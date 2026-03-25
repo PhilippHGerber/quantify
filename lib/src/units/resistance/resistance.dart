@@ -7,6 +7,7 @@ import '../../core/quantity_parser.dart';
 import '../current/current.dart';
 import '../current/current_extensions.dart';
 import '../current/current_unit.dart';
+import '../power/power.dart';
 import '../voltage/voltage.dart';
 import '../voltage/voltage_extensions.dart';
 import '../voltage/voltage_unit.dart';
@@ -123,4 +124,28 @@ class Resistance extends LinearQuantity<ResistanceUnit, Resistance> {
         voltage.inVolts / getValue(ResistanceUnit.ohm),
         CurrentUnit.ampere,
       );
+
+  /// Calculates the [Power] dissipated by this resistance for a given [Current]
+  /// using Joule's law (P = I² × R).
+  ///
+  /// The result unit is determined by the [current] and resistance unit
+  /// combination — see [Power.fromCurrentAndResistance] for the full mapping.
+  ///
+  /// ```dart
+  /// 50.ohms.powerFrom(2.A);         // 200.0 W
+  /// 10.kiloohms.powerFrom(100.mA);  // 100.0 mW
+  /// ```
+  Power powerFrom(Current current) => Power.fromCurrentAndResistance(current, this);
+
+  /// Calculates the [Power] dissipated by this resistance for a given [Voltage]
+  /// using the formula P = V² / R.
+  ///
+  /// The result unit is determined by the [voltage] and resistance unit
+  /// combination — see [Power.fromVoltageAndResistance] for the full mapping.
+  ///
+  /// ```dart
+  /// 50.ohms.powerAt(100.V);       // 200.0 W
+  /// 1.kiloohms.powerAt(10.V);     // 100.0 mW
+  /// ```
+  Power powerAt(Voltage voltage) => Power.fromVoltageAndResistance(voltage, this);
 }
