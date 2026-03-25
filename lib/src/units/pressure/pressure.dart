@@ -8,6 +8,7 @@ import '../area/area_extensions.dart';
 import '../area/area_unit.dart';
 import '../force/force.dart';
 import '../force/force_extensions.dart';
+import '../force/force_unit.dart';
 import 'pressure_unit.dart';
 
 /// Represents a quantity of pressure.
@@ -26,18 +27,30 @@ class Pressure extends LinearQuantity<PressureUnit, Pressure> {
   /// ```
   const Pressure(super._value, super._unit);
 
-  /// Creates a [Pressure] quantity from [Force] and [Area] (P = F / A).
+  /// Creates a [Pressure] from [force] and [area] (P = F / A).
   ///
-  /// Both inputs are converted to SI base units (newtons and square meters)
-  /// before dividing. The result is returned in pascals.
+  /// If the combination of [force]'s unit and [area]'s unit matches a standard
+  /// pressure unit (N + m² → Pa, kN + m² → kPa, lbf + in² → psi), the result
+  /// uses that unit. Otherwise the result is in [PressureUnit.pascal].
   ///
   /// ```dart
-  /// final force = 100.N;
-  /// final area  = 0.5.m2;
-  /// final pressure = Pressure.from(force, area); // 200.0 Pa
+  /// Pressure.from(100.N, 0.5.m2);      // 200.0 Pa
+  /// Pressure.from(100.kN, 0.5.m2);     // 200.0 kPa
+  /// Pressure.from(60.lbf, 2.0.in2);    // 30.0 psi
   /// ```
-  factory Pressure.from(Force force, Area area) =>
-      Pressure(force.inNewtons / area.inSquareMeters, PressureUnit.pascal);
+  factory Pressure.from(Force force, Area area) {
+    final target = _correspondingPressureUnit(force.unit, area.unit);
+    if (target != null) return Pressure(force.value / area.value, target);
+    return Pressure(force.inNewtons / area.inSquareMeters, PressureUnit.pascal);
+  }
+
+  /// Maps a [ForceUnit] × [AreaUnit] pair to its natural [PressureUnit].
+  static PressureUnit? _correspondingPressureUnit(ForceUnit f, AreaUnit a) => switch ((f, a)) {
+        (ForceUnit.newton, AreaUnit.squareMeter) => PressureUnit.pascal,
+        (ForceUnit.kilonewton, AreaUnit.squareMeter) => PressureUnit.kilopascal,
+        (ForceUnit.poundForce, AreaUnit.squareInch) => PressureUnit.psi,
+        _ => null,
+      };
 
   @override
   @protected
@@ -75,25 +88,26 @@ class Pressure extends LinearQuantity<PressureUnit, Pressure> {
     return parser.tryParse(input, formats: formats);
   }
 
-  /// Calculates the [Area] over which a given [Force] is distributed to exert this pressure.
+  /// Calculates the [Area] over which a given [Force] is distributed to exert
+  /// this pressure (A = F / P).
   ///
-  /// This method performs the dimensional calculation `Area = Force / Pressure`.
-  /// The calculation is performed in the base units (N and Pa) to ensure
-  /// correctness, and the result is returned as an `Area` in square meters.
-  /// If the pressure is zero, the result follows IEEE 754 semantics: a non-zero
-  /// force yields [double.infinity] and a zero force yields [double.nan].
+  /// The result's unit matches the area component of this pressure's unit:
+  /// `Pa` (N/m²) → m², `kPa` (kN/m²) → m², `psi` (lbf/in²) → in².
+  /// If the pressure is zero, the result follows IEEE 754 semantics.
   ///
-  /// Example:
   /// ```dart
-  /// final pressure = 100.pa;
-  /// final force = 500.N;
-  /// final area = pressure.areaFor(force);
-  /// print(area.inSquareMeters); // Output: 5.0
+  /// 100.Pa.areaFor(500.N);      // 5.0 m²
+  /// 30.psi.areaFor(60.lbf);     // 2.0 in²
   /// ```
   Area areaFor(Force force) {
-    final forceInNewtons = force.inNewtons;
-    final pressureInPascals = getValue(PressureUnit.pascal);
-    final areaInSquareMeters = forceInNewtons / pressureInPascals;
-    return Area(areaInSquareMeters, AreaUnit.squareMeter);
+    final areaInM2 = force.inNewtons / getValue(PressureUnit.pascal);
+    final targetUnit = _correspondingAreaUnit(unit);
+    return Area(areaInM2 * AreaUnit.squareMeter.factorTo(targetUnit), targetUnit);
   }
+
+  /// Maps a [PressureUnit] to the [AreaUnit] embedded in its definition.
+  static AreaUnit _correspondingAreaUnit(PressureUnit p) => switch (p) {
+        PressureUnit.psi => AreaUnit.squareInch,
+        _ => AreaUnit.squareMeter, // pascal, kilopascal, atmosphere, bar, etc.
+      };
 }
