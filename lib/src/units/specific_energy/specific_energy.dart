@@ -8,6 +8,7 @@ import '../energy/energy_extensions.dart';
 import '../energy/energy_unit.dart';
 import '../mass/mass.dart';
 import '../mass/mass_extensions.dart';
+import '../mass/mass_unit.dart';
 import 'specific_energy_unit.dart';
 
 /// Represents a quantity of specific energy.
@@ -20,17 +21,32 @@ class SpecificEnergy extends LinearQuantity<SpecificEnergyUnit, SpecificEnergy> 
   /// Creates a new `SpecificEnergy` with a given [value] and [unit].
   const SpecificEnergy(super._value, super._unit);
 
-  /// Creates a `SpecificEnergy` instance from a given [Energy] and [Mass].
+  /// Creates a `SpecificEnergy` from [energy] and [mass] (e = E / m).
   ///
-  /// This factory performs the dimensional calculation `SpecificEnergy = Energy / Mass`.
-  /// It converts the inputs to their base SI units (Joules and Kilograms) for correctness.
-  /// If [mass] is zero, the result follows IEEE 754 semantics: a non-zero energy
-  /// yields [double.infinity] and a zero energy yields [double.nan].
+  /// If the combination of [energy]'s unit and [mass]'s unit matches a standard
+  /// specific energy unit (J + kg → J/kg, kJ + kg → kJ/kg, kWh + kg → kWh/kg),
+  /// the result uses that unit. Otherwise the result is in
+  /// [SpecificEnergyUnit.joulePerKilogram].
+  /// If [mass] is zero, the result follows IEEE 754 semantics.
+  ///
+  /// ```dart
+  /// SpecificEnergy.from(1000.kJ, 2.kg);   // 500.0 kJ/kg
+  /// SpecificEnergy.from(0.3.kWh, 1.0.kg); // 0.3 kWh/kg
+  /// ```
   factory SpecificEnergy.from(Energy energy, Mass mass) {
-    final joules = energy.inJoules;
-    final kilograms = mass.inKilograms;
-    return SpecificEnergy(joules / kilograms, SpecificEnergyUnit.joulePerKilogram);
+    final target = _correspondingSpecificEnergyUnit(energy.unit, mass.unit);
+    if (target != null) return SpecificEnergy(energy.value / mass.value, target);
+    return SpecificEnergy(energy.inJoules / mass.inKilograms, SpecificEnergyUnit.joulePerKilogram);
   }
+
+  /// Maps an [EnergyUnit] × [MassUnit] pair to its natural [SpecificEnergyUnit].
+  static SpecificEnergyUnit? _correspondingSpecificEnergyUnit(EnergyUnit e, MassUnit m) =>
+      switch ((e, m)) {
+        (EnergyUnit.joule, MassUnit.kilogram) => SpecificEnergyUnit.joulePerKilogram,
+        (EnergyUnit.kilojoule, MassUnit.kilogram) => SpecificEnergyUnit.kilojoulePerKilogram,
+        (EnergyUnit.kilowattHour, MassUnit.kilogram) => SpecificEnergyUnit.kilowattHourPerKilogram,
+        _ => null,
+      };
 
   @override
   @protected
@@ -74,13 +90,25 @@ class SpecificEnergy extends LinearQuantity<SpecificEnergyUnit, SpecificEnergy> 
 
   /// Calculates the [Energy] contained in a given [Mass] of this substance.
   ///
-  /// This method performs the dimensional calculation `Energy = SpecificEnergy × Mass`.
-  /// The calculation is performed in the base units (J/kg and kg) to ensure
-  /// correctness, and the result is returned as an `Energy` in Joules.
+  /// The result's unit matches the energy component of this specific energy's
+  /// unit: `J/kg` → joules, `kJ/kg` → kilojoules, `kWh/kg` → kilowatt-hours.
+  /// `Wh/kg` returns joules because [EnergyUnit] has no watt-hour unit.
+  ///
+  /// ```dart
+  /// 500.kJPerKg.energyIn(2.kg);     // 1000.0 kJ
+  /// 0.3.kWhPerKg.energyIn(10.kg);   // 3.0 kWh
+  /// ```
   Energy energyIn(Mass mass) {
-    final specificEnergyInJPerKg = getValue(SpecificEnergyUnit.joulePerKilogram);
-    final massInKg = mass.inKilograms;
-    final totalEnergyInJoules = specificEnergyInJPerKg * massInKg;
-    return Energy(totalEnergyInJoules, EnergyUnit.joule);
+    final energyInJoules = getValue(SpecificEnergyUnit.joulePerKilogram) * mass.inKilograms;
+    final targetUnit = _correspondingEnergyUnit(unit);
+    return Energy(energyInJoules * EnergyUnit.joule.factorTo(targetUnit), targetUnit);
   }
+
+  /// Maps a [SpecificEnergyUnit] to its energy component [EnergyUnit].
+  static EnergyUnit _correspondingEnergyUnit(SpecificEnergyUnit u) => switch (u) {
+        SpecificEnergyUnit.joulePerKilogram => EnergyUnit.joule,
+        SpecificEnergyUnit.kilojoulePerKilogram => EnergyUnit.kilojoule,
+        SpecificEnergyUnit.wattHourPerKilogram => EnergyUnit.joule, // no EnergyUnit.wattHour
+        SpecificEnergyUnit.kilowattHourPerKilogram => EnergyUnit.kilowattHour,
+      };
 }
