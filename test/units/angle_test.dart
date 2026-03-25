@@ -95,25 +95,25 @@ void main() {
       });
     });
 
-    group('Comparison (compareTo)', () {
+    group('Comparison (isEquivalentTo)', () {
       test('should correctly compare angles of different units', () {
         final a1 = 90.0.degrees;
         final a2 = (math.pi / 2).radians;
         final a3 = 100.0.gradians;
         final a4 = 89.0.degrees;
 
-        // Diese Vergleiche werden nun alle korrekt sein.
+        // Use isEquivalentTo for magnitude equality checks
         expect(
-          a1.compareTo(a3),
-          0,
-          reason: '90 degrees should be exactly equal to 100 gradians',
+          a1.isEquivalentTo(a3),
+          isTrue,
+          reason: '90 degrees should be equivalent to 100 gradians',
         );
 
-        // Dieser Vergleich kann immer noch eine winzige Abweichung haben,
-        // da math.pi/2 selbst eine Annäherung ist.
-        // Es ist besser, ihn so zu lassen oder einen closeTo Vergleich zu machen.
-        // compareTo(a2) sollte aber auch 0 sein, da die internen Faktoren nun konsistenter sind.
-        expect(a1.compareTo(a2), 0);
+        expect(
+          a1.isEquivalentTo(a2),
+          isTrue,
+          reason: '90 degrees should be equivalent to pi/2 radians',
+        );
 
         expect(a1.compareTo(a4), greaterThan(0));
         expect(a4.compareTo(a1), lessThan(0));

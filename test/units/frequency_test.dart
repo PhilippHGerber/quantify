@@ -35,7 +35,7 @@ void main() {
       });
 
       test('RPM and BPM should be constructible', () {
-        final engineSpeed = 3000.rpm;
+        final engineSpeed = 3000.freqRpm;
         expect(engineSpeed.inHertz, closeTo(50.0, tolerance)); // 3000/60
 
         final heartRate = 120.bpm;
@@ -65,7 +65,7 @@ void main() {
       });
 
       test('RPM to Hertz', () {
-        final idle = 600.rpm;
+        final idle = 600.freqRpm;
         expect(idle.inHertz, closeTo(10.0, tolerance));
       });
     });
@@ -88,7 +88,7 @@ void main() {
         expect(sum.inGigahertz, closeTo(1.2, tolerance));
         expect(sum.unit, FrequencyUnit.gigahertz); // Left operand's unit
 
-        final diff = 100.Hz - 3000.rpm; // 100 Hz - 50 Hz = 50 Hz
+        final diff = 100.Hz - 3000.freqRpm; // 100 Hz - 50 Hz = 50 Hz
         expect(diff.inHertz, closeTo(50.0, tolerance));
       });
 

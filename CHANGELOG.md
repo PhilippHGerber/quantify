@@ -5,6 +5,17 @@ All notable changes to the `quantify` package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed — Breaking
+
+* **`FrequencyCreationRpm.rpm` renamed to `FrequencyCreationRpm.freqRpm`** to resolve an extension
+  collision with `AngularVelocityCreation.rpm` (which returns `AngularVelocity`).
+  * Previously the `FrequencyCreationRpm` extension was hidden from the barrel export
+    (`lib/quantify.dart`) to avoid the conflict. It is now fully exported under the new name.
+  * Migration: replace `3000.rpm` (when you intend `Frequency`) with `3000.freqRpm`.
+    Use `3000.rpm` when you intend `AngularVelocity` — that getter is unchanged.
+
 ## [0.17.0]
 
 2026-03-24
