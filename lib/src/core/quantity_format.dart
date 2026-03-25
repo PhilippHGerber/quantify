@@ -108,13 +108,28 @@ class QuantityFormat {
         return format;
       }
 
-      // LRU Cache Miss: Create the new format
+      // LRU Cache Miss: Create the new format.
+      // Resolve locale with a fallback chain:
+      // requested locale -> current default locale -> en_US.
+      // This preserves locale-aware behavior even when callers pass an invalid locale.
+      final defaultVerifiedLocale = Intl.verifiedLocale(
+        Intl.getCurrentLocale(),
+        NumberFormat.localeExists,
+        onFailure: (_) => 'en_US',
+      )!;
+
+      final verifiedLocale = Intl.verifiedLocale(
+        locale,
+        NumberFormat.localeExists,
+        onFailure: (_) => defaultVerifiedLocale,
+      )!;
+
       final format = fractionDigits != null
           ? NumberFormat.decimalPatternDigits(
-              locale: locale,
+              locale: verifiedLocale,
               decimalDigits: fractionDigits,
             )
-          : NumberFormat.decimalPattern(locale);
+          : NumberFormat.decimalPattern(verifiedLocale);
 
       _localeFormatCache[cacheKey] = format;
 
