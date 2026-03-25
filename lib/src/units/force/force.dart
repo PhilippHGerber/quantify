@@ -11,11 +11,13 @@ import '../acceleration/acceleration_extensions.dart';
 import '../acceleration/acceleration_unit.dart';
 import '../area/area.dart';
 import '../area/area_extensions.dart';
+import '../area/area_unit.dart';
 import '../mass/mass.dart';
 import '../mass/mass_extensions.dart';
 import '../mass/mass_unit.dart';
 import '../pressure/pressure.dart';
 import '../pressure/pressure_extensions.dart';
+import '../pressure/pressure_unit.dart';
 import 'force_unit.dart';
 
 /// Represents a quantity of force.
@@ -28,51 +30,80 @@ class Force extends LinearQuantity<ForceUnit, Force> {
   /// Creates a new `Force` with a given [value] and [unit].
   const Force(super._value, super._unit);
 
-  /// Creates a `Force` instance from `Mass` and `Acceleration` (F = m * a).
+  /// Creates a `Force` from [mass] and [acceleration] (F = m × a).
   ///
-  /// This factory performs the dimensional calculation `Force = Mass × Acceleration`.
-  /// It converts the inputs to their base SI units (kg and m/s²) for correctness.
+  /// If the combination of [mass]'s unit and [acceleration]'s unit matches a
+  /// standard force unit (e.g. kg + m/s² → N, g + cm/s² → dyn), the result
+  /// uses that unit. Otherwise the result is in [ForceUnit.newton].
   ///
-  /// Example:
   /// ```dart
-  /// final objectMass = 10.kg;
-  /// final objectAcceleration = 2.mpsSquared;
-  /// final requiredForce = Force.from(objectMass, objectAcceleration);
-  /// print(requiredForce.inNewtons); // Output: 20.0
+  /// Force.from(10.kg, 2.mPerS2);    // 20.0 N
+  /// Force.from(5.g, 3.0.cmpss);     // 15.0 dyn
   /// ```
   factory Force.from(Mass mass, Acceleration acceleration) {
-    final kg = mass.inKilograms;
-    final mpss = acceleration.inMetersPerSecondSquared;
-    return Force(kg * mpss, ForceUnit.newton);
+    final target = _correspondingForceUnit(mass.unit, acceleration.unit);
+    if (target != null) {
+      return Force(mass.value * acceleration.value, target);
+    }
+    return Force(mass.inKilograms * acceleration.inMetersPerSecondSquared, ForceUnit.newton);
   }
 
-  /// Creates a [Force] instance representing the weight of a [Mass] under
-  /// a given [gravity] (F = m * g).
+  /// Creates a [Force] representing the weight of a [Mass] under a given
+  /// [gravity] (F = m × g).
   ///
-  /// Defaults to [PhysicalConstants.standardGravity] (9.80665 m/s²) if no
-  /// specific gravity is provided.
+  /// Defaults to [PhysicalConstants.standardGravity] (9.80665 m/s²). Always
+  /// returns newtons because standard gravity is defined in SI units.
   ///
   /// ```dart
   /// final weightOnEarth = Force.fromMass(10.kg);
-  /// final weightOnMoon  = Force.fromMass(10.kg, gravity: 1.625.mpsSquared);
+  /// final weightOnMoon  = Force.fromMass(10.kg, gravity: 1.625.mPerS2);
   /// ```
   factory Force.fromMass(Mass mass, {Acceleration? gravity}) {
     return Force.from(mass, gravity ?? PhysicalConstants.standardGravity);
   }
 
-  /// Creates a [Force] quantity from [Pressure] and [Area] (F = P × A).
+  /// Creates a [Force] from [Pressure] and [Area] (F = P × A).
   ///
-  /// Both inputs are converted to SI base units (pascals and square meters)
-  /// before multiplying. The result is returned in newtons. This is the
-  /// inverse of [Pressure.from].
+  /// If [pressure]'s unit has a natural force counterpart (Pa → N, kPa → kN,
+  /// psi → lbf), the result uses that unit and [area] is converted to the
+  /// matching area unit. Otherwise the result is in [ForceUnit.newton].
   ///
   /// ```dart
-  /// final pressure = 200.Pa;
-  /// final area     = 0.5.m2;
-  /// final force    = Force.fromPressure(pressure, area); // 100.0 N
+  /// Force.fromPressure(200.Pa, 0.5.m2);   // 100.0 N
+  /// Force.fromPressure(200.kPa, 0.5.m2);  // 100.0 kN
+  /// Force.fromPressure(30.psi, 2.0.in2);  // 60.0 lbf
   /// ```
-  factory Force.fromPressure(Pressure pressure, Area area) =>
-      Force(pressure.inPa * area.inSquareMeters, ForceUnit.newton);
+  factory Force.fromPressure(Pressure pressure, Area area) {
+    final target = _correspondingForceUnitFromPressure(pressure.unit);
+    final areaUnit = _embeddedAreaUnitForPressure(pressure.unit);
+    if (target != null && areaUnit != null) {
+      return Force(pressure.value * area.getValue(areaUnit), target);
+    }
+    return Force(pressure.inPa * area.inSquareMeters, ForceUnit.newton);
+  }
+
+  /// Maps a [MassUnit] × [AccelerationUnit] pair to its natural [ForceUnit].
+  static ForceUnit? _correspondingForceUnit(MassUnit m, AccelerationUnit a) => switch ((m, a)) {
+        (MassUnit.kilogram, AccelerationUnit.meterPerSecondSquared) => ForceUnit.newton,
+        (MassUnit.gram, AccelerationUnit.centimeterPerSecondSquared) => ForceUnit.dyne,
+        _ => null,
+      };
+
+  /// Maps a [PressureUnit] to the implied [ForceUnit] when computing F = P × A.
+  static ForceUnit? _correspondingForceUnitFromPressure(PressureUnit p) => switch (p) {
+        PressureUnit.pascal => ForceUnit.newton,
+        PressureUnit.kilopascal => ForceUnit.kilonewton,
+        PressureUnit.psi => ForceUnit.poundForce,
+        _ => null,
+      };
+
+  /// Maps a [PressureUnit] to the [AreaUnit] component embedded in its definition.
+  static AreaUnit? _embeddedAreaUnitForPressure(PressureUnit p) => switch (p) {
+        PressureUnit.pascal => AreaUnit.squareMeter,
+        PressureUnit.kilopascal => AreaUnit.squareMeter,
+        PressureUnit.psi => AreaUnit.squareInch,
+        _ => null,
+      };
 
   @override
   @protected
