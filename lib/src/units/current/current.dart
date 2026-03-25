@@ -59,9 +59,4 @@ class Current extends LinearQuantity<CurrentUnit, Current> {
   }) {
     return parser.tryParse(input, formats: formats);
   }
-
-  // Potential future enhancements for Current:
-  // - Current * Time = ElectricCharge (would require ElectricCharge type)
-  // - ElectricPotential / Current = Resistance (would require ElectricPotential and Resistance types)
-  // - Power / Current = ElectricPotential (would require Power and ElectricPotential types)
 }
