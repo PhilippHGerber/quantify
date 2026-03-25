@@ -5,6 +5,59 @@ import 'quantity_format.dart';
 import 'quantity_parse_exception.dart';
 import 'unit.dart';
 
+// --- Grouping size detection ---
+
+/// The detected primary (rightmost) and secondary (intermediate) digit-group
+/// sizes for a particular [NumberFormat].
+///
+/// Most Western locales use `(primary: 3, secondary: 3)` — the familiar
+/// three-digit grouping.  Indian-script locales (hi_IN, bn_IN, …) use
+/// `(primary: 3, secondary: 2)` — the 2-2-3 pattern where intermediate
+/// groups are two digits wide.
+typedef _GroupingSizes = ({int primary, int secondary});
+
+/// Cache keyed by [NumberFormat] instance so that the probe is run at most
+/// once per unique formatter object.  Uses [Expando] (weak-key semantics) to
+/// avoid retaining formats that are no longer alive.
+final _groupingSizesCache = Expando<_GroupingSizes>();
+
+/// Detects the grouping sizes used by [nf] by formatting a probe integer.
+///
+/// `1234567` (seven digits) is chosen because it is large enough to generate
+/// at least two group separators with any grouping scheme, which lets us
+/// observe both the primary (final) and secondary (intermediate) sizes:
+///
+/// * en_US → `"1,234,567"` → primary = 3, secondary = 3
+/// * hi_IN → `"12,34,567"` → primary = 3, secondary = 2
+///
+/// Falls back to `(primary: 3, secondary: 3)` when grouping is absent or
+/// produces fewer than two separators.
+_GroupingSizes _detectGroupingSizes(NumberFormat nf) {
+  final groupSep = nf.symbols.GROUP_SEP;
+  if (groupSep.isEmpty) return (primary: 3, secondary: 3);
+
+  final formatted = nf.format(1234567);
+
+  // Strip any fractional part (an integer probe should not produce one, but
+  // be defensive in case a custom format has a minimum-fraction-digit setting).
+  final decimalSep = nf.symbols.DECIMAL_SEP;
+  final intPart = formatted.contains(decimalSep)
+      ? formatted.substring(0, formatted.indexOf(decimalSep))
+      : formatted;
+
+  final segments = intPart.split(groupSep);
+
+  // Need at least 3 segments (2 separators) to observe an intermediate group.
+  if (segments.length < 2) return (primary: 3, secondary: 3);
+
+  final primary = segments.last.length;
+  // When there are only 2 segments (one separator) there is no intermediate
+  // group — secondary defaults to primary.
+  final secondary = segments.length >= 3 ? segments[segments.length - 2].length : primary;
+
+  return (primary: primary, secondary: secondary);
+}
+
 // --- Character classes ---
 
 /// Apostrophe variants used as thousands separators in locales like de_CH/de_LI:
@@ -116,6 +169,7 @@ bool _isStrictlyValidForNumberFormat(
   required int commaCount,
   required int lastDotIndex,
   required int lastCommaIndex,
+  required _GroupingSizes groupingSizes,
 }) {
   final decimalSep = nf.symbols.DECIMAL_SEP;
   final groupSep = nf.symbols.GROUP_SEP;
@@ -160,6 +214,34 @@ bool _isStrictlyValidForNumberFormat(
       }
     } else {
       return false; // Neither dot nor comma are the expected separators
+    }
+  }
+
+  // 5. Validate grouping separator placement and digit counts (locale-aware).
+  // Uses the sizes detected by _detectGroupingSizes so that variable-grouping
+  // locales like hi_IN (2-2-3: "12,34,567") are accepted, while genuinely
+  // malformed strings like "1,23,45" under en_US are still rejected.
+  if (groupSep.isNotEmpty && groupSep != decimalSep && normalizedNumeric.contains(groupSep)) {
+    final intPart = (decimalCount == 1)
+        ? normalizedNumeric.substring(0, normalizedNumeric.indexOf(decimalSep))
+        : normalizedNumeric;
+
+    final segments = intPart.split(groupSep);
+
+    if (segments.length > 1) {
+      // Rightmost group must match the locale's primary (final) group size.
+      if (segments.last.length != groupingSizes.primary) return false;
+
+      // Every intermediate group must match the locale's secondary group size.
+      // en_US: secondary = 3  →  "1,234,567"  ✓   "1,23,567"  ✗
+      // hi_IN: secondary = 2  →  "12,34,567"  ✓   "1,234,567" ✗
+      for (var i = 1; i < segments.length - 1; i++) {
+        if (segments[i].length != groupingSizes.secondary) return false;
+      }
+
+      // The leading segment may be shorter (e.g. "1" in "1,234,567") but
+      // must not be empty.
+      if (segments.first.isEmpty) return false;
     }
   }
 
@@ -298,6 +380,14 @@ class QuantityParser<T extends Unit<T>, Q extends Quantity<T>> {
     for (final format in formatsToTry) {
       final nf = format.effectiveNumberFormat;
       if (nf != null) {
+        // Detect (and cache) the locale's grouping sizes once per NumberFormat
+        // instance — the probe runs only on the first call for each formatter.
+        var groupingSizes = _groupingSizesCache[nf];
+        if (groupingSizes == null) {
+          groupingSizes = _detectGroupingSizes(nf);
+          _groupingSizesCache[nf] = groupingSizes;
+        }
+
         if (!_isStrictlyValidForNumberFormat(
           normalizedNumeric,
           nf,
@@ -307,6 +397,7 @@ class QuantityParser<T extends Unit<T>, Q extends Quantity<T>> {
           commaCount: commaCount,
           lastDotIndex: lastDotIndex,
           lastCommaIndex: lastCommaIndex,
+          groupingSizes: groupingSizes,
         )) {
           continue;
         }
