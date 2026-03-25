@@ -20,25 +20,31 @@ class Density extends LinearQuantity<DensityUnit, Density> {
   /// Creates a new `Density` with a given [value] and [unit].
   const Density(super._value, super._unit);
 
-  /// Creates a `Density` instance from a given [Mass] and [Volume].
+  /// Creates a `Density` from [mass] and [volume] (ρ = m / V).
   ///
-  /// This factory performs the dimensional calculation `Density = Mass / Volume`.
-  /// It converts the inputs to their base SI units (kg and m³) for correctness.
-  /// If [volume] is zero, the result follows IEEE 754 semantics: a non-zero mass
-  /// yields [double.infinity] and a zero mass yields [double.nan].
+  /// If the combination of [mass]'s unit and [volume]'s unit matches a standard
+  /// density unit (kg + m³ → kg/m³, g + cm³ → g/cm³, g + mL → g/mL), the
+  /// result uses that unit. Otherwise the result is in
+  /// [DensityUnit.kilogramPerCubicMeter].
+  /// If [volume] is zero, the result follows IEEE 754 semantics.
   ///
-  /// Example:
   /// ```dart
-  /// final mass = 1000.kg;
-  /// final volume = 1.m3;
-  /// final density = Density.from(mass, volume);
-  /// print(density.inKilogramsPerCubicMeter); // Output: 1000.0
+  /// Density.from(2000.kg, 2.m3);       // 1000.0 kg/m³
+  /// Density.from(13.546.g, 1.0.cm3);   // 13.546 g/cm³
   /// ```
   factory Density.from(Mass mass, Volume volume) {
-    final kilograms = mass.inKilograms;
-    final cubicMeters = volume.inCubicMeters;
-    return Density(kilograms / cubicMeters, DensityUnit.kilogramPerCubicMeter);
+    final target = _correspondingDensityUnit(mass.unit, volume.unit);
+    if (target != null) return Density(mass.value / volume.value, target);
+    return Density(mass.inKilograms / volume.inCubicMeters, DensityUnit.kilogramPerCubicMeter);
   }
+
+  /// Maps a [MassUnit] × [VolumeUnit] pair to its natural [DensityUnit].
+  static DensityUnit? _correspondingDensityUnit(MassUnit m, VolumeUnit v) => switch ((m, v)) {
+        (MassUnit.kilogram, VolumeUnit.cubicMeter) => DensityUnit.kilogramPerCubicMeter,
+        (MassUnit.gram, VolumeUnit.cubicCentimeter) => DensityUnit.gramPerCubicCentimeter,
+        (MassUnit.gram, VolumeUnit.milliliter) => DensityUnit.gramPerMilliliter,
+        _ => null,
+      };
 
   @override
   @protected
@@ -79,43 +85,52 @@ class Density extends LinearQuantity<DensityUnit, Density> {
 
   /// Calculates the [Mass] of a given [Volume] of this substance.
   ///
-  /// This method performs the dimensional calculation `Mass = Density × Volume`.
-  /// The calculation is performed in the base units (kg/m³ and m³) to ensure
-  /// correctness, and the result is returned as a `Mass` in kilograms.
+  /// The result's unit matches the mass component of this density's unit:
+  /// `kg/m³` → kilograms, `g/cm³` → grams.
   ///
-  /// Example:
   /// ```dart
-  /// final waterDensity = 1000.kgPerM3;
-  /// final volume = 2.m3;
-  /// final mass = waterDensity.massOf(volume);
-  /// print(mass.inKilograms); // Output: 2000.0
+  /// final water = 1000.kgPerM3;
+  /// water.massOf(2.m3);       // 2000.0 kg
+  ///
+  /// final mercury = 13.546.gPerCm3;
+  /// mercury.massOf(100.cm3);  // 1354.6 g
   /// ```
   Mass massOf(Volume volume) {
-    final densityInKgPerM3 = getValue(DensityUnit.kilogramPerCubicMeter);
-    final volumeInM3 = volume.inCubicMeters;
-    final massInKg = densityInKgPerM3 * volumeInM3;
-    return Mass(massInKg, MassUnit.kilogram);
+    final massUnit = _correspondingMassUnit(unit);
+    final volUnit = _correspondingVolumeUnit(unit);
+    return Mass(value * volume.getValue(volUnit), massUnit);
   }
 
   /// Calculates the [Volume] required for a given [Mass] of this substance.
   ///
-  /// This method performs the dimensional calculation `Volume = Mass / Density`.
-  /// The calculation is performed in the base units (kg and kg/m³) to ensure
-  /// correctness, and the result is returned as a `Volume` in cubic meters.
-  /// If the density is zero, the result follows IEEE 754 semantics: a non-zero
-  /// mass yields [double.infinity] and a zero mass yields [double.nan].
+  /// The result's unit matches the volume component of this density's unit:
+  /// `kg/m³` → m³, `g/cm³` → cm³, `g/mL` → mL.
+  /// If the density is zero, the result follows IEEE 754 semantics.
   ///
-  /// Example:
   /// ```dart
-  /// final waterDensity = 1000.kgPerM3;
-  /// final mass = 2000.kg;
-  /// final volume = waterDensity.volumeFor(mass);
-  /// print(volume.inCubicMeters); // Output: 2.0
+  /// final water = 1000.kgPerM3;
+  /// water.volumeFor(2000.kg); // 2.0 m³
+  ///
+  /// final mercury = 13.546.gPerCm3;
+  /// mercury.volumeFor(135.46.g); // 10.0 cm³
   /// ```
   Volume volumeFor(Mass mass) {
-    final massInKg = mass.inKilograms;
-    final densityInKgPerM3 = getValue(DensityUnit.kilogramPerCubicMeter);
-    final volumeInM3 = massInKg / densityInKgPerM3;
-    return Volume(volumeInM3, VolumeUnit.cubicMeter);
+    final massUnit = _correspondingMassUnit(unit);
+    final volUnit = _correspondingVolumeUnit(unit);
+    return Volume(mass.getValue(massUnit) / value, volUnit);
   }
+
+  /// Maps a [DensityUnit] to its mass component unit.
+  static MassUnit _correspondingMassUnit(DensityUnit u) => switch (u) {
+        DensityUnit.kilogramPerCubicMeter => MassUnit.kilogram,
+        DensityUnit.gramPerCubicCentimeter => MassUnit.gram,
+        DensityUnit.gramPerMilliliter => MassUnit.gram,
+      };
+
+  /// Maps a [DensityUnit] to its volume component unit.
+  static VolumeUnit _correspondingVolumeUnit(DensityUnit u) => switch (u) {
+        DensityUnit.kilogramPerCubicMeter => VolumeUnit.cubicMeter,
+        DensityUnit.gramPerCubicCentimeter => VolumeUnit.cubicCentimeter,
+        DensityUnit.gramPerMilliliter => VolumeUnit.milliliter,
+      };
 }
