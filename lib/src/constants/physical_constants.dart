@@ -1,3 +1,4 @@
+import '../../acceleration.dart';
 import '../../electric_charge.dart';
 import '../../energy.dart';
 import '../../force.dart';
@@ -84,6 +85,14 @@ class PhysicalConstants {
   /// This is the least precisely known fundamental constant.
   /// Note: This would ideally be a compound `Quantity` type.
   static const double gravitationalConstant = 6.67430e-11; // m³/(kg⋅s²)
+
+  /// Standard acceleration of gravity (gₙ).
+  /// Exact value: 9.80665 m/s².
+  ///
+  /// Defined by the 3rd General Conference on Weights and Measures (CGPM) in 1901.
+  /// Used for defining the kilogram-force, pound-force, and other units.
+  static const Acceleration standardGravity =
+      Acceleration(9.80665, AccelerationUnit.meterPerSecondSquared);
 
   /// Fine-structure constant (α).
   /// Value: 7.2973525693×10⁻³.
