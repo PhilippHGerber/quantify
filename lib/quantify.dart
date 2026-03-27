@@ -106,6 +106,10 @@ export 'src/units/temperature/temperature_unit.dart';
 export 'src/units/time/time.dart';
 export 'src/units/time/time_extensions.dart';
 export 'src/units/time/time_unit.dart';
+// Exporting units and their extensions for torque
+export 'src/units/torque/torque.dart';
+export 'src/units/torque/torque_extensions.dart';
+export 'src/units/torque/torque_unit.dart';
 // Exporting units and their extensions for voltage (electric potential)
 export 'src/units/voltage/voltage.dart';
 export 'src/units/voltage/voltage_extensions.dart';

@@ -102,6 +102,7 @@ The library supports a comprehensive range of physical quantities, including all
 | **Electric Charge**     | ✅     | **`C`**, `kC`, `mC`, `µC`, `nC`, `pC`, `Ah`, `e`, `mAh`, `statC`, `Fr`, `abC`                                                                                          | Derived SI: A·s                                          |
 | **Solid Angle**         | ✅     | **`sr`**, `deg²` (Square Degree), `sp` (Spat)                                                                                                                          | Derived SI: dimensionless                                |
 | **Energy / Work**       | ✅     | **`J`** (Joule), `kJ`, `MJ`, `GJ`, `TJ`, `kWh`, `mJ`, `µJ`, `cal`, `kcal`, `eV`, `Btu`                                                                                 | Derived SI: N·m                                          |
+| **Torque**              | ✅     | **`N·m`** (newton-meter), `mN·m`, `kN·m`, `MN·m`, `lbf·ft`, `lbf·in`, `kgf·m`, `ozf·in`, `dyn·cm`                                                                      | Derived SI: N·m. Dimensionally = Energy but type-distinct. |
 | **Power**               | ✅     | **`W`** (Watt), `mW`, `kW`, `MW`, `GW`, `TW`, `μW`, `nW`, `hp`, `PS` (metric hp), `Btu/h`, `erg/s`                                                                     | Derived SI: J/s                                          |
 | **Density**             | ✅     | **`kg/m³`** (kilogram per cubic meter), `g/cm³`, `g/mL`                                                                                                                | Derived SI: kg/m³                                        |
 | **Specific Energy**     | ✅     | **`J/kg`** (joule per kilogram), `kJ/kg`, `Wh/kg`, `kWh/kg`                                                                                                            | Derived SI: J/kg                                         |
@@ -359,6 +360,14 @@ final current    = resistance.currentAt(6.V);                       //   0.25 A
 
 // Voltage → Current through a known resistance
 final current2 = 12.V.currentThrough(24.ohms);                     //   0.5 A
+
+// Torque = Force × moment arm  ↔  inverse: moment arm and force retrieval
+// Note: Torque(N·m) and Energy(J) are dimensionally identical but type-distinct.
+// The type system prevents passing a Torque where an Energy is expected.
+final torque = Torque.from(50.N, 0.3.m);        //  15.0 N·m ← result in N·m
+final impTorque = Torque.from(25.lbf, 1.ft);    //  25.0 lbf·ft ← unit-preserving
+final arm    = torque.momentArmFor(50.N);        //   0.3 m  ← r = τ / F
+final force  = torque.forceAt(0.5.m);           //  30.0 N  ← F = τ / r
 ```
 
 The result unit **matches the primary operand's unit system** — `Area.from(9.inch, 9.inch)` gives `81.0 in²`, not `0.052 m²`. Mixed inputs (e.g. `km` × `m`) are supported: the secondary operand is automatically converted to the primary's unit. When no matching output unit exists (e.g. nautical miles for area, or unrelated unit combinations), the result falls back to the SI unit. Each pair of factories is a symmetric inverse of the other.
