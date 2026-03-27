@@ -3,7 +3,7 @@ description: >
   Type-safe unit conversion and measurement library.
   Convert 25+ units like length, mass, temperature, pressure, speed, and energy
   with compile-time safety and fast performance.
-version: 0.18.0
+version: 0.18.1
 homepage: https://github.com/PhilippHGerber/quantify
 repository: https://github.com/PhilippHGerber/quantify
 issue_tracker: https://github.com/PhilippHGerber/quantify/issues

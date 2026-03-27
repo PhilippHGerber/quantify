@@ -5,6 +5,25 @@ All notable changes to the `quantify` package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.18.1]
+
+2026-03-27
+
+### Added
+
+* **New quantity: `Torque`**:
+  * Added `TorqueUnit` with 9 units: `newtonMeter` (N·m), `millinewtonMeter` (mN·m),
+    `kilonewtonMeter` (kN·m), `meganewtonMeter` (MN·m), `poundFoot` (lbf·ft),
+    `poundInch` (lbf·in), `kilogramForceMeter` (kgf·m), `ounceForceInch` (ozf·in),
+    `dyneCentimeter` (dyn·cm).
+  * Added `Torque.from(Force, Length)` factory with unit-preserving mapping for 10 common
+    force × moment-arm combinations (N×m, N×mm, lbf×ft, kgf×m, dyn×cm, etc.).
+  * Added `momentArmFor(Force)` and `forceAt(Length)` inverse instance methods.
+  * Full `num` extension support: `50.Nm`, `35.lbfFt`, `9.kgfM`, `55.ozfIn`, etc.
+  * Added `lib/torque.dart` for selective import without the full library.
+  * Torque is intentionally a separate type from `Energy` despite the shared N·m dimension,
+    preserving the library's compile-time type-safety guarantee.
+
 ## [0.18.0]
 
 2026-03-25
