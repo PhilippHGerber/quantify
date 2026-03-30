@@ -46,6 +46,9 @@ extension EnergyValueGetters on Energy {
   /// Returns the energy value in International Table Kilocalories (kcal_IT).
   double get inKilocaloriesIT => getValue(EnergyUnit.kilocalorieIT);
 
+  /// Returns the energy value in Watt-hours (Wh).
+  double get inWattHours => getValue(EnergyUnit.wattHour);
+
   /// Returns the energy value in Kilowatt-hours (kWh).
   double get inKilowattHours => getValue(EnergyUnit.kilowattHour);
 
@@ -89,6 +92,9 @@ extension EnergyValueGetters on Energy {
 
   /// Returns a new [Energy] object representing this energy in IT Kilocalories (kcal_IT).
   Energy get asKilocaloriesIT => convertTo(EnergyUnit.kilocalorieIT);
+
+  /// Returns a new [Energy] object representing this energy in Watt-hours (Wh).
+  Energy get asWattHours => convertTo(EnergyUnit.wattHour);
 
   /// Returns a new [Energy] object representing this energy in Kilowatt-hours (kWh).
   Energy get asKilowattHours => convertTo(EnergyUnit.kilowattHour);
@@ -174,6 +180,12 @@ extension EnergyCreation on num {
 
   /// Creates an [Energy] instance from this value in International Table Kilocalories (kcal_IT).
   Energy get kilocaloriesIT => Energy(toDouble(), EnergyUnit.kilocalorieIT);
+
+  /// Creates an [Energy] instance from this value in Watt-hours (Wh).
+  Energy get Wh => Energy(toDouble(), EnergyUnit.wattHour);
+
+  /// Creates an [Energy] instance from this value in Watt-hours (Wh).
+  Energy get wattHours => Energy(toDouble(), EnergyUnit.wattHour);
 
   /// Creates an [Energy] instance from this value in Kilowatt-hours (kWh).
   Energy get kWh => Energy(toDouble(), EnergyUnit.kilowattHour);

@@ -26,7 +26,7 @@ import 'energy_unit.dart';
 /// type-safe way to handle energy values and conversions between different units
 /// (e.g., joules, calories, kilowatt-hours).
 @immutable
-class Energy extends LinearQuantity<EnergyUnit, Energy> {
+final class Energy extends LinearQuantity<EnergyUnit, Energy> {
   /// Creates a new `Energy` quantity with the given numerical [value] and [unit].
   ///
   /// Example:
@@ -40,10 +40,11 @@ class Energy extends LinearQuantity<EnergyUnit, Energy> {
   /// Creates an [Energy] from [power] and [duration] (E = P × t).
   ///
   /// If the combination of [power]'s unit and [duration]'s unit matches a
-  /// standard energy unit (W + s → J, kW + h → kWh, BTU/h + h → BTU), the
+  /// standard energy unit (W + s → J, W + h → Wh, kW + h → kWh, BTU/h + h → BTU), the
   /// result uses that unit. Otherwise the result is in [EnergyUnit.joule].
   ///
   /// ```dart
+  /// Energy.from(100.W, 2.hours);     // 200.0 Wh
   /// Energy.from(1.kW, 1.hours);       // 1.0 kWh
   /// Energy.from(1000.btuPerHour, 2.h); // 2000.0 BTU
   /// Energy.from(100.W, 10.s);         // 1000.0 J
@@ -75,6 +76,7 @@ class Energy extends LinearQuantity<EnergyUnit, Energy> {
   /// Maps a [PowerUnit] × [TimeUnit] pair to its natural [EnergyUnit].
   static EnergyUnit? _correspondingEnergyUnit(PowerUnit p, TimeUnit t) => switch ((p, t)) {
         (PowerUnit.watt, TimeUnit.second) => EnergyUnit.joule,
+        (PowerUnit.watt, TimeUnit.hour) => EnergyUnit.wattHour,
         (PowerUnit.kilowatt, TimeUnit.hour) => EnergyUnit.kilowattHour,
         (PowerUnit.btuPerHour, TimeUnit.hour) => EnergyUnit.btu,
         _ => null,

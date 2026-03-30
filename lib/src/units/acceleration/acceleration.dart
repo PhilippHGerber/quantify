@@ -15,7 +15,7 @@ import 'acceleration_unit.dart';
 /// Acceleration is a derived quantity representing the rate of change of
 /// velocity over time. The SI derived unit is Meter per Second Squared (m/s²).
 @immutable
-class Acceleration extends LinearQuantity<AccelerationUnit, Acceleration> {
+final class Acceleration extends LinearQuantity<AccelerationUnit, Acceleration> {
   /// Creates a new `Acceleration` with a given [value] and [unit].
   const Acceleration(super._value, super._unit);
 

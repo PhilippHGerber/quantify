@@ -15,7 +15,7 @@ import 'area_unit.dart';
 /// Area is a derived quantity representing the extent of a two-dimensional
 /// surface or shape. The SI derived unit is the Square Meter (m²).
 @immutable
-class Area extends LinearQuantity<AreaUnit, Area> {
+final class Area extends LinearQuantity<AreaUnit, Area> {
   /// Creates a new `Area` quantity with the given numerical [value] and [unit].
   ///
   /// Example:

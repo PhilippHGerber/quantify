@@ -15,7 +15,7 @@ import 'mass_unit.dart';
 /// different units (e.g., kilograms, grams, pounds, ounces), and perform
 /// arithmetic operations.
 @immutable
-class Mass extends LinearQuantity<MassUnit, Mass> {
+final class Mass extends LinearQuantity<MassUnit, Mass> {
   /// Creates a new [Mass] quantity with the given numerical [value] and [unit].
   ///
   /// Example:

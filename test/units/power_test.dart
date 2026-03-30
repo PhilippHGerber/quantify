@@ -1,10 +1,12 @@
 // test/units/power_test.dart
 
+import 'package:quantify/angular_velocity.dart';
 import 'package:quantify/current.dart';
 import 'package:quantify/energy.dart';
 import 'package:quantify/power.dart';
 import 'package:quantify/resistance.dart';
 import 'package:quantify/time.dart';
+import 'package:quantify/torque.dart';
 import 'package:quantify/voltage.dart';
 import 'package:test/test.dart';
 
@@ -195,6 +197,11 @@ void main() {
       expect(Power.from(1.kWh, 1.hours).unit, PowerUnit.kilowatt);
     });
 
+    test('result unit is watt for Wh + h', () {
+      expect(Power.from(500.Wh, 2.hours).unit, PowerUnit.watt);
+      expect(Power.from(500.Wh, 2.hours).value, closeTo(250.0, tolerance));
+    });
+
     test('P = E / t with seconds', () {
       // 100 J / 10 s = 10 W
       expect(
@@ -270,6 +277,22 @@ void main() {
 
     test('Power.from physical correctness: 1 kWh / 1 h ≈ 1000 W', () {
       expect(Power.from(1.kWh, 1.hours).inWatts, closeTo(1000.0, tolerance));
+    });
+
+    test('fromTorqueAndAngularVelocity: 400 Nm at 3000 rpm ≈ 125.66 kW', () {
+      final enginePower = Power.fromTorqueAndAngularVelocity(400.Nm, 3000.rpm);
+      expect(enginePower.unit, PowerUnit.watt);
+      expect(enginePower.inKilowatts, closeTo(125.663706, 1e-6));
+    });
+
+    test('fromTorqueAndAngularVelocity: zero torque gives zero power', () {
+      final power = Power.fromTorqueAndAngularVelocity(0.Nm, 3000.rpm);
+      expect(power.inWatts, closeTo(0.0, tolerance));
+    });
+
+    test('fromTorqueAndAngularVelocity preserves sign', () {
+      final power = Power.fromTorqueAndAngularVelocity((-10).Nm, 2.radiansPerSecond);
+      expect(power.inWatts, closeTo(-20.0, tolerance));
     });
 
     test('timeFor: BTU/h for 5000 BTU → 1 h', () {

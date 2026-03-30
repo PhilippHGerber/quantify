@@ -50,6 +50,9 @@ enum EnergyUnit implements LinearUnit<EnergyUnit> {
   /// For the standard thermochemical kilocalorie, use [kilocalorie].
   kilocalorieIT(EnergyFactors.joulesPerKilocalorieIT, 'kcal_IT'),
 
+  /// Watt-hour (Wh), common for battery packs and smaller electrical loads.
+  wattHour(EnergyFactors.joulesPerWattHour, 'Wh'),
+
   /// Kilowatt-hour (kWh), a common unit for electrical energy.
   kilowattHour(EnergyFactors.joulesPerKilowattHour, 'kWh'),
 
@@ -79,6 +82,7 @@ enum EnergyUnit implements LinearUnit<EnergyUnit> {
         _factorToCalorieIT = toJouleFactor / EnergyFactors.joulesPerCalorieIT,
         _factorToKilocalorie = toJouleFactor / EnergyFactors.joulesPerKilocalorie,
         _factorToKilocalorieIT = toJouleFactor / EnergyFactors.joulesPerKilocalorieIT,
+        _factorToWattHour = toJouleFactor / EnergyFactors.joulesPerWattHour,
         _factorToKilowattHour = toJouleFactor / EnergyFactors.joulesPerKilowattHour,
         _factorToElectronvolt = toJouleFactor / EnergyFactors.joulesPerElectronvolt,
         _factorToBtu = toJouleFactor / EnergyFactors.joulesPerBtu;
@@ -103,6 +107,7 @@ enum EnergyUnit implements LinearUnit<EnergyUnit> {
   final double _factorToCalorieIT;
   final double _factorToKilocalorie;
   final double _factorToKilocalorieIT;
+  final double _factorToWattHour;
   final double _factorToKilowattHour;
   final double _factorToElectronvolt;
   final double _factorToBtu;
@@ -136,6 +141,8 @@ enum EnergyUnit implements LinearUnit<EnergyUnit> {
     'Cal': EnergyUnit.kilocalorie,
     // kilocalorie IT
     'kcal_IT': EnergyUnit.kilocalorieIT,
+    // watt-hour
+    'Wh': EnergyUnit.wattHour,
     // kilowatt-hour
     'kWh': EnergyUnit.kilowattHour,
     // electronvolt
@@ -187,6 +194,11 @@ enum EnergyUnit implements LinearUnit<EnergyUnit> {
     // kilocalorie IT
     'kilocalorie it': EnergyUnit.kilocalorieIT,
     'kilocalories it': EnergyUnit.kilocalorieIT,
+    // watt-hour
+    'watt-hour': EnergyUnit.wattHour,
+    'watt-hours': EnergyUnit.wattHour,
+    'watt hour': EnergyUnit.wattHour,
+    'watt hours': EnergyUnit.wattHour,
     // kilowatt-hour
     'kilowatt-hour': EnergyUnit.kilowattHour,
     'kilowatt-hours': EnergyUnit.kilowattHour,
@@ -234,6 +246,8 @@ enum EnergyUnit implements LinearUnit<EnergyUnit> {
         return _factorToKilocalorie;
       case EnergyUnit.kilocalorieIT:
         return _factorToKilocalorieIT;
+      case EnergyUnit.wattHour:
+        return _factorToWattHour;
       case EnergyUnit.kilowattHour:
         return _factorToKilowattHour;
       case EnergyUnit.electronvolt:

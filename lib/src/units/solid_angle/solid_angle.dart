@@ -11,7 +11,7 @@ import 'solid_angle_unit.dart';
 /// an object subtends at a point. It is a measure of how large the object appears
 /// to an observer looking from that point. The SI derived unit is the Steradian (sr).
 @immutable
-class SolidAngle extends LinearQuantity<SolidAngleUnit, SolidAngle> {
+final class SolidAngle extends LinearQuantity<SolidAngleUnit, SolidAngle> {
   /// Creates a new `SolidAngle` with a given [value] and [unit].
   const SolidAngle(super._value, super._unit);
 

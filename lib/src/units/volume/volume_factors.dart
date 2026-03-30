@@ -60,6 +60,10 @@ class VolumeFactors {
   /// Cubic Millimeters per US Liquid Gallon: 1 gal = 231 in³.
   static const double gal = in3 * 231.0;
 
+  /// Cubic Millimeters per UK (Imperial) Liquid Gallon: 1 UK gal = 4.54609 L (exact).
+  /// Defined exactly as 4.54609 cubic decimeters.
+  static const double ukGal = dm3 * 4.54609;
+
   /// Cubic Millimeters per US Liquid Quart: 1 qt = 1/4 gal.
   static const double qt = gal / 4.0;
 

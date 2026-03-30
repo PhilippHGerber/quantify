@@ -45,6 +45,10 @@ void main() {
         final v4 = 10.cL;
         expect(v4.inMilliliters, closeTo(100.0, tolerance));
         expect(v4.inLiters, closeTo(0.1, tolerance));
+
+        final v5 = 1.ukGal;
+        expect(v5.unit, VolumeUnit.imperialGallon);
+        expect(v5.inLiters, closeTo(4.54609, tolerance));
       });
     });
 
@@ -98,6 +102,15 @@ void main() {
         expect(oneLiter.inFluidOunces, closeTo(expectedFlOzInOneLiter, highTolerance));
         expect(oneLiter.inCubicInches, closeTo(expectedCubicInchesInOneLiter, highTolerance));
       });
+
+      test('Imperial gallon conversions', () {
+        final oneImperialGallon = 1.ukGal;
+        expect(oneImperialGallon.inLiters, closeTo(4.54609, tolerance));
+        expect(oneImperialGallon.inGallons, closeTo(1.2009499255, 1e-9));
+
+        final oneLiter = 1.L;
+        expect(oneLiter.inImperialGallons, closeTo(1 / 4.54609, 1e-12));
+      });
     });
 
     group('Comparison', () {
@@ -110,6 +123,9 @@ void main() {
 
         // Test LESS THAN: 1 US Gallon is less than 5 US Quarts.
         expect(1.gal.compareTo(5.qt), lessThan(0));
+
+        // Test GREATER THAN: 1 Imperial gallon is larger than 1 US gallon.
+        expect(1.ukGal.compareTo(1.gal), greaterThan(0));
 
         // Test EQUAL: 1 Liter is EXACTLY 1000 Cubic Centimeters.
         expect(1.L.compareTo(1000.cm3), 0);
@@ -151,6 +167,7 @@ void main() {
         expect(1.5.m3.toString(), '1.5\u00A0m³');
         expect(250.mL.toString(), '250.0\u00A0mL');
         expect(1.gal.toString(), '1.0\u00A0gal');
+        expect(1.ukGal.toString(), '1.0\u00A0gal(UK)');
         expect(8.flOz.toString(), '8.0\u00A0fl-oz');
         expect(5.cL.toString(), '5.0\u00A0cl');
         expect(1.tsp.toString(), '1.0\u00A0tsp');
@@ -171,6 +188,8 @@ void main() {
         expect(1.teraliters.unit, VolumeUnit.teraliter);
         expect(1.mi3.unit, VolumeUnit.cubicMile);
         expect(2.gallons.unit, VolumeUnit.gallon);
+        expect(2.ukGal.unit, VolumeUnit.imperialGallon);
+        expect(2.imperialGallons.unit, VolumeUnit.imperialGallon);
         expect(4.quarts.unit, VolumeUnit.quart);
         expect(2.pt.unit, VolumeUnit.pint);
         expect(2.tablespoons.unit, VolumeUnit.tablespoon);
@@ -193,6 +212,7 @@ void main() {
         expect(v.asCentiliters.unit, VolumeUnit.centiliter);
         expect(v.asMicroliters.unit, VolumeUnit.microliter);
         expect(v.asCubicMiles.unit, VolumeUnit.cubicMile);
+        expect(v.asImperialGallons.unit, VolumeUnit.imperialGallon);
         expect(v.asTablespoons.unit, VolumeUnit.tablespoon);
         expect(v.asTeaspoons.unit, VolumeUnit.teaspoon);
 
@@ -414,6 +434,7 @@ void main() {
 
     test('gallon quart pint fluidOunce singular aliases', () {
       expect(1.0.gallon.unit, VolumeUnit.gallon);
+      expect(1.0.imperialGallon.unit, VolumeUnit.imperialGallon);
       expect(1.0.quart.unit, VolumeUnit.quart);
       expect(1.0.pint.unit, VolumeUnit.pint);
       expect(1.0.fluidOunce.unit, VolumeUnit.fluidOunce);

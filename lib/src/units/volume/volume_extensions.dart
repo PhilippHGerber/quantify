@@ -75,6 +75,9 @@ extension VolumeValueGetters on Volume {
   /// Returns the volume value in US Gallons (gal).
   double get inGallons => getValue(VolumeUnit.gallon);
 
+  /// Returns the volume value in UK (Imperial) Gallons.
+  double get inImperialGallons => getValue(VolumeUnit.imperialGallon);
+
   /// Returns the volume value in US Quarts (qt).
   double get inQuarts => getValue(VolumeUnit.quart);
 
@@ -150,6 +153,9 @@ extension VolumeValueGetters on Volume {
 
   /// Returns a new [Volume] object representing this volume in US Gallons (gal).
   Volume get asGallons => convertTo(VolumeUnit.gallon);
+
+  /// Returns a new [Volume] object representing this volume in UK (Imperial) Gallons.
+  Volume get asImperialGallons => convertTo(VolumeUnit.imperialGallon);
 
   /// Returns a new [Volume] object representing this volume in US Quarts (qt).
   Volume get asQuarts => convertTo(VolumeUnit.quart);
@@ -289,6 +295,17 @@ extension VolumeCreation on num {
   /// Creates a [Volume] instance from this value in US Gallons (gal).
   /// Alias for [gal].
   Volume get gallons => Volume(toDouble(), VolumeUnit.gallon);
+
+  /// Creates a [Volume] instance from this value in UK (Imperial) Gallons.
+  Volume get ukGal => Volume(toDouble(), VolumeUnit.imperialGallon);
+
+  /// Creates a [Volume] instance from this value in UK (Imperial) Gallons.
+  /// Alias for [ukGal]. Singular form for natural English syntax.
+  Volume get imperialGallon => Volume(toDouble(), VolumeUnit.imperialGallon);
+
+  /// Creates a [Volume] instance from this value in UK (Imperial) Gallons.
+  /// Alias for [ukGal].
+  Volume get imperialGallons => Volume(toDouble(), VolumeUnit.imperialGallon);
 
   /// Creates a [Volume] instance from this value in US Quarts (qt).
   Volume get qt => Volume(toDouble(), VolumeUnit.quart);

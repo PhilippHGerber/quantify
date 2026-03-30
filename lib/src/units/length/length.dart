@@ -13,7 +13,7 @@ import 'length_unit.dart';
 /// This class provides a type-safe way to handle length values, convert between
 /// different units (e.g., meters, feet, miles), and perform arithmetic operations.
 @immutable
-class Length extends LinearQuantity<LengthUnit, Length> {
+final class Length extends LinearQuantity<LengthUnit, Length> {
   /// Creates a new [Length] quantity with the given numerical[value] and [unit].
   ///
   /// Example:

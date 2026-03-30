@@ -71,6 +71,9 @@ enum VolumeUnit implements LinearUnit<VolumeUnit> {
   /// US Liquid Gallon (gal).
   gallon(VolumeFactors.gal, 'gal'),
 
+  /// UK (Imperial) Liquid Gallon (gal(UK)).
+  imperialGallon(VolumeFactors.ukGal, 'gal(UK)'),
+
   /// US Liquid Quart (qt).
   quart(VolumeFactors.qt, 'qt'),
 
@@ -109,6 +112,7 @@ enum VolumeUnit implements LinearUnit<VolumeUnit> {
         _factorToCubicFoot = toCubicMillimeterFactor / VolumeFactors.ft3,
         _factorToCubicMile = toCubicMillimeterFactor / VolumeFactors.mi3,
         _factorToGallon = toCubicMillimeterFactor / VolumeFactors.gal,
+        _factorToImperialGallon = toCubicMillimeterFactor / VolumeFactors.ukGal,
         _factorToQuart = toCubicMillimeterFactor / VolumeFactors.qt,
         _factorToPint = toCubicMillimeterFactor / VolumeFactors.pt,
         _factorToFluidOunce = toCubicMillimeterFactor / VolumeFactors.flOz,
@@ -141,6 +145,7 @@ enum VolumeUnit implements LinearUnit<VolumeUnit> {
   final double _factorToCubicFoot;
   final double _factorToCubicMile;
   final double _factorToGallon;
+  final double _factorToImperialGallon;
   final double _factorToQuart;
   final double _factorToPint;
   final double _factorToFluidOunce;
@@ -200,6 +205,7 @@ enum VolumeUnit implements LinearUnit<VolumeUnit> {
     'mi3': VolumeUnit.cubicMile,
     // gallon
     'gal': VolumeUnit.gallon,
+    'gal(UK)': VolumeUnit.imperialGallon,
     // quart
     'qt': VolumeUnit.quart,
     // pint
@@ -292,6 +298,11 @@ enum VolumeUnit implements LinearUnit<VolumeUnit> {
     // gallon
     'gallon': VolumeUnit.gallon,
     'gallons': VolumeUnit.gallon,
+    // imperial gallon
+    'uk gallon': VolumeUnit.imperialGallon,
+    'uk gallons': VolumeUnit.imperialGallon,
+    'imperial gallon': VolumeUnit.imperialGallon,
+    'imperial gallons': VolumeUnit.imperialGallon,
     // quart
     'quart': VolumeUnit.quart,
     'quarts': VolumeUnit.quart,
@@ -351,6 +362,8 @@ enum VolumeUnit implements LinearUnit<VolumeUnit> {
         return _factorToCubicMile;
       case VolumeUnit.gallon:
         return _factorToGallon;
+      case VolumeUnit.imperialGallon:
+        return _factorToImperialGallon;
       case VolumeUnit.quart:
         return _factorToQuart;
       case VolumeUnit.pint:

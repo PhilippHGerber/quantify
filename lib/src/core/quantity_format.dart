@@ -63,6 +63,7 @@ class QuantityFormat {
         fractionDigits = null;
 
   static final LinkedHashMap<String, NumberFormat> _localeFormatCache = LinkedHashMap();
+  static final LinkedHashMap<String, QuantityFormat> _compactFormatCache = LinkedHashMap();
   static const int _maxCacheSize = 100;
 
   /// The explicit [NumberFormat] to use for formatting and parsing.
@@ -112,17 +113,7 @@ class QuantityFormat {
       // Resolve locale with a fallback chain:
       // requested locale -> current default locale -> en_US.
       // This preserves locale-aware behavior even when callers pass an invalid locale.
-      final defaultVerifiedLocale = Intl.verifiedLocale(
-        Intl.getCurrentLocale(),
-        NumberFormat.localeExists,
-        onFailure: (_) => 'en_US',
-      )!;
-
-      final verifiedLocale = Intl.verifiedLocale(
-        locale,
-        NumberFormat.localeExists,
-        onFailure: (_) => defaultVerifiedLocale,
-      )!;
+      final verifiedLocale = _resolveVerifiedLocale(locale!);
 
       final format = fractionDigits != null
           ? NumberFormat.decimalPatternDigits(
@@ -143,6 +134,27 @@ class QuantityFormat {
     return null;
   }
 
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is QuantityFormat &&
+        numberFormat == other.numberFormat &&
+        locale == other.locale &&
+        fractionDigits == other.fractionDigits &&
+        unitSymbolSeparator == other.unitSymbolSeparator &&
+        showUnitSymbol == other.showUnitSymbol;
+  }
+
+  @override
+  int get hashCode => Object.hash(
+        numberFormat,
+        locale,
+        fractionDigits,
+        unitSymbolSeparator,
+        showUnitSymbol,
+      );
+
   /// Dart-native formatting: dot decimal, no thousands separator.
   static const QuantityFormat invariant = QuantityFormat();
 
@@ -160,20 +172,55 @@ class QuantityFormat {
   /// Uses [NumberFormat.compact()] from the `intl` package. Useful for
   /// displaying large quantities in tight UI spaces.
   ///
-  /// The instance is cached and automatically invalidated when
-  /// [Intl.defaultLocale] changes, so the format always reflects the
-  /// current locale without repeated heavy `NumberFormat` allocations.
+  /// The instance is cached per isolate and automatically follows the
+  /// isolate's current locale state. In multi-isolate applications,
+  /// [Intl.defaultLocale] must be initialized inside each isolate before
+  /// calling this getter, or callers should prefer [compactFor] for explicit
+  /// deterministic locale selection.
   // Factory semantics aren't quite right
-  // ignore: prefer_constructors_over_static_methods
   static QuantityFormat get compact {
     final effectiveLocale = Intl.defaultLocale ?? Intl.getCurrentLocale();
-    if (_cachedCompact == null || _compactLocaleKey != effectiveLocale) {
-      _compactLocaleKey = effectiveLocale;
-      _cachedCompact = QuantityFormat.withNumberFormat(NumberFormat.compact());
-    }
-    return _cachedCompact!;
+    return compactFor(effectiveLocale);
   }
 
-  static String? _compactLocaleKey;
-  static QuantityFormat? _cachedCompact;
+  /// Compact notation for an explicit [locale].
+  ///
+  /// This is the deterministic alternative to [compact] for worker isolates,
+  /// background formatting, and any call site that must not depend on ambient
+  /// locale state.
+  // Factory semantics aren't quite right
+  // ignore: prefer_constructors_over_static_methods
+  static QuantityFormat compactFor(String locale) {
+    final verifiedLocale = _resolveVerifiedLocale(locale);
+
+    if (_compactFormatCache.containsKey(verifiedLocale)) {
+      final cached = _compactFormatCache.remove(verifiedLocale)!;
+      _compactFormatCache[verifiedLocale] = cached;
+      return cached;
+    }
+
+    final format = QuantityFormat.withNumberFormat(NumberFormat.compact(locale: verifiedLocale));
+    _compactFormatCache[verifiedLocale] = format;
+
+    if (_compactFormatCache.length > _maxCacheSize) {
+      _compactFormatCache.remove(_compactFormatCache.keys.first);
+    }
+
+    return format;
+  }
+
+  static String _resolveVerifiedLocale(String locale) {
+    final defaultVerifiedLocale = Intl.verifiedLocale(
+      Intl.getCurrentLocale(),
+      NumberFormat.localeExists,
+      onFailure: (_) => 'en_US',
+    )!;
+
+    return Intl.verifiedLocale(
+          locale,
+          NumberFormat.localeExists,
+          onFailure: (_) => defaultVerifiedLocale,
+        ) ??
+        defaultVerifiedLocale;
+  }
 }

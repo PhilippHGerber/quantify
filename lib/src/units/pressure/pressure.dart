@@ -17,7 +17,7 @@ import 'pressure_unit.dart';
 /// This class provides a type-safe way to handle pressure values and conversions
 /// between different units of pressure.
 @immutable
-class Pressure extends LinearQuantity<PressureUnit, Pressure> {
+final class Pressure extends LinearQuantity<PressureUnit, Pressure> {
   /// Creates a new Pressure quantity with the given [value] and [unit].
   ///
   /// Example:

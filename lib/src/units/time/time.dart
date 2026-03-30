@@ -9,7 +9,7 @@ import 'time_unit.dart';
 
 /// Represents a quantity of time (duration).
 @immutable
-class Time extends LinearQuantity<TimeUnit, Time> {
+final class Time extends LinearQuantity<TimeUnit, Time> {
   /// Creates a new Time quantity with the given [value] and [unit].
   ///
   /// Example:

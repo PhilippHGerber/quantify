@@ -27,7 +27,7 @@ import 'voltage_unit.dart';
 /// This class provides a type-safe way to handle voltage values and conversions
 /// between different units (e.g., volts, millivolts, kilovolts).
 @immutable
-class Voltage extends LinearQuantity<VoltageUnit, Voltage> {
+final class Voltage extends LinearQuantity<VoltageUnit, Voltage> {
   /// Creates a new `Voltage` quantity with the given numerical [value] and [unit].
   ///
   /// Example:

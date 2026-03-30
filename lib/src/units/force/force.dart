@@ -26,7 +26,7 @@ import 'force_unit.dart';
 /// motion of an object. The SI derived unit is the Newton (N), which is
 /// defined as `kg·m/s²`.
 @immutable
-class Force extends LinearQuantity<ForceUnit, Force> {
+final class Force extends LinearQuantity<ForceUnit, Force> {
   /// Creates a new `Force` with a given [value] and [unit].
   const Force(super._value, super._unit);
 

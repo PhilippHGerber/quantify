@@ -17,7 +17,7 @@ import 'electric_charge_unit.dart';
 /// a force in an electromagnetic field. The SI derived unit is the Coulomb (C),
 /// defined as the charge transported by a constant current of one ampere in one second.
 @immutable
-class ElectricCharge extends LinearQuantity<ElectricChargeUnit, ElectricCharge> {
+final class ElectricCharge extends LinearQuantity<ElectricChargeUnit, ElectricCharge> {
   /// Creates a new `ElectricCharge` with a given [value] and [unit].
   const ElectricCharge(super._value, super._unit);
 

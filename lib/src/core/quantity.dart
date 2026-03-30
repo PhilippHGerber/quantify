@@ -14,9 +14,9 @@ import 'unit.dart';
 ///
 /// ## Immutability
 /// `Quantity` objects are immutable. Operations that might seem to modify a quantity,
-/// such as unit conversion (`convertTo`) or arithmetic, always return a new `Quantity`
-/// instance with the updated value or unit, leaving the original instance unchanged.
-/// This promotes safer and more predictable code.
+/// such as unit conversion, always return a new `Quantity` instance with the updated
+/// value or unit, leaving the original instance unchanged. This promotes safer and
+/// more predictable code.
 ///
 /// ## Type Parameter `T`
 /// The type parameter `T` represents the specific `Unit` enum associated with this
@@ -29,7 +29,7 @@ import 'unit.dart';
 /// magnitude, even if their internal units differ. The `compareTo` method handles
 /// necessary conversions for accurate comparison.
 @immutable
-abstract class Quantity<T extends Unit<T>> implements Comparable<Quantity<T>> {
+sealed class Quantity<T extends Unit<T>> implements Comparable<Quantity<T>> {
   /// Creates a new `Quantity` with a given numerical [value] and its corresponding [unit].
   ///
   /// Subclasses will typically call this constructor via `super(value, unit)`.
@@ -220,11 +220,14 @@ abstract class Quantity<T extends Unit<T>> implements Comparable<Quantity<T>> {
   /// Unlike strict[operator ==], this method converts both values to the same
   /// unit before comparing — so `1.m.isEquivalentTo(100.cm)` returns `true`.
   ///
-  /// The comparison uses both an **absolute tolerance** and a **relative tolerance**.
+  /// By default, the comparison uses a **relative tolerance** only.
   /// The relative tolerance scales the acceptable error margin with the magnitude
-  /// of the values (crucial for astronomical scales), while the absolute tolerance
-  /// prevents the "Zero-Drift Trap" when comparing values that mathematically
-  /// cancel out to zero but leave microscopic floating-point artifacts.
+  /// of the values, which keeps the default behavior symmetric across units.
+  ///
+  /// For comparisons against exact zero, you may optionally provide an
+  /// **absolute tolerance** in the working unit of the left-hand operand.
+  /// This is useful when you want to absorb microscopic floating-point drift
+  /// such as `(0.1.m + 0.2.m - 0.3.m)`.
   ///
   /// Infinities and `NaN` follow IEEE 754 semantics:
   /// - Equal infinities (`+∞` and `+∞`, or `-∞` and `-∞`) → `true`.
@@ -233,25 +236,29 @@ abstract class Quantity<T extends Unit<T>> implements Comparable<Quantity<T>> {
   ///
   /// - [tolerance]: Maximum relative difference. Defaults to `1e-9`
   ///   (one part per billion).
-  /// - [absoluteTolerance]: Maximum absolute difference. Defaults to `1e-12`.
-  ///   This is essential when comparing against exactly zero.
+  /// - [absoluteTolerance]: Maximum absolute difference in `this.unit`.
+  ///   Defaults to `0.0`, which preserves symmetry across unit choices.
   ///
   /// ```dart
   /// (0.1.m + 0.2.m).isEquivalentTo(0.3.m);               // true
-  /// (0.1.m + 0.2.m - 0.3.m).isEquivalentTo(0.m);         // true (Zero-Drift handled)
+  /// (0.1.m + 0.2.m - 0.3.m).isEquivalentTo(0.m);         // false
+  /// (0.1.m + 0.2.m - 0.3.m).isEquivalentTo(
+  ///   0.m,
+  ///   absoluteTolerance: 1e-12,
+  /// );                                                   // true
   /// 1.au.isEquivalentTo(149597870700.m);                 // true
   /// double.infinity.m.isEquivalentTo(1e300.m);           // false
   /// ```
   bool isEquivalentTo(
     Quantity<T> other, {
     double tolerance = 1e-9,
-    double absoluteTolerance = 1e-12,
+    double absoluteTolerance = 0.0,
   }) {
     assert(tolerance >= 0.0, 'tolerance must be non-negative');
     assert(absoluteTolerance >= 0.0, 'absoluteTolerance must be non-negative');
 
-    // Evaluate both values in this.unit to guarantee symmetry:
-    // a.isEquivalentTo(b) == b.isEquivalentTo(a) for all inputs.
+    // Evaluate other in this.unit to avoid converting this.value.
+    // With the default absoluteTolerance of 0.0, the overall comparison remains symmetric.
     final a = value;
     final b = other.getValue(unit);
 
@@ -269,20 +276,6 @@ abstract class Quantity<T extends Unit<T>> implements Comparable<Quantity<T>> {
     // 2. Fall back to relative tolerance for large magnitudes
     return diff <= math.max(a.abs(), b.abs()) * tolerance;
   }
-
-  /// Computes the dimensionless ratio of this quantity to [other].
-  ///
-  /// Both quantities are converted to a common unit before dividing, so the
-  /// result is independent of the units chosen. Follows IEEE 754 semantics:
-  /// returns[double.infinity] or [double.negativeInfinity] when [other] is
-  /// zero (depending on the sign of this quantity), and [double.nan] when
-  /// both are zero.
-  ///
-  /// ```dart
-  /// 10.km.ratioTo(2.m);  // 5000.0
-  /// 5.m.ratioTo(0.m);    // double.infinity
-  /// ```
-  double ratioTo(Quantity<T> other) => value / other.getValue(unit);
 
   /// Checks if this quantity's magnitude is greater than another's.
   ///
@@ -316,4 +309,122 @@ abstract class Quantity<T extends Unit<T>> implements Comparable<Quantity<T>> {
   /// same hash code.
   @override
   int get hashCode => Object.hash(runtimeType, _value, _unit);
+}
+
+/// An abstract base class for physical quantities with linear (factor-based)
+/// unit conversions.
+///
+/// Extends [Quantity] with a generic implementation of arithmetic operators
+/// (`+`, `-`, `*`, `/`) and [convertTo], eliminating the need to reimplement
+/// these in every concrete quantity class.
+@immutable
+abstract base class LinearQuantity<T extends LinearUnit<T>, Q extends LinearQuantity<T, Q>>
+    extends Quantity<T> {
+  /// Creates a new [LinearQuantity] with the given [value] and [unit].
+  const LinearQuantity(super._value, super._unit);
+
+  /// Factory that creates a new instance of the concrete subtype [Q].
+  @protected
+  Q create(double value, T unit);
+
+  /// Returns the value of this quantity converted to [targetUnit].
+  @override
+  double getValue(T targetUnit) {
+    if (targetUnit == unit) return value;
+    return value * unit.factorTo(targetUnit);
+  }
+
+  /// Creates a new [Q] instance with the value converted to [targetUnit].
+  @override
+  Q convertTo(T targetUnit) {
+    if (targetUnit == unit) return this as Q;
+    return create(getValue(targetUnit), targetUnit);
+  }
+
+  /// Negates this quantity.
+  Q operator -() => create(-value, unit);
+
+  /// Adds [other] to this quantity.
+  Q operator +(Q other) => create(value + other.getValue(unit), unit);
+
+  /// Subtracts [other] from this quantity.
+  Q operator -(Q other) => create(value - other.getValue(unit), unit);
+
+  /// Multiplies this quantity by a dimensionless [scalar].
+  Q operator *(double scalar) => create(value * scalar, unit);
+
+  /// Divides this quantity by a dimensionless [scalar].
+  Q operator /(double scalar) => create(value / scalar, unit);
+
+  /// Computes the dimensionless ratio of this quantity to [other].
+  ///
+  /// Both quantities are converted to a common unit before dividing, so the
+  /// result is independent of the units chosen. Follows IEEE 754 semantics:
+  /// returns [double.infinity] or [double.negativeInfinity] when [other] is
+  /// zero (depending on the sign of this quantity), and [double.nan] when
+  /// both are zero.
+  double ratioTo(Quantity<T> other) => value / other.getValue(unit);
+}
+
+/// Base class for quantities whose conversions are affine instead of purely
+/// multiplicative.
+@immutable
+abstract base class AffineQuantity<T extends Unit<T>, Q extends AffineQuantity<T, Q>>
+    extends Quantity<T> {
+  /// Creates a new [AffineQuantity] with the given [value] and [unit].
+  const AffineQuantity(super._value, super._unit);
+
+  /// Factory that creates a new instance of the concrete subtype [Q].
+  @protected
+  Q create(double value, T unit);
+
+  /// Creates a new [Q] instance with the value converted to [targetUnit].
+  @override
+  Q convertTo(T targetUnit) {
+    if (targetUnit == unit) return this as Q;
+    return create(getValue(targetUnit), targetUnit);
+  }
+}
+
+/// Base class for quantities whose conversions route through a reciprocal
+/// canonical form.
+@immutable
+abstract base class InverseQuantity<T extends Unit<T>, Q extends InverseQuantity<T, Q>>
+    extends Quantity<T> {
+  /// Creates a new [InverseQuantity] with the given [value] and [unit].
+  const InverseQuantity(super._value, super._unit);
+
+  /// Factory that creates a new instance of the concrete subtype [Q].
+  @protected
+  Q create(double value, T unit);
+
+  /// Returns this quantity expressed in a fixed comparison space whose
+  /// ordering is monotonic with the underlying physical magnitude.
+  ///
+  /// Inverse quantities cannot safely compare by converting into the other
+  /// operand's unit because that can reverse inequalities.
+  @protected
+  double get comparisonValue;
+
+  /// Creates a new [Q] instance with the value converted to [targetUnit].
+  @override
+  Q convertTo(T targetUnit) {
+    if (targetUnit == unit) return this as Q;
+    return create(getValue(targetUnit), targetUnit);
+  }
+
+  /// Compares inverse quantities in a fixed monotonic comparison space.
+  @override
+  int compareTo(Quantity<T> other) {
+    return comparisonValue.compareTo((other as InverseQuantity<T, dynamic>).comparisonValue);
+  }
+}
+
+/// Base class for quantities that represent logarithmic levels of another
+/// physical dimension.
+@immutable
+abstract base class LogarithmicQuantity<T extends Unit<T>, Q extends LogarithmicQuantity<T, Q>>
+    extends AffineQuantity<T, Q> {
+  /// Creates a new [LogarithmicQuantity] with the given [value] and [unit].
+  const LogarithmicQuantity(super._value, super._unit);
 }

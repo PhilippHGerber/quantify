@@ -122,12 +122,6 @@ extension FrequencyCreation on num {
   /// Alias for [mHz].
   Frequency get millihertz => Frequency(toDouble(), FrequencyUnit.millihertz);
 
-  /// Creates a [Frequency] instance from this value in Revolutions per minute (rpm).
-  ///
-  /// This is functionally equivalent to the `rpm` extension in `AngularVelocity`.
-  /// Use the one that is most semantically appropriate for your context.
-  //Frequency get rpm => Frequency(toDouble(), FrequencyUnit.revolutionsPerMinute);
-
   /// Creates a [Frequency] instance from this value in Beats per minute (bpm).
   Frequency get bpm => Frequency(toDouble(), FrequencyUnit.beatsPerMinute);
 

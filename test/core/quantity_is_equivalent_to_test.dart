@@ -105,9 +105,9 @@ void main() {
     });
 
     // -------------------------------------------------------------------------
-    // Zero operand — pure relative tolerance (symmetric)
+    // Zero operand — default symmetric behavior
     // -------------------------------------------------------------------------
-    group('Zero operand (pure relative tolerance)', () {
+    group('Zero operand (default symmetric behavior)', () {
       test('both zero → true', () {
         expect(0.0.m.isEquivalentTo(0.0.m), isTrue);
       });
@@ -116,22 +116,26 @@ void main() {
         expect(0.0.m.isEquivalentTo(const Length(0, LengthUnit.kilometer)), isTrue);
       });
 
-      // Pure relative tolerance collapses to zero when one operand is 0,
-      // so zero is only equivalent to exactly zero — not to any small value.
-      test('zero vs any non-zero value → false (relative tolerance collapses)', () {
+      // With the default absoluteTolerance of 0.0, zero is only equivalent to
+      // exactly zero — not to any small non-zero value.
+      test('zero vs any non-zero value → false by default', () {
         expect(0.0.m.isEquivalentTo(const Length(1e-10, LengthUnit.meter)), isFalse);
         expect(0.0.m.isEquivalentTo(const Length(1e-8, LengthUnit.meter)), isFalse);
       });
 
-      // Symmetry: a.isEquivalentTo(b) == b.isEquivalentTo(a) when one operand is zero.
-      test('is symmetric when one operand is zero', () {
-        const small = Length(1e-10, LengthUnit.meter);
-        final zero = 0.0.km;
-        // Use absoluteTolerance: 0 for pure relative tolerance testing
+      test('is symmetric when one operand is zero across very different units', () {
+        const small = Length(1, LengthUnit.meter);
+        final zero = 0.0.ly;
         expect(
-          small.isEquivalentTo(zero, absoluteTolerance: 0),
-          equals(zero.isEquivalentTo(small, absoluteTolerance: 0)),
+          small.isEquivalentTo(zero),
+          equals(zero.isEquivalentTo(small)),
         );
+      });
+
+      test('explicit absolute tolerance can absorb zero-drift', () {
+        final drift = 0.1.m + 0.2.m - 0.3.m;
+        expect(drift.isEquivalentTo(0.m), isFalse);
+        expect(drift.isEquivalentTo(0.m, absoluteTolerance: 1e-12), isTrue);
       });
     });
 

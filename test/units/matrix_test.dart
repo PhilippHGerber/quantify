@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+
 import 'package:quantify/quantify.dart';
 import 'package:test/test.dart';
 
@@ -69,6 +70,7 @@ void main() {
     testUnitMatrix('Resistance', ResistanceUnit.values, tolerance: 1e-12);
     testUnitMatrix('LuminousIntensity', LuminousIntensityUnit.values, tolerance: 1e-12);
     testUnitMatrix('Information', InformationUnit.values, tolerance: 1e-12);
+    testUnitMatrix('LevelRatio', LevelRatioUnit.values, tolerance: 1e-12);
     testUnitMatrix('TemperatureDelta', TemperatureDeltaUnit.values, tolerance: 1e-12);
   });
 }

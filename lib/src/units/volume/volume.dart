@@ -18,7 +18,7 @@ import 'volume_unit.dart';
 /// Volume is a derived quantity representing the amount of three-dimensional
 /// space occupied by a substance. The SI derived unit is the Cubic Meter (m³).
 @immutable
-class Volume extends LinearQuantity<VolumeUnit, Volume> {
+final class Volume extends LinearQuantity<VolumeUnit, Volume> {
   /// Creates a new `Volume` quantity with the given numerical [value] and [unit].
   const Volume(super._value, super._unit);
 

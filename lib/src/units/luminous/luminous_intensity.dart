@@ -15,7 +15,7 @@ import 'luminous_intensity_unit.dart';
 /// This class provides a type-safe way to handle luminous intensity values and
 /// conversions between different units (e.g., candelas, millicandelas).
 @immutable
-class LuminousIntensity extends LinearQuantity<LuminousIntensityUnit, LuminousIntensity> {
+final class LuminousIntensity extends LinearQuantity<LuminousIntensityUnit, LuminousIntensity> {
   /// Creates a new `LuminousIntensity` quantity with the given numerical [value] and [unit].
   ///
   /// Example:

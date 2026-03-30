@@ -30,7 +30,7 @@ import '../length/length_unit.dart';
 /// final inPoundFeet = engineTorque.inPoundFeet; // ≈ 331.9 lbf·ft
 /// ```
 @immutable
-class Torque extends LinearQuantity<TorqueUnit, Torque> {
+final class Torque extends LinearQuantity<TorqueUnit, Torque> {
   /// Creates a new [Torque] quantity with the given numerical [value] and [unit].
   ///
   /// Example:

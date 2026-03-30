@@ -14,7 +14,7 @@ import 'angular_velocity_unit.dart';
 /// Angular velocity is a derived quantity representing the rate of change of
 /// an angle over time. The SI unit is radians per second (rad/s).
 @immutable
-class AngularVelocity extends LinearQuantity<AngularVelocityUnit, AngularVelocity> {
+final class AngularVelocity extends LinearQuantity<AngularVelocityUnit, AngularVelocity> {
   /// Creates a new `AngularVelocity` with a given [value] and [unit].
   const AngularVelocity(super._value, super._unit);
 

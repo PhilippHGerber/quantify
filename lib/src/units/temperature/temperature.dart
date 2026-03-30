@@ -15,7 +15,7 @@ import 'temperature_unit.dart';
 /// specific formulas within the [getValue] method, rather than simple
 /// multiplicative factors.
 @immutable
-class Temperature extends Quantity<TemperatureUnit> {
+final class Temperature extends AffineQuantity<TemperatureUnit, Temperature> {
   /// Creates a new Temperature quantity with the given [value] and [unit].
   ///
   /// Example:
@@ -24,6 +24,10 @@ class Temperature extends Quantity<TemperatureUnit> {
   /// final absoluteZero = Temperature(0.0, TemperatureUnit.kelvin);
   /// ```
   const Temperature(super._value, super._unit);
+
+  @override
+  @protected
+  Temperature create(double value, TemperatureUnit unit) => Temperature(value, unit);
 
   /// The parser instance used to convert strings into [Temperature] objects.
   ///
@@ -233,7 +237,6 @@ class Temperature extends Quantity<TemperatureUnit> {
   /// // Carnot efficiency: η = 1 − T_cold / T_hot
   /// final efficiency = 1.0 - coldReservoir.ratioTo(hotReservoir);
   /// ```
-  @override
   double ratioTo(Quantity<TemperatureUnit> other) {
     final thisK = getValue(TemperatureUnit.kelvin);
     final otherK = other.getValue(TemperatureUnit.kelvin);

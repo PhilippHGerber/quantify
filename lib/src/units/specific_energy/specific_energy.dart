@@ -17,7 +17,7 @@ import 'specific_energy_unit.dart';
 /// It represents the energy stored in a substance per unit mass (e.g., energy density of a fuel or battery).
 /// The SI derived unit is Joule per Kilogram (J/kg).
 @immutable
-class SpecificEnergy extends LinearQuantity<SpecificEnergyUnit, SpecificEnergy> {
+final class SpecificEnergy extends LinearQuantity<SpecificEnergyUnit, SpecificEnergy> {
   /// Creates a new `SpecificEnergy` with a given [value] and [unit].
   const SpecificEnergy(super._value, super._unit);
 
@@ -44,6 +44,7 @@ class SpecificEnergy extends LinearQuantity<SpecificEnergyUnit, SpecificEnergy> 
       switch ((e, m)) {
         (EnergyUnit.joule, MassUnit.kilogram) => SpecificEnergyUnit.joulePerKilogram,
         (EnergyUnit.kilojoule, MassUnit.kilogram) => SpecificEnergyUnit.kilojoulePerKilogram,
+        (EnergyUnit.wattHour, MassUnit.kilogram) => SpecificEnergyUnit.wattHourPerKilogram,
         (EnergyUnit.kilowattHour, MassUnit.kilogram) => SpecificEnergyUnit.kilowattHourPerKilogram,
         _ => null,
       };
@@ -91,8 +92,8 @@ class SpecificEnergy extends LinearQuantity<SpecificEnergyUnit, SpecificEnergy> 
   /// Calculates the [Energy] contained in a given [Mass] of this substance.
   ///
   /// The result's unit matches the energy component of this specific energy's
-  /// unit: `J/kg` → joules, `kJ/kg` → kilojoules, `kWh/kg` → kilowatt-hours.
-  /// `Wh/kg` returns joules because [EnergyUnit] has no watt-hour unit.
+  /// unit: `J/kg` → joules, `kJ/kg` → kilojoules, `Wh/kg` → watt-hours,
+  /// `kWh/kg` → kilowatt-hours.
   ///
   /// ```dart
   /// 500.kJPerKg.energyIn(2.kg);     // 1000.0 kJ
@@ -108,7 +109,7 @@ class SpecificEnergy extends LinearQuantity<SpecificEnergyUnit, SpecificEnergy> 
   static EnergyUnit _correspondingEnergyUnit(SpecificEnergyUnit u) => switch (u) {
         SpecificEnergyUnit.joulePerKilogram => EnergyUnit.joule,
         SpecificEnergyUnit.kilojoulePerKilogram => EnergyUnit.kilojoule,
-        SpecificEnergyUnit.wattHourPerKilogram => EnergyUnit.joule, // no EnergyUnit.wattHour
+        SpecificEnergyUnit.wattHourPerKilogram => EnergyUnit.wattHour,
         SpecificEnergyUnit.kilowattHourPerKilogram => EnergyUnit.kilowattHour,
       };
 }

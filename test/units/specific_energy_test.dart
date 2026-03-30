@@ -124,6 +124,12 @@ void main() {
         expect(se.value, closeTo(500.0, tolerance));
       });
 
+      test('SpecificEnergy.from: Wh + kg → Wh/kg', () {
+        final se = SpecificEnergy.from(const Energy(500, EnergyUnit.wattHour), 2.kg);
+        expect(se.unit, SpecificEnergyUnit.wattHourPerKilogram);
+        expect(se.value, closeTo(250.0, tolerance));
+      });
+
       test('SpecificEnergy.from: kWh + kg → kWh/kg', () {
         final se = SpecificEnergy.from(const Energy(3, EnergyUnit.kilowattHour), 10.kg);
         expect(se.unit, SpecificEnergyUnit.kilowattHourPerKilogram);
@@ -149,9 +155,10 @@ void main() {
         expect(energy.value, closeTo(3.0, tolerance));
       });
 
-      test('energyIn: Wh/kg × kg → J (SI fallback, no EnergyUnit.wattHour)', () {
+      test('energyIn: Wh/kg × kg → Wh', () {
         final energy = 100.whPerKg.energyIn(1.kg);
-        expect(energy.unit, EnergyUnit.joule);
+        expect(energy.unit, EnergyUnit.wattHour);
+        expect(energy.inWattHours, closeTo(100.0, tolerance));
         expect(energy.inJoules, closeTo(360000.0, tolerance));
       });
 

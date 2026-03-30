@@ -1,7 +1,6 @@
 import 'package:meta/meta.dart';
 
 import '../../../length.dart';
-import '../../core/linear_quantity.dart';
 import '../../core/quantity_format.dart';
 import '../../core/quantity_parser.dart';
 import '../acceleration/acceleration.dart';
@@ -16,7 +15,7 @@ import 'speed_unit.dart';
 /// Speed is a derived quantity representing the rate of change of position
 /// over time. The SI derived unit is Meter per Second (m/s).
 @immutable
-class Speed extends LinearQuantity<SpeedUnit, Speed> {
+final class Speed extends LinearQuantity<SpeedUnit, Speed> {
   /// Creates a new `Speed` with a given [value] and [unit].
   const Speed(super._value, super._unit);
 

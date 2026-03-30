@@ -54,6 +54,10 @@ class EnergyFactors {
   /// 1 kW × 1 h = 1000 J/s × 3600 s = 3,600,000 J.
   static const double joulesPerKilowattHour = 3600000.0;
 
+  /// Joules per Watt-hour (Wh): 1 Wh = 3600 J.
+  /// A common unit for battery capacity and small electrical energy budgets.
+  static const double joulesPerWattHour = 3600.0;
+
   /// Joules per Electronvolt (eV): 1 eV ≈ 1.602176634 × 10⁻¹⁹ J.
   /// This value is exact by the 2019 redefinition of SI base units, as it is
   /// derived from the elementary charge 'e'. It represents the kinetic energy

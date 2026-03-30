@@ -41,6 +41,11 @@ void main() {
         expect(eKwh.value, 1.2);
         expect(eKwh.unit, EnergyUnit.kilowattHour);
         expect(eKwh.inJoules, closeTo(1.2 * 3600000.0, 1e-9));
+
+        final eWh = 250.0.Wh;
+        expect(eWh.value, 250.0);
+        expect(eWh.unit, EnergyUnit.wattHour);
+        expect(eWh.inJoules, closeTo(250.0 * 3600.0, 1e-9));
       });
 
       test('getValue should return correct value for same unit', () {
@@ -54,9 +59,16 @@ void main() {
 
       test('1 Kilowatt-hour to other units', () {
         expect(oneKwh.inJoules, closeTo(3600000.0, strictTolerance));
+        expect(oneKwh.inWattHours, closeTo(1000.0, strictTolerance));
         expect(oneKwh.inKilojoules, closeTo(3600.0, strictTolerance));
         expect(oneKwh.inKilocalories, closeTo(3600000.0 / 4184.0, highTolerance)); // ~860.4 kcal
         expect(oneKwh.inBtu, closeTo(3600000.0 / 1055.05585262, highTolerance)); // ~3412 Btu
+      });
+
+      test('1 Watt-hour to other units', () {
+        final oneWh = 1.0.wattHours;
+        expect(oneWh.inJoules, closeTo(3600.0, strictTolerance));
+        expect(oneWh.inKilowattHours, closeTo(0.001, strictTolerance));
       });
 
       final oneKcal = 1.0.kilocalories; // 4184 Joules
@@ -138,6 +150,13 @@ void main() {
     });
 
     group('Practical Examples', () {
+      test('Energy.from preserves Wh for W × h', () {
+        final chargerRun = Energy.from(100.W, 2.hours);
+        expect(chargerRun.unit, EnergyUnit.wattHour);
+        expect(chargerRun.value, closeTo(200.0, strictTolerance));
+        expect(chargerRun.inJoules, closeTo(720000.0, strictTolerance));
+      });
+
       test('Nutritional energy calculation', () {
         // A snack bar has 150 kcal.
         final snackBar = 150.0.kcal;
@@ -162,6 +181,8 @@ void main() {
         expect(5.kilojoules.unit, EnergyUnit.kilojoule);
         expect(250.calories.unit, EnergyUnit.calorie);
         expect(1.kilocalories.unit, EnergyUnit.kilocalorie);
+        expect(1.Wh.unit, EnergyUnit.wattHour);
+        expect(1.wattHours.unit, EnergyUnit.wattHour);
         expect(1.kilowattHours.unit, EnergyUnit.kilowattHour);
         expect(1.electronvolts.unit, EnergyUnit.electronvolt);
         expect(1000.btu.unit, EnergyUnit.btu);
@@ -193,6 +214,10 @@ void main() {
           asKcalIt.value,
           closeTo(3600000.0 / 4186.8, 1e-9),
         ); // 1 kcal_IT = 4186.8 J
+
+        final asWh = e.asWattHours;
+        expect(asWh.unit, EnergyUnit.wattHour);
+        expect(asWh.value, closeTo(1000.0, 1e-9));
 
         final asKwh = e.asKilowattHours;
         expect(asKwh.unit, EnergyUnit.kilowattHour);

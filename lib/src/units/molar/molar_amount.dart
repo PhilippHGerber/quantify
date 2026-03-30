@@ -15,7 +15,7 @@ import 'molar_unit.dart';
 /// conversions between different units (e.g., moles, millimoles, kilomoles).
 /// It is fundamental in chemistry and related fields.
 @immutable
-class MolarAmount extends LinearQuantity<MolarUnit, MolarAmount> {
+final class MolarAmount extends LinearQuantity<MolarUnit, MolarAmount> {
   /// Creates a new `MolarAmount` quantity with the given numerical [value] and [unit].
   ///
   /// Example:

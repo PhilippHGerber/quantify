@@ -16,7 +16,7 @@ import 'density_unit.dart';
 /// Density is a physical quantity representing the mass per unit volume of a substance.
 /// The SI derived unit is Kilogram per Cubic Meter (kg/m³).
 @immutable
-class Density extends LinearQuantity<DensityUnit, Density> {
+final class Density extends LinearQuantity<DensityUnit, Density> {
   /// Creates a new `Density` with a given [value] and [unit].
   const Density(super._value, super._unit);
 

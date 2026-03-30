@@ -7,6 +7,7 @@ void main() {
       expect(Volume.parse('1 L').inLiters, 1.0);
       expect(Volume.parse('500 mL').inMilliliters, 500.0);
       expect(Volume.parse('1 gal').inGallons, 1.0);
+      expect(Volume.parse('1 gal(UK)').inImperialGallons, 1.0);
       expect(Volume.parse('2.5 m³').inCubicMeters, 2.5);
     });
 
@@ -14,6 +15,7 @@ void main() {
       expect(Volume.parse('1 LITER').unit, VolumeUnit.litre);
       expect(Volume.parse('1 Liters').unit, VolumeUnit.litre);
       expect(Volume.parse('5 GALLON').unit, VolumeUnit.gallon);
+      expect(Volume.parse('2 Imperial Gallons').unit, VolumeUnit.imperialGallon);
     });
 
     test('error handling', () {

@@ -14,7 +14,7 @@ import 'frequency_unit.dart';
 /// repeating event per unit of time. The SI derived unit is the Hertz (Hz),
 /// defined as one cycle per second (s⁻¹).
 @immutable
-class Frequency extends LinearQuantity<FrequencyUnit, Frequency> {
+final class Frequency extends LinearQuantity<FrequencyUnit, Frequency> {
   /// Creates a new `Frequency` with a given [value] and [unit].
   const Frequency(super._value, super._unit);
 

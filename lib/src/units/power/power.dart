@@ -5,6 +5,8 @@ import '../../core/linear_quantity.dart';
 import '../../core/quantity_format.dart';
 import '../../core/quantity_parse_exception.dart' show QuantityParseException;
 import '../../core/quantity_parser.dart';
+import '../angular_velocity/angular_velocity.dart';
+import '../angular_velocity/angular_velocity_unit.dart';
 import '../current/current.dart';
 import '../current/current_extensions.dart';
 import '../current/current_unit.dart';
@@ -16,6 +18,8 @@ import '../resistance/resistance_unit.dart';
 import '../time/time.dart';
 import '../time/time_extensions.dart';
 import '../time/time_unit.dart';
+import '../torque/torque.dart';
+import '../torque/torque_unit.dart';
 import '../voltage/voltage.dart';
 import '../voltage/voltage_unit.dart';
 import 'power_unit.dart';
@@ -27,7 +31,7 @@ import 'power_unit.dart';
 /// This class provides a type-safe way to handle power values and conversions
 /// between different units (e.g., watts, horsepower, Btu/h).
 @immutable
-class Power extends LinearQuantity<PowerUnit, Power> {
+final class Power extends LinearQuantity<PowerUnit, Power> {
   /// Creates a new `Power` quantity with the given numerical [value] and [unit].
   ///
   /// Example:
@@ -113,10 +117,28 @@ class Power extends LinearQuantity<PowerUnit, Power> {
     );
   }
 
+  /// Creates a [Power] from [Torque] and [AngularVelocity] (P = τ × ω).
+  ///
+  /// Both inputs are converted to SI base units (N·m and rad/s) before
+  /// multiplying. The result is returned in Watts.
+  ///
+  /// ```dart
+  /// final engineTorque = 400.Nm;
+  /// final engineSpeed = 3000.rpm;
+  /// final enginePower = Power.fromTorqueAndAngularVelocity(engineTorque, engineSpeed);
+  /// print(enginePower.inKilowatts); // ~125.6 kW
+  /// ```
+  factory Power.fromTorqueAndAngularVelocity(Torque torque, AngularVelocity velocity) {
+    final watts = torque.getValue(TorqueUnit.newtonMeter) *
+        velocity.getValue(AngularVelocityUnit.radianPerSecond);
+    return Power(watts, PowerUnit.watt);
+  }
+
   /// Maps an [EnergyUnit] × [TimeUnit] pair to its natural [PowerUnit].
   static PowerUnit? _correspondingPowerUnit(EnergyUnit e, TimeUnit t) => switch ((e, t)) {
         (EnergyUnit.joule, TimeUnit.second) => PowerUnit.watt,
         (EnergyUnit.kilojoule, TimeUnit.second) => PowerUnit.kilowatt,
+        (EnergyUnit.wattHour, TimeUnit.hour) => PowerUnit.watt,
         (EnergyUnit.kilowattHour, TimeUnit.hour) => PowerUnit.kilowatt,
         (EnergyUnit.btu, TimeUnit.hour) => PowerUnit.btuPerHour,
         _ => null,

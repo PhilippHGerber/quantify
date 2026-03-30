@@ -22,7 +22,7 @@ import 'resistance_unit.dart';
 /// This class provides a type-safe way to handle resistance values and
 /// conversions between different units (e.g., ohms, kiloohms, megaohms).
 @immutable
-class Resistance extends LinearQuantity<ResistanceUnit, Resistance> {
+final class Resistance extends LinearQuantity<ResistanceUnit, Resistance> {
   /// Creates a new `Resistance` quantity with the given numerical [value] and [unit].
   ///
   /// Example:

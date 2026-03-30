@@ -40,7 +40,7 @@ import 'temperature_delta_unit.dart';
 /// print(rise.inFahrenheitDelta); // 36.0
 /// ```
 @immutable
-class TemperatureDelta extends LinearQuantity<TemperatureDeltaUnit, TemperatureDelta> {
+final class TemperatureDelta extends LinearQuantity<TemperatureDeltaUnit, TemperatureDelta> {
   /// Creates a [TemperatureDelta] with the given [value] and [unit].
   ///
   /// Example:

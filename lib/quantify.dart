@@ -3,7 +3,10 @@
 library;
 
 // Exporting core classes for quantities and units
+export 'src/core/affine_quantity.dart';
+export 'src/core/inverse_quantity.dart';
 export 'src/core/linear_quantity.dart';
+export 'src/core/logarithmic_quantity.dart';
 export 'src/core/quantity.dart';
 export 'src/core/quantity_format.dart';
 export 'src/core/quantity_parse_exception.dart';
@@ -50,6 +53,10 @@ export 'src/units/frequency/frequency.dart';
 export 'src/units/frequency/frequency_extensions.dart';
 export 'src/units/frequency/frequency_interop.dart';
 export 'src/units/frequency/frequency_unit.dart';
+// Exporting units and their extensions for fuel consumption
+export 'src/units/fuel_consumption/fuel_consumption.dart';
+export 'src/units/fuel_consumption/fuel_consumption_extensions.dart';
+export 'src/units/fuel_consumption/fuel_consumption_unit.dart';
 // Exporting units and their extensions for information
 export 'src/units/information/information.dart';
 export 'src/units/information/information_extensions.dart';
@@ -58,6 +65,10 @@ export 'src/units/information/information_unit.dart';
 export 'src/units/length/length.dart';
 export 'src/units/length/length_extensions.dart';
 export 'src/units/length/length_unit.dart';
+// Exporting units and their extensions for level ratio
+export 'src/units/level_ratio/level_ratio.dart';
+export 'src/units/level_ratio/level_ratio_extensions.dart';
+export 'src/units/level_ratio/level_ratio_unit.dart';
 // Exporting units and their extensions for luminous intensity
 export 'src/units/luminous/luminous_intensity.dart';
 export 'src/units/luminous/luminous_intensity_extensions.dart';
@@ -74,6 +85,10 @@ export 'src/units/molar/molar_unit.dart';
 export 'src/units/power/power.dart';
 export 'src/units/power/power_extensions.dart';
 export 'src/units/power/power_unit.dart';
+// Exporting units and their extensions for power level
+export 'src/units/power_level/power_level.dart';
+export 'src/units/power_level/power_level_extensions.dart';
+export 'src/units/power_level/power_level_unit.dart';
 // Exporting units and their extensions for pressure
 export 'src/units/pressure/pressure.dart';
 export 'src/units/pressure/pressure_extensions.dart';
@@ -86,6 +101,10 @@ export 'src/units/resistance/resistance_unit.dart';
 export 'src/units/solid_angle/solid_angle.dart';
 export 'src/units/solid_angle/solid_angle_extensions.dart';
 export 'src/units/solid_angle/solid_angle_unit.dart';
+// Exporting units and their extensions for sound pressure level
+export 'src/units/sound_pressure_level/sound_pressure_level.dart';
+export 'src/units/sound_pressure_level/sound_pressure_level_extensions.dart';
+export 'src/units/sound_pressure_level/sound_pressure_level_unit.dart';
 // Exporting units and their extensions for specific energy
 export 'src/units/specific_energy/specific_energy.dart';
 export 'src/units/specific_energy/specific_energy_extensions.dart';
@@ -114,6 +133,10 @@ export 'src/units/torque/torque_unit.dart';
 export 'src/units/voltage/voltage.dart';
 export 'src/units/voltage/voltage_extensions.dart';
 export 'src/units/voltage/voltage_unit.dart';
+// Exporting units and their extensions for voltage level
+export 'src/units/voltage_level/voltage_level.dart';
+export 'src/units/voltage_level/voltage_level_extensions.dart';
+export 'src/units/voltage_level/voltage_level_unit.dart';
 // Exporting units and their extensions for volume
 export 'src/units/volume/volume.dart';
 export 'src/units/volume/volume_extensions.dart';

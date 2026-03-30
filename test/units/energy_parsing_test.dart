@@ -5,6 +5,7 @@ void main() {
   group('Energy Parsing', () {
     test('parses common energy units', () {
       expect(Energy.parse('100 J').inJoules, 100.0);
+      expect(Energy.parse('250 Wh').inWattHours, 250.0);
       expect(Energy.parse('5 kJ').inKilojoules, 5.0);
       expect(Energy.parse('200 kcal').inKilocalories, 200.0);
       expect(Energy.parse('1.5 kWh').inKilowattHours, 1.5);
@@ -14,6 +15,7 @@ void main() {
       expect(Energy.parse('100 JOULE').unit, EnergyUnit.joule);
       expect(Energy.parse('100 Joules').unit, EnergyUnit.joule);
       expect(Energy.parse('50 CALORIE').unit, EnergyUnit.calorie);
+      expect(Energy.parse('75 watt hours').unit, EnergyUnit.wattHour);
     });
 
     test('error handling', () {

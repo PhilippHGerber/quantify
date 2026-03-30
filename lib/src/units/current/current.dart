@@ -14,7 +14,7 @@ import 'current_unit.dart';
 /// This class provides a type-safe way to handle electric current values and
 /// conversions between different units (e.g., amperes, milliamperes, kiloamperes).
 @immutable
-class Current extends LinearQuantity<CurrentUnit, Current> {
+final class Current extends LinearQuantity<CurrentUnit, Current> {
   /// Creates a new `Current` quantity with the given numerical [value] and [unit].
   ///
   /// Example:

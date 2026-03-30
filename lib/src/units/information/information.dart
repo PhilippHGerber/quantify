@@ -24,7 +24,7 @@ import 'information_unit.dart';
 /// print(total.inGiB);            // ~1.3969838619232178
 /// ```
 @immutable
-class Information extends LinearQuantity<InformationUnit, Information> {
+final class Information extends LinearQuantity<InformationUnit, Information> {
   /// Creates a new [Information] quantity with the given numerical [value] and [unit].
   ///
   /// Example:

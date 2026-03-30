@@ -14,7 +14,7 @@ import 'angle_unit.dart';
 /// way to handle angle values and conversions between different units like
 /// degrees, radians, and revolutions.
 @immutable
-class Angle extends LinearQuantity<AngleUnit, Angle> {
+final class Angle extends LinearQuantity<AngleUnit, Angle> {
   /// Creates a new `Angle` quantity with the given numerical [value] and [unit].
   const Angle(super._value, super._unit);
 

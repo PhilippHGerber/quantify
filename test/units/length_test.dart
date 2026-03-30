@@ -638,8 +638,8 @@ void main() {
 
         // Raw double is ~5.55e-17.
         // A pure relative tolerance fails here because reference is 0.0.
-        // The absoluteTolerance fallback correctly evaluates this to true.
-        expect(driftResult.isEquivalentTo(0.m), isTrue);
+        expect(driftResult.isEquivalentTo(0.m), isFalse);
+        expect(driftResult.isEquivalentTo(0.m, absoluteTolerance: 1e-12), isTrue);
       });
 
       test('THE ZERO-DRIFT TRAP: fractional accumulation compared against exact zero', () {
@@ -649,7 +649,7 @@ void main() {
         // (1/3 * 3) - 1. Drift leaves ~ -1.11e-16
         final distanceTraveled = (thirdOfJourney * 3.0) - 1.km;
 
-        expect(distanceTraveled.isEquivalentTo(0.m), isTrue);
+        expect(distanceTraveled.isEquivalentTo(0.m, absoluteTolerance: 1e-12), isTrue);
       });
 
       test('astronomical numbers work perfectly with relative tolerance', () {
