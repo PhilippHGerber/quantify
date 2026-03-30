@@ -3,7 +3,7 @@
 [![platform](https://img.shields.io/badge/platform-flutter%20%7C%20dart-35B8F7.svg)](https://pub.dev/packages/quantify) [![pub package](https://img.shields.io/pub/v/quantify.svg?label=pub.dev&labelColor=333940&logo=flutter&color=00589B)](https://pub.dev/packages/quantify) [![pub points](https://img.shields.io/pub/points/quantify?logo=dart)](https://pub.dev/packages/quantify/score) [![license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/PhilippHGerber/quantify/blob/main/LICENSE) [![style: very good analysis](https://img.shields.io/badge/Style-very_good_analysis-B22C89.svg)](https://pub.dev/packages/very_good_analysis) [![tests](https://github.com/PhilippHGerber/quantify/actions/workflows/package.yaml/badge.svg)](https://github.com/PhilippHGerber/quantify/actions/workflows/package.yaml) [![coverage](https://raw.githubusercontent.com/PhilippHGerber/quantify/badges/coverage.svg)](https://github.com/PhilippHGerber/quantify/actions/workflows/package.yaml) [![AI Skills](https://img.shields.io/badge/AI-SKILL.md-blueviolet?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDI0IDI0IiBoZWlnaHQ9IjI0cHgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0cHgiIGZpbGw9IiNmZmZmZmYiPjxnPjxyZWN0IGZpbGw9Im5vbmUiIGhlaWdodD0iMjQiIHdpZHRoPSIyNCIgeD0iMCIvPjwvZz48Zz48Zz48cG9seWdvbiBwb2ludHM9IjE5LDkgMjAuMjUsNi4yNSAyMyw1IDIwLjI1LDMuNzUgMTksMSAxNy43NSwzLjc1IDE1LDUgMTcuNzUsNi4yNSIvPjxwb2x5Z29uIHBvaW50cz0iMTksMTUgMTcuNzUsMTcuNzUgMTUsMTkgMTcuNzUsMjAuMjUgMTksMjMgMjAuMjUsMjAuMjUgMjMsMTkgMjAuMjUsMTcuNzUiLz48cGF0aCBkPSJNMTEuNSw5LjVMOSw0TDYuNSw5LjVMMSwxMmw1LjUsMi41TDksMjBsMi41LTUuNUwxNywxMkwxMS41LDkuNXogTTkuOTksMTIuOTlMOSwxNS4xN2wtMC45OS0yLjE4TDUuODMsMTJsMi4xOC0wLjk5IEw5LDguODNsMC45OSwyLjE4TDEyLjE3LDEyTDkuOTksMTIuOTl6Ii8+PC9nPjwvZz48L3N2Zz4=&logoColor=white)](./skills/quantify-usage/SKILL.md)
 
 **Quantify** is a powerful and lightweight unit conversion library for Dart and Flutter.
-Easily convert between **length**, **mass**, **temperature**, **speed**, **energy**, **pressure**, **and 25+ physical units** with **type safety, high performance, and clean syntax**.
+Easily convert between **length**, **mass**, **temperature**, **speed**, **energy**, **pressure**, and **30+ quantity categories** with **type safety, high performance, and clean syntax**.
 
 Perfect for:
 
@@ -17,10 +17,11 @@ Perfect for:
 
 - **Type-safe unit conversion** - prevents invalid operations at compile-time
 - **Fast & lightweight** – minimal dependencies, optimized calculations
-- **25+ unit categories** – length, mass, time, temperature, energy, and more
+- **30+ quantity categories** – linear, affine, inverse, and logarithmic quantities in one API
 - **Intuitive syntax** – write 10.m, 5.kg, distance.inKm
 - **Automatic unit conversion** in arithmetic operations
 - **Locale-aware formatting & parsing** - built-in string parsing with locale handling and custom alias support.
+- **Non-linear quantity support** – includes logarithmic levels, affine offsets, and reciprocal units with safe operator boundaries
 - **Built-in scientific constants** (physics, astronomy, engineering)
 
 ## Quick Start
@@ -57,6 +58,10 @@ void main() {
   // Parsing
   final parsed = Length.parse('10.5 km');
   print(parsed.inM); // 10500.0
+
+  // Explicit-locale compact formatting
+  print(1500.m.toString(format: QuantityFormat.compactFor('en_US')));
+  // Output: "1.5K m" (locale-dependent compact notation)
 }
 ```
 
@@ -75,21 +80,75 @@ void main() {
 }
 ```
 
+For the new non-linear families, the granular entry points are especially useful in extension-heavy codebases:
+
+```dart
+import 'package:quantify/fuel_consumption.dart';
+import 'package:quantify/level_ratio.dart';
+import 'package:quantify/power_level.dart';
+import 'package:quantify/pressure.dart';
+import 'package:quantify/sound_pressure_level.dart';
+```
+
+### Non-Linear Quantities
+
+`quantify` now includes affine, inverse, and logarithmic quantity families with deliberately restricted arithmetic.
+
+```dart
+import 'package:quantify/quantify.dart';
+
+void main() {
+  final gain = 3.dB;
+  final transmitterPower = 100.mW;
+  final lineSignal = 1.V;
+
+  // Absolute logarithmic levels
+  final transmitter = 20.dBm + gain;     // 23 dBm
+  final lineLevel = 4.dBu.subtract(6.dB); // -2 dBu
+  final pathLoss = 20.dBm - (-80).dBm;    // 100 dB
+
+  // Linear <-> logarithmic bridges use an explicit logarithmic reference
+  final txLevel = transmitterPower.toPowerLevel(PowerLevelUnit.dBm); // 20 dBm
+  final signalLevel = lineSignal.toVoltageLevel(VoltageLevelUnit.dBV); // 0 dBV
+  final backToPower = 20.dBm.asPowerIn(PowerUnit.milliwatt); // 100 mW
+  final backToVoltage = 0.dBu.asVoltageIn(VoltageUnit.millivolt); // 774.596... mV
+
+  // Inverse quantities: convert safely, but no generic + / - arithmetic
+  final economy = 5.6.LPer100Km;
+  print(economy.inKmPerL);               // 17.857142857...
+  print(economy.inMpgUs);                // 42.0034896...
+  // Note: bare mpg defaults to US gallons; use mpg(UK) for imperial gallons.
+
+  // Logarithmic domain bridge: keep Pressure and SPL separate
+  final referencePressure = 20e-6.Pa;
+  final spl = referencePressure.toSoundPressureLevel(); // 0 dB SPL
+  final backToPressure = 120.dBSPL.toPressure();        // 20 Pa
+  print(txLevel.inDbm);
+  print(signalLevel.inDbV);
+  print(backToPower.value);
+  print(backToVoltage.value);
+  print(spl.inDbSpl);
+  print(backToPressure.inPa);
+}
+```
+
 ## Supported Units
 
 The library supports a comprehensive range of physical quantities, including all 7 SI base units and many derived units - ideal for scientific computing, engineering calculations, and any Flutter or Dart application requiring precise unit conversions:
 
 | Quantity Type           | Status | Units Available                                                                                                                                                        | Notes / SI Base Unit Ref.                                |
 | ----------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| *Linear — SI Base*      |        |                                                                                                                                                                        |                                                          |
 | **Length**              | ✅     | **`m`** (meter), `km`, `Mm`, `Gm`, `hm`, `dam`, `dm`, `cm`, `mm`, `μm`, `nm`, `pm`, `fm`, `in`, `ft`, `yd`, `mi`, `nmi`, `AU`, `ly`, `pc`, `Å`                         | SI Base: Meter (m)                                       |
 | **Mass**                | ✅     | **`kg`** (kilogram), `hg`, `dag`, `g`, `dg`, `cg`, `mg`, `μg`, `ng`, `Mg`, `Gg`, `t`, `lb`, `oz`, `st`, `slug`, `short ton`, `long ton`, `u`, `ct`                     | SI Base: Kilogram (kg)                                   |
 | **Time**                | ✅     | **`s`** (second), `μs`, `ns`, `ps`, `ms`, `cs`, `ds`, `das`, `hs`, `ks`, `Ms`, `Gs`, `min`, `h`, `d`, `wk`, `fn`, `mo`, `yr`, `dec`, `c`                               | SI Base: Second (s)                                      |
 | **Electric Current**    | ✅     | **`A`** (ampere), `mA`, `μA`, `nA`, `pA`, `fA`, `kA`, `MA`, `GA`, `statA`, `abA`                                                                                       | SI Base: Ampere (A)                                      |
-| **Temperature**         | ✅     | **`K`** (kelvin), `°C` (celsius), `°F` (fahrenheit), `°R` (rankine)                                                                                                    | SI Base: Kelvin (K). Affine conversions.                 |
-| **TemperatureDelta**    | ✅     | **`K`** (kelvinDelta), `°C` (celsiusDelta), `°F` (fahrenheitDelta), `°R` (rankineDelta)                                                                                | Linear. Represents a temperature *change*, not a point.  |
 | **Amount of Substance** | ✅     | **`mol`** (mole), `mmol`, `μmol`, `nmol`, `pmol`, `fmol`, `kmol`, `Mmol`, `lb-mol` (pound-mole)                                                                        | SI Base: Mole (mol)                                      |
 | **Luminous Intensity**  | ✅     | **`cd`** (candela), `mcd`, `μcd`, `kcd`, `Mcd`                                                                                                                         | SI Base: Candela (cd)                                    |
-| *Derived*               |        |                                                                                                                                                                        |                                                          |
+| *Affine — SI Base*      |        |                                                                                                                                                                        |                                                          |
+| **Temperature**         | ✅     | **`K`** (kelvin), `°C` (celsius), `°F` (fahrenheit), `°R` (rankine)                                                                                                    | SI Base: Kelvin (K). Affine conversions.                 |
+| *Linear — Derived*      |        |                                                                                                                                                                        |                                                          |
+| **TemperatureDelta**    | ✅     | **`K`** (kelvinDelta), `°C` (celsiusDelta), `°F` (fahrenheitDelta), `°R` (rankineDelta)                                                                                | Linear. Represents a temperature *change*, not a point.  |
 | **Angle**               | ✅     | **`rad`** (radian), `°` (degree), `grad`, `rev`, `arcmin` ('), `arcsec` ("), `mrad`                                                                                    | Derived SI: dimensionless                                |
 | **Angular Velocity**    | ✅     | **`rad/s`**, `°/s`, `rpm`, `rps`                                                                                                                                       | Derived SI: 1/s                                          |
 | **Speed / Velocity**    | ✅     | **`m/s`** (meter per second), `km/s`, `km/h`, `mph`, `kn` (knot), `ft/s`                                                                                               | Derived SI                                               |
@@ -97,11 +156,12 @@ The library supports a comprehensive range of physical quantities, including all
 | **Force**               | ✅     | **`N`** (Newton), `lbf`, `dyn`, `kgf`, `kN`, `MN`, `GN`, `mN`, `µN`, `nN`, `gf`, `pdl`                                                                                 | Derived SI: kg·m/s²                                      |
 | **Pressure**            | ✅     | **`Pa`** (Pascal), `atm`, `bar`, `psi`, `Torr`, `mmHg`, `inHg`, `kPa`, `hPa`, `GPa`, `MPa`, `mbar`, `µPa`, `cmH₂O`, `inH₂O`                                            | Derived SI: N/m²                                         |
 | **Area**                | ✅     | **`m²`**, `Mm²`, `km²`, `hm²`, `dam²`, `dm²`, `cm²`, `mm²`, `µm²`, `ha`, `mi²`, `acre`, `yd²`, `ft²`, `in²`                                                            | Derived SI                                               |
-| **Volume**              | ✅     | **`m³`**, `km³`, `hm³`, `dam³`, `dm³`, `cm³`, `mm³`, `mi³`; **`L`**, `kl`, `Ml`, `Gl`, `Tl`, `cl`, `mL`, `µL`; `gal`, `qt`, `pt`, `fl-oz`, `tbsp`, `tsp`, `ft³`, `in³` | Derived SI: L (Liter)                                    |
+| **Volume**              | ✅     | **`m³`**, `km³`, `hm³`, `dam³`, `dm³`, `cm³`, `mm³`, `mi³`; **`L`**, `kl`, `Ml`, `Gl`, `Tl`, `cl`, `mL`, `µL`; `gal`, `gal(UK)`, `qt`, `pt`, `fl-oz`, `tbsp`, `tsp`, `ft³`, `in³` | Derived SI: L (Liter)                                    |
 | **Frequency**           | ✅     | **`Hz`**, `kHz`, `MHz`, `GHz`, `THz`, `mHz`, `rpm`, `bpm`, `rad/s`, `°/s`                                                                                              | Derived SI: 1/s                                          |
 | **Electric Charge**     | ✅     | **`C`**, `kC`, `mC`, `µC`, `nC`, `pC`, `Ah`, `e`, `mAh`, `statC`, `Fr`, `abC`                                                                                          | Derived SI: A·s                                          |
 | **Solid Angle**         | ✅     | **`sr`**, `deg²` (Square Degree), `sp` (Spat)                                                                                                                          | Derived SI: dimensionless                                |
-| **Energy / Work**       | ✅     | **`J`** (Joule), `kJ`, `MJ`, `GJ`, `TJ`, `kWh`, `mJ`, `µJ`, `cal`, `kcal`, `eV`, `Btu`                                                                                 | Derived SI: N·m                                          |
+| **Energy / Work**       | ✅     | **`J`** (Joule), `mJ`, `µJ`, `kJ`, `MJ`, `GJ`, `TJ`, `Wh`, `kWh`, `cal`, `kcal`, `eV`, `Btu`                                                                           | Derived SI: N·m                                          |
+| **LevelRatio**          | ✅     | **`dB`** (decibel), `Np`                                                                                                                                                | Relative gain/attenuation. Linear quantity.              |
 | **Torque**              | ✅     | **`N·m`** (newton-meter), `mN·m`, `kN·m`, `MN·m`, `lbf·ft`, `lbf·in`, `kgf·m`, `ozf·in`, `dyn·cm`                                                                      | Derived SI: N·m. Dimensionally = Energy but type-distinct. |
 | **Power**               | ✅     | **`W`** (Watt), `mW`, `kW`, `MW`, `GW`, `TW`, `μW`, `nW`, `hp`, `PS` (metric hp), `Btu/h`, `erg/s`                                                                     | Derived SI: J/s                                          |
 | **Density**             | ✅     | **`kg/m³`** (kilogram per cubic meter), `g/cm³`, `g/mL`                                                                                                                | Derived SI: kg/m³                                        |
@@ -109,6 +169,12 @@ The library supports a comprehensive range of physical quantities, including all
 | **Information**         | ✅     | **`bit`**, `B` (byte); SI bits: `kbit`…`Ybit`; SI bytes: `kB`…`YB`; IEC binary: `KiB`…`YiB`                                                                            | IEC 80000-13. Three tracks: SI bit, SI byte, IEC binary. |
 | **Voltage**             | ✅     | **`V`** (volt), `nV`, `µV`, `mV`, `kV`, `MV`, `GV`, `statV`, `abV`                                                                                                     | Derived SI: W/A. Also: `ElectricPotential` type alias.   |
 | **Resistance**          | ✅     | **`Ω`** (ohm), `nΩ`, `µΩ`, `mΩ`, `kΩ`, `MΩ`, `GΩ`                                                                                                                      | Derived SI: V/A                                          |
+| *Logarithmic — Derived* |        |                                                                                                                                                                        |                                                          |
+| **PowerLevel**          | ✅     | **`dBm`**, `dBW`                                                                                                                                                        | Absolute logarithmic power level. Valid with `LevelRatio`. |
+| **SoundPressureLevel**  | ✅     | **`dB SPL`**                                                                                                                                                             | Logarithmic level bridged to `Pressure` via 20 µPa.      |
+| **VoltageLevel**        | ✅     | **`dBV`**, `dBu`                                                                                                                                                        | Absolute logarithmic voltage level. Valid with `LevelRatio`. |
+| *Inverse — Derived*     |        |                                                                                                                                                                        |                                                          |
+| **FuelConsumption**     | ✅     | **`L/100km`**, `km/L`, `mpg(US)`, `mpg(UK)`                                                                                                                             | Inverse quantity. No generic arithmetic operators.       |
 
 ## Detailed Usage
 
@@ -234,6 +300,16 @@ final dist = Length.parse('10.5 km');
 final weight = Mass.tryParse('180 lbs'); // Returns null if parsing fails
 ```
 
+The same parsing model applies to the new non-linear types:
+
+```dart
+final gain = LevelRatio.parse('3 dB');
+final power = PowerLevel.parse('20 dBm');
+final voltage = VoltageLevel.parse('4 dBu');
+final economy = FuelConsumption.parse('42 mpg');     // defaults to mpg(US)
+final spl = SoundPressureLevel.parse('94 dB SPL');
+```
+
 **Case Sensitivity & SI Prefixes:**
 To prevent collisions, SI unit prefixes are **strictly case-sensitive** (`10 mm` parses as millimeters, `10 Mm` parses as megameters). However, Non-SI and Imperial units (like `lb`, `ft`, `mi`) are **case-insensitive** (`180 LBS` and `180 lbs` both work perfectly).
 
@@ -254,6 +330,8 @@ final weight = Mass.parse('1,234 kg', formats: [QuantityFormat.enUs, QuantityFor
 final format = NumberFormat.decimalPattern('de_DE');
 final length2 = Length.parse('1.234,56 km', formats: [QuantityFormat.withNumberFormat(format)]);
 ```
+
+API note: `QuantityFormat.withNumberFormat(...)` compares the wrapped `NumberFormat` by identity, not by formatter contents. Reusing the same `NumberFormat` instance produces equal `QuantityFormat`s; creating two separate `NumberFormat`s with the same locale/pattern does not.
 
 *(Note: Compound imperial units like `6'2"` are not natively supported by a single `.parse()` call. They should be parsed and added individually: `Length.parse("6'") + Length.parse("2\"")`)*
 
@@ -453,7 +531,7 @@ print(oneKm >= thousandMeters);  // true
 
 There are two types of equality checks available:
 
-1. **Magnitude Equality (`isEquivalentTo`)**: Checks if two quantities represent the **same physical amount**, with IEEE 754-safe relative tolerance.
+1. **Magnitude Equality (`isEquivalentTo`)**: Checks if two quantities represent the **same physical amount**, with IEEE 754-safe relative tolerance by default.
 2. **Strict Equality (`==`)**: Checks if two quantities have the **exact same value AND unit**.
 
 ```dart
@@ -472,7 +550,7 @@ This distinction is crucial when working with collections like `Set`s or `Map`s,
 
 #### IEEE 754-Safe Comparisons
 
-`isEquivalentTo` uses a **relative tolerance** (default `1e-9`) that scales with the magnitude of the values. This means it is equally reliable across the full numeric range — from subatomic particles to astronomical distances — without any manual tuning:
+`isEquivalentTo` uses a **relative tolerance** (default `1e-9`) that scales with the magnitude of the values. This keeps the default comparison symmetric across unit choices and makes it reliable across the full numeric range — from subatomic particles to astronomical distances — without any manual tuning:
 
 ```dart
 // Floating-point arithmetic that would fail strict equality:
@@ -485,7 +563,12 @@ This distinction is crucial when working with collections like `Set`s or `Map`s,
 a.isEquivalentTo(b, tolerance: 1e-12);   // stricter
 a.isEquivalentTo(b, tolerance: 1e-6);    // looser (e.g. sensor measurements)
 
-// Comparison is always symmetric — a.isEquivalentTo(b) == b.isEquivalentTo(a):
+// Near zero, opt in to an absolute tolerance in the left-hand unit when needed:
+final drift = 0.1.m + 0.2.m - 0.3.m;
+drift.isEquivalentTo(0.m);                          // false
+drift.isEquivalentTo(0.m, absoluteTolerance: 1e-12); // true
+
+// Default comparison is symmetric — a.isEquivalentTo(b) == b.isEquivalentTo(a):
 0.0.m.isEquivalentTo(1e-10.m);           // false — relative tolerance collapses to 0 near zero
 0.0.m.isEquivalentTo(0.0.km);            // true  — both are exactly zero
 

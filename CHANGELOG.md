@@ -5,6 +5,38 @@ All notable changes to the `quantify` package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.20.0]
+
+2026-03-30
+
+### Added
+
+* Added non-linear quantity families: `LevelRatio`, `PowerLevel`, `VoltageLevel`, `SoundPressureLevel`, and `FuelConsumption`.
+* Added logarithmic bridge APIs for `Pressure <-> SoundPressureLevel`, `Power <-> PowerLevel`, and `Voltage <-> VoltageLevel`.
+* Added granular entry points for the new families: `level_ratio.dart`, `power_level.dart`, `voltage_level.dart`, `fuel_consumption.dart`, and `sound_pressure_level.dart`.
+* Added analyzer fixtures and validation tests for invalid arithmetic, barrel exports, and granular import safety.
+* Added first-class `Wh` energy support, including `EnergyUnit.wattHour`, `num.Wh`, `num.wattHours`, parsing aliases, and unit-preserving `Wh <-> Wh/kg` interop.
+* Added `QuantityFormat.compactFor(String locale)` for deterministic compact formatting with an explicit locale, especially useful in multi-isolate code.
+
+### Changed — Breaking
+
+* `Quantity` is now a sealed base class; custom quantities must extend the paradigm-specific base that matches their math model: `LinearQuantity`, `AffineQuantity`, `InverseQuantity`, or `LogarithmicQuantity`.
+* Arithmetic is no longer shared at the generic quantity level. Operator availability is now constrained by quantity paradigm.
+* Absolute logarithmic levels support only physically valid operations such as `absolute + LevelRatio`, `absolute - absolute -> LevelRatio`, and `absolute.subtract(LevelRatio)`.
+* Inverse quantities such as `FuelConsumption` intentionally do not expose generic `+` and `-`.
+
+### Changed
+
+* `Quantity.isEquivalentTo()` now defaults to symmetric relative-only comparison. Near zero, pass `absoluteTolerance` explicitly when needed.
+* Reciprocal conversions route through a canonical inverse space, preserving IEEE 754 behavior for zero and infinity.
+* Fuel-consumption parsing and aliases now document explicitly that bare `mpg` defaults to US gallons; use `mpg(UK)` for imperial gallons.
+* `PowerLevel` and `VoltageLevel` now apply `LevelRatio` offsets directly in their current logarithmic unit, avoiding intermediate conversion objects while preserving the same results.
+* Public docs and examples now cover explicit logarithmic bridge usage, granular imports, and non-linear quantity semantics.
+
+### Migration Guide
+
+* When comparing near zero, pass an `absoluteTolerance` explicitly, for example `(0.1.m + 0.2.m - 0.3.m).isEquivalentTo(0.m, absoluteTolerance: 1e-12)`.
+
 ## [0.18.1]
 
 2026-03-27

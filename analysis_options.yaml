@@ -9,6 +9,7 @@ analyzer:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
     - "test/.test_coverage.dart"
+    - "test/validation/fixtures/**"
     - "bin/cache/**"
     - "lib/generated_plugin_registrant.dart"
 
