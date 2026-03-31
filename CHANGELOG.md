@@ -5,9 +5,15 @@ All notable changes to the `quantify` package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.20.1]
+
+### Fixed
+
+* Relaxed the `meta` dependency constraint from `^1.18.2` to `^1.17.0` to restore compatibility with Flutter projects where `flutter_test` pins `meta` to `1.17.0`.
+
 ## [0.20.0]
 
-2026-03-30
+no release yet
 
 ### Added
 
