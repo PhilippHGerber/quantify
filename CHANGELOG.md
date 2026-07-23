@@ -5,6 +5,12 @@ All notable changes to the `quantify` package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+* Added `EnergyDensity`, a new linear quantity for energy per unit volume (dimensionally equivalent to `Pressure`), supporting `J/m³`, `J/L`, and `Wh/L`, with `EnergyDensity.from(Energy, Volume)`, `energyOf(Volume)`, and `volumeFor(Energy)` dimensional-analysis helpers, plus a granular `energy_density.dart` entry point.
+
 ## [0.20.1]
 
 ### Fixed

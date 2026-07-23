@@ -165,6 +165,7 @@ The library supports a comprehensive range of physical quantities, including all
 | **Torque**              | ✅     | **`N·m`** (newton-meter), `mN·m`, `kN·m`, `MN·m`, `lbf·ft`, `lbf·in`, `kgf·m`, `ozf·in`, `dyn·cm`                                                                      | Derived SI: N·m. Dimensionally = Energy but type-distinct. |
 | **Power**               | ✅     | **`W`** (Watt), `mW`, `kW`, `MW`, `GW`, `TW`, `μW`, `nW`, `hp`, `PS` (metric hp), `Btu/h`, `erg/s`                                                                     | Derived SI: J/s                                          |
 | **Density**             | ✅     | **`kg/m³`** (kilogram per cubic meter), `g/cm³`, `g/mL`                                                                                                                | Derived SI: kg/m³                                        |
+| **Energy Density**      | ✅     | **`J/m³`** (joule per cubic meter), `J/L`, `Wh/L`                                                                                                                      | Derived SI: J/m³. Dimensionally = Pressure but type-distinct. |
 | **Specific Energy**     | ✅     | **`J/kg`** (joule per kilogram), `kJ/kg`, `Wh/kg`, `kWh/kg`                                                                                                            | Derived SI: J/kg                                         |
 | **Information**         | ✅     | **`bit`**, `B` (byte); SI bits: `kbit`…`Ybit`; SI bytes: `kB`…`YB`; IEC binary: `KiB`…`YiB`                                                                            | IEC 80000-13. Three tracks: SI bit, SI byte, IEC binary. |
 | **Voltage**             | ✅     | **`V`** (volt), `nV`, `µV`, `mV`, `kV`, `MV`, `GV`, `statV`, `abV`                                                                                                     | Derived SI: W/A. Also: `ElectricPotential` type alias.   |
@@ -419,6 +420,10 @@ final angle = av.totalAngleOver(2.minutes);                   // 2.0 revolutions
 // Density = Mass / Volume  ↔  mass/volume retrieval
 final density = Density.from(13.5.g, 1.0.cm3);  // 13.5 g/cm³ ← result in g/cm³
 final mass    = density.massOf(10.cm3);           // 135.0 g    ← result in g
+
+// EnergyDensity = Energy / Volume  ↔  energy/volume retrieval
+final energyDensity = EnergyDensity.from(2.Wh, 1.0.L); // 2.0 Wh/L ← result in Wh/L
+final storedEnergy  = energyDensity.energyOf(5.L);     // 10.0 Wh  ← result in Wh
 
 // SpecificEnergy = Energy / Mass  ↔  energy retrieval
 final specific = SpecificEnergy.from(1.kJ, 0.5.kg); // 2.0 kJ/kg ← result in kJ/kg
