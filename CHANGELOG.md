@@ -5,6 +5,13 @@ All notable changes to the `quantify` package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+* Added the `VolumetricFlowRate` linear quantity (`m³/s`, `m³/min`, `m³/h`, `L/s`, `L/min`, `L/h`, `mL/min`, `ft³/s`, `ft³/min`, `gal/min`, `gal/h`), with `VolumetricFlowRate.from(Volume, Time)`, `volumeOver(Time)`, and `timeFor(Volume)` dimensional-analysis bridges.
+* Added a granular entry point for the new family: `volumetric_flow_rate.dart`.
+
 ## [0.20.1]
 
 ### Fixed
