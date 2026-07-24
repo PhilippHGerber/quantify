@@ -108,6 +108,10 @@ enum MolarUnit implements LinearUnit<MolarUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [mole], the SI base unit for amount of substance.
+  @override
+  bool get isSI => this == MolarUnit.mole;
+
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   // These are calculated once in the const constructor for performance.
 

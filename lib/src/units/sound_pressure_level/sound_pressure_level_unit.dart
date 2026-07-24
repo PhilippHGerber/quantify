@@ -14,6 +14,11 @@ enum SoundPressureLevelUnit implements Unit<SoundPressureLevelUnit> {
   @override
   final String symbol;
 
+  /// Logarithmic decibel-based sound pressure levels are not SI units, so
+  /// this always returns `false`.
+  @override
+  bool get isSI => false;
+
   /// Unit symbols matched strictly case-sensitive.
   @internal
   static const Map<String, SoundPressureLevelUnit> symbolAliases = {

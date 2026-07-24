@@ -125,6 +125,10 @@ enum VolumeUnit implements LinearUnit<VolumeUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [cubicMeter], the SI derived unit of volume.
+  @override
+  bool get isSI => this == VolumeUnit.cubicMeter;
+
   // --- Pre-calculated direct conversion factors ---
   final double _factorToCubicMeter;
   final double _factorToCubicDecameter;

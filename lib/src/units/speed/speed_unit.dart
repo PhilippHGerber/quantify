@@ -51,6 +51,10 @@ enum SpeedUnit implements LinearUnit<SpeedUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [meterPerSecond], the SI derived unit of speed.
+  @override
+  bool get isSI => this == SpeedUnit.meterPerSecond;
+
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToMeterPerSecond;
   final double _factorToKilometerPerSecond;

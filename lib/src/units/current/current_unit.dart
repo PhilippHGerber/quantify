@@ -80,6 +80,10 @@ enum CurrentUnit implements LinearUnit<CurrentUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [ampere], the SI base unit of electric current.
+  @override
+  bool get isSI => this == CurrentUnit.ampere;
+
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToAmpere;
   final double _factorToMilliampere;

@@ -65,6 +65,10 @@ enum AngularVelocityUnit implements LinearUnit<AngularVelocityUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [radianPerSecond], the SI derived unit of angular velocity.
+  @override
+  bool get isSI => this == AngularVelocityUnit.radianPerSecond;
+
   // --- Pre-calculated direct conversion factors ---
   final double _factorToRadianPerSecond;
   final double _factorToDegreePerSecond;

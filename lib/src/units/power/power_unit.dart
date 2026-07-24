@@ -74,6 +74,10 @@ enum PowerUnit implements LinearUnit<PowerUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [watt], the SI derived unit of power.
+  @override
+  bool get isSI => this == PowerUnit.watt;
+
   // --- Pre-calculated direct conversion factors ---
   final double _factorToWatt;
   final double _factorToNanowatt;

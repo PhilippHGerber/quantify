@@ -69,6 +69,10 @@ enum ElectricChargeUnit implements LinearUnit<ElectricChargeUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [coulomb], the SI derived unit of electric charge.
+  @override
+  bool get isSI => this == ElectricChargeUnit.coulomb;
+
   // --- Pre-calculated direct conversion factors ---
   final double _factorToCoulomb;
   final double _factorToKilocoulomb;

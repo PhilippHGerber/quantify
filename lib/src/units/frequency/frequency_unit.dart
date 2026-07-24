@@ -60,6 +60,10 @@ enum FrequencyUnit implements LinearUnit<FrequencyUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [hertz], the SI derived unit of frequency.
+  @override
+  bool get isSI => this == FrequencyUnit.hertz;
+
   // --- Pre-calculated direct conversion factors ---
   final double _factorToHertz;
   final double _factorToTerahertz;

@@ -119,6 +119,10 @@ enum LengthUnit implements LinearUnit<LengthUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [meter], the SI base unit of length.
+  @override
+  bool get isSI => this == LengthUnit.meter;
+
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToMeter;
   final double _factorToKilometer;

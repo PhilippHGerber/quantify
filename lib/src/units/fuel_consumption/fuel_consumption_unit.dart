@@ -26,6 +26,11 @@ enum FuelConsumptionUnit implements Unit<FuelConsumptionUnit> {
   @override
   final String symbol;
 
+  /// None of these fuel-economy units are part of the SI, so this always
+  /// returns `false`.
+  @override
+  bool get isSI => false;
+
   /// Unit symbols matched strictly case-sensitive.
   ///
   /// Note: The unqualified abbreviation `mpg` defaults to US gallons.

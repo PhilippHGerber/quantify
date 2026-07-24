@@ -117,6 +117,10 @@ enum MassUnit implements LinearUnit<MassUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [kilogram], the SI base unit of mass.
+  @override
+  bool get isSI => this == MassUnit.kilogram;
+
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToKilogram;
   final double _factorToHectogram;

@@ -27,6 +27,10 @@ enum TemperatureUnit implements Unit<TemperatureUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [kelvin], the SI base unit of thermodynamic temperature.
+  @override
+  bool get isSI => this == TemperatureUnit.kelvin;
+
   /// SI and unit symbols matched **strictly case-sensitive**.
   static const Map<String, TemperatureUnit> symbolAliases = {
     '°C': celsius,

@@ -67,6 +67,10 @@ enum VoltageUnit implements LinearUnit<VoltageUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [volt], the SI derived unit of electric potential.
+  @override
+  bool get isSI => this == VoltageUnit.volt;
+
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToVolt;
   final double _factorToNanovolt;

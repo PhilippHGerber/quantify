@@ -147,6 +147,11 @@ enum InformationUnit implements LinearUnit<InformationUnit> {
   @override
   final String symbol;
 
+  /// The SI does not define a unit for digital information, so this always
+  /// returns `false`, even for units that use SI decimal prefixes (e.g. [kilobit]).
+  @override
+  bool get isSI => false;
+
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToBit;
   final double _factorToByte;
