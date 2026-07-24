@@ -92,6 +92,10 @@ enum LuminousIntensityUnit implements LinearUnit<LuminousIntensityUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [candela], the SI base unit of luminous intensity.
+  @override
+  bool get isSI => this == LuminousIntensityUnit.candela;
+
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToCandela;
   final double _factorToMillicandela;

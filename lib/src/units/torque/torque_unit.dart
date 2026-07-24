@@ -68,6 +68,10 @@ enum TorqueUnit implements LinearUnit<TorqueUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [newtonMeter], the SI derived unit of torque.
+  @override
+  bool get isSI => this == TorqueUnit.newtonMeter;
+
   // --- Pre-calculated direct conversion factors ---
   final double _factorToNewtonMeter;
   final double _factorToMillinewtonMeter;

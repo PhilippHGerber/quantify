@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Added `EnergyDensity`, a new linear quantity for energy per unit volume (dimensionally equivalent to `Pressure`), supporting `J/m³`, `J/L`, and `Wh/L`, with `EnergyDensity.from(Energy, Volume)`, `energyOf(Volume)`, and `volumeFor(Energy)` dimensional-analysis helpers, plus a granular `energy_density.dart` entry point.
 * Added the `VolumetricFlowRate` linear quantity (`m³/s`, `m³/min`, `m³/h`, `L/s`, `L/min`, `L/h`, `mL/min`, `ft³/s`, `ft³/min`, `gal/min`, `gal/h`), with `VolumetricFlowRate.from(Volume, Time)`, `volumeOver(Time)`, and `timeFor(Volume)` dimensional-analysis bridges.
 * Added a granular entry point for the new family: `volumetric_flow_rate.dart`.
+* Added `Unit.isSI`, returning `true` only for the actual SI unit of each quantity family (e.g. `LengthUnit.meter`, `MassUnit.kilogram`, `TimeUnit.second`). Logarithmic and non-SI-only families (`LevelRatio`, `PowerLevel`, `VoltageLevel`, `SoundPressureLevel`, `FuelConsumption`, `Information`) always return `false`.
 
 ## [0.20.1]
 

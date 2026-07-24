@@ -23,6 +23,11 @@ enum LevelRatioUnit implements LinearUnit<LevelRatioUnit> {
   @override
   final String symbol;
 
+  /// The decibel and neper are non-SI units accepted for use with the SI,
+  /// but neither is itself an SI unit, so this always returns `false`.
+  @override
+  bool get isSI => false;
+
   final double _factorToDecibel;
   final double _factorToNeper;
 

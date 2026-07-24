@@ -68,6 +68,10 @@ enum ForceUnit implements LinearUnit<ForceUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [newton], the SI derived unit of force.
+  @override
+  bool get isSI => this == ForceUnit.newton;
+
   // --- Pre-calculated direct conversion factors ---
   final double _factorToNewton;
   final double _factorToNanonewton;

@@ -80,6 +80,10 @@ enum AreaUnit implements LinearUnit<AreaUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [squareMeter], the SI derived unit of area.
+  @override
+  bool get isSI => this == AreaUnit.squareMeter;
+
   // --- Pre-calculated direct conversion factors ---
   final double _factorToSquareMeter;
   final double _factorToSquareDecimeter;

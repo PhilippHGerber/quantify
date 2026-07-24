@@ -76,6 +76,10 @@ enum TemperatureDeltaUnit implements LinearUnit<TemperatureDeltaUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [kelvinDelta], based on the SI base unit Kelvin.
+  @override
+  bool get isSI => this == TemperatureDeltaUnit.kelvinDelta;
+
   // --- Pre-calculated direct conversion factors ---
   final double _factorToKelvinDelta;
   final double _factorToCelsiusDelta;

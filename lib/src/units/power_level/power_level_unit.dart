@@ -20,6 +20,11 @@ enum PowerLevelUnit implements Unit<PowerLevelUnit> {
   @override
   final String symbol;
 
+  /// Logarithmic decibel-based power levels are not SI units, so this
+  /// always returns `false`.
+  @override
+  bool get isSI => false;
+
   /// Unit symbols matched strictly case-sensitive.
   @internal
   static const Map<String, PowerLevelUnit> symbolAliases = {

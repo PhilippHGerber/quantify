@@ -95,6 +95,10 @@ enum EnergyUnit implements LinearUnit<EnergyUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [joule], the SI derived unit of energy.
+  @override
+  bool get isSI => this == EnergyUnit.joule;
+
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToJoule;
   final double _factorToMillijoule;

@@ -12,6 +12,10 @@ abstract class Unit<T extends Unit<T>> {
 
   /// A human-readable symbol or abbreviation for the unit.
   String get symbol;
+
+  /// Returns `true` if this unit is part of the International System of Units (SI).
+  /// if the unit is SI derived, this will return `true` only for the base unit of that dimension.
+  bool get isSI;
 }
 
 /// A contract for units that scale linearly (via a simple multiplier).

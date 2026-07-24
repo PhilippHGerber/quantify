@@ -91,6 +91,10 @@ enum PressureUnit implements LinearUnit<PressureUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [pascal], the SI derived unit of pressure.
+  @override
+  bool get isSI => this == PressureUnit.pascal;
+
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToPascal;
   final double _factorToMicropascal;
