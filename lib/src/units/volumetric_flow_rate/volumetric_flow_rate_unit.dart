@@ -70,6 +70,10 @@ enum VolumetricFlowRateUnit implements LinearUnit<VolumetricFlowRateUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [cubicMeterPerSecond], the SI derived unit of volumetric flow rate.
+  @override
+  bool get isSI => this == VolumetricFlowRateUnit.cubicMeterPerSecond;
+
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToCubicMeterPerSecond;
   final double _factorToCubicMeterPerMinute;
