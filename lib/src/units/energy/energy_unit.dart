@@ -99,6 +99,15 @@ enum EnergyUnit implements LinearUnit<EnergyUnit> {
   @override
   bool get isSI => this == EnergyUnit.joule;
 
+  /// Returns `false` for the physics-constant [electronvolt] and the
+  /// imperial [btu]; `true` for all decimal metric units (including
+  /// [calorie] and [wattHour] families).
+  @override
+  bool get isMetric => switch (this) {
+    EnergyUnit.electronvolt || EnergyUnit.btu => false,
+    _ => true,
+  };
+
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToJoule;
   final double _factorToMillijoule;

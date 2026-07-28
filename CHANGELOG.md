@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 * Added `Unit.isSI`, returning `true` only for the actual SI unit of each quantity family (e.g. `LengthUnit.meter`, `MassUnit.kilogram`, `TimeUnit.second`). Logarithmic and non-SI-only families (`LevelRatio`, `PowerLevel`, `VoltageLevel`, `SoundPressureLevel`, `FuelConsumption`, `Information`) always return `false`.
+* Added `Unit.isMetric`, returning `true` for units that are part of the metric system (including non-SI metric units like `LengthUnit.kilometer`, `MassUnit.tonne`, `VolumeUnit.litre`, and `TemperatureUnit.celsius`), and `false` for imperial/US customary, nautical, astronomical, CGS, and other non-metric units. Purely logarithmic ratio families (`LevelRatio`, `PowerLevel`, `VoltageLevel`, `SoundPressureLevel`) always return `false`.
 
 ## [0.20.1]
 

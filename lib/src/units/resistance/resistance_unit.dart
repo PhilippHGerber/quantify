@@ -63,6 +63,11 @@ enum ResistanceUnit implements LinearUnit<ResistanceUnit> {
   @override
   bool get isSI => this == ResistanceUnit.ohm;
 
+  /// Returns `true` for all units, since every `ResistanceUnit` member is a
+  /// decimal metric (SI-prefixed) unit.
+  @override
+  bool get isMetric => true;
+
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToOhm;
   final double _factorToNanoohm;

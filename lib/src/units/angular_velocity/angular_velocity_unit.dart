@@ -69,6 +69,12 @@ enum AngularVelocityUnit implements LinearUnit<AngularVelocityUnit> {
   @override
   bool get isSI => this == AngularVelocityUnit.radianPerSecond;
 
+  /// Returns `true` only for [radianPerSecond]; `false` for [degreePerSecond],
+  /// [revolutionPerMinute], and [revolutionPerSecond], which are not decimal
+  /// metric units.
+  @override
+  bool get isMetric => this == AngularVelocityUnit.radianPerSecond;
+
   // --- Pre-calculated direct conversion factors ---
   final double _factorToRadianPerSecond;
   final double _factorToDegreePerSecond;

@@ -31,6 +31,11 @@ enum TemperatureUnit implements Unit<TemperatureUnit> {
   @override
   bool get isSI => this == TemperatureUnit.kelvin;
 
+  /// Returns `true` only for [celsius] and [kelvin], the metric temperature
+  /// scales; `false` for [fahrenheit] and [rankine].
+  @override
+  bool get isMetric => this == TemperatureUnit.celsius || this == TemperatureUnit.kelvin;
+
   /// SI and unit symbols matched **strictly case-sensitive**.
   static const Map<String, TemperatureUnit> symbolAliases = {
     '°C': celsius,

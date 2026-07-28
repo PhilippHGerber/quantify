@@ -22,6 +22,11 @@ enum VoltageLevelUnit implements Unit<VoltageLevelUnit> {
   @override
   bool get isSI => false;
 
+  /// Returns `false` for all units, since logarithmic ratio units are not
+  /// tied to any unit system.
+  @override
+  bool get isMetric => false;
+
   /// Unit symbols matched strictly case-sensitive.
   @internal
   static const Map<String, VoltageLevelUnit> symbolAliases = {

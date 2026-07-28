@@ -112,6 +112,11 @@ enum MolarUnit implements LinearUnit<MolarUnit> {
   @override
   bool get isSI => this == MolarUnit.mole;
 
+  /// Returns `false` only for the imperial [poundMole]; `true` for all
+  /// decimal metric units.
+  @override
+  bool get isMetric => this != MolarUnit.poundMole;
+
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   // These are calculated once in the const constructor for performance.
 
