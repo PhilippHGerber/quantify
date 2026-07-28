@@ -74,6 +74,18 @@ enum VolumetricFlowRateUnit implements LinearUnit<VolumetricFlowRateUnit> {
   @override
   bool get isSI => this == VolumetricFlowRateUnit.cubicMeterPerSecond;
 
+  /// Returns `false` for the imperial/US customary [cubicFootPerSecond],
+  /// [cubicFootPerMinute], [gallonPerMinute], and [gallonPerHour]; `true`
+  /// for all decimal metric cubic-meter- and liter-based units.
+  @override
+  bool get isMetric => switch (this) {
+    VolumetricFlowRateUnit.cubicFootPerSecond ||
+    VolumetricFlowRateUnit.cubicFootPerMinute ||
+    VolumetricFlowRateUnit.gallonPerMinute ||
+    VolumetricFlowRateUnit.gallonPerHour => false,
+    _ => true,
+  };
+
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToCubicMeterPerSecond;
   final double _factorToCubicMeterPerMinute;
