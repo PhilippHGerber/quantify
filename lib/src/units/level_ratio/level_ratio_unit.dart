@@ -28,6 +28,11 @@ enum LevelRatioUnit implements LinearUnit<LevelRatioUnit> {
   @override
   bool get isSI => false;
 
+  /// Returns `false` for all units, since logarithmic ratio units are not
+  /// tied to any unit system.
+  @override
+  bool get isMetric => false;
+
   final double _factorToDecibel;
   final double _factorToNeper;
 

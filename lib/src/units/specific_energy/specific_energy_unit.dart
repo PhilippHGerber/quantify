@@ -69,6 +69,11 @@ enum SpecificEnergyUnit implements LinearUnit<SpecificEnergyUnit> {
   @override
   bool get isSI => this == SpecificEnergyUnit.joulePerKilogram;
 
+  /// Returns `true` for all units, since every `SpecificEnergyUnit` member is
+  /// a decimal metric unit.
+  @override
+  bool get isMetric => true;
+
   // --- Pre-calculated direct conversion factors ---
   final double _factorToJoulePerKilogram;
   final double _factorToKilojoulePerKilogram;

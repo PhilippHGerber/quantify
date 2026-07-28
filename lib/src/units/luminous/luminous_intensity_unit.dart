@@ -96,6 +96,11 @@ enum LuminousIntensityUnit implements LinearUnit<LuminousIntensityUnit> {
   @override
   bool get isSI => this == LuminousIntensityUnit.candela;
 
+  /// Returns `true` for all units, since every `LuminousIntensityUnit` member
+  /// is a decimal metric (SI-prefixed) unit.
+  @override
+  bool get isMetric => true;
+
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToCandela;
   final double _factorToMillicandela;

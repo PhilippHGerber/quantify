@@ -84,6 +84,14 @@ enum CurrentUnit implements LinearUnit<CurrentUnit> {
   @override
   bool get isSI => this == CurrentUnit.ampere;
 
+  /// Returns `false` for the CGS units [statampere] and [abampere];
+  /// `true` for all decimal metric units.
+  @override
+  bool get isMetric => switch (this) {
+    CurrentUnit.statampere || CurrentUnit.abampere => false,
+    _ => true,
+  };
+
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToAmpere;
   final double _factorToMilliampere;

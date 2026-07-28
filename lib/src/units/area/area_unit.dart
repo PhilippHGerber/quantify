@@ -84,6 +84,18 @@ enum AreaUnit implements LinearUnit<AreaUnit> {
   @override
   bool get isSI => this == AreaUnit.squareMeter;
 
+  /// Returns `false` for imperial/US customary land-area units; `true` for
+  /// all decimal metric units (including [hectare]).
+  @override
+  bool get isMetric => switch (this) {
+    AreaUnit.squareInch ||
+    AreaUnit.squareFoot ||
+    AreaUnit.squareYard ||
+    AreaUnit.squareMile ||
+    AreaUnit.acre => false,
+    _ => true,
+  };
+
   // --- Pre-calculated direct conversion factors ---
   final double _factorToSquareMeter;
   final double _factorToSquareDecimeter;
