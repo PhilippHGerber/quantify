@@ -141,3 +141,7 @@ export 'src/units/voltage_level/voltage_level_unit.dart';
 export 'src/units/volume/volume.dart';
 export 'src/units/volume/volume_extensions.dart';
 export 'src/units/volume/volume_unit.dart';
+// Exporting units and their extensions for volumetric flow rate
+export 'src/units/volumetric_flow_rate/volumetric_flow_rate.dart';
+export 'src/units/volumetric_flow_rate/volumetric_flow_rate_extensions.dart';
+export 'src/units/volumetric_flow_rate/volumetric_flow_rate_unit.dart';
