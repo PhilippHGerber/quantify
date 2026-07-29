@@ -69,6 +69,22 @@ enum ElectricChargeUnit implements LinearUnit<ElectricChargeUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [coulomb], the SI derived unit of electric charge.
+  @override
+  bool get isSI => this == ElectricChargeUnit.coulomb;
+
+  /// Returns `false` for the physics-constant [elementaryCharge] and the CGS
+  /// units [statcoulomb], [franklin], and [abcoulomb]; `true` for all decimal
+  /// metric units (including [ampereHour]).
+  @override
+  bool get isMetric => switch (this) {
+    ElectricChargeUnit.elementaryCharge ||
+    ElectricChargeUnit.statcoulomb ||
+    ElectricChargeUnit.franklin ||
+    ElectricChargeUnit.abcoulomb => false,
+    _ => true,
+  };
+
   // --- Pre-calculated direct conversion factors ---
   final double _factorToCoulomb;
   final double _factorToKilocoulomb;

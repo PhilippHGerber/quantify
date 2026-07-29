@@ -91,6 +91,24 @@ enum PressureUnit implements LinearUnit<PressureUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [pascal], the SI derived unit of pressure.
+  @override
+  bool get isSI => this == PressureUnit.pascal;
+
+  /// Returns `false` for [atmosphere], the imperial [psi], [inchOfMercury],
+  /// and [inchOfWater], and the non-decimal [torr]; `true` for all
+  /// SI-prefixed pascal units, [bar], [millibar], [millimeterOfMercury], and
+  /// [centimeterOfWater].
+  @override
+  bool get isMetric => switch (this) {
+    PressureUnit.atmosphere ||
+    PressureUnit.psi ||
+    PressureUnit.torr ||
+    PressureUnit.inchOfMercury ||
+    PressureUnit.inchOfWater => false,
+    _ => true,
+  };
+
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToPascal;
   final double _factorToMicropascal;

@@ -57,6 +57,19 @@ enum AngleUnit implements LinearUnit<AngleUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [radian], the SI derived unit of plane angle.
+  @override
+  bool get isSI => this == AngleUnit.radian;
+
+  /// Returns `true` only for [radian], [milliradian], and [gradian] (the
+  /// decimal metric angle unit); `false` for [degree], [revolution],
+  /// [arcminute], and [arcsecond], which are sexagesimal/non-decimal units.
+  @override
+  bool get isMetric => switch (this) {
+    AngleUnit.radian || AngleUnit.milliradian || AngleUnit.gradian => true,
+    _ => false,
+  };
+
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToRadian;
   final double _factorToDegree;

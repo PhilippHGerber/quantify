@@ -67,6 +67,18 @@ enum VoltageUnit implements LinearUnit<VoltageUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [volt], the SI derived unit of electric potential.
+  @override
+  bool get isSI => this == VoltageUnit.volt;
+
+  /// Returns `false` for the CGS units [statvolt] and [abvolt]; `true` for
+  /// all decimal metric units.
+  @override
+  bool get isMetric => switch (this) {
+    VoltageUnit.statvolt || VoltageUnit.abvolt => false,
+    _ => true,
+  };
+
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToVolt;
   final double _factorToNanovolt;

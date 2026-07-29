@@ -65,6 +65,15 @@ enum SpecificEnergyUnit implements LinearUnit<SpecificEnergyUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [joulePerKilogram], the SI derived unit of specific energy.
+  @override
+  bool get isSI => this == SpecificEnergyUnit.joulePerKilogram;
+
+  /// Returns `true` for all units, since every `SpecificEnergyUnit` member is
+  /// a decimal metric unit.
+  @override
+  bool get isMetric => true;
+
   // --- Pre-calculated direct conversion factors ---
   final double _factorToJoulePerKilogram;
   final double _factorToKilojoulePerKilogram;

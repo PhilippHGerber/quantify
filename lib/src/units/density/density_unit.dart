@@ -58,6 +58,15 @@ enum DensityUnit implements LinearUnit<DensityUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [kilogramPerCubicMeter], the SI derived unit of density.
+  @override
+  bool get isSI => this == DensityUnit.kilogramPerCubicMeter;
+
+  /// Returns `true` for all units, since every `DensityUnit` member is a
+  /// decimal metric unit.
+  @override
+  bool get isMetric => true;
+
   // --- Pre-calculated direct conversion factors ---
   final double _factorToKilogramPerCubicMeter;
   final double _factorToGramPerCubicCentimeter;

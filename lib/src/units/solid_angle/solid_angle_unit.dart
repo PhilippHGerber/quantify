@@ -49,6 +49,15 @@ enum SolidAngleUnit implements LinearUnit<SolidAngleUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [steradian], the SI derived unit of solid angle.
+  @override
+  bool get isSI => this == SolidAngleUnit.steradian;
+
+  /// Returns `true` only for [steradian]; `false` for [squareDegree] and
+  /// [spat], which are not decimal metric units.
+  @override
+  bool get isMetric => this == SolidAngleUnit.steradian;
+
   // --- Pre-calculated direct conversion factors ---
   final double _factorToSteradian;
   final double _factorToSquareDegree;

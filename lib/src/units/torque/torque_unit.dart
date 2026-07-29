@@ -68,6 +68,23 @@ enum TorqueUnit implements LinearUnit<TorqueUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [newtonMeter], the SI derived unit of torque.
+  @override
+  bool get isSI => this == TorqueUnit.newtonMeter;
+
+  /// Returns `false` for the imperial [poundFoot], [poundInch], and
+  /// [ounceForceInch], and the CGS [dyneCentimeter]; `true` for all
+  /// SI-prefixed newton-meter units and the gravitational metric
+  /// [kilogramForceMeter].
+  @override
+  bool get isMetric => switch (this) {
+    TorqueUnit.poundFoot ||
+    TorqueUnit.poundInch ||
+    TorqueUnit.ounceForceInch ||
+    TorqueUnit.dyneCentimeter => false,
+    _ => true,
+  };
+
   // --- Pre-calculated direct conversion factors ---
   final double _factorToNewtonMeter;
   final double _factorToMillinewtonMeter;

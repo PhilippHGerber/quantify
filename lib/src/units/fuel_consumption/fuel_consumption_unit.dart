@@ -26,6 +26,17 @@ enum FuelConsumptionUnit implements Unit<FuelConsumptionUnit> {
   @override
   final String symbol;
 
+  /// None of these fuel-economy units are part of the SI, so this always
+  /// returns `false`.
+  @override
+  bool get isSI => false;
+
+  /// Returns `true` only for [litersPer100Km] and [kilometerPerLiter], the
+  /// metric fuel-consumption units; `false` for [mpgUs] and [mpgUk].
+  @override
+  bool get isMetric =>
+      this == FuelConsumptionUnit.litersPer100Km || this == FuelConsumptionUnit.kilometerPerLiter;
+
   /// Unit symbols matched strictly case-sensitive.
   ///
   /// Note: The unqualified abbreviation `mpg` defaults to US gallons.

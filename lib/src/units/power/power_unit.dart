@@ -74,6 +74,19 @@ enum PowerUnit implements LinearUnit<PowerUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [watt], the SI derived unit of power.
+  @override
+  bool get isSI => this == PowerUnit.watt;
+
+  /// Returns `false` for the imperial [horsepower] and [btuPerHour], and the
+  /// CGS [ergPerSecond]; `true` for all SI-prefixed watt units and
+  /// [metricHorsepower].
+  @override
+  bool get isMetric => switch (this) {
+    PowerUnit.horsepower || PowerUnit.btuPerHour || PowerUnit.ergPerSecond => false,
+    _ => true,
+  };
+
   // --- Pre-calculated direct conversion factors ---
   final double _factorToWatt;
   final double _factorToNanowatt;

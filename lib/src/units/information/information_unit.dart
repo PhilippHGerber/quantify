@@ -147,6 +147,27 @@ enum InformationUnit implements LinearUnit<InformationUnit> {
   @override
   final String symbol;
 
+  /// The SI does not define a unit for digital information, so this always
+  /// returns `false`, even for units that use SI decimal prefixes (e.g. [kilobit]).
+  @override
+  bool get isSI => false;
+
+  /// Returns `false` for the IEC/binary units ([kibibyte] through
+  /// [yobibyte]), which use binary (base-2) prefixes; `true` for [bit],
+  /// [byte], and all SI/decimal-prefixed bit and byte units.
+  @override
+  bool get isMetric => switch (this) {
+    InformationUnit.kibibyte ||
+    InformationUnit.mebibyte ||
+    InformationUnit.gibibyte ||
+    InformationUnit.tebibyte ||
+    InformationUnit.pebibyte ||
+    InformationUnit.exbibyte ||
+    InformationUnit.zebibyte ||
+    InformationUnit.yobibyte => false,
+    _ => true,
+  };
+
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToBit;
   final double _factorToByte;

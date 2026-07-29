@@ -117,6 +117,27 @@ enum TimeUnit implements LinearUnit<TimeUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [second], the SI base unit of time.
+  @override
+  bool get isSI => this == TimeUnit.second;
+
+  /// Returns `false` for calendar/civil units ([minute] through [century]),
+  /// which are not decimal subdivisions of the second; `true` for all
+  /// decimal metric multiples and sub-multiples of the second.
+  @override
+  bool get isMetric => switch (this) {
+    TimeUnit.minute ||
+    TimeUnit.hour ||
+    TimeUnit.day ||
+    TimeUnit.week ||
+    TimeUnit.fortnight ||
+    TimeUnit.month ||
+    TimeUnit.year ||
+    TimeUnit.decade ||
+    TimeUnit.century => false,
+    _ => true,
+  };
+
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToSecond;
   final double _factorToMicrosecond;

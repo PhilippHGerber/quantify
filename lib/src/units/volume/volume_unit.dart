@@ -125,6 +125,27 @@ enum VolumeUnit implements LinearUnit<VolumeUnit> {
   @override
   final String symbol;
 
+  /// Returns `true` only for [cubicMeter], the SI derived unit of volume.
+  @override
+  bool get isSI => this == VolumeUnit.cubicMeter;
+
+  /// Returns `false` for imperial/US customary cubic and liquid units;
+  /// `true` for all decimal metric cubic and litre-based units.
+  @override
+  bool get isMetric => switch (this) {
+    VolumeUnit.cubicInch ||
+    VolumeUnit.cubicFoot ||
+    VolumeUnit.cubicMile ||
+    VolumeUnit.gallon ||
+    VolumeUnit.imperialGallon ||
+    VolumeUnit.quart ||
+    VolumeUnit.pint ||
+    VolumeUnit.fluidOunce ||
+    VolumeUnit.tablespoon ||
+    VolumeUnit.teaspoon => false,
+    _ => true,
+  };
+
   // --- Pre-calculated direct conversion factors ---
   final double _factorToCubicMeter;
   final double _factorToCubicDecameter;
