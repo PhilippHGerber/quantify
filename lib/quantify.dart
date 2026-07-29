@@ -44,6 +44,10 @@ export 'src/units/electric_charge/electric_charge_unit.dart';
 export 'src/units/energy/energy.dart';
 export 'src/units/energy/energy_extensions.dart';
 export 'src/units/energy/energy_unit.dart';
+// Exporting units and their extensions for energy density
+export 'src/units/energy_density/energy_density.dart';
+export 'src/units/energy_density/energy_density_extensions.dart';
+export 'src/units/energy_density/energy_density_unit.dart';
 // Exporting units and their extensions for force
 export 'src/units/force/force.dart';
 export 'src/units/force/force_extensions.dart';
@@ -141,3 +145,7 @@ export 'src/units/voltage_level/voltage_level_unit.dart';
 export 'src/units/volume/volume.dart';
 export 'src/units/volume/volume_extensions.dart';
 export 'src/units/volume/volume_unit.dart';
+// Exporting units and their extensions for volumetric flow rate
+export 'src/units/volumetric_flow_rate/volumetric_flow_rate.dart';
+export 'src/units/volumetric_flow_rate/volumetric_flow_rate_extensions.dart';
+export 'src/units/volumetric_flow_rate/volumetric_flow_rate_unit.dart';

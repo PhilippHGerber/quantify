@@ -157,6 +157,7 @@ The library supports a comprehensive range of physical quantities, including all
 | **Pressure**            | ✅     | **`Pa`** (Pascal), `atm`, `bar`, `psi`, `Torr`, `mmHg`, `inHg`, `kPa`, `hPa`, `GPa`, `MPa`, `mbar`, `µPa`, `cmH₂O`, `inH₂O`                                            | Derived SI: N/m²                                         |
 | **Area**                | ✅     | **`m²`**, `Mm²`, `km²`, `hm²`, `dam²`, `dm²`, `cm²`, `mm²`, `µm²`, `ha`, `mi²`, `acre`, `yd²`, `ft²`, `in²`                                                            | Derived SI                                               |
 | **Volume**              | ✅     | **`m³`**, `km³`, `hm³`, `dam³`, `dm³`, `cm³`, `mm³`, `mi³`; **`L`**, `kl`, `Ml`, `Gl`, `Tl`, `cl`, `mL`, `µL`; `gal`, `gal(UK)`, `qt`, `pt`, `fl-oz`, `tbsp`, `tsp`, `ft³`, `in³` | Derived SI: L (Liter)                                    |
+| **Volumetric Flow Rate** | ✅     | **`m³/s`**, `m³/min`, `m³/h`, `L/s`, `L/min`, `L/h`, `mL/min`, `ft³/s` (cfs), `ft³/min` (cfm), `gal/min` (gpm), `gal/h` (gph)                                          | Derived SI: m³/s                                         |
 | **Frequency**           | ✅     | **`Hz`**, `kHz`, `MHz`, `GHz`, `THz`, `mHz`, `rpm`, `bpm`, `rad/s`, `°/s`                                                                                              | Derived SI: 1/s                                          |
 | **Electric Charge**     | ✅     | **`C`**, `kC`, `mC`, `µC`, `nC`, `pC`, `Ah`, `e`, `mAh`, `statC`, `Fr`, `abC`                                                                                          | Derived SI: A·s                                          |
 | **Solid Angle**         | ✅     | **`sr`**, `deg²` (Square Degree), `sp` (Spat)                                                                                                                          | Derived SI: dimensionless                                |
@@ -165,6 +166,7 @@ The library supports a comprehensive range of physical quantities, including all
 | **Torque**              | ✅     | **`N·m`** (newton-meter), `mN·m`, `kN·m`, `MN·m`, `lbf·ft`, `lbf·in`, `kgf·m`, `ozf·in`, `dyn·cm`                                                                      | Derived SI: N·m. Dimensionally = Energy but type-distinct. |
 | **Power**               | ✅     | **`W`** (Watt), `mW`, `kW`, `MW`, `GW`, `TW`, `μW`, `nW`, `hp`, `PS` (metric hp), `Btu/h`, `erg/s`                                                                     | Derived SI: J/s                                          |
 | **Density**             | ✅     | **`kg/m³`** (kilogram per cubic meter), `g/cm³`, `g/mL`                                                                                                                | Derived SI: kg/m³                                        |
+| **Energy Density**      | ✅     | **`J/m³`** (joule per cubic meter), `J/L`, `Wh/L`                                                                                                                      | Derived SI: J/m³. Dimensionally = Pressure but type-distinct. |
 | **Specific Energy**     | ✅     | **`J/kg`** (joule per kilogram), `kJ/kg`, `Wh/kg`, `kWh/kg`                                                                                                            | Derived SI: J/kg                                         |
 | **Information**         | ✅     | **`bit`**, `B` (byte); SI bits: `kbit`…`Ybit`; SI bytes: `kB`…`YB`; IEC binary: `KiB`…`YiB`                                                                            | IEC 80000-13. Three tracks: SI bit, SI byte, IEC binary. |
 | **Voltage**             | ✅     | **`V`** (volt), `nV`, `µV`, `mV`, `kV`, `MV`, `GV`, `statV`, `abV`                                                                                                     | Derived SI: W/A. Also: `ElectricPotential` type alias.   |
@@ -220,7 +222,7 @@ This **dual API** ensures:
 
 - **International compliance:** SI symbols (`Mm`, `Hz`, `MJ`, etc.) follow official standards
 - **Code readability:** Full-word getters (`megameters`, `hertz`, `megajoules`) read naturally in English
-- **Consistency:** All 26 quantities follow the same pattern
+- **Consistency:** All 33 quantities follow the same pattern
 - **No performance cost:** Both compile to identical bytecode
 
 ### Converting and Retrieving Values
@@ -419,6 +421,14 @@ final angle = av.totalAngleOver(2.minutes);                   // 2.0 revolutions
 // Density = Mass / Volume  ↔  mass/volume retrieval
 final density = Density.from(13.5.g, 1.0.cm3);  // 13.5 g/cm³ ← result in g/cm³
 final mass    = density.massOf(10.cm3);           // 135.0 g    ← result in g
+
+// EnergyDensity = Energy / Volume  ↔  energy/volume retrieval
+final energyDensity = EnergyDensity.from(2.Wh, 1.0.L); // 2.0 Wh/L ← result in Wh/L
+final storedEnergy  = energyDensity.energyOf(5.L);     // 10.0 Wh  ← result in Wh
+
+// VolumetricFlowRate = Volume / Time  ↔  Volume = FlowRate × Time
+final flow   = VolumetricFlowRate.from(120.L, 1.minutes);  // 120.0 L/min
+final filled = flow.volumeOver(5.minutes);                   // 600.0 L
 
 // SpecificEnergy = Energy / Mass  ↔  energy retrieval
 final specific = SpecificEnergy.from(1.kJ, 0.5.kg); // 2.0 kJ/kg ← result in kJ/kg
