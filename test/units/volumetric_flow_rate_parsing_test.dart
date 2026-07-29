@@ -154,7 +154,10 @@ void main() {
 
       test('parses alternative symbol aliases', () {
         expect(VolumetricFlowRate.parse('1 m3/s').unit, VolumetricFlowRateUnit.cubicMeterPerSecond);
-        expect(VolumetricFlowRate.parse('1 ft3/min').unit, VolumetricFlowRateUnit.cubicFootPerMinute);
+        expect(
+          VolumetricFlowRate.parse('1 ft3/min').unit,
+          VolumetricFlowRateUnit.cubicFootPerMinute,
+        );
         expect(VolumetricFlowRate.parse('1 cfs').unit, VolumetricFlowRateUnit.cubicFootPerSecond);
         expect(VolumetricFlowRate.parse('1 gpm').unit, VolumetricFlowRateUnit.gallonPerMinute);
         expect(VolumetricFlowRate.parse('1 gph').unit, VolumetricFlowRateUnit.gallonPerHour);

@@ -12,7 +12,10 @@ void main() {
       });
 
       test('parses joule per liter', () {
-        expect(EnergyDensity.parse('1 J/L'), const EnergyDensity(1, EnergyDensityUnit.joulePerLiter));
+        expect(
+          EnergyDensity.parse('1 J/L'),
+          const EnergyDensity(1, EnergyDensityUnit.joulePerLiter),
+        );
       });
 
       test('parses watt-hour per liter', () {

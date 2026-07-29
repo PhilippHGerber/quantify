@@ -16,7 +16,7 @@ abstract class Unit<T extends Unit<T>> {
   /// Returns `true` if this unit is part of the International System of Units (SI).
   /// if the unit is SI derived, this will return `true` only for the base unit of that dimension.
   bool get isSI;
-  
+
   /// Indicates whether the unit is part of the metric system.
   bool get isMetric;
 }
