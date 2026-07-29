@@ -422,13 +422,13 @@ final angle = av.totalAngleOver(2.minutes);                   // 2.0 revolutions
 final density = Density.from(13.5.g, 1.0.cm3);  // 13.5 g/cm³ ← result in g/cm³
 final mass    = density.massOf(10.cm3);           // 135.0 g    ← result in g
 
-// VolumetricFlowRate = Volume / Time  ↔  Volume = FlowRate × Time
-final flow   = VolumetricFlowRate.from(120.L, 1.minutes);  // 120.0 L/min
-final filled = flow.volumeOver(5.minutes);                   // 600.0 L
-
 // EnergyDensity = Energy / Volume  ↔  energy/volume retrieval
 final energyDensity = EnergyDensity.from(2.Wh, 1.0.L); // 2.0 Wh/L ← result in Wh/L
 final storedEnergy  = energyDensity.energyOf(5.L);     // 10.0 Wh  ← result in Wh
+
+// VolumetricFlowRate = Volume / Time  ↔  Volume = FlowRate × Time
+final flow   = VolumetricFlowRate.from(120.L, 1.minutes);  // 120.0 L/min
+final filled = flow.volumeOver(5.minutes);                   // 600.0 L
 
 // SpecificEnergy = Energy / Mass  ↔  energy retrieval
 final specific = SpecificEnergy.from(1.kJ, 0.5.kg); // 2.0 kJ/kg ← result in kJ/kg
