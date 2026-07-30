@@ -5,15 +5,13 @@ All notable changes to the `quantify` package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.21.0]
 
 ### Added
 
-* Added `Unit.isSI`, returning `true` only for the actual SI unit of each quantity family (e.g. `LengthUnit.meter`, `MassUnit.kilogram`, `TimeUnit.second`). Logarithmic and non-SI-only families (`LevelRatio`, `PowerLevel`, `VoltageLevel`, `SoundPressureLevel`, `FuelConsumption`, `Information`) always return `false`.
-* Added `Unit.isMetric`, returning `true` for units that are part of the metric system (including non-SI metric units like `LengthUnit.kilometer`, `MassUnit.tonne`, `VolumeUnit.litre`, and `TemperatureUnit.celsius`), and `false` for imperial/US customary, nautical, astronomical, CGS, and other non-metric units. Purely logarithmic ratio families (`LevelRatio`, `PowerLevel`, `VoltageLevel`, `SoundPressureLevel`) always return `false`.
-* Added `EnergyDensity`, a new linear quantity for energy per unit volume (dimensionally equivalent to `Pressure`), supporting `J/m³`, `J/L`, and `Wh/L`, with `EnergyDensity.from(Energy, Volume)`, `energyOf(Volume)`, and `volumeFor(Energy)` dimensional-analysis helpers, plus a granular `energy_density.dart` entry point.
-* Added the `VolumetricFlowRate` linear quantity (`m³/s`, `m³/min`, `m³/h`, `L/s`, `L/min`, `L/h`, `mL/min`, `ft³/s`, `ft³/min`, `gal/min`, `gal/h`), with `VolumetricFlowRate.from(Volume, Time)`, `volumeOver(Time)`, and `timeFor(Volume)` dimensional-analysis bridges.
-* Added a granular entry point for the new family: `volumetric_flow_rate.dart`.
+* Added the `VolumetricFlowRate` linear quantity (`m³/s`, `m³/min`, `m³/h`, `L/s`, `L/min`, `L/h`, `mL/min`, `ft³/s`, `ft³/min`, `gal/min`, `gal/h`), with `VolumetricFlowRate.from(Volume, Time)`, `volumeOver(Time)`, and `timeFor(Volume)` dimensional-analysis bridges. Thanks to @tim-alenus (#1)
+* Added `EnergyDensity`, a new linear quantity for energy per unit volume (dimensionally equivalent to `Pressure`), supporting `J/m³`, `J/L`, and `Wh/L`, with `EnergyDensity.from(Energy, Volume)`, `energyOf(Volume)`, and `volumeFor(Energy)` dimensional-analysis helpers, plus a granular `energy_density.dart` entry point. Thanks to @tim-alenus (#2)
+* Added `Unit.isSI` and `Unit.isMetric` for classifying units as SI/metric vs. imperial, US customary, nautical, astronomical, or CGS. `isMetric` is `true` only for SI base/derived units and their decimal (SI-prefixed) multiples/submultiples — units merely *accepted for use with* the SI (°, min, h, d, L, t, ha, cal, bar, …) are **not** metric by this definition. The `Information` and `FuelConsumption` families are uniformly `false` for `isMetric` (neither `bit` nor `byte` is an SI unit, so their decimal-prefixed multiples don't qualify either; `FuelConsumption` units are litre-based or imperial/US customary). Both getters always return `false` for purely logarithmic families (`LevelRatio`, `PowerLevel`, `VoltageLevel`, `SoundPressureLevel`). Thanks to @tim-alenus (#3, #4)
 
 ## [0.20.1]
 
@@ -22,8 +20,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Relaxed the `meta` dependency constraint from `^1.18.2` to `^1.17.0` to restore compatibility with Flutter projects where `flutter_test` pins `meta` to `1.17.0`.
 
 ## [0.20.0]
-
-no release yet
 
 ### Added
 
