@@ -17,7 +17,18 @@ abstract class Unit<T extends Unit<T>> {
   /// if the unit is SI derived, this will return `true` only for the base unit of that dimension.
   bool get isSI;
 
-  /// Indicates whether the unit is part of the metric system.
+  /// Returns whether this unit is part of the metric system.
+  ///
+  /// This includes SI base units, SI derived units, and decimal multiples or
+  /// submultiples of SI units (e.g. metre, pascal, millimetre).
+  ///
+  /// This does **not** indicate whether a unit is *accepted for use with* the
+  /// metric system. Degree (°), minute (min), hour (h), day (d), litre (L)
+  /// and tonne (t) are accepted for use with the SI but are **not** metric by
+  /// this definition.
+  ///
+  /// A compound unit is metric only if every factor is metric (e.g. km/h is
+  /// not metric because it contains the hour).
   bool get isMetric;
 }
 
