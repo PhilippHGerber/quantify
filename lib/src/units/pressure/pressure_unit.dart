@@ -96,18 +96,25 @@ enum PressureUnit implements LinearUnit<PressureUnit> {
   bool get isSI => this == PressureUnit.pascal;
 
   /// Returns `false` for [atmosphere], the imperial [psi], [inchOfMercury],
-  /// and [inchOfWater], and the non-decimal [torr]; `true` for all
-  /// SI-prefixed pascal units, [bar], [millibar], [millimeterOfMercury], and
-  /// [centimeterOfWater].
+  /// and [inchOfWater], the non-decimal [torr], [millimeterOfMercury] and
+  /// [centimeterOfWater] (defined via mercury/water column height, not
+  /// SI-derived), and [bar]/[millibar] (a separately named non-SI unit, same
+  /// category as the litre); `true` for all decimal multiples/submultiples of
+  /// the pascal.
   @override
   bool get isMetric => switch (this) {
-    PressureUnit.atmosphere ||
-    PressureUnit.psi ||
-    PressureUnit.torr ||
-    PressureUnit.inchOfMercury ||
-    PressureUnit.inchOfWater => false,
-    _ => true,
-  };
+        PressureUnit.atmosphere ||
+        PressureUnit.psi ||
+        PressureUnit.torr ||
+        PressureUnit.inchOfMercury ||
+        PressureUnit.inchOfWater ||
+        PressureUnit.millimeterOfMercury ||
+        PressureUnit.centimeterOfWater ||
+        PressureUnit.bar ||
+        PressureUnit.millibar =>
+          false,
+        _ => true,
+      };
 
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToPascal;

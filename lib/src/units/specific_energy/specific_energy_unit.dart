@@ -69,10 +69,14 @@ enum SpecificEnergyUnit implements LinearUnit<SpecificEnergyUnit> {
   @override
   bool get isSI => this == SpecificEnergyUnit.joulePerKilogram;
 
-  /// Returns `true` for all units, since every `SpecificEnergyUnit` member is
-  /// a decimal metric unit.
+  /// Returns `true` for [joulePerKilogram] and [kilojoulePerKilogram];
+  /// `false` for [wattHourPerKilogram] and [kilowattHourPerKilogram]
+  /// (contain the non-metric hour).
   @override
-  bool get isMetric => true;
+  bool get isMetric => switch (this) {
+        SpecificEnergyUnit.joulePerKilogram || SpecificEnergyUnit.kilojoulePerKilogram => true,
+        _ => false,
+      };
 
   // --- Pre-calculated direct conversion factors ---
   final double _factorToJoulePerKilogram;

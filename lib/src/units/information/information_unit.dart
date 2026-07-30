@@ -152,21 +152,13 @@ enum InformationUnit implements LinearUnit<InformationUnit> {
   @override
   bool get isSI => false;
 
-  /// Returns `false` for the IEC/binary units ([kibibyte] through
-  /// [yobibyte]), which use binary (base-2) prefixes; `true` for [bit],
-  /// [byte], and all SI/decimal-prefixed bit and byte units.
+  /// Always returns `false`. Neither [bit] nor [byte] is an SI unit, so
+  /// their decimal-prefixed multiples (e.g. [kilobit], [megabyte]) are not
+  /// decimal multiples of an SI unit either; the IEC/binary units
+  /// ([kibibyte] through [yobibyte]) use binary (base-2) prefixes and are
+  /// excluded for that reason as well.
   @override
-  bool get isMetric => switch (this) {
-    InformationUnit.kibibyte ||
-    InformationUnit.mebibyte ||
-    InformationUnit.gibibyte ||
-    InformationUnit.tebibyte ||
-    InformationUnit.pebibyte ||
-    InformationUnit.exbibyte ||
-    InformationUnit.zebibyte ||
-    InformationUnit.yobibyte => false,
-    _ => true,
-  };
+  bool get isMetric => false;
 
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToBit;

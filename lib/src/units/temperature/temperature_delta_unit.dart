@@ -80,8 +80,9 @@ enum TemperatureDeltaUnit implements LinearUnit<TemperatureDeltaUnit> {
   @override
   bool get isSI => this == TemperatureDeltaUnit.kelvinDelta;
 
-  /// Returns `true` only for [kelvinDelta] and [celsiusDelta], the metric
-  /// temperature-delta scales; `false` for [fahrenheitDelta] and [rankineDelta].
+  /// Returns `true` only for [kelvinDelta] (based on the SI base unit) and
+  /// [celsiusDelta] (an SI derived unit with a special name); `false` for
+  /// [fahrenheitDelta] and [rankineDelta].
   @override
   bool get isMetric =>
       this == TemperatureDeltaUnit.kelvinDelta || this == TemperatureDeltaUnit.celsiusDelta;

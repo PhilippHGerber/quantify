@@ -31,11 +31,11 @@ enum FuelConsumptionUnit implements Unit<FuelConsumptionUnit> {
   @override
   bool get isSI => false;
 
-  /// Returns `true` only for [litersPer100Km] and [kilometerPerLiter], the
-  /// metric fuel-consumption units; `false` for [mpgUs] and [mpgUk].
+  /// Always returns `false`. [litersPer100Km] and [kilometerPerLiter]
+  /// contain the litre, which is accepted for use with the SI but is not
+  /// metric by definition; [mpgUs] and [mpgUk] are US customary/imperial.
   @override
-  bool get isMetric =>
-      this == FuelConsumptionUnit.litersPer100Km || this == FuelConsumptionUnit.kilometerPerLiter;
+  bool get isMetric => false;
 
   /// Unit symbols matched strictly case-sensitive.
   ///

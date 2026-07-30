@@ -69,11 +69,12 @@ enum FrequencyUnit implements LinearUnit<FrequencyUnit> {
   /// SI-prefixed hertz units and [radianPerSecond].
   @override
   bool get isMetric => switch (this) {
-    FrequencyUnit.revolutionsPerMinute ||
-    FrequencyUnit.beatsPerMinute ||
-    FrequencyUnit.degreePerSecond => false,
-    _ => true,
-  };
+        FrequencyUnit.revolutionsPerMinute ||
+        FrequencyUnit.beatsPerMinute ||
+        FrequencyUnit.degreePerSecond =>
+          false,
+        _ => true,
+      };
 
   // --- Pre-calculated direct conversion factors ---
   final double _factorToHertz;

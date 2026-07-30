@@ -75,9 +75,9 @@ enum VoltageUnit implements LinearUnit<VoltageUnit> {
   /// all decimal metric units.
   @override
   bool get isMetric => switch (this) {
-    VoltageUnit.statvolt || VoltageUnit.abvolt => false,
-    _ => true,
-  };
+        VoltageUnit.statvolt || VoltageUnit.abvolt => false,
+        _ => true,
+      };
 
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToVolt;

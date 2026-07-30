@@ -126,17 +126,18 @@ enum TimeUnit implements LinearUnit<TimeUnit> {
   /// decimal metric multiples and sub-multiples of the second.
   @override
   bool get isMetric => switch (this) {
-    TimeUnit.minute ||
-    TimeUnit.hour ||
-    TimeUnit.day ||
-    TimeUnit.week ||
-    TimeUnit.fortnight ||
-    TimeUnit.month ||
-    TimeUnit.year ||
-    TimeUnit.decade ||
-    TimeUnit.century => false,
-    _ => true,
-  };
+        TimeUnit.minute ||
+        TimeUnit.hour ||
+        TimeUnit.day ||
+        TimeUnit.week ||
+        TimeUnit.fortnight ||
+        TimeUnit.month ||
+        TimeUnit.year ||
+        TimeUnit.decade ||
+        TimeUnit.century =>
+          false,
+        _ => true,
+      };
 
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToSecond;

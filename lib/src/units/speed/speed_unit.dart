@@ -55,14 +55,18 @@ enum SpeedUnit implements LinearUnit<SpeedUnit> {
   @override
   bool get isSI => this == SpeedUnit.meterPerSecond;
 
-  /// Returns `false` for the imperial [milePerHour] and [footPerSecond], and
-  /// the nautical [knot]; `true` for all metric units (including
-  /// [kilometerPerHour]).
+  /// Returns `false` for the imperial [milePerHour] and [footPerSecond], the
+  /// nautical [knot], and [kilometerPerHour] (contains the non-metric hour);
+  /// `true` for [meterPerSecond] and [kilometerPerSecond].
   @override
   bool get isMetric => switch (this) {
-    SpeedUnit.milePerHour || SpeedUnit.knot || SpeedUnit.footPerSecond => false,
-    _ => true,
-  };
+        SpeedUnit.milePerHour ||
+        SpeedUnit.knot ||
+        SpeedUnit.footPerSecond ||
+        SpeedUnit.kilometerPerHour =>
+          false,
+        _ => true,
+      };
 
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToMeterPerSecond;

@@ -61,14 +61,15 @@ enum AngleUnit implements LinearUnit<AngleUnit> {
   @override
   bool get isSI => this == AngleUnit.radian;
 
-  /// Returns `true` only for [radian], [milliradian], and [gradian] (the
-  /// decimal metric angle unit); `false` for [degree], [revolution],
-  /// [arcminute], and [arcsecond], which are sexagesimal/non-decimal units.
+  /// Returns `true` only for [radian] and [milliradian]; `false` for
+  /// [gradian] (not a decimal multiple of the radian — its factor is
+  /// π-based), [degree], [revolution], [arcminute], and [arcsecond], which
+  /// are sexagesimal/non-decimal units.
   @override
   bool get isMetric => switch (this) {
-    AngleUnit.radian || AngleUnit.milliradian || AngleUnit.gradian => true,
-    _ => false,
-  };
+        AngleUnit.radian || AngleUnit.milliradian => true,
+        _ => false,
+      };
 
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToRadian;

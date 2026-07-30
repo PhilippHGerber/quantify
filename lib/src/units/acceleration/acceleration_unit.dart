@@ -111,17 +111,17 @@ enum AccelerationUnit implements LinearUnit<AccelerationUnit> {
   @override
   bool get isSI => this == AccelerationUnit.meterPerSecondSquared;
 
-  /// Returns `true` only for [meterPerSecondSquared],
-  /// [centimeterPerSecondSquared], and [kilometerPerHourPerSecond]; `false`
-  /// for the imperial/nautical units and the physical constant
-  /// [standardGravity].
+  /// Returns `true` only for [meterPerSecondSquared] and
+  /// [centimeterPerSecondSquared]; `false` for [kilometerPerHourPerSecond]
+  /// (contains the non-metric hour), the imperial/nautical units, and the
+  /// physical constant [standardGravity].
   @override
   bool get isMetric => switch (this) {
-    AccelerationUnit.meterPerSecondSquared ||
-    AccelerationUnit.centimeterPerSecondSquared ||
-    AccelerationUnit.kilometerPerHourPerSecond => true,
-    _ => false,
-  };
+        AccelerationUnit.meterPerSecondSquared ||
+        AccelerationUnit.centimeterPerSecondSquared =>
+          true,
+        _ => false,
+      };
 
   // --- Pre-calculated direct conversion factors ---
   final double _factorToMeterPerSecondSquared;

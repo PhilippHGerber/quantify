@@ -62,10 +62,12 @@ enum EnergyDensityUnit implements LinearUnit<EnergyDensityUnit> {
   @override
   bool get isSI => this == EnergyDensityUnit.joulePerCubicMeter;
 
-  /// Returns `true` for all units, since every `EnergyDensityUnit` member is
-  /// a decimal metric unit.
+  /// Returns `true` only for [joulePerCubicMeter], the coherent SI derived
+  /// unit; `false` for [joulePerLiter] and [wattHourPerLiter] (contain the
+  /// litre and/or the hour, which are accepted for use with the SI but are
+  /// not metric).
   @override
-  bool get isMetric => true;
+  bool get isMetric => this == EnergyDensityUnit.joulePerCubicMeter;
 
   // --- Pre-calculated direct conversion factors ---
   final double _factorToJoulePerCubicMeter;

@@ -124,19 +124,23 @@ enum LengthUnit implements LinearUnit<LengthUnit> {
   bool get isSI => this == LengthUnit.meter;
 
   /// Returns `false` for imperial/US customary, nautical, and astronomical
-  /// units; `true` for all decimal metric units (including [angstrom]).
+  /// units, and for [angstrom] (a separately named non-SI unit, not a
+  /// prefixed metre); `true` for all decimal multiples/submultiples of the
+  /// metre.
   @override
   bool get isMetric => switch (this) {
-    LengthUnit.inch ||
-    LengthUnit.foot ||
-    LengthUnit.yard ||
-    LengthUnit.mile ||
-    LengthUnit.nauticalMile ||
-    LengthUnit.astronomicalUnit ||
-    LengthUnit.lightYear ||
-    LengthUnit.parsec => false,
-    _ => true,
-  };
+        LengthUnit.inch ||
+        LengthUnit.foot ||
+        LengthUnit.yard ||
+        LengthUnit.mile ||
+        LengthUnit.nauticalMile ||
+        LengthUnit.astronomicalUnit ||
+        LengthUnit.lightYear ||
+        LengthUnit.parsec ||
+        LengthUnit.angstrom =>
+          false,
+        _ => true,
+      };
 
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToMeter;

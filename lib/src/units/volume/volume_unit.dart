@@ -129,22 +129,24 @@ enum VolumeUnit implements LinearUnit<VolumeUnit> {
   @override
   bool get isSI => this == VolumeUnit.cubicMeter;
 
-  /// Returns `false` for imperial/US customary cubic and liquid units;
-  /// `true` for all decimal metric cubic and litre-based units.
+  /// Returns `true` only for decimal multiples/submultiples of the cubic
+  /// metre ([cubicMeter], [cubicDecameter], [cubicHectometer],
+  /// [cubicKilometer], [cubicDecimeter], [cubicCentimeter],
+  /// [cubicMillimeter]); `false` for imperial/US customary cubic and liquid
+  /// units and for all litre-based units ([litre] is accepted for use with
+  /// the SI but is not a prefixed cubic metre).
   @override
   bool get isMetric => switch (this) {
-    VolumeUnit.cubicInch ||
-    VolumeUnit.cubicFoot ||
-    VolumeUnit.cubicMile ||
-    VolumeUnit.gallon ||
-    VolumeUnit.imperialGallon ||
-    VolumeUnit.quart ||
-    VolumeUnit.pint ||
-    VolumeUnit.fluidOunce ||
-    VolumeUnit.tablespoon ||
-    VolumeUnit.teaspoon => false,
-    _ => true,
-  };
+        VolumeUnit.cubicMeter ||
+        VolumeUnit.cubicDecameter ||
+        VolumeUnit.cubicHectometer ||
+        VolumeUnit.cubicKilometer ||
+        VolumeUnit.cubicDecimeter ||
+        VolumeUnit.cubicCentimeter ||
+        VolumeUnit.cubicMillimeter =>
+          true,
+        _ => false,
+      };
 
   // --- Pre-calculated direct conversion factors ---
   final double _factorToCubicMeter;

@@ -88,9 +88,9 @@ enum CurrentUnit implements LinearUnit<CurrentUnit> {
   /// `true` for all decimal metric units.
   @override
   bool get isMetric => switch (this) {
-    CurrentUnit.statampere || CurrentUnit.abampere => false,
-    _ => true,
-  };
+        CurrentUnit.statampere || CurrentUnit.abampere => false,
+        _ => true,
+      };
 
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToAmpere;

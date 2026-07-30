@@ -31,8 +31,9 @@ enum TemperatureUnit implements Unit<TemperatureUnit> {
   @override
   bool get isSI => this == TemperatureUnit.kelvin;
 
-  /// Returns `true` only for [celsius] and [kelvin], the metric temperature
-  /// scales; `false` for [fahrenheit] and [rankine].
+  /// Returns `true` only for [kelvin] (the SI base unit) and [celsius] (an SI
+  /// derived unit with a special name); `false` for [fahrenheit] and
+  /// [rankine].
   @override
   bool get isMetric => this == TemperatureUnit.celsius || this == TemperatureUnit.kelvin;
 

@@ -121,20 +121,24 @@ enum MassUnit implements LinearUnit<MassUnit> {
   @override
   bool get isSI => this == MassUnit.kilogram;
 
-  /// Returns `false` for imperial/US customary units and the physics-constant
-  /// [atomicMassUnit]; `true` for all decimal metric units (including [tonne]
-  /// and [carat]).
+  /// Returns `false` for imperial/US customary units, the physics-constant
+  /// [atomicMassUnit], [tonne] (accepted for use with the SI but not a
+  /// prefixed kilogram), and [carat] (a separately named non-SI unit); `true`
+  /// for all decimal multiples/submultiples of the kilogram.
   @override
   bool get isMetric => switch (this) {
-    MassUnit.pound ||
-    MassUnit.ounce ||
-    MassUnit.stone ||
-    MassUnit.slug ||
-    MassUnit.shortTon ||
-    MassUnit.longTon ||
-    MassUnit.atomicMassUnit => false,
-    _ => true,
-  };
+        MassUnit.pound ||
+        MassUnit.ounce ||
+        MassUnit.stone ||
+        MassUnit.slug ||
+        MassUnit.shortTon ||
+        MassUnit.longTon ||
+        MassUnit.atomicMassUnit ||
+        MassUnit.tonne ||
+        MassUnit.carat =>
+          false,
+        _ => true,
+      };
 
   // --- Pre-calculated direct conversion factors from this unit to all others ---
   final double _factorToKilogram;

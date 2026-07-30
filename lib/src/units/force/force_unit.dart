@@ -72,14 +72,20 @@ enum ForceUnit implements LinearUnit<ForceUnit> {
   @override
   bool get isSI => this == ForceUnit.newton;
 
-  /// Returns `false` for the imperial [poundForce] and [poundal], and the
-  /// CGS [dyne]; `true` for all decimal metric units (including the
-  /// gravitational metric units [kilogramForce] and [gramForce]).
+  /// Returns `false` for the imperial [poundForce] and [poundal], the CGS
+  /// [dyne], and the gravitational metric units [kilogramForce] and
+  /// [gramForce] (depend on the non-SI standard gravity g₀); `true` for all
+  /// decimal multiples/submultiples of the newton.
   @override
   bool get isMetric => switch (this) {
-    ForceUnit.poundForce || ForceUnit.dyne || ForceUnit.poundal => false,
-    _ => true,
-  };
+        ForceUnit.poundForce ||
+        ForceUnit.dyne ||
+        ForceUnit.poundal ||
+        ForceUnit.kilogramForce ||
+        ForceUnit.gramForce =>
+          false,
+        _ => true,
+      };
 
   // --- Pre-calculated direct conversion factors ---
   final double _factorToNewton;
