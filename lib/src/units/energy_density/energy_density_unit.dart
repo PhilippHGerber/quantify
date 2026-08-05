@@ -31,6 +31,8 @@ enum EnergyDensityUnit implements LinearUnit<EnergyDensityUnit> {
     'J/m³': joulePerCubicMeter,
     'J/L': joulePerLiter,
     'Wh/L': wattHourPerLiter,
+    'J/l': joulePerLiter,
+    'Wh/l': wattHourPerLiter,
   };
 
   /// Full word-form names and non-SI abbreviations matched **case-insensitively**.
